@@ -1,0 +1,62 @@
+ .divider {
+     flex-grow: 1;
+     height: 1px;
+     background-color: #e5e7eb;
+
+ }
+
+ .input-icon-wrapper {
+     display: flex;
+     align-items: center;
+     border: 1px solid #d1d5db;
+     border-radius: 0.375rem;
+ }
+
+ .input-icon-wrapper input {
+     flex: 1;
+     border: none;
+     padding: 0.5rem 0.75rem;
+     border-top-right-radius: 0.375rem;
+     border-bottom-right-radius: 0.375rem;
+     padding-left: 0;
+
+ }
+
+ .input-icon-box {
+     display: flex;
+     align-items: center;
+     justify-content: center;
+     width: 40px;
+     height: 100%;
+
+     border-top-left-radius: 0.375rem;
+     border-bottom-left-radius: 0.375rem;
+ }
+
+ .input-icon-box svg {
+     width: 20px;
+     height: 20px;
+ }
+ .border-custom {
+     border: 1px solid #d1d5db;
+    
+ }
+
+ .border-custom {
+     border: 1px solid #089b8c;
+ }
+
+ .rounded-lg {
+     border-radius: 1rem;
+    
+ }
+
+
+ input:-webkit-autofill,
+ input:-webkit-autofill:hover,
+ input:-webkit-autofill:focus,
+ input:-webkit-autofill:active {
+     -webkit-box-shadow: 0 0 0 30px white inset !important;
+     box-shadow: 0 0 0 30px white inset !important;
+     -webkit-text-fill-color: #000 !important;
+ }

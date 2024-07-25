@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login to Worklin</title>
+    <style></style>
+  </head>
+  <header class="bg-white border-b border-gray-200 p-4">
+    <nav class="flex items-center">
+      <div
+        style="color: #089b8c; font-size: x-large"
+        class="text-xl font-bold mr-14 ml-6"
+      >
+        Worklin
+      </div>
+    </nav>
+  </header>
+
+  <body class="flex flex-col items-center justify-center h-screen">
+    <div class="bg-white rounded px-8 pb-8 mb-4 w-full max-w-md mt-6">
+      <h1 class="text-3xl -mt-20 font-semibold mb-9 text-center">
+        Log in to Worklin
+      </h1>
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+        <div class="mb-4">
+          <div class="input-icon-wrapper">
+            <div class="input-icon-box">
+              <svg
+                width="13"
+                height="16"
+                viewBox="0 0 13 16"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M1 15.25V15.0046C1 13.5348 1.58385 12.1253 2.62312 11.086C3.66238 10.0468 5.07193 9.46292 6.54167 9.46292C8.01141 9.46292 9.42095 10.0468 10.4602 11.086C11.4995 12.1253 12.0833 13.5348 12.0833 15.0046V15.25M6.54167 7.33333C7.38152 7.33333 8.18697 6.9997 8.78084 6.40584C9.3747 5.81197 9.70833 5.00652 9.70833 4.16667C9.70833 3.32681 9.3747 2.52136 8.78084 1.9275C8.18697 1.33363 7.38152 1 6.54167 1C5.70181 1 4.89636 1.33363 4.30249 1.9275C3.70863 2.52136 3.375 3.32681 3.375 4.16667C3.375 5.00652 3.70863 5.81197 4.30249 6.40584C4.89636 6.9997 5.70181 7.33333 6.54167 7.33333Z"
+                  stroke="black"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            </div>
+            <input
+              class="appearance-none rounded-r w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              id="email"
+              type="text"
+              formControlName="email"
+              [ngClass]="{ 'border-red-500': email?.invalid && email?.touched }"
+              placeholder="Please enter your email"
+            />
+          </div>
+          <div
+            *ngIf="email?.invalid && email?.touched"
+            class="text-red-500 text-sm pl-1"
+          >
+            <div *ngIf="email?.errors?.['required']">Email is required</div>
+            <div *ngIf="email?.errors?.['email']">Invalid email address</div>
+          </div>
+        </div>
+        <div class="mb-4">
+          <div class="input-icon-wrapper">
+            <div class="input-icon-box">
+              <svg
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M12 21C13.8565 21 15.637 20.2625 16.9497 18.9497C18.2625 17.637 19 15.8565 19 14C19 12.1435 18.2625 10.363 16.9497 9.05025C15.637 7.7375 13.8565 7 12 7C10.1435 7 8.36301 7.7375 7.05025 9.05025C5.7375 10.363 5 12.1435 5 14C5 15.8565 5.7375 17.637 7.05025 18.9497C8.36301 20.2625 10.1435 21 12 21Z"
+                  stroke="black"
+                  stroke-width="1.5"
+                  stroke-miterlimit="10"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+                <path
+                  d="M15.8 8V7C15.8 4.7 14 2.8 11.8 2.8C9.60005 2.8 7.80005 4.7 7.80005 7V8"
+                  stroke="black"
+                  stroke-width="1.5"
+                  stroke-miterlimit="10"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+                <path
+                  d="M12 14C12.2652 14 12.5196 13.8946 12.7071 13.7071C12.8946 13.5196 13 13.2652 13 13C13 12.7348 12.8946 12.4804 12.7071 12.2929C12.5196 12.1054 12.2652 12 12 12C11.7348 12 11.4804 12.1054 11.2929 12.2929C11.1054 12.4804 11 12.7348 11 13C11 13.2652 11.1054 13.5196 11.2929 13.7071C11.4804 13.8946 11.7348 14 12 14Z"
+                  fill="black"
+                  stroke="black"
+                  stroke-width="1.5"
+                  stroke-miterlimit="10"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+                <path
+                  d="M12 16.857V14"
+                  stroke="black"
+                  stroke-width="1.5"
+                  stroke-miterlimit="10"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            </div>
+            <input
+              class="appearance-none rounded-r w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              id="password"
+              type="password"
+              placeholder="Password"
+              formControlName="password"
+              autocomplete="new-password"
+              [ngClass]="{
+                'border-red-500': password?.invalid && password?.touched
+              }"
+            />
+          </div>
+          <div
+            *ngIf="password?.invalid && password?.touched"
+            class="text-red-500 text-sm pl-1"
+          >
+            <div *ngIf="password?.errors?.['required']">
+              Password is required
+            </div>
+            <div *ngIf="password?.errors?.['minlength']">
+              Password must be at least 6 characters long
+            </div>
+          </div>
+        </div>
+        <div class="mb-6">
+          <button
+            class="hover:bg-teal-700 text-white py-2 px-4 rounded-lg focus:outline-none focus:shadow-outline w-full"
+            type="submit"
+            style="background-color: #089b8c"
+          >
+            submit
+          </button>
+        </div>
+        <div class="flex items-center justify-center mb-4">
+          <div class="divider"></div>
+          <span class="px-4 text-gray-500">or</span>
+          <div class="divider"></div>
+        </div>
+        <div class="mb-4">
+          <button
+            class="bg-blue-500 py-2 hover:bg-blue-600 text-white rounded-lg focus:outline-none focus:shadow-outline w-full flex items-center justify-center relative"
+            type="button"
+          >
+            <div class="absolute left-1">
+              <svg
+                width="44"
+                height="37"
+                viewBox="0 0 44 37"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M0 18C0 8.05887 8.05887 0 18 0H26C35.9411 0 44 8.05887 44 18V18C44 27.9411 35.9411 36 26 36H18C8.05888 36 0 27.9411 0 18V18Z"
+                  fill="white"
+                />
+                <ellipse
+                  cx="21.5098"
+                  cy="18.4994"
+                  rx="17.5098"
+                  ry="17.5519"
+                  fill="white"
+                />
+                <path
+                  d="M20.8295 9.98145C22.7218 9.98145 24.4164 10.6414 25.7528 11.9289L29.4145 8.22332C27.1908 6.1298 24.2881 4.84232 20.8295 4.84232C15.8153 4.84232 11.48 7.75269 9.36847 11.9938L13.6343 15.3424C14.6446 12.2643 17.4831 9.98145 20.8295 9.98145Z"
+                  fill="#EA4335"
+                />
+                <path
+                  d="M33.1138 18.1229C33.1138 17.2736 33.0336 16.4513 32.9106 15.6615H20.8295V20.541H27.7468C27.4367 22.1423 26.5387 23.5055 25.1916 24.4251L29.3237 27.6709C31.7346 25.4097 33.1138 22.0665 33.1138 18.1229Z"
+                  fill="#4285F4"
+                />
+                <path
+                  d="M13.6289 20.3084C13.3723 19.524 13.2227 18.6909 13.2227 17.8254C13.2227 16.9599 13.367 16.1268 13.6289 15.3424L9.36313 11.9938C8.4918 13.7465 8 15.7265 8 17.8254C8 19.9243 8.4918 21.9042 9.36848 23.6569L13.6289 20.3084Z"
+                  fill="#FBBC05"
+                />
+                <path
+                  d="M20.8293 30.8085C24.2933 30.8085 27.2067 29.6562 29.3235 27.6655L25.1914 24.4197C24.0421 25.2041 22.5613 25.6639 20.8293 25.6639C17.483 25.6639 14.6444 23.3811 13.6288 20.303L9.36298 23.6516C11.4798 27.8981 15.8151 30.8085 20.8293 30.8085Z"
+                  fill="#34A853"
+                />
+              </svg>
+            </div>
+            <span>Continue with Google</span>
+          </button>
+        </div>
+
+        <div class="text-center mt-28">
+          <div class="flex items-center justify-center mb-4">
+            <div class="divider"></div>
+            <span class="px-4 text-gray-500">Don't have an account?</span>
+            <div class="divider"></div>
+          </div>
+          <button
+            routerLink="/auth/account-type"
+            class="mt-2 text-teal-500 hover:text-teal-700 border font-bold focus:outline-none focus:shadow-outline py-2 px-4 rounded-xl border-custom w-full"
+            type="button"
+          >
+            Sign up
+          </button>
+        </div>
+      </form>
+    </div>
+  </body>
+</html>
