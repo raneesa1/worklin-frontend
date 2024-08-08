@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Worklin Projects</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <style>
+    .bg-light-gray {
+      background-color: #f7f7f7;
+    }
+  </style>
+</head>
+<body class=" min-h-screen flex flex-col items-center">
+
+  <!-- Navbar -->
+  <div class="bg-white w-full border-b py-4">
+    <div class="container mx-auto flex justify-between items-center px-4">
+      <div class="text-2xl font-bold text-green-700">Worklin</div>
+      <div class="flex space-x-4 text-gray-500">
+        <a href="#" class="hover:text-green-700">Find Freelancers</a>
+        <a href="#" class="hover:text-green-700">Post Job</a>
+        <a href="#" class="hover:text-green-700">Message</a>
+        <a href="#" class="hover:text-green-700">About</a>
+        <div class="relative">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.121 18.364l4.243-4.243m0 0l4.243 4.243M5.121 13.757l4.243-4.243m4.243 4.243l4.243-4.243"></path>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Sidebar and Projects Section -->
+  <div class="container mx-auto flex mt-10 px-4">
+    <!-- Sidebar -->
+    <div class="w-1/5">
+      <div class="bg-white shadow-md rounded-lg p-4 mb-4">
+        <ul class="space-y-4 text-gray-600">
+          <li class="flex items-center space-x-2">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l9-5-9-5-9 5 9 5z"></path>
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l6.16-3.422A12.088 12.088 0 0112 19.923 12.088 12.088 0 015.84 10.578L12 14z"></path>
+            </svg>
+            <span>Profile</span>
+          </li>
+          <li class="flex items-center space-x-2">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16V8m-4 8V8m8 8V8m-4 8a4 4 0 00-8 0v8a4 4 0 004 4h8a4 4 0 004-4v-8a4 4 0 00-4-4z"></path>
+            </svg>
+            <span>Discover jobs</span>
+          </li>
+          <li class="flex items-center space-x-2">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7h18M3 11h18m-9 4h9"></path>
+            </svg>
+            <span>Your hires</span>
+          </li>
+          <li class="flex items-center space-x-2">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L3 14h8v7l10-11h-8z"></path>
+            </svg>
+            <span>Saved talent</span>
+          </li>
+          <li class="flex items-center space-x-2">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7h18M3 11h18m-9 4h9"></path>
+            </svg>
+            <span>Job posts</span>
+          </li>
+          <li class="flex items-center space-x-2">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16V8m-4 8V8m8 8V8m-4 8a4 4 0 00-8 0v8a4 4 0 004 4h8a4 4 0 004-4v-8a4 4 0 00-4-4z"></path>
+            </svg>
+            <span>Projects</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Projects Section -->
+    <div class="w-4/5">
+      <div class="flex justify-between items-center mb-4">
+        <h1 class="text-2xl font-bold">Project</h1>
+        <button class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">+ Create New Project</button>
+      </div>
+      <div class="grid grid-cols-3 gap-4">
+        <!-- Project Card -->
+        <div class="bg-white shadow-md rounded-lg p-4 relative">
+          <div class="flex items-center mb-4">
+            <div class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
+              <span class="text-blue-500">P</span>
+            </div>
+            <div class="ml-4">
+              <h2 class="font-bold">Premium Support</h2>
+              <p class="text-gray-500">Pink is obviously a better color. Everyone born confident and everything taken away.</p>
+            </div>
+            <div class="absolute top-2 right-2">
+              <svg class="w-6 h-6 text-gray-400 cursor-pointer" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 12h.01M12 12h.01M18 12h.01M6 12a1 1 0 110-2 1 1 0 010 2zm6 0a1 1 0 110-2 1 1 0 010 2zm6 0a1 1 0 110-2 1 1 0 010 2z"></path>
+              </svg>
+            </div>
+          </div>
+          <hr class="mb-4">
+          <div class="flex justify-between items-center text-gray-600">
+            <div>
+              <p class="font-bold">23</p>
+              <p>Participants</p>
+            </div>
+            <div>
+              <p class="font-bold">07.08.22</p>
+              <p>Due date</p>
+            </div>
+          </div>
+        </div>
+        <!-- Project Card -->
+        <div class="bg-white shadow-md rounded-lg p-4 relative">
+          <div class="flex items-center mb-4">
+            <div class="w-10 h-10 bg-pink-100 rounded-full flex items-center justify-center">
+              <span class="text-pink-500">G</span>
+            </div>
+            <div class="ml-4">
+              <h2 class="font-bold">Get that Money</h2>
+              <p class="text-gray-500">Pink is obviously a better color. Everyone born confident and everything taken away.</p>
+            </div>
+            <div class="absolute top-2 right-2">
+              <svg class="w-6 h-6 text-gray-400 cursor-pointer" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 12h.01M12 12h.01M18 12h.01M6 12a1 1 0 110-2 1 1 0 010 2zm6 0a1 1 0 110-2 1 1 0 010 2zm6 0a1 1 0 110-2 1 1 0 010 2z"></path>
+              </svg>
+            </div>
+          </div>
+          <hr class="mb-4">
+          <div class="flex justify-between items-center text-gray-600">
+            <div>
+              <p class="font-bold">20</p>
+              <p>Participants</p>
+            </div>
+            <div>
+              <p class="font-bold">06.08.22</p>
+              <p>Due date</p>
+            </div>
+          </div>
+        </div>
+        <!-- Project Card -->
+        <div class="bg-white shadow-md rounded-lg p-4 relative">
+          <div class="flex items-center mb-4">
+            <div class="w-10 h-10 bg-yellow-100 rounded-full flex items-center justify-center">
+              <span class="text-yellow-500">W</span>
+            </div>
+            <div class="ml-4">
+              <h2 class="font-bold">Working on the G</h2>
+              <p class="text-gray-500">Pink is obviously a better color. Everyone born confident and everything taken away.</p>
+            </div>
+            <div class="absolute top-2 right-2">
+              <svg class="w-6 h-6 text-gray-400 cursor-pointer" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 12h.01M12 12h.01M18 12h.01M6 12a1 1 0 110-2 1 1 0 010 2zm6 0a1 1 0 110-2 1 1 0 010 2zm6 0a1 1 0 110-2 1 1 0 010 2z"></path>
+              </svg>
+            </div>
+          </div>
+          <hr class="mb-4">
+          <div class="flex justify-between items-center text-gray-600">
+            <div>
+              <p class="font-bold">18</p>
+              <p>Participants</p>
+            </div>
+            <div>
+              <p class="font-bold">05.08.22</p>
+              <p>Due date</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>

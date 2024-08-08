@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Work Skills - Worklin</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
+      rel="stylesheet"
+    />
+    <style>
+      .bg-gradient-green {
+        background: linear-gradient(135deg, white 70%, #97ffee 100%);
+      }
+    </style>
+  </head>
+  <body class="bg-white min-h-screen flex flex-col">
+    <div class="bg-white border-b border-gray-200 w-full p-4">
+      <div class="container mx-auto flex justify-between">
+        <div style="color: #089b8c" class="text-xl font-bold">Worklin</div>
+        <div class="text-gray-500">
+          <svg
+            class="w-6 h-6"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M12 4.354a8 8 0 110 15.292 8 8 0 010-15.292z"
+            ></path>
+          </svg>
+        </div>
+      </div>
+    </div>
+
+    <div class="flex flex-1 w-full justify-center items-start p-10">
+      <div class="bg-white p-10 rounded-lg max-w-4xl w-full">
+        <div class="mb-8">
+          <span class="text-gray-500">3/10</span>
+          <h2 class="text-2xl font-bold mt-2 mb-4">
+            Nearly there! What work are you here to do?
+          </h2>
+          <p class="text-gray-600 mb-6">
+            Your skills show clients what you can offer, and help us choose
+            which jobs to recommend to you. Add or remove the ones we’ve
+            suggested, or start typing to pick more. It’s up to you.
+          </p>
+          <a href="#" class="text-green-600 mb-6 block"
+            >Why choosing carefully matters</a
+          >
+          <label for="skills" class="block text-gray-700 mb-2"
+            >Your skills</label
+          >
+          <select
+            id="skills"
+            (change)="onSkillSelected($event)"
+            class="w-full border border-gray-300 p-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
+          >
+            <option *ngFor="let skill of skills" [value]="skill._id">
+              {{ skill.name }}
+            </option>
+          </select>
+        </div>
+        <div *ngIf="selectedSkills.length > 0" class="mb-4">
+          <div class="flex flex-wrap gap-2">
+            <div
+              *ngFor="let skill of selectedSkills"
+              class="flex items-center mb-2"
+            >
+              <span
+                class="bg-teal-600 text-white py-1 px-4 rounded-full flex justify-between items-center"
+              >
+                <span class="mr-2">{{ skill.name }}</span>
+                <button
+                  type="button"
+                  (click)="removeSelectedSkill(skill._id)"
+                  class="text-white focus:outline-none"
+                >
+                  <!-- Remove icon here -->
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    height="24px"
+                    viewBox="0 -960 960 960"
+                    width="24px"
+                    fill="#FFFFFF"
+                  >
+                    <path
+                      d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"
+                    />
+                  </svg>
+                </button>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-white p-6 rounded-lg border max-w-xs">
+        <div class="flex items-center mb-4">
+          <img
+            class="w-12 h-12 rounded-full"
+            src="https://via.placeholder.com/48"
+            alt="User"
+          />
+          <div class="ml-4">
+            <p class="text-gray-800 font-bold">Upwork Pro Tip</p>
+          </div>
+        </div>
+        <p class="text-gray-600">
+          “Upwork’s algorithm will recommend specific job posts to you based on
+          your skills. So choose them carefully to get the best match!”
+        </p>
+      </div>
+    </div>
+
+    <div class="bg-white w-full p-4 border-t border-gray-200">
+      <div class="container mx-auto flex justify-between items-center">
+        <button class="text-blue-500">Back</button>
+        <div class="flex space-x-4">
+          <button class="text-gray-500">Skip for now</button>
+          <button
+            class="bg-teal-600 text-white px-4 py-2 rounded hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-teal-500"
+            (click)="submitSkills()"
+          >
+            Next, your profile title
+          </button>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

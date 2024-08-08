@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Preview Profile - Worklin</title>
+  <link
+    href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
+    rel="stylesheet"
+  />
+  <style>
+    .bg-gradient-green {
+      background: linear-gradient(135deg, white 70%, #97ffee 100%);
+    }
+    .full-height {
+      height: 100vh;
+    }
+    .compact-height {
+      height: auto;
+      max-height: 300px; /* Adjust this value as needed */
+      overflow-y: auto; /* Add scroll if content overflows */
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col items-center">
+  <div class="bg-white w-full border-b border-gray-200 py-4">
+    <div class="container mx-auto flex justify-between">
+      <div class="text-xl font-bold text-green-700">Worklin</div>
+      <div class="text-gray-500">
+        <svg
+          class="w-6 h-6"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M12 4.354a8 8 0 110 15.292 8 8 0 010-15.292z"
+          ></path>
+        </svg>
+      </div>
+    </div>
+  </div>
+
+  <div class="container mx-auto mt-10">
+    <div class="bg-white shadow-md rounded-lg p-8 mb-6">
+      <h1 class="text-2xl font-bold mb-4">Looking good, Raneesa!</h1>
+      <p class="text-gray-600 mb-6">
+        Make any edits you want, then submit your profile. You can make more
+        changes after it's live.
+      </p>
+      <button
+        class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600"
+      >
+        Submit profile
+      </button>
+    </div>
+
+    <div class="flex mb-10">
+      <div class="bg-white shadow-md rounded-lg p-8 w-2/3 mr-4 compact-height">
+        <h2 class="text-xl font-bold mb-4">Raneesa K</h2>
+        <div class="flex items-center mb-4">
+          <svg
+            class="w-5 h-5 text-gray-500 mr-2"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M3 3v18h18"
+            ></path>
+          </svg>
+          <span class="text-gray-600">Shoranur, Kerala</span>
+        </div>
+        <p class="text-gray-600 mb-4">11:45 AM local time</p>
+        <div class="mb-4">
+          <h3 class="text-lg font-bold mb-2">web development</h3>
+        </div>
+      </div>
+
+      <div class="bg-white shadow-md rounded-lg p-8 w-1/3 full-height">
+        <h3 class="text-lg font-bold mb-4">Languages</h3>
+        <p class="text-gray-600">English: Basic</p>
+      </div>
+    </div>
+
+    <div class="flex mb-10">
+      <div class="bg-white shadow-md rounded-lg p-8 border-custom w-2/3 mr-4 compact-height">
+        <h2 class="text-xl font-bold mb-4">Raneesa K</h2>
+        <div class="flex items-center mb-4">
+          <svg
+            class="w-5 h-5 text-gray-500 mr-2"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M3 3v18h18"
+            ></path>
+          </svg>
+          <span class="text-gray-600">Shoranur, Kerala</span>
+        </div>
+        <p class="text-gray-600 mb-4">11:45 AM local time</p>
+        <div class="mb-4">
+          <h3 class="text-lg font-bold mb-2">web development</h3>
+          <div class="text-gray-600">
+            <p>Data Structure Workouts</p>
+            <ol class="list-decimal list-inside">
+              <li>
+                Learn the concepts of Tree. Complete at least three sample
+                workouts.
+              </li>
+              <li>
+                Learn the concepts of Binary Search Tree. Complete at least
+                three sample workouts. Example:
+                <ul class="list-disc list-inside ml-4">
+                  <li>
+                    Create a Binary Search Tree with insertion, contains,
+                    delete, three traversals (postorder, preorder, in order).
+                  </li>
+                  <li>Find the closest value to a given number in a Tree.</li>
+                  <li>Validate whether a given tree is BST or not.</li>
+                </ul>
+              </li>
+              <li>
+                Learn the concepts of Heap. Complete at least three sample
+                workouts. Example:
+                <ul class="list-disc list-inside ml-4">
+                  <li>
+                    Create a min heap & max heap with build, insert, remove.
+                  </li>
+                </ul>
+              </li>
+            </ol>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

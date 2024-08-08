@@ -1,0 +1,47 @@
+<!-- Modal Background -->
+<div class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50" *ngIf="skill">
+  <!-- Modal Content -->
+  <div class="bg-white p-8 rounded-lg max-w-md w-full shadow-lg">
+    <h2 class="text-xl font-bold mb-4">Edit Skill</h2>
+    <form (ngSubmit)="saveSkill()">
+      <div class="mb-4">
+        <label for="skillName" class="block text-gray-700">Skill Name *</label>
+        <input
+          type="text"
+          id="skillName"
+          [(ngModel)]="skill.name"
+          name="name"
+          class="w-full p-2 border border-gray-300 rounded mt-1"
+          placeholder="Ex: JavaScript"
+          required
+        />
+      </div>
+      <div class="mb-4">
+        <label for="skillDescription" class="block text-gray-700">Description</label>
+        <textarea
+          id="skillDescription"
+          [(ngModel)]="skill.description"
+          name="description"
+          class="w-full p-2 border border-gray-300 rounded mt-1"
+          rows="4"
+          placeholder="Describe the skill"
+        ></textarea>
+      </div>
+      <div class="flex justify-end">
+        <button
+          type="button"
+          (click)="closeModal()"
+          class="mr-4 px-4 py-2 bg-gray-100 text-gray-600 rounded-md hover:bg-gray-200 focus:outline-none"
+        >
+          Cancel
+        </button>
+        <button
+          type="submit"
+          class="px-4 py-2 bg-teal-600 text-white rounded-md hover:bg-teal-700 focus:outline-none"
+        >
+          Save
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

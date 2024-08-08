@@ -1,0 +1,42 @@
+.bg-gradient-green {
+     background: linear-gradient(135deg, white 70%, #97ffee 100%);
+ }
+
+ input:focus,
+ select:focus,
+ textarea:focus {
+     outline: none;
+     border-color: #38b2ac;
+     box-shadow: 0 0 0 3px rgba(5, 125, 119, 0.5);
+}
+
+ input:-webkit-autofill,
+ input:-webkit-autofill:hover,
+ input:-webkit-autofill:focus,
+ input:-webkit-autofill:active {
+     -webkit-box-shadow: 0 0 0 30px white inset !important;
+     box-shadow: 0 0 0 30px white inset !important;
+     -webkit-text-fill-color: #000 !important;
+ }
+
+//  /* Ensure styles apply globally */
+//  ::ng-deep .mat-form-field-appearance-fill .mat-form-field-flex {
+//      background-color: transparent !important;
+//  }
+
+//  ::ng-deep .mat-form-field-appearance-fill .mat-form-field-underline {
+//      background-color: white !important;
+//  }
+
+//  ::ng-deep .mat-form-field-appearance-fill .mat-form-field-label {
+//      color: white !important;
+//  }
+
+//  ::ng-deep .mat-datepicker-toggle .mat-icon {
+//      color: white !important;
+//  }
+
+//  ::ng-deep .mat-datepicker-toggle {
+//      color: white !important;
+//  }
+

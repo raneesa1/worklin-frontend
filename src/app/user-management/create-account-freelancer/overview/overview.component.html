@@ -1,0 +1,41 @@
+
+
+  <div class="flex flex-1 w-full justify-center items-start p-10">
+    <div class="bg-white p-10 rounded-lg max-w-4xl w-full">
+      <div class="mb-8">
+        <span class="text-gray-500">8/10</span>
+        <h2 class="text-2xl font-bold mt-2 mb-4">Great. Now write a bio to tell the world about yourself.</h2>
+        <p class="text-gray-600 mb-6">Help people get to know you at a glance. What work do you do best? Tell them clearly, using paragraphs or bullet points. You can always edit later; just make sure you proofread now.</p>
+        
+
+        <textarea id="workouts"  #bio rows="5" class="w-full border border-gray-300 p-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500" placeholder="Type here...."></textarea>
+      
+      </div>
+    </div>
+    <div class="bg-white p-6 rounded-lg border max-w-xs">
+      <div class="flex items-center mb-4">
+        <img class="w-12 h-12 rounded-full" src="https://via.placeholder.com/48" alt="User">
+        <div class="ml-4">
+          <p class="text-gray-800 font-bold">Marti G.</p>
+          <p class="flex items-center"><span class="text-yellow-500 mr-2">★ 5.0</span> $75.00/hr • 14 jobs</p>
+        </div>
+      </div>
+      <p class="text-gray-600">I'm a developer experienced in building websites for small and medium-sized businesses. Whether you're trying to win work, list your services, or create a new online store, I can help.</p>
+      <ul class="mt-4 list-disc ml-6">
+          <li>Knows HTML and CSS3, PHP, jQuery, WordPress, and SEO</li>
+          <li>Full project management from start to finish</li>
+          <li>Regular communication is important to me, so let's keep in touch.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="bg-white w-full p-4 border-t border-gray-200">
+    <div class="container mx-auto flex justify-between items-center">
+      <button class="text-blue-500">Back</button>
+      <div class="flex space-x-4">
+        <button class="text-gray-500">Skip for now</button>
+        <button class="bg-teal-600 text-white px-4 py-2 rounded hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-teal-500" (click)="getDescription()">Next, set your rate</button>
+      </div>
+    </div>
+  </div>
+

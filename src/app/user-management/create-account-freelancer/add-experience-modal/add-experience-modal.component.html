@@ -1,0 +1,116 @@
+<!-- add-experience-modal.component.html -->
+<div class="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50">
+  <div class="bg-white p-8 rounded-lg shadow-lg custom-width">
+    <div class="flex justify-between items-center mb-6">
+      <h2 class="text-xl font-bold">Add Work Experience</h2>
+      <button class="text-gray-600 hover:text-gray-800 focus:outline-none" (click)="closeModal()">&times;</button>
+    </div>
+    <form (ngSubmit)="save()">
+      <div class="mb-4">
+        <label for="title" class="block text-gray-700">Title *</label>
+        <input [(ngModel)]="experience.title" name="title" type="text" id="title" class="w-full p-2 border border-gray-300 rounded mt-1" placeholder="Ex: Software Engineer" required>
+      </div>
+      <div class="mb-4">
+        <label for="company" class="block text-gray-700">Company *</label>
+        <input [(ngModel)]="experience.company" name="company" type="text" id="company" class="w-full p-2 border border-gray-300 rounded mt-1" placeholder="Ex: Microsoft" required>
+      </div>
+      <div class="mb-4 flex space-x-4">
+        <div class="w-1/2">
+          <label for="jobLocation" class="block text-gray-700">Location</label>
+          <input [(ngModel)]="experience.jobLocation" name="jobLocation" type="text" id="jobLocation" class="w-full p-2 border border-gray-300 rounded mt-1" placeholder="Ex: London">
+        </div>
+        <div class="w-1/2">
+          <label for="country" class="block text-gray-700">Country</label>
+          <select [(ngModel)]="experience.country" name="country" id="country" class="w-full p-2 border border-gray-300 rounded mt-1 dropdown-icon">
+            <option>India</option>
+            <option>United States</option>
+            <option>United Kingdom</option>
+            <option>Canada</option>
+            <option>Australia</option>
+            <!-- Add more country options as needed -->
+          </select>
+        </div>
+      </div>
+      <div class="mb-4">
+        <label class="inline-flex items-center">
+          <input [(ngModel)]="isCurrentlyWorking" name="currentlyWorking" type="checkbox" class="form-checkbox" (change)="toggleCurrentlyWorking($event)">
+          <span class="ml-2">I am currently working in this role</span>
+        </label>
+      </div>
+      <div class="mb-4 flex space-x-4">
+        <div class="w-1/2">
+          <label for="startDate" class="block text-gray-700">Start Date *</label>
+          <div class="flex space-x-2">
+            <select [(ngModel)]="experience.startMonth" name="startMonth" id="startMonth" class="w-1/2 p-2 border border-gray-300 rounded mt-1 dropdown-icon" required>
+              <option value="" disabled selected>Month</option>
+              <option>January</option>
+              <option>February</option>
+              <option>March</option>
+              <option>April</option>
+              <option>May</option>
+              <option>June</option>
+              <option>July</option>
+              <option>August</option>
+              <option>September</option>
+              <option>October</option>
+              <option>November</option>
+              <option>December</option>
+            </select>
+            <select [(ngModel)]="experience.startYear" name="startYear" id="startYear" class="w-1/2 p-2 border border-gray-300 rounded mt-1 dropdown-icon" required>
+              <option value="" disabled selected>Year</option>
+              <option>2024</option>
+              <option>2023</option>
+              <option>2022</option>
+              <option>2021</option>
+              <option>2020</option>
+              <option>2019</option>
+              <option>2018</option>
+              <option>2017</option>
+              <!-- Add more year options as needed -->
+            </select>
+          </div>
+        </div>
+        <div class="w-1/2" *ngIf="!isCurrentlyWorking">
+          <label for="endDate" class="block text-gray-700">End Date *</label>
+          <div class="flex space-x-2">
+            <select [(ngModel)]="experience.endMonth" name="endMonth" id="endMonth" class="w-1/2 p-2 border border-gray-300 rounded mt-1 dropdown-icon">
+              <option value="" disabled selected>Month</option>
+              <option>January</option>
+              <option>February</option>
+              <option>March</option>
+              <option>April</option>
+              <option>May</option>
+              <option>June</option>
+              <option>July</option>
+              <option>August</option>
+              <option>September</option>
+              <option>October</option>
+              <option>November</option>
+              <option>December</option>
+            </select>
+            <select [(ngModel)]="experience.endYear" name="endYear" id="endYear" class="w-1/2 p-2 border border-gray-300 rounded mt-1 dropdown-icon">
+              <option value="" disabled selected>Year</option>
+              <option>2024</option>
+              <option>2023</option>
+              <option>2022</option>
+              <option>2021</option>
+              <option>2020</option>
+              <option>2019</option>
+              <option>2018</option>
+              <option>2017</option>
+              <!-- Add more year options as needed -->
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="mb-6">
+        <label for="description" class="block text-gray-700">Description</label>
+        <textarea [(ngModel)]="experience.description" name="description" id="description" class="w-full p-2 border border-gray-300 rounded mt-1" rows="4"></textarea>
+      </div>
+      <div class="flex justify-end">
+        <button type="button" class="bg-gray-100 text-gray-600 py-2 px-4 rounded-lg hover:bg-gray-200 focus:outline-none mr-2" (click)="closeModal()">Cancel</button>
+        <button type="submit" class="bg-teal-600 text-white py-2 px-4 rounded-lg hover:bg-teal-700 focus:outline-none">Save</button>
+      </div>
+    </form>
+  </div>
+</div>

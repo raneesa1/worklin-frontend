@@ -48,7 +48,7 @@
   </header>
   <body class="flex items-center justify-center min-h-screen">
     <div class="bg-white p-6 rounded-lg text-center max-w-md -mt-28">
-      <div class="pl-32">
+      <div class="pl-24">
         <svg
           width="191"
           height="133"
@@ -235,24 +235,75 @@
       <h1 class="text-xl font-semibold mb-2">Verify your email to continue</h1>
       <p class="text-gray-700 mb-6">
         We just sent an email to the address:
-        <strong>raneesak7344444&#64;gmail.com</strong><br />
-        Please check your email and select the link provided to verify your
-        address.
+        <strong>{{email}}</strong><br />
+        Please check your email and enter your otp
       </p>
-      <div class="flex justify-center space-x-4 mb-4">
-        <button
-          class="bg-white text-green-600 border border-green-600 py-2 px-4 rounded-lg hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
+      <form (ngSubmit)="onSubmit($event)">
+        <div class="otp-container mb-10">
+          <input
+            class="otp-input"
+            type="text"
+            maxlength="1"
+            pattern="\d*"
+            (input)="moveToNext($event, 1)"
+          />
+          <input
+            class="otp-input"
+            type="text"
+            maxlength="1"
+            pattern="\d*"
+            (input)="moveToNext($event, 2)"
+          />
+          <input
+            class="otp-input"
+            type="text"
+            maxlength="1"
+            pattern="\d*"
+            (input)="moveToNext($event, 3)"
+          />
+          <input
+            class="otp-input"
+            type="text"
+            maxlength="1"
+            pattern="\d*"
+            (input)="moveToNext($event, 4)"
+          />
+          <input
+            class="otp-input"
+            type="text"
+            maxlength="1"
+            pattern="\d*"
+            (input)="moveToNext($event, 5)"
+          />
+          <input
+            class="otp-input"
+            type="text"
+            maxlength="1"
+            pattern="\d*"
+            (input)="moveToNext($event, 6)"
+          />
+        </div>
+        <div class="flex justify-center space-x-4 mb-4">
+          <button
+            class="bg-white text-green-600 border border-green-600 py-2 px-4 rounded-lg hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
+            [disabled]="!canResendCode"
+            (click)="resendCode()"
+          >
+            Resend Code
+          </button>
+          <button
+            class="bg-green-600 text-white py-2 px-6 rounded-lg hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
+            type="submit"
+          >
+            Verify
+          </button>
+        </div>
+        <a href="#" class="text-green-600 hover:underline"
+          >Didn't receive email?</a
         >
-          Send again
-        </button>
-        <button
-          class="bg-green-600 text-white py-2 px-4 rounded-lg hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
-        >
-          Go to Gmail Inbox
-        </button>
-      </div>
-      <a href="#" class="text-green-600 text-xl hover:underline"
-        >Didn't receive email?</a
+      </form>
+      <span *ngIf="!canResendCode" class="text-red-900"
+        >Wait {{ resendCodeTimer }} seconds to resend</span
       >
     </div>
   </body>

@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Payment Details</title>
+
+     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+  </head>
+  <body class="bg-gray-50 font-sans antialiased">
+    <div class="min-h-screen flex">
+      <!-- Sidebar -->
+       <!-- Sidebar -->
+  <aside class="w-48 bg-white border-r border-gray-200">
+      <div class="p-4 pr-3">
+        <div class="flex items-center justify-start">
+          <span class="text-3xl font-bold text-teal-600 ml-5">Worklin</span>
+        </div>
+        <nav class="mt-6">
+          <a href="#" class="flex items-center px-4 py-2 text-gray-700 hover:bg-gray-200">
+            <span class="material-icons">dashboard</span>
+            <span class="ml-3">Dashboard</span>
+          </a>
+          <a href="#" class="flex items-center px-4 py-2 mt-2 text-gray-700 hover:bg-gray-200">
+            <span class="material-icons">desktop_windows</span>
+            <span class="ml-3">Work desk</span>
+          </a>
+          <a href="#" class="flex items-center px-4 py-2 mt-2 text-gray-700 hover:bg-gray-200">
+            <span class="material-icons">group</span>
+            <span class="ml-3">Members</span>
+          </a>
+          <a href="#" class="flex items-center px-4 py-2 mt-2 text-gray-700 hover:bg-gray-200">
+            <span class="material-icons">payment</span>
+            <span class="ml-3">Payments</span>
+          </a>
+          <a href="#" class="flex items-center px-4 py-2 mt-2 text-gray-700 hover:bg-gray-200">
+            <span class="material-icons">meeting_room</span>
+            <span class="ml-3">Meetings</span>
+          </a>
+        </nav>
+      </div>
+    </aside>
+    
+      <!-- Main Content -->
+      <div class="flex-1 p-6">
+        <!-- Top Navigation -->
+        <div class="flex justify-between items-center pb-6">
+          <h1 class="text-3xl font-semibold">Payment details</h1>
+          <div class="text-teal-600">
+            <span class="font-semibold">Total payable amount: </span>
+            <span class="text-2xl">$500.00 USD</span>
+          </div>
+        </div>
+        <!-- Payment Status Warning -->
+        <div
+          class="bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-4 mb-6"
+          role="alert"
+        >
+          <p class="font-bold">Payments pending</p>
+          <p>
+            We will suspend your account if the payment exceeds more than $500
+            USD.
+          </p>
+        </div>
+        <!-- Tabs -->
+        <div class="mb-4">
+          <ul class="flex border-b">
+            <li class="mr-1">
+              <a
+                class=" inline-block py-2 px-4 text-teal-600 font-semibold"
+                href="#"
+                >All</a
+              >
+            </li>
+            <li class="mr-1">
+              <a
+                class="inline-block py-2 px-4 text-gray-500 hover:text-teal-600"
+                href="#"
+                >Paid</a
+              >
+            </li>
+            <li class="mr-1">
+              <a
+                class="inline-block py-2 px-4 text-gray-500 hover:text-teal-600"
+                href="#"
+                >Unpaid</a
+              >
+            </li>
+            <li class="mr-1">
+              <a
+                class="inline-block py-2 px-4 text-gray-500 hover:text-teal-600"
+                href="#"
+                >Overdue</a
+              >
+            </li>
+          </ul>
+        </div>
+        <!-- Payment Details Table -->
+        <div class="overflow-x-auto">
+          <table class="min-w-full bg-white border-collapse">
+            <thead>
+              <tr>
+                <th class="py-2 px-4 bg-gray-100 border-b text-left">NAME</th>
+                <th class="py-2 px-4 bg-gray-100 border-b text-left">
+                  USER STATUS
+                </th>
+                <th class="py-2 px-4 bg-gray-100 border-b text-left">
+                  PAYMENT STATUS
+                </th>
+                <th class="py-2 px-4 bg-gray-100 border-b text-left">
+                  PAY NOW
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="py-2 px-4 border-b">
+                  <div class="text-gray-900 font-semibold">Justin Septimus</div>
+                  <div class="text-gray-500">example&#62;email.com</div>
+                </td>
+                <td class="py-2 px-4 border-b">
+                  <span
+                    class="inline-block bg-blue-100 text-blue-500 px-2 py-1 text-xs font-semibold rounded-full"
+                    >Active</span
+                  >
+                  <div class="text-gray-500">Last login: 14/APR/2020</div>
+                </td>
+                <td class="py-2 px-4 border-b">
+                  <span
+                    class="inline-block bg-red-100 text-red-500 px-2 py-1 text-xs font-semibold rounded-full"
+                    >Pending</span
+                  >
+                  <div class="text-gray-500">Due date: 14/APR/2020</div>
+                </td>
+                <td class="py-2 px-4 border-b">
+                  <button class="bg-teal-600 text-white py-1 px-3 rounded">
+                    Pay Now
+                  </button>
+                </td>
+              </tr>
+              <!-- Repeat rows as necessary -->
+              <tr>
+                <td class="py-2 px-4 border-b">
+                  <div class="text-gray-900 font-semibold">Justin Septimus</div>
+                  <div class="text-gray-500">example&#62;email.com</div>
+                </td>
+                <td class="py-2 px-4 border-b">
+                  <span
+                    class="inline-block bg-blue-100 text-blue-500 px-2 py-1 text-xs font-semibold rounded-full"
+                    >Active</span
+                  >
+                  <div class="text-gray-500">Last login: 14/APR/2020</div>
+                </td>
+                <td class="py-2 px-4 border-b">
+                  <span
+                    class="inline-block bg-green-100 text-green-500 px-2 py-1 text-xs font-semibold rounded-full"
+                    >Paid</span
+                  >
+                  <div class="text-gray-500">Paid on: 15/APR/2020</div>
+                </td>
+                <td class="py-2 px-4 border-b">
+                  <button
+                    class="bg-gray-300 text-gray-500 py-1 px-3 rounded"
+                    disabled
+                  >
+                    Pay Now
+                  </button>
+                </td>
+              </tr>
+              <!-- Repeat rows as necessary -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,66 @@
+<div
+  *ngIf="isModalOpen"
+  class="fixed inset-0 flex items-center justify-center z-50"
+>
+  <!-- Overlay -->
+  <div
+    class="fixed inset-0 bg-gray-800 bg-opacity-50"
+    (click)="closeModal()"
+  ></div>
+
+  <!-- Modal Content -->
+  <div class="relative bg-white p-8 rounded-lg shadow-lg custom-width z-50">
+    <div class="flex justify-between items-center mb-6">
+      <h2 class="text-xl font-bold">Add Skill</h2>
+      <button
+        class="text-gray-600 hover:text-gray-800 focus:outline-none"
+        (click)="closeModal()"
+      >
+        &times;
+      </button>
+    </div>
+    <form [formGroup]="skillForm" (ngSubmit)="saveSkill($event)">
+      <div class="mb-4">
+        <label for="skillName" class="block text-gray-700">Skill Name *</label>
+        <input
+          type="text"
+          id="skillName"
+          formControlName="name"
+          class="w-full p-2 border border-gray-300 rounded mt-1"
+          placeholder="Ex: JavaScript"
+        />
+         <div *ngIf="skillForm.get('name')?.invalid && (skillForm.get('name')?.dirty || skillForm.get('name')?.touched)" class="text-red-500 text-sm mt-1">
+          <div *ngIf="skillForm.get('name')?.errors?.['required']">Skill name is required.</div>
+        </div>
+      </div>
+      <div class="mb-4">
+        <label for="skillDescription" class="block text-gray-700"
+          >Description</label
+        >
+        <textarea
+          id="skillDescription"
+          formControlName="description"
+          class="w-full p-2 border border-gray-300 rounded mt-1"
+          rows="4"
+          placeholder="Describe the skill"
+        ></textarea>
+      </div>
+      <div class="flex justify-end">
+        <button
+          type="button"
+          (click)="closeModal()"
+          class="mr-4 px-4 py-2 bg-gray-100 text-gray-600 rounded-md hover:bg-gray-200 focus:outline-none"
+        >
+          Cancel
+        </button>
+        <button
+          type="submit"
+          class="px-4 py-2 bg-teal-600 text-white rounded-md hover:bg-teal-700 focus:outline-none"
+
+        >
+          Save
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

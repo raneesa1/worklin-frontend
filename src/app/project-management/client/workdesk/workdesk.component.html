@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Worklin</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+    />
+    <style>
+      .task-box svg {
+        width: 16px;
+        height: 16px;
+      }
+
+      .task-box .view-more-icon:hover::after {
+        content: "View More Tasks";
+        position: absolute;
+        background-color: black;
+        color: white;
+        padding: 5px 10px;
+        border-radius: 4px;
+        top: 100%;
+        left: 50%;
+        transform: translateX(-50%);
+        white-space: nowrap;
+        z-index: 10;
+      }
+    </style>
+  </head>
+
+  <body class="bg-gray-50 font-sans antialiased">
+    <div class="min-h-screen flex">
+      <!-- Sidebar -->
+      <aside class="w-48 bg-white border-r border-gray-200">
+        <div class="p-6">
+          <div class="flex items-center justify-center">
+            <span class="text-3xl font-bold text-teal-600">Worklin</span>
+          </div>
+          <nav class="mt-6">
+            <a
+              href="#"
+              class="flex items-center px-4 py-2 text-gray-700 hover:bg-gray-200"
+            >
+              <span class="material-icons">dashboard</span>
+              <span class="ml-3">Dashboard</span>
+            </a>
+            <a
+              href="#"
+              class="flex items-center px-4 py-2 mt-2 text-gray-700 hover:bg-gray-200"
+            >
+              <span class="material-icons">desktop_windows</span>
+              <span class="ml-3">Workdesk</span>
+            </a>
+            <a
+              href="#"
+              class="flex items-center px-4 py-2 mt-2 text-gray-700 hover:bg-gray-200"
+            >
+              <span class="material-icons">group</span>
+              <span class="ml-3">Members</span>
+            </a>
+            <a
+              href="#"
+              class="flex items-center px-4 py-2 mt-2 text-gray-700 hover:bg-gray-200"
+            >
+              <span class="material-icons">payment</span>
+              <span class="ml-3">Payments</span>
+            </a>
+            <a
+              href="#"
+              class="flex items-center px-4 py-2 mt-2 text-gray-700 hover:bg-gray-200"
+            >
+              <span class="material-icons">meeting_room</span>
+              <span class="ml-3">Meetings</span>
+            </a>
+          </nav>
+        </div>
+      </aside>
+
+      <!-- Main Content -->
+      <div class="flex-1 p-6">
+        <!-- Top Navigation -->
+        <div
+          class="flex items-center justify-between pb-6 border-b border-gray-200"
+        >
+          <div class="flex items-center space-x-4">
+            <span class="material-icons cursor-pointer">arrow_back</span>
+            <h1 class="text-2xl font-semibold">Work Desk</h1>
+          </div>
+        </div>
+
+        <div class="flex mt-6 space-x-4">
+          <!-- Task Boards -->
+          <div class="flex-1">
+            <div class="grid grid-cols-2 gap-4">
+              <!-- To Do Column -->
+              <div class="bg-white p-4 rounded-lg shadow task-box relative">
+                <div class="flex justify-between items-center">
+                  <h2 class="font-bold text-lg">To Do</h2>
+                  <div class="flex space-x-2">
+                    <button class="text-teal-600">
+                     <button class="text-teal-600">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        height="48px"
+                        viewBox="0 -960 960 960"
+                        width="48px"
+                        fill="#4bb97b"
+                      >
+                        <path
+                          d="M120-840h330v330H120v-330Zm60 59v188-188Zm330-59h330v330H510v-330Zm83 59v188-188ZM120-450h330v330H120v-330Zm60 81v189-189Zm465-81h60v135h135v60H705v135h-60v-135H510v-60h135v-135Zm-75-330v210h210v-210H570Zm-390 0v210h210v-210H180Zm0 390v210h210v-210H180Z"
+                        />
+                      </svg>
+                    </button>
+                    </button>
+                  </div>
+                </div>
+                <div class="mt-4">
+                  <svg class="mb-2 text-gray-400">
+                    <use href="#task-icon"></use>
+                  </svg>
+                  <!-- Task Card -->
+                  <div class="bg-gray-100 p-3 rounded-lg mb-4">
+                    <h3 class="font-semibold">
+                      Auditing Information Architecture
+                    </h3>
+                    <p class="text-sm text-gray-500">
+                      Create content for Peceland App
+                    </p>
+                    <p class="text-xs text-gray-400 mt-2">Aug 20, 2021</p>
+                    <div class="flex items-center mt-2">
+                      <img
+                        class="h-6 w-6 rounded-full"
+                        src="https://via.placeholder.com/150"
+                        alt="Profile Picture"
+                      />
+                      <img
+                        class="h-6 w-6 rounded-full -ml-2 border-2 border-white"
+                        src="https://via.placeholder.com/150"
+                        alt="Profile Picture"
+                      />
+                    </div>
+                  </div>
+                  <!-- Task Card -->
+                  <div class="bg-gray-100 p-3 rounded-lg mb-4">
+                    <h3 class="font-semibold">Update Support Documentation</h3>
+                    <p class="text-sm text-gray-500">
+                      Create content for Peceland App
+                    </p>
+                    <p class="text-xs text-gray-400 mt-2">Aug 16, 2021</p>
+                    <div class="flex items-center mt-2">
+                      <img
+                        class="h-6 w-6 rounded-full"
+                        src="https://via.placeholder.com/150"
+                        alt="Profile Picture"
+                      />
+                      <img
+                        class="h-6 w-6 rounded-full -ml-2 border-2 border-white"
+                        src="https://via.placeholder.com/150"
+                        alt="Profile Picture"
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- In Progress Column -->
+              <div class="bg-white p-4 rounded-lg shadow task-box relative">
+                <div class="flex justify-between items-center">
+                  <h2 class="font-bold text-lg">In Progress</h2>
+                  <div class="flex space-x-2">
+                    <button class="text-teal-600">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        height="48px"
+                        viewBox="0 -960 960 960"
+                        width="48px"
+                        fill="#4bb97b"
+                      >
+                        <path
+                          d="M120-840h330v330H120v-330Zm60 59v188-188Zm330-59h330v330H510v-330Zm83 59v188-188ZM120-450h330v330H120v-330Zm60 81v189-189Zm465-81h60v135h135v60H705v135h-60v-135H510v-60h135v-135Zm-75-330v210h210v-210H570Zm-390 0v210h210v-210H180Zm0 390v210h210v-210H180Z"
+                        />
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+                <div class="mt-4">
+                  <svg class="mb-2 text-gray-400">
+                    <use href="#task-icon"></use>
+                  </svg>
+                  <!-- Task Card -->
+                  <div class="bg-gray-100 p-3 rounded-lg mb-4">
+                    <h3 class="font-semibold">
+                      Listing Deliverables Checklist
+                    </h3>
+                    <p class="text-sm text-gray-500">
+                      Create content for Peceland App
+                    </p>
+                    <p class="text-xs text-gray-400 mt-2">Sep 20, 2021</p>
+                    <div class="flex items-center mt-2">
+                      <img
+                        class="h-6 w-6 rounded-full"
+                        src="https://via.placeholder.com/150"
+                        alt="Profile Picture"
+                      />
+                    </div>
+                  </div>
+                  <!-- Task Card -->
+                  <div class="bg-gray-100 p-3 rounded-lg mb-4">
+                    <h3 class="font-semibold">Qualitative Research Planning</h3>
+                    <p class="text-sm text-gray-500">
+                      Create content for Peceland App
+                    </p>
+                    <p class="text-xs text-gray-400 mt-2">Aug 20, 2021</p>
+                    <div class="flex items-center mt-2">
+                      <img
+                        class="h-6 w-6 rounded-full"
+                        src="https://via.placeholder.com/150"
+                        alt="Profile Picture"
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="grid grid-cols-2 gap-4 mt-4">
+              <!-- Overdue Task Column -->
+              <div class="bg-white p-4 rounded-lg shadow task-box relative">
+                <div class="flex justify-between items-center">
+                  <h2 class="font-bold text-lg">Overdue Task</h2>
+                  <div class="flex space-x-2">
+                    <button class="text-teal-600">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        height="48px"
+                        viewBox="0 -960 960 960"
+                        width="48px"
+                        fill="#4bb97b"
+                      >
+                        <path
+                          d="M120-840h330v330H120v-330Zm60 59v188-188Zm330-59h330v330H510v-330Zm83 59v188-188ZM120-450h330v330H120v-330Zm60 81v189-189Zm465-81h60v135h135v60H705v135h-60v-135H510v-60h135v-135Zm-75-330v210h210v-210H570Zm-390 0v210h210v-210H180Zm0 390v210h210v-210H180Z"
+                        />
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+                <div class="mt-4">
+                  <svg class="mb-2 text-gray-400">
+                    <use href="#task-icon"></use>
+                  </svg>
+                  <!-- Task Card -->
+                  <div class="bg-gray-100 p-3 rounded-lg mb-4">
+                    <h3 class="font-semibold">Design System</h3>
+                    <p class="text-sm text-gray-500">
+                      Create content for Peceland App
+                    </p>
+                    <p class="text-xs text-gray-400 mt-2">Jul 20, 2021</p>
+                    <div class="flex items-center mt-2">
+                      <img
+                        class="h-6 w-6 rounded-full"
+                        src="https://via.placeholder.com/150"
+                        alt="Profile Picture"
+                      />
+                    </div>
+                  </div>
+                  <!-- Task Card -->
+                  <div class="bg-gray-100 p-3 rounded-lg mb-4">
+                    <h3 class="font-semibold">Visual Design</h3>
+                    <p class="text-sm text-gray-500">
+                      Create content for Peceland App
+                    </p>
+                    <p class="text-xs text-gray-400 mt-2">Jul 25, 2021</p>
+                    <div class="flex items-center mt-2">
+                      <img
+                        class="h-6 w-6 rounded-full"
+                        src="https://via.placeholder.com/150"
+                        alt="Profile Picture"
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Done Task Column -->
+              <div class="bg-white p-4 rounded-lg shadow task-box relative">
+                <div class="flex justify-between items-center">
+                  <h2 class="font-bold text-lg">Done Task</h2>
+                  <div class="flex space-x-2">
+                    <button class="text-teal-600">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        height="48px"
+                        viewBox="0 -960 960 960"
+                        width="48px"
+                        fill="#4bb97b"
+                      >
+                        <path
+                          d="M120-840h330v330H120v-330Zm60 59v188-188Zm330-59h330v330H510v-330Zm83 59v188-188ZM120-450h330v330H120v-330Zm60 81v189-189Zm465-81h60v135h135v60H705v135h-60v-135H510v-60h135v-135Zm-75-330v210h210v-210H570Zm-390 0v210h210v-210H180Zm0 390v210h210v-210H180Z"
+                        />
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+                <div class="mt-4">
+                  <svg class="mb-2 text-gray-400">
+                    <use href="#task-icon"></use>
+                  </svg>
+                  <!-- Task Card -->
+                  <div class="bg-gray-100 p-3 rounded-lg mb-4">
+                    <h3 class="font-semibold">Research Analyzation</h3>
+                    <p class="text-sm text-gray-500">
+                      Create content for Peceland App
+                    </p>
+                    <p class="text-xs text-gray-400 mt-2">Aug 16, 2021</p>
+                    <div class="flex items-center mt-2">
+                      <img
+                        class="h-6 w-6 rounded-full"
+                        src="https://via.placeholder.com/150"
+                        alt="Profile Picture"
+                      />
+                    </div>
+                  </div>
+                  <!-- Task Card -->
+                  <div class="bg-gray-100 p-3 rounded-lg mb-4">
+                    <h3 class="font-semibold">User Research</h3>
+                    <p class="text-sm text-gray-500">
+                      Create content for Peceland App
+                    </p>
+                    <p class="text-xs text-gray-400 mt-2">Jul 16, 2021</p>
+                    <div class="flex items-center mt-2">
+                      <img
+                        class="h-6 w-6 rounded-full"
+                        src="https://via.placeholder.com/150"
+                        alt="Profile Picture"
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="flex-1">
+            <!-- Members Section -->
+            <div class="bg-white p-4 rounded-lg shadow">
+              <div class="flex justify-between items-center">
+                <h2 class="font-bold text-lg">Members</h2>
+                <button class="text-purple-600">+</button>
+              </div>
+              <div class="flex mt-4 space-x-2">
+                <img
+                  class="h-8 w-8 rounded-full"
+                  src="https://via.placeholder.com/150"
+                  alt="Profile Picture"
+                />
+                <img
+                  class="h-8 w-8 rounded-full"
+                  src="https://via.placeholder.com/150"
+                  alt="Profile Picture"
+                />
+                <img
+                  class="h-8 w-8 rounded-full"
+                  src="https://via.placeholder.com/150"
+                  alt="Profile Picture"
+                />
+                <img
+                  class="h-8 w-8 rounded-full"
+                  src="https://via.placeholder.com/150"
+                  alt="Profile Picture"
+                />
+                <img
+                  class="h-8 w-8 rounded-full"
+                  src="https://via.placeholder.com/150"
+                  alt="Profile Picture"
+                />
+                <span
+                  class="flex items-center justify-center h-8 w-8 rounded-full bg-gray-200"
+                  >+6</span
+                >
+              </div>
+            </div>
+
+            <!-- Chat Section -->
+            <div class="bg-white p-4 rounded-lg shadow mt-4">
+              <div class="flex justify-between items-center">
+                <h2 class="font-bold text-lg">Group Chat</h2>
+              </div>
+              <div class="mt-4 space-y-4">
+                <!-- Chat Message -->
+                <div class="flex items-start space-x-2">
+                  <img
+                    class="h-8 w-8 rounded-full"
+                    src="https://via.placeholder.com/150"
+                    alt="Profile Picture"
+                  />
+                  <div>
+                    <p class="font-semibold">Hello!</p>
+                    <p class="text-sm text-gray-500">08:00 am</p>
+                  </div>
+                </div>
+                <!-- Chat Message -->
+                <div class="flex items-start space-x-2">
+                  <img
+                    class="h-8 w-8 rounded-full"
+                    src="https://via.placeholder.com/150"
+                    alt="Profile Picture"
+                  />
+                  <div>
+                    <p class="font-semibold">Hi, Everyone🔥</p>
+                    <p class="text-sm text-gray-500">08:03 am</p>
+                  </div>
+                </div>
+                <!-- Chat Message -->
+                <div class="flex items-start space-x-2">
+                  <img
+                    class="h-8 w-8 rounded-full"
+                    src="https://via.placeholder.com/150"
+                    alt="Profile Picture"
+                  />
+                  <div>
+                    <p class="font-semibold">
+                      How are you, What did you do everyone
+                    </p>
+                    <p class="text-sm text-gray-500">08:03 am</p>
+                  </div>
+                </div>
+                <!-- Chat Message -->
+                <div class="flex items-start space-x-2">
+                  <img
+                    class="h-8 w-8 rounded-full"
+                    src="https://via.placeholder.com/150"
+                    alt="Profile Picture"
+                  />
+                  <div>
+                    <p class="font-semibold">Good ✌</p>
+                    <p class="text-sm text-gray-500">08:05 am</p>
+                  </div>
+                </div>
+                <!-- Voice Message -->
+                <div class="flex items-start space-x-2">
+                  <img
+                    class="h-8 w-8 rounded-full"
+                    src="https://via.placeholder.com/150"
+                    alt="Profile Picture"
+                  />
+                  <div>
+                    <p class="font-semibold">Voice Message</p>
+                    <audio controls class="mt-2">
+                      <source src="voice-message.mp3" type="audio/mp3" />
+                    </audio>
+                  </div>
+                </div>
+              </div>
+              <div class="mt-4">
+                <input
+                  class="w-full p-2 border rounded-lg"
+                  type="text"
+                  placeholder="write here..."
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SVG Icon Definitions -->
+    </div>
+  </body>
+</html>

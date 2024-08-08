@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Profile Setup - Worklin</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
+      rel="stylesheet"
+    />
+    <style>
+      .bg-gradient-green {
+        background: linear-gradient(135deg, white 70%, #97ffee 100%);
+      }
+      input:focus,
+      select:focus,
+      textarea:focus {
+        outline: none;
+        border-color: #38b2ac;
+        box-shadow: 0 0 0 3px rgba(5, 125, 119, 0.5);
+      }
+    </style>
+  </head>
+  <body class="bg-white min-h-screen flex flex-col">
+    <div class="bg-white border-b border-gray-200 w-full p-4">
+      <div class="container mx-auto flex justify-between">
+        <div style="color: #089b8c" class="text-xl font-bold">Worklin</div>
+        <div class="text-gray-500">
+          <svg
+            class="w-6 h-6"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M12 4.354a8 8 0 110 15.292 8 8 0 010-15.292z"
+            ></path>
+          </svg>
+        </div>
+      </div>
+    </div>
+
+    <div class="flex flex-1 w-full justify-center items-start p-10">
+      <div class="bg-white p-10 rounded-lg max-w-4xl w-full">
+        <div class="mb-8">
+          <span class="text-gray-500">10/10</span>
+          <h2 class="text-2xl font-bold mt-2 mb-4">
+            A few last details, then you can check and publish your profile.
+          </h2>
+          <p class="text-gray-600 mb-6">
+            A professional photo helps you build trust with your clients. To
+            keep things safe and simple, they'll pay you through us - which is
+            why we need your personal information.
+          </p>
+          <form (ngSubmit)="onSubmit()" #profileForm="ngForm">
+            <div class="mb-4 items-center">
+              <div
+                class="h-16 w-16 rounded-full bg-gray-200 flex items-center justify-center"
+              >
+                <span class="text-gray-500 text-xl">+</span>
+              </div>
+              <button
+                type="button"
+                class="mt-6 px-4 py-2 bg-green-500 text-white rounded-md"
+              >
+                Upload photo
+              </button>
+            </div>
+            <div class="mb-4 grid grid-cols-2 gap-4">
+              <!-- Date of Birth Component -->
+              <div>
+                <label for="dob" class="block text-gray-700"
+                  >Date of Birth *</label
+                >
+                <app-date-picker></app-date-picker>
+              </div>
+
+              <!-- Country Dropdown -->
+              <div>
+                <label for="country" class="block text-gray-700"
+                  >Country *</label
+                >
+                <select
+                  id="country"
+                  [(ngModel)]="user.country"
+                  name="country"
+                  class="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:border-none focus:ring-teal-500 focus:border-teal-500"
+                  [ngClass]="{
+                    'border-red-500':
+                      country.invalid && (country.dirty || country.touched)
+                  }"
+                  #country="ngModel"
+                  required
+                >
+                  <option value="" disabled>Select your country</option>
+                  <option value="India">India</option>
+                  <!-- Add other options as needed -->
+                </select>
+                <div
+                  *ngIf="country.invalid && (country.dirty || country.touched)"
+                  class="text-red-500 text-sm mt-1"
+                >
+                  Country is required.
+                </div>
+              </div>
+            </div>
+            <div class="mb-4">
+              <label for="address" class="block text-gray-700"
+                >Street address *</label
+              >
+              <input
+                type="text"
+                id="address"
+                [(ngModel)]="user.address"
+                name="address"
+                class="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:border-none focus:ring-teal-500 focus:border-teal-500"
+                [ngClass]="{
+                  'border-red-500':
+                    address.invalid && (address.dirty || address.touched)
+                }"
+                #address="ngModel"
+                required
+              />
+              <div
+                *ngIf="address.invalid && (address.dirty || address.touched)"
+                class="text-red-500 text-sm mt-1"
+              >
+                Street address is required.
+              </div>
+            </div>
+            <div class="mb-4 grid grid-cols-2 gap-4">
+              <div>
+                <label for="city" class="block text-gray-700">City *</label>
+                <input
+                  type="text"
+                  id="city"
+                  [(ngModel)]="user.city"
+                  name="city"
+                  class="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:border-none focus:ring-teal-500 focus:border-teal-500"
+                  [ngClass]="{
+                    'border-red-500':
+                      city.invalid && (city.dirty || city.touched)
+                  }"
+                  #city="ngModel"
+                  required
+                />
+                <div
+                  *ngIf="city.invalid && (city.dirty || city.touched)"
+                  class="text-red-500 text-sm mt-1"
+                >
+                  City is required.
+                </div>
+              </div>
+              <div>
+                <label for="state" class="block text-gray-700"
+                  >State/Province</label
+                >
+                <input
+                  type="text"
+                  id="state"
+                  [(ngModel)]="user.state"
+                  name="state"
+                  class="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:border-none focus:ring-teal-500 focus:border-teal-500"
+                  #state="ngModel"
+                />
+                <div
+                  *ngIf="state.invalid && (state.dirty || state.touched)"
+                  class="text-red-500 text-sm mt-1"
+                >
+                  State/Province is required.
+                </div>
+              </div>
+            </div>
+            <div class="mb-4 grid grid-cols-2 gap-4">
+              <div>
+                <label for="phone" class="block text-gray-700">Phone *</label>
+                <div class="flex mt-1">
+                  <span
+                    class="flex items-center px-3 border border-gray-300 bg-gray-100 rounded-l-md"
+                    >+91</span
+                  >
+                  <input
+                    type="tel"
+                    id="phone"
+                    [(ngModel)]="user.phone"
+                    name="phone"
+                    class="w-full p-2 border border-gray-300 rounded-r-md focus:border-none focus:ring-teal-500 focus:border-teal-500"
+                    placeholder="Enter number"
+                    [ngClass]="{
+                      'border-red-500':
+                        phone.invalid && (phone.dirty || phone.touched)
+                    }"
+                    #phone="ngModel"
+                    required
+                  />
+                </div>
+                <div
+                  *ngIf="phone.invalid && (phone.dirty || phone.touched)"
+                  class="text-red-500 text-sm mt-1"
+                >
+                  Phone number is required.
+                </div>
+              </div>
+              <div>
+                <label for="zip" class="block text-gray-700"
+                  >ZIP/Postal code</label
+                >
+                <input
+                  type="text"
+                  id="zip"
+                  [(ngModel)]="user.zip"
+                  name="zip"
+                  class="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:border-none focus:ring-teal-500 focus:border-teal-500"
+                  #zip="ngModel"
+                />
+                <div
+                  *ngIf="zip.invalid && (zip.dirty || zip.touched)"
+                  class="text-red-500 text-sm mt-1"
+                >
+                  ZIP/Postal code is required.
+                </div>
+              </div>
+            </div>
+            <div class="mb-6">
+              <label for="apt" class="block text-gray-700"
+                >Apt/Suite (Optional)</label
+              >
+              <input
+                type="text"
+                id="apt"
+                [(ngModel)]="user.apt"
+                name="apt"
+                class="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:border-none focus:ring-teal-500 focus:border-teal-500"
+                #apt="ngModel"
+              />
+            </div>
+            <button
+              type="submit"
+              class="w-full py-2 bg-green-500 text-white rounded-md"
+              [disabled]="profileForm.invalid"
+            >
+              Review your profile
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <div class="bg-white w-full p-4 border-t border-gray-200">
+      <div class="container mx-auto flex justify-between items-center">
+        <button class="text-blue-500">Back</button>
+        <div class="flex space-x-4">
+          <button class="text-gray-500">Skip for now</button>
+          <button
+            class="bg-teal-600 text-white px-4 py-2 rounded hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-teal-500"
+            routerLink="/user/create-account-preview"
+          >
+            Next
+          </button>
+        </div>
+      </div>
+    </div>
+    <!-- <app-photo-upload-modal ></app-photo-upload-modal> -->
+  </body>
+</html>

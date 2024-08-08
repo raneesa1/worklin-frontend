@@ -1,0 +1,10 @@
+/* Ensure the modal content is properly aligned and centered */
+.fixed {
+    z-index: 1000;
+    /* Ensure the modal is above other content */
+}
+
+.bg-white {
+    position: relative;
+    /* To position the loading indicator inside it */
+}

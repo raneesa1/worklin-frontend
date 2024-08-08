@@ -4,7 +4,6 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Login to Worklin</title>
-    <style></style>
   </head>
   <header class="bg-white border-b border-gray-200 p-4">
     <nav class="flex items-center">
@@ -16,7 +15,6 @@
       </div>
     </nav>
   </header>
-
   <body class="flex flex-col items-center justify-center h-screen">
     <div class="bg-white rounded px-8 pb-8 mb-4 w-full max-w-md mt-6">
       <h1 class="text-3xl -mt-20 font-semibold mb-9 text-center">
@@ -128,13 +126,16 @@
             </div>
           </div>
         </div>
+        <div *ngIf="errorMessage" class="text-red-900 text-sm text-center mb-4">
+          {{ errorMessage }}
+        </div>
         <div class="mb-6">
           <button
             class="hover:bg-teal-700 text-white py-2 px-4 rounded-lg focus:outline-none focus:shadow-outline w-full"
             type="submit"
             style="background-color: #089b8c"
           >
-            submit
+            Submit
           </button>
         </div>
         <div class="flex items-center justify-center mb-4">
@@ -142,52 +143,9 @@
           <span class="px-4 text-gray-500">or</span>
           <div class="divider"></div>
         </div>
-        <div class="mb-4">
-          <button
-            class="bg-blue-500 py-2 hover:bg-blue-600 text-white rounded-lg focus:outline-none focus:shadow-outline w-full flex items-center justify-center relative"
-            type="button"
-          >
-            <div class="absolute left-1">
-              <svg
-                width="44"
-                height="37"
-                viewBox="0 0 44 37"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M0 18C0 8.05887 8.05887 0 18 0H26C35.9411 0 44 8.05887 44 18V18C44 27.9411 35.9411 36 26 36H18C8.05888 36 0 27.9411 0 18V18Z"
-                  fill="white"
-                />
-                <ellipse
-                  cx="21.5098"
-                  cy="18.4994"
-                  rx="17.5098"
-                  ry="17.5519"
-                  fill="white"
-                />
-                <path
-                  d="M20.8295 9.98145C22.7218 9.98145 24.4164 10.6414 25.7528 11.9289L29.4145 8.22332C27.1908 6.1298 24.2881 4.84232 20.8295 4.84232C15.8153 4.84232 11.48 7.75269 9.36847 11.9938L13.6343 15.3424C14.6446 12.2643 17.4831 9.98145 20.8295 9.98145Z"
-                  fill="#EA4335"
-                />
-                <path
-                  d="M33.1138 18.1229C33.1138 17.2736 33.0336 16.4513 32.9106 15.6615H20.8295V20.541H27.7468C27.4367 22.1423 26.5387 23.5055 25.1916 24.4251L29.3237 27.6709C31.7346 25.4097 33.1138 22.0665 33.1138 18.1229Z"
-                  fill="#4285F4"
-                />
-                <path
-                  d="M13.6289 20.3084C13.3723 19.524 13.2227 18.6909 13.2227 17.8254C13.2227 16.9599 13.367 16.1268 13.6289 15.3424L9.36313 11.9938C8.4918 13.7465 8 15.7265 8 17.8254C8 19.9243 8.4918 21.9042 9.36848 23.6569L13.6289 20.3084Z"
-                  fill="#FBBC05"
-                />
-                <path
-                  d="M20.8293 30.8085C24.2933 30.8085 27.2067 29.6562 29.3235 27.6655L25.1914 24.4197C24.0421 25.2041 22.5613 25.6639 20.8293 25.6639C17.483 25.6639 14.6444 23.3811 13.6288 20.303L9.36298 23.6516C11.4798 27.8981 15.8151 30.8085 20.8293 30.8085Z"
-                  fill="#34A853"
-                />
-              </svg>
-            </div>
-            <span>Continue with Google</span>
-          </button>
+        <div class="flex flex-col items-center mb-4">
+          <app-google-signin></app-google-signin>
         </div>
-
         <div class="text-center mt-28">
           <div class="flex items-center justify-center mb-4">
             <div class="divider"></div>
@@ -195,7 +153,7 @@
             <div class="divider"></div>
           </div>
           <button
-            routerLink="/auth/account-type"
+            routerLink="/nx/signup"
             class="mt-2 text-teal-500 hover:text-teal-700 border font-bold focus:outline-none focus:shadow-outline py-2 px-4 rounded-xl border-custom w-full"
             type="button"
           >

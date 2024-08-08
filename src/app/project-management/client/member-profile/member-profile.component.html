@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Employee Profile</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+</head>
+<body class="bg-gray-50 font-sans antialiased">
+  <div class="min-h-screen flex">
+    <!-- Sidebar -->
+  <aside class="w-48 bg-white border-r border-gray-200">
+      <div class="p-4 pr-3">
+        <div class="flex items-center justify-start">
+          <span class="text-3xl font-bold text-teal-600 ml-5">Worklin</span>
+        </div>
+        <nav class="mt-6">
+          <a href="#" class="flex items-center px-4 py-2 text-gray-700 hover:bg-gray-200">
+            <span class="material-icons">dashboard</span>
+            <span class="ml-3">Dashboard</span>
+          </a>
+          <a href="#" class="flex items-center px-4 py-2 mt-2 text-gray-700 hover:bg-gray-200">
+            <span class="material-icons">desktop_windows</span>
+            <span class="ml-3">Work desk</span>
+          </a>
+          <a href="#" class="flex items-center px-4 py-2 mt-2 text-gray-700 hover:bg-gray-200">
+            <span class="material-icons">group</span>
+            <span class="ml-3">Members</span>
+          </a>
+          <a href="#" class="flex items-center px-4 py-2 mt-2 text-gray-700 hover:bg-gray-200">
+            <span class="material-icons">payment</span>
+            <span class="ml-3">Payments</span>
+          </a>
+          <a href="#" class="flex items-center px-4 py-2 mt-2 text-gray-700 hover:bg-gray-200">
+            <span class="material-icons">meeting_room</span>
+            <span class="ml-3">Meetings</span>
+          </a>
+        </nav>
+      </div>
+    </aside>
+    
+    <!-- Main Content -->
+    <div class="flex-1 p-6">
+      <!-- Top Navigation -->
+      <div class="flex items-center justify-between pb-6 border-b border-gray-200">
+        <div class="flex items-center space-x-4">
+          <span class="material-icons cursor-pointer">arrow_back</span>
+          <h1 class="text-2xl font-semibold">Employee Profile</h1>
+        </div>
+        <div class="flex space-x-4">
+          <button class="text-white bg-red-600 py-2 px-4 rounded">Remove</button>
+          <button class="text-black border border-gray-300 py-2 px-4 rounded">+Assign Task</button>
+        </div>
+      </div>
+      
+      <!-- Employee Information -->
+      <div class="mt-6 flex items-center space-x-6">
+        <img class="h-20 w-20 rounded-full" src="https://via.placeholder.com/150" alt="Profile Picture">
+        <div>
+          <h2 class="text-xl font-semibold">Vishaka Shekhawat</h2>
+          <p class="text-gray-500">Content Curator</p>
+          <p class="text-teal-600">Online</p>
+          <p class="text-gray-500">Logged in Since 8:30 | 23 Sep 2022</p>
+        </div>
+      </div>
+      
+      <!-- Stats -->
+      <div class="mt-6 flex space-x-4">
+        <div class="text-gray-500">Joined 23-09-2022</div>
+        <div class="text-gray-500 flex items-center">
+          <span class="material-icons text-red-500">assignment</span>
+          <span class="ml-1">Assigned <span class="text-red-600">966</span></span>
+        </div>
+        <div class="text-gray-500 flex items-center">
+          <span class="material-icons text-green-500">check_circle</span>
+          <span class="ml-1">Completed <span class="text-green-600">852</span></span>
+        </div>
+      </div>
+      
+      <!-- Tabs -->
+      <div class="mt-6 border-b border-gray-200">
+        <ul class="flex space-x-8">
+          <li class="text-teal-600 font-semibold cursor-pointer">Tasks</li>
+          <li class="text-gray-500 cursor-pointer">Profile</li>
+          <li class="text-gray-500 cursor-pointer">Salary</li>
+          <li class="text-gray-500 cursor-pointer">Attendance</li>
+        </ul>
+      </div>
+      
+      <!-- Task Summary -->
+      <div class="mt-4 flex space-x-4">
+        <div>Total Tasks : <span class="font-semibold">245</span></div>
+        <div>Not Started : <span class="text-gray-600">120</span></div>
+        <div>Ongoing : <span class="text-yellow-500">125</span></div>
+        <div>Completed : <span class="text-green-500">25</span></div>
+        <div>Overdue : <span class="text-red-500">25</span></div>
+      </div>
+      
+      <!-- Task List -->
+      <div class="mt-4 space-y-4">
+        <!-- Task Item -->
+        <div class="flex justify-between items-center bg-white p-4 rounded shadow">
+          <div class="flex items-center space-x-4">
+            <div class="w-1 bg-green-500 h-full rounded"></div>
+            <div class="text-gray-900">
+              <p class="font-semibold">Add a Quiz for Students of 3CO - JVY on the ...</p>
+              <p class="text-gray-500">Devesh Gupta</p>
+            </div>
+          </div>
+          <div class="text-gray-500">06 Dec 2023</div>
+          <div class="text-red-500">12 Dec 2023</div>
+          <div class="flex items-center space-x-2">
+            <span class="material-icons">person</span>
+            <span>Devesh Gupta</span>
+          </div>
+        </div>
+        
+        <!-- Task Item -->
+        <div class="flex justify-between items-center bg-white p-4 rounded shadow">
+          <div class="flex items-center space-x-4">
+            <div class="w-1 bg-red-500 h-full rounded"></div>
+            <div class="text-gray-900">
+              <p class="font-semibold">Add a Quiz for Students of 3CO - JVY on the ...</p>
+              <p class="text-gray-500">Devesh Gupta</p>
+            </div>
+          </div>
+          <div class="text-gray-500">06 Dec 2023</div>
+          <div class="text-red-500">12 Dec 2023</div>
+          <div class="flex items-center space-x-2">
+            <span class="material-icons">person</span>
+            <span>Devesh Gupta</span>
+          </div>
+        </div>
+        
+        <!-- Task Item -->
+        <div class="flex justify-between items-center bg-white p-4 rounded shadow">
+          <div class="flex items-center space-x-4">
+            <div class="w-1 bg-gray-500 h-full rounded"></div>
+            <div class="text-gray-900">
+              <p class="font-semibold">Add a Quiz for Students of 3CO - JVY on the ...</p>
+              <p class="text-gray-500">Devesh Gupta</p>
+            </div>
+          </div>
+          <div class="text-gray-500">06 Dec 2023</div>
+          <div class="text-red-500">12 Dec 2023</div>
+          <div class="flex items-center space-x-2">
+            <span class="material-icons">person</span>
+            <span>Devesh Gupta</span>
+          </div>
+        </div>
+        
+      </div>
+    </div>
+  </div>
+</body>
+</html>
