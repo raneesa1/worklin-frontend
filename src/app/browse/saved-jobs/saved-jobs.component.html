@@ -1,118 +1,82 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Worklin</title>
-    <link
-      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
-      rel="stylesheet"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
-      integrity="sha384-KyZXEAg3QhqLMpG8r+Knujsl7/3p1hb8C+2R1F7/I06Ll3ubQG3Bvtxu5NY7KZcm"
-      crossorigin="anonymous"
-    />
-  </head>
-  <body class="">
-    <header class="bg-white   p-4 flex justify-between items-center">
-      <div class="text-2xl font-bold text-green-600">Worklin</div>
-      <nav class="flex space-x-4">
-        <a href="#" class="text-gray-600">Find Freelancers</a>
-        <a href="#" class="text-gray-600">Find Job</a>
-        <a href="#" class="text-gray-600">Message</a>
-        <a href="#" class="text-gray-600">About</a>
-      </nav>
-    </header>
+<div
+  *ngFor="let job of jobPosts; let i = index"
+  class="bg-white p-4 mb-4 relative job-item"
+>
+  <div class="absolute top-4 right-4">
+    <button (click)="toggleFavorite($event, job)" class="focus:outline-none">
+      <!-- Icon for when the job is saved -->
+      <svg
+        *ngIf="savedJobs[i]"
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 512 512"
+        height="24px"
+        width="24px"
+        fill="#4fa17d"
+      >
+        <path
+          d="M47.6 300.4L228.3 469.1c7.5 7 17.4 10.9 27.7 10.9s20.2-3.9 27.7-10.9L464.4 300.4c30.4-28.3 47.6-68 47.6-109.5v-5.8c0-69.9-50.5-129.5-119.4-141C347 36.5 300.6 51.4 268 84L256 96 244 84c-32.6-32.6-79-47.5-124.6-39.9C50.5 55.6 0 115.2 0 185.1v5.8c0 41.5 17.2 81.2 47.6 109.5z"
+        />
+      </svg>
+      <!-- Icon for when the job is not saved -->
+      <svg
+        *ngIf="!savedJobs[i]"
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 512 512"
+        height="24px"
+        width="24px"
+        fill="#e2e8f0"
+      >
+        <path
+          fill="#4fa17d"
+          d="M225.8 468.2l-2.5-2.3L48.1 303.2C17.4 274.7 0 234.7 0 192.8l0-3.3c0-70.4 50-130.8 119.2-144C158.6 37.9 198.9 47 231 69.6c9 6.4 17.4 13.8 25 22.3c4.2-4.8 8.7-9.2 13.5-13.3c3.7-3.2 7.5-6.2 11.5-9c0 0 0 0 0 0C313.1 47 353.4 37.9 392.8 45.4C462 58.6 512 119.1 512 189.5l0 3.3c0 41.9-17.4 81.9-48.1 110.4L288.7 465.9l-2.5 2.3c-8.2 7.6-19 11.9-30.2 11.9s-22-4.2-30.2-11.9zM239.1 145c-.4-.3-.7-.7-1-1.1l-17.8-20-.1-.1s0 0 0 0c-23.1-25.9-58-37.7-92-31.2C81.6 101.5 48 142.1 48 189.5l0 3.3c0 28.5 11.9 55.8 32.8 75.2L256 430.7 431.2 268c20.9-19.4 32.8-46.7 32.8-75.2l0-3.3c0-47.3-33.6-88-80.1-96.9c-34-6.5-69 5.4-92 31.2c0 0 0 0-.1 .1s0 0-.1 .1l-17.8 20c-.3 .4-.7 .7-1 1.1c-4.5 4.5-10.6 7-16.9 7s-12.4-2.5-16.9-7z"
+        />
+      </svg>
+    </button>
+  </div>
 
-    <div class="container mx-auto mt-8 flex">
-      <aside class="w-1/4 bg-white p-4  ">
-        <nav class="space-y-4">
-          <a href="#" class=" text-gray-700 flex items-center">
-            <span class="mr-2">👤</span> Profile
-          </a>
-          <a href="#" class=" text-gray-700 flex items-center">
-            <span class="mr-2">🔍</span> Discover jobs
-          </a>
-          <a href="#" class=" text-gray-700 flex items-center">
-            <span class="mr-2">📁</span> Your clients
-          </a>
-          <a href="#" class=" text-gray-700 flex items-center">
-            <span class="mr-2">❤️</span> Saved jobs
-          </a>
-          <a href="#" class=" text-gray-700 flex items-center">
-            <span class="mr-2">📁</span> Projects
-          </a>
-          <a href="#" class=" text-gray-700 flex items-center">
-            <span class="mr-2">💵</span> Payments
-          </a>
-          <a href="#" class=" text-gray-700 flex items-center">
-            <span class="mr-2">📨</span> Invites
-          </a>
-        </nav>
-      </aside>
+  <!-- <div class="mb-2 text-gray-600">Posted {{ job.postedTime }}</div> -->
+  <h3 class="text-lg job-title">{{ job.title }}</h3>
+  <div class="text-gray-600">
+    Fixed-price - {{ job.experience }} - Est. Budget: ${{ job.priceFrom }} to
+    ${{ job.priceTo }}
+  </div>
+  <p class="mt-2 text-gray-700">
+    {{
+      showMore[i]
+        ? job.description
+        : (job.description | slice : 0 : 150) + "..."
+    }}
+  </p>
+  <button (click)="toggleDetails(i)" class="text-teal-600 underline">
+    {{ showMore[i] ? "Show Less" : "Show More" }}
+  </button>
 
-      <main class="w-3/4 ml-8">
-        <div class="bg-white p-4   mb-4">
-          <div class="flex  items-center">
-            <h2 class="text-xl pr-4  text-green-600">Best Matches</h2>
-            <h2 class="text-xl font-thin  text-gray-600">Most recent</h2>
-          </div>
-        </div>
-        <div class="bg-white p-4  mb-4 relative">
-          <div class="absolute top-4 right-4">
-            <button class="focus:outline-none">
-         <svg xmlns="http://www.w3.org/2000/svg" height="20" width="20" viewBox="0 0 512 512"><!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path fill="#4ccd84" d="M47.6 300.4L228.3 469.1c7.5 7 17.4 10.9 27.7 10.9s20.2-3.9 27.7-10.9L464.4 300.4c30.4-28.3 47.6-68 47.6-109.5v-5.8c0-69.9-50.5-129.5-119.4-141C347 36.5 300.6 51.4 268 84L256 96 244 84c-32.6-32.6-79-47.5-124.6-39.9C50.5 55.6 0 115.2 0 185.1v5.8c0 41.5 17.2 81.2 47.6 109.5z"/></svg>
-            </button>
-          </div>
-          <div class="mb-2 text-gray-600">Posted 9 hours ago</div>
-          <h3 class="text-lg font-bold text-green-600">
-            Backend JavaScript (Node.js) developer
-          </h3>
-          <div class="text-gray-600">
-            Fixed-price - Entry Level - Est. Budget: $100
-          </div>
-          <p class="mt-2 text-gray-700">
-            Backend Javascript developer needed to create an API server for a
-            job placement service. This service will through the separately
-            built frontend, allow users in a certain sector to browse different
-            potential work placements on a map. When opening individual job
-            placements, users will be able to see the name and location of the
-            worksite, reviews from a survey (accessed via another API) about...
-          </p>
-          <div class="mt-4 flex items-center text-gray-600">
+  <div class="mt-4 flex flex-wrap space-x-2 mb-4">
+    <span
+      *ngFor="let skill of job.skills"
+      class="bg-gray-200 text-gray-800 px-3 py-1 rounded-full text-sm"
+    >
+      {{ skill.name }}
+    </span>
+  </div>
 
-            <span class="ml-2">📍 United States</span>
-          </div>
-        </div>
-        <div class="bg-white p-4   mb-4 relative">
-          <div class="absolute top-4 right-4">
-            <button class="focus:outline-none">
-            <svg xmlns="http://www.w3.org/2000/svg" height="20" width="20" viewBox="0 0 512 512"><!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path fill="#4ccd84" d="M47.6 300.4L228.3 469.1c7.5 7 17.4 10.9 27.7 10.9s20.2-3.9 27.7-10.9L464.4 300.4c30.4-28.3 47.6-68 47.6-109.5v-5.8c0-69.9-50.5-129.5-119.4-141C347 36.5 300.6 51.4 268 84L256 96 244 84c-32.6-32.6-79-47.5-124.6-39.9C50.5 55.6 0 115.2 0 185.1v5.8c0 41.5 17.2 81.2 47.6 109.5z"/></svg>
-            </button>
-          </div>
-          <div class="mb-2 text-gray-600">Posted yesterday</div>
-          <h3 class="text-lg font-bold text-green-600">
-            Developer needed for coworking space app - Node.js, Express.js,
-            Mysql Database, React.js TypeScript
-          </h3>
-          <div class="text-gray-600">
-            Fixed-price - Expert - Est. Budget: $123
-          </div>
-          <p class="mt-2 text-gray-700">
-            Seeking a full-time developer to join our team. We are building a
-            coworking space management software. Platform is mostly ready, but
-            need somebody to take over to squash some bugs and then implement
-            new features. A few notes: - You will be responsible for both front
-            AND backend. Do not apply if you’re not comfortable with both. -
-            Developers must work quickly and efficiently. Do not...
-          </p>
-          <div class="mt-4 flex items-center text-gray-600">
-            <span class="ml-2">📍 United States</span>
-          </div>
-        </div>
-      </main>
-    </div>
-  </body>
-</html>
+  <!-- Location -->
+  <div class="mt-4 flex items-center text-gray-600">
+    <span class="mr-2">
+      <svg
+        class="w-5"
+        xmlns="http://www.w3.org/2000/svg"
+        fill="none"
+        aria-hidden="true"
+        viewBox="0 0 24 24"
+        role="img"
+      >
+        <path
+          fill="currentColor"
+          d="M12 2C8.5 2 5.5 4.5 5.5 7.5C5.5 11 12 21 12 21S18.5 11 18.5 7.5C18.5 4.5 15.5 2 12 2ZM12 10.5C10.1 10.5 8.5 8.9 8.5 7C8.5 5.1 10.1 3.5 12 3.5C13.9 3.5 15.5 5.1 15.5 7C15.5 8.9 13.9 10.5 12 10.5Z"
+        />
+      </svg>
+    </span>
+    {{ job.location || "Location not specified" }}
+  </div>
+</div>

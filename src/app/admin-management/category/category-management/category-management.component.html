@@ -9,7 +9,6 @@
       rel="stylesheet"
     />
     <style>
-     
       .add-category-btn {
         width: 50px;
         height: 50px;
@@ -85,7 +84,8 @@
             placeholder="Search categories..."
             class="px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-teal-500"
             [(ngModel)]="searchQuery"
-            (input)="filterCategories()"
+            placeholder="Search categories..."
+            (input)="onSearch()"
           />
           <svg
             fill="none"
@@ -104,8 +104,9 @@
         <div class="mb-8">
           <h1 class="text-3xl font-bold mt-2 mb-4">Categories</h1>
           <p class="text-gray-600 mb-6">
-            As an admin, you can add, edit, or remove categories to keep the list
-            organized. This helps users find and manage different categories easily.
+            As an admin, you can add, edit, or remove categories to keep the
+            list organized. This helps users find and manage different
+            categories easily.
           </p>
 
           <!-- Container for categories and add button -->
@@ -115,7 +116,10 @@
               *ngIf="categories.length === 0"
               class="input-container border-dashed border-2 border-gray-300 p-10 text-center rounded-lg mb-6 custom-border expanded-input-container"
             >
-              <button class="text-teal-500 text-lg" (click)="openCategoryModal()">
+              <button
+                class="text-teal-500 text-lg"
+                (click)="openCategoryModal()"
+              >
                 + Add Category
               </button>
             </div>
@@ -170,7 +174,10 @@
                       />
                     </svg>
                   </button>
-                  <button class="text-red-600" (click)="removeCategory(category)">
+                  <button
+                    class="text-red-600"
+                    (click)="removeCategory(category._id!)"
+                  >
                     <svg
                       width="26"
                       height="25"
@@ -205,16 +212,8 @@
         </div>
       </div>
     </div>
-    <!-- <app-add-category-modal
-      *ngIf="isCategoryModalOpen"
-      [isModalOpen]="isCategoryModalOpen"
-      (close)="closeCategoryModal()"
-      (save)="addCategory($event)"
-    >
-    </app-add-category-modal> -->
-    
- 
-  <!--   <app-edit-category-modal
+
+    <!-- <app-edit-category-modal
       *ngIf="isEditCategoryModalOpen && selectedCategory"
       [category]="selectedCategory"
       (onUpdate)="handleCategoryUpdate($event)"
@@ -239,11 +238,10 @@
         Next
       </button>
     </div>
-      <app-add-category-modal
+    <app-add-category-modal
       *ngIf="isCategoryModalOpen"
       (categorySaved)="handleCategorySave($event)"
       (categoryModalClosed)="closeCategoryModal()"
     ></app-add-category-modal>
   </body>
 </html>
-

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, SimpleChanges } from '@angular/core';
 import { Skill } from '../../../job-management/interfaces/skill';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -17,15 +17,20 @@ export class EditSkillsModalComponent {
   @Output() onUpdate = new EventEmitter<Skill>();
   @Output() onClose = new EventEmitter<void>();
 
+  editedSkill: Skill = { name: '', description: '' };
+
   constructor(private jobManagementService: adminManagementService) {}
-  saveSkill() {
-    if (this.skill && this.skill._id) {
-      console.log(
-        this.skill,
-        'consoling the skills from save skills of edit skill'
-      );
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['skill'] && changes['skill'].currentValue) {
+      this.editedSkill = { ...this.skill }; // Update the local copy with new skill data
+    }
+  }
+
+  saveSkill(): void {
+    if (this.editedSkill && this.editedSkill._id) {
       this.jobManagementService
-        .updateSkill(this.skill._id, this.skill)
+        .updateSkill(this.editedSkill._id, this.editedSkill)
         .subscribe({
           next: (updatedSkill: Skill) => {
             this.onUpdate.emit(updatedSkill);
@@ -38,7 +43,11 @@ export class EditSkillsModalComponent {
     }
   }
 
-  closeModal() {
+  closeModal(): void {
     this.onClose.emit();
+  }
+
+  resetSkill(): void {
+    this.editedSkill = { ...this.skill };
   }
 }

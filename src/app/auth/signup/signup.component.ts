@@ -18,6 +18,7 @@ import { AuthService } from '../services/auth.service';
 import { VerifyemailComponent } from '../verifyEmail/verifyemail.component';
 import { AccountTypeComponent } from '../account-type/account-type.component';
 import { roleService } from '../../../role.service';
+import { CookieService } from 'ngx-cookie-service';
 
 @Component({
   selector: 'app-signup',
@@ -48,7 +49,8 @@ export class SignupComponent {
     private authService: AuthService,
     private router: Router,
     private store: Store<AppState>,
-    private roleService: roleService
+    private roleService: roleService,
+    private cookieService: CookieService
   ) {
     console.log('checkEmailNotTaken called');
 
@@ -97,15 +99,25 @@ export class SignupComponent {
 
       this.authService.signup(signupData).subscribe(
         (response) => {
-          console.log(
-            'signuppppppppppp conolllleleeeee repsonseeeeeeeeeee',
-            response
-          );
+          console.log(response, 'consoling the response from singup');
           this.loading = false;
+          // In onSubmit method, confirm the token is being set correctly:
           if (response.token) {
-            console.log(response.token, 'consoling the token from reposonse');
-            console.log('console from signup insid if case');
-            this.roleService.storeToken(response.token); // Store the token
+            this.cookieService.set('auth', response.token, {
+              secure: true,
+              sameSite: 'Strict',
+            });
+            localStorage.setItem('auth', response.token);
+          }
+          // Assuming the server responds with user information
+          if (response.user) {
+            if (response.user.accountType === 'client') {
+              this.router.navigate(['job/clientIntro']);
+            } else if (response.user.accountType === 'freelancer') {
+              this.router.navigate(['user/page-one']);
+            } else if (response.user.accountType === 'admin') {
+              this.router.navigate(['admin/skill']);
+            }
           }
           this.isOtp = true;
         },
@@ -137,12 +149,15 @@ export class SignupComponent {
     console.log(credentials, 'consoling the credetialssssss data');
     this.authService.signup(credentials).subscribe(
       (response) => {
-        console.log('Ottppppppppppppppppp!', response);
         if (response.token) {
-          console.log(response.token, 'consoling the token from reposonse');
-          console.log('console from signup insid if case');
-          this.roleService.storeToken(response.token); // Store the token
+          this.cookieService.set('auth', response.token, {
+            secure: true,
+            sameSite: 'Strict',
+          });
+          localStorage.setItem('auth', response.token);
         }
+        console.log('Ottppppppppppppppppp!', response);
+        // Redirect based on user account type if needed
         if (response.user.accountType === 'client') {
           this.router.navigate(['job/clientIntro']);
         } else if (response.user.accountType === 'freelancer') {

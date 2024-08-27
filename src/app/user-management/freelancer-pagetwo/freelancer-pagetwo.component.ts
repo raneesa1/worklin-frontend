@@ -21,4 +21,7 @@ export class FreelancerPagetwoComponent {
     this.goalSelected.emit(this.goal);
     console.log(`Freelancing goal selected: ${this.goal}`);
   }
+  isSelected(){
+    this.selected = true
+  }
 }

@@ -10,12 +10,12 @@ import { DashboardComponent } from './client/dashboard/dashboard.component';
 
 const routes: Routes = [
   { path: 'projects', component: ProjectsComponent },
-  { path: 'projects/payments', component: PaymentsComponent },
-  { path: 'projects/member-profile', component: MemberProfileComponent },
-  { path: 'projects/workdesk', component: WorkdeskComponent },
-  { path: 'projects/meeting', component: MeetingsComponent },
-  { path: 'projects/members', component: MembersComponent },
-  { path: 'projects/dashboard', component: DashboardComponent },
+  { path: 'payments', component: PaymentsComponent },
+  { path: 'member-profile', component: MemberProfileComponent },
+  { path: 'workdesk', component: WorkdeskComponent },
+  { path: 'meeting', component: MeetingsComponent },
+  { path: 'members', component: MembersComponent },
+  { path: 'dashboard', component: DashboardComponent },
 ];
 
 @NgModule({

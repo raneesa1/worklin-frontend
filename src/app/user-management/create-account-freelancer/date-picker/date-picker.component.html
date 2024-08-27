@@ -134,10 +134,8 @@
             "
             [ngClass]="{
               'bg-teal-500 text-white': isToday(date),
-              'bg-white text-teal-600': !isToday(date) && date !== selectedDate,
-              'bg-teal-100 text-teal-600': !isToday(date) && date === selectedDate
+              'bg-white text-teal-600': !isToday(date) && date === selectedDate
             }"
-            tabindex="0"
           >
             {{ date }}
           </div>

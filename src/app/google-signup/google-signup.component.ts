@@ -5,6 +5,7 @@ import { Store } from '@ngrx/store';
 import { AuthService } from '../auth/services/auth.service';
 import { Router } from '@angular/router';
 import { roleService } from '../../role.service';
+import { CookieService } from 'ngx-cookie-service';
 
 @Component({
   selector: 'app-google-signup',
@@ -20,7 +21,8 @@ export class GoogleSignupComponent implements OnInit {
     private store: Store<AppState>,
     private authService: AuthService,
     private router: Router,
-    private roleService: roleService
+    private roleService: roleService,
+    private cookieService: CookieService
   ) {}
 
   ngOnInit(): void {
@@ -60,15 +62,16 @@ export class GoogleSignupComponent implements OnInit {
             console.log(signupData, 'consoling the signup data');
             this.authService.googleSignup(signupData).subscribe(
               (response) => {
-                console.log('Signup successful!', response);
+             
                 if (response.token) {
-                  console.log(
-                    response.token,
-                    'consoling the token from reposonse'
-                  );
-                  console.log('console from signup insid if case');
-                  this.roleService.storeToken(response.token); // Store the token
+                  this.cookieService.set('auth', response.token, {
+                    secure: true,
+                    sameSite: 'Strict',
+                  });
+                  localStorage.setItem('auth', response.token);
                 }
+                console.log('Signup successful!', response);
+                // Redirect based on user account type
                 if (response.user.accountType === 'client') {
                   this.router.navigate(['job/clientIntro']);
                 } else if (response.user.accountType === 'freelancer') {

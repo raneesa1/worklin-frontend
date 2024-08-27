@@ -1,0 +1,234 @@
+<div
+  class="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50"
+  *ngIf="isEducationModalOpen"
+>
+  <div class="bg-white p-8 rounded-lg shadow-lg custom-width" role="dialog">
+    <div class="flex justify-between items-center mb-6">
+      <h2 class="text-xl font-bold">
+        {{ isEditing ? "Edit Education" : "Manage Education" }}
+      </h2>
+      <button
+        class="text-gray-600 hover:text-gray-800 focus:outline-none"
+        aria-label="Close"
+        (click)="closeEducationModal()"
+      >
+        &times;
+      </button>
+    </div>
+
+    <div *ngIf="!isEditing">
+      <div
+        *ngFor="let education of educations; let i = index"
+        class="border-b border-gray-200 py-2 flex justify-between items-center"
+      >
+        <div class="w-4/5">
+          <h3 class="font-semibold">
+            {{ education.degree }} - {{ education.school }}
+          </h3>
+          <p class="text-gray-600">{{ education.fieldOfStudy }}</p>
+          <p class="text-sm text-gray-500">
+            {{ education.fromMonth }} {{ education.fromYear }} -
+            {{
+              education.toMonth && education.toYear
+                ? education.toMonth + " " + education.toYear
+                : "Present"
+            }}
+          </p>
+        </div>
+        <div class="flex items-center space-x-4">
+          <button (click)="startEditingEducation(i)">
+            <svg
+              width="26"
+              height="25"
+              viewBox="0 0 26 25"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <ellipse
+                cx="13"
+                cy="12.5202"
+                rx="13"
+                ry="12.4801"
+                fill="#4BB97B"
+              />
+              <ellipse
+                cx="12.9998"
+                cy="12.5197"
+                rx="11.8182"
+                ry="11.2321"
+                fill="white"
+              />
+              <path
+                d="M8.65808 17.3101H9.64047L16.3793 10.5713L15.3969 9.58888L8.65808 16.3277V17.3101ZM7.2793 18.6889V15.759L16.3793 6.67619C16.5172 6.5498 16.6694 6.45213 16.836 6.38319C17.0026 6.31425 17.1778 6.27979 17.3617 6.27979C17.5455 6.27979 17.7236 6.31425 17.896 6.38319C18.0683 6.45213 18.2177 6.55554 18.3441 6.69342L19.292 7.65857C19.4299 7.78496 19.5304 7.93433 19.5936 8.10668C19.6568 8.27903 19.6884 8.45138 19.6884 8.62372C19.6884 8.80756 19.6568 8.98278 19.5936 9.14939C19.5304 9.31599 19.4299 9.46823 19.292 9.60611L10.2092 18.6889H7.2793ZM15.8795 10.0887L15.3969 9.58888L16.3793 10.5713L15.8795 10.0887Z"
+                fill="#4BB97B"
+              />
+            </svg>
+          </button>
+          <button (click)="deleteEducation(i)">
+            <svg
+              width="26"
+              height="25"
+              viewBox="0 0 26 25"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <ellipse
+                cx="13"
+                cy="12.5202"
+                rx="13"
+                ry="12.4801"
+                fill="#4BB97B"
+              />
+              <ellipse
+                cx="12.9998"
+                cy="12.5197"
+                rx="11.8182"
+                ry="11.2321"
+                fill="white"
+              />
+              <path
+                d="M9.4375 20C8.99063 20 8.60807 19.8477 8.28984 19.5431C7.97161 19.2384 7.8125 18.8722 7.8125 18.4444V8.33333H7V6.77778H11.0625V6H15.9375V6.77778H20V8.33333H19.1875V18.4444C19.1875 18.8722 19.0284 19.2384 18.7102 19.5431C18.3919 19.8477 18.0094 20 17.5625 20H9.4375ZM17.5625 8.33333H9.4375V18.4444H17.5625V8.33333ZM11.0625 16.8889H12.6875V9.88889H11.0625V16.8889ZM14.3125 16.8889H15.9375V9.88889H14.3125V16.8889Z"
+                fill="#4BB97B"
+              />
+            </svg>
+          </button>
+        </div>
+      </div>
+      <div class="flex justify-end mt-4">
+        <button
+          *ngIf="educations.length > 0"
+          class="bg-teal-600 text-white py-2 px-4 rounded-lg hover:bg-teal-700 focus:outline-none mr-2"
+          (click)="saveAllChanges()"
+        >
+          Save
+        </button>
+      </div>
+    </div>
+
+    <form *ngIf="isEditing" (ngSubmit)="saveEditedEducation()">
+      <div class="mb-4">
+        <label for="degree" class="block text-gray-700">Degree *</label>
+        <input
+          [(ngModel)]="editedEducation.degree"
+          name="degree"
+          type="text"
+          id="degree"
+          class="w-full p-2 border border-gray-300 rounded mt-1"
+          placeholder="Ex: Bachelor of Science"
+          required
+        />
+      </div>
+      <div class="mb-4">
+        <label for="school" class="block text-gray-700">Institution *</label>
+        <input
+          [(ngModel)]="editedEducation.school"
+          name="school"
+          type="text"
+          id="school"
+          class="w-full p-2 border border-gray-300 rounded mt-1"
+          placeholder="Ex: XYZ University"
+          required
+        />
+      </div>
+      <div class="mb-4">
+        <label for="fieldOfStudy" class="block text-gray-700"
+          >Field of Study</label
+        >
+        <input
+          [(ngModel)]="editedEducation.fieldOfStudy"
+          name="fieldOfStudy"
+          type="text"
+          id="fieldOfStudy"
+          class="w-full p-2 border border-gray-300 rounded mt-1"
+          placeholder="Ex: Computer Science"
+        />
+      </div>
+      <div class="mb-4 flex space-x-4">
+        <div class="w-1/2">
+          <label for="startDate" class="block text-gray-700"
+            >Start Date *</label
+          >
+          <div class="flex space-x-2">
+            <select
+              [(ngModel)]="editedEducation.fromMonth"
+              name="fromMonth"
+              id="fromMonth"
+              class="w-1/2 p-2 border border-gray-300 rounded mt-1"
+              required
+            >
+              <option value="" disabled>Month</option>
+              <option *ngFor="let month of months" [value]="month">
+                {{ month }}
+              </option>
+            </select>
+            <select
+              [(ngModel)]="editedEducation.fromYear"
+              name="fromYear"
+              id="fromYear"
+              class="w-1/2 p-2 border border-gray-300 rounded mt-1"
+              required
+            >
+              <option value="" disabled>Year</option>
+              <option *ngFor="let year of years" [value]="year">
+                {{ year }}
+              </option>
+            </select>
+          </div>
+        </div>
+        <div class="w-1/2">
+          <label for="endDate" class="block text-gray-700">End Date</label>
+          <div class="flex space-x-2">
+            <select
+              [(ngModel)]="editedEducation.toMonth"
+              name="toMonth"
+              id="toMonth"
+              class="w-1/2 p-2 border border-gray-300 rounded mt-1"
+            >
+              <option value="" disabled>Month</option>
+              <option *ngFor="let month of months" [value]="month">
+                {{ month }}
+              </option>
+            </select>
+            <select
+              [(ngModel)]="editedEducation.toYear"
+              name="toYear"
+              id="toYear"
+              class="w-1/2 p-2 border border-gray-300 rounded mt-1"
+            >
+              <option value="" disabled>Year</option>
+              <option *ngFor="let year of years" [value]="year">
+                {{ year }}
+              </option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="mb-4">
+        <label for="description" class="block text-gray-700">Description</label>
+        <textarea
+          [(ngModel)]="editedEducation.description"
+          name="description"
+          id="description"
+          class="w-full p-2 border border-gray-300 rounded mt-1"
+          placeholder="Description of your coursework or achievements"
+        ></textarea>
+      </div>
+      <div class="flex justify-end mt-4">
+        <button
+          class="bg-teal-600 text-white py-2 px-4 rounded-lg hover:bg-teal-700 focus:outline-none mr-2"
+          type="submit"
+        >
+          Save Changes
+        </button>
+        <button
+          class="bg-gray-300 text-gray-700 py-2 px-4 rounded-lg hover:bg-gray-400 focus:outline-none"
+          type="button"
+          (click)="cancelEditing()"
+        >
+          Cancel
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

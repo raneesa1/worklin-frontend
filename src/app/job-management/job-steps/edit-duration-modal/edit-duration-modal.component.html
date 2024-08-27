@@ -1,0 +1,92 @@
+
+<div
+  *ngIf="isDurationModalOpen"
+  class="fixed inset-0 bg-gray-800 bg-opacity-50 flex justify-center items-center z-50"
+  (click)="closeModal()"
+>
+  <div
+     class="bg-white rounded-lg max-w-4xl w-full p-10 relative"
+    (click)="$event.stopPropagation()"
+  >
+    <div class="flex justify-between items-center mb-8">
+     
+      <button
+        (click)="closeModal()"
+        class="absolute top-4 right-4 text-gray-600 hover:text-gray-900"
+      >
+        <svg
+          class="w-6 h-6"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M6 18L18 6M6 6l12 12"
+          />
+        </svg>
+      </button>
+    </div>
+
+    <h1 class="text-4xl font-semibold mb-2">
+     Estimate the scope of your work.
+    </h1>
+    <p class="text-gray-700 mb-6">
+      Consider the size of your project and the time it will take.
+    </p>
+    <div class="mb-6">
+      <label class="block text-gray-700 font-bold text-xl mb-7">
+        How long will your work take?
+      </label>
+      <div class="space-y-4">
+        <div class="flex items-center">
+          <input
+            id="more-than-6-months"
+            name="work-duration"
+            type="radio"
+            value="More than 6 months"
+            [(ngModel)]="selectedDuration"
+          />
+          <label for="more-than-6-months" class="ml-2 text-gray-700">
+            More than 6 months
+          </label>
+        </div>
+        <div class="flex items-center">
+          <input
+            id="3-to-6-months"
+            name="work-duration"
+            type="radio"
+            value="3 to 6 months"
+            [(ngModel)]="selectedDuration"
+          />
+          <label for="3-to-6-months" class="ml-2 text-gray-700">
+            3 to 6 months
+          </label>
+        </div>
+        <div class="flex items-center">
+          <input
+            id="1-to-3-months"
+            name="work-duration"
+            type="radio"
+            value="1 to 3 months"
+            [(ngModel)]="selectedDuration"
+          />
+          <label for="1-to-3-months" class="ml-2 text-gray-700">
+            1 to 3 months
+          </label>
+        </div>
+      </div>
+    </div>
+    <div class="flex justify-end mt-10">
+      <button
+        class="bg-teal-600 text-white py-2 px-6 rounded-lg hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-teal-500"
+        (click)="saveDuration()"
+      >
+        Save
+      </button>
+    </div>
+  </div>
+</div>

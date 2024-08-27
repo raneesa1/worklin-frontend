@@ -1,3 +1,4 @@
+//account-type.reducer.ts
 import { createReducer, on, Action } from '@ngrx/store';
 import { selectAccountType } from '../actions/account-type.actions';
 

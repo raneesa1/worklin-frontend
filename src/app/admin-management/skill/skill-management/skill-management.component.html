@@ -9,7 +9,6 @@
       rel="stylesheet"
     />
     <style>
-     
       .add-skill-btn {
         width: 50px;
         height: 50px;
@@ -219,7 +218,7 @@
       (onUpdate)="handleSkillUpdate($event)"
       (onClose)="closeEditSkillModal()"
     ></app-edit-skills-modal>
-    <div class="flex justify-between items-center mb-6">
+    <div class="flex justify-between items-center mb-6 my-5 mx-5">
       <button
         class="text-teal-500"
         (click)="prevPage()"
@@ -227,7 +226,7 @@
       >
         Previous
       </button>
-      <span class="text-gray-600">
+      <span class="text-gray-600 m-5">
         Page {{ currentPage }} of {{ totalPages }}
       </span>
       <button

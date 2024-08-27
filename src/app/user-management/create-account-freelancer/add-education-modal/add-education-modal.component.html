@@ -1,146 +1,102 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Add Education - Worklin</title>
-  <style>
-    .custom-border {
-      border: 2px dashed #089B8C;
-    }
-    .add-experience-btn {
-      width: 50px;
-      height: 50px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background-color: #089b8c;
-      color: white;
-      font-size: 24px;
-      cursor: pointer;
-    }
-    .experience-container {
-      display: flex;
-      align-items: flex-start;
-      gap: 16px;
-    }
-    .experience-list {
-      flex: 1;
-    }
-    .input-container {
-      flex: 1;
-    }
-    .expanded-input-container {
-      flex: 2;
-    }
-    .dropdown-icon {
-      appearance: none;
-      background: url('path-to-dropdown-icon') no-repeat right center;
-      background-size: 12px;
-    }
-    .custom-width {
-        width: 50%;
-        max-width: 90%;
-    }
-  </style>
-</head>
-<body class="bg-white min-h-screen flex flex-col">
-  <div class="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50 ">
-    <div class="bg-white p-8 rounded-lg shadow-lg custom-width">
-      <div class="flex justify-between items-center mb-6">
-        <h2 class="text-xl font-bold">Add Education</h2>
-        <button class="text-gray-600 hover:text-gray-800 focus:outline-none" (click)="closeModal()">&times;</button>
-      </div>
-      <form (ngSubmit)="handleSubmit()">
-        <div class="mb-4">
-          <label for="school" class="block text-gray-700">School *</label>
-          <input type="text" id="school" class="w-full p-2 border border-gray-300 rounded mt-1" placeholder="Ex: Northwestern University">
-        </div>
-        <div class="mb-4">
-          <label for="degree" class="block text-gray-700">Degree *</label>
-          <input type="text" id="degree" class="w-full p-2 border border-gray-300 rounded mt-1" placeholder="Ex: Bachelors">
-        </div>
-        <div class="mb-4">
-          <label for="fieldOfStudy" class="block text-gray-700">Field of Study *</label>
-          <input type="text" id="fieldOfStudy" class="w-full p-2 border border-gray-300 rounded mt-1" placeholder="Ex: Computer Science">
-        </div>
-        <div class="mb-4 flex space-x-4">
-          <div class="w-1/2">
-            <label for="fromDate" class="block text-gray-700">Dates Attended From *</label>
-            <div class="flex space-x-2">
-              <select id="fromMonth" class="w-1/2 p-2 border border-gray-300 rounded mt-1 dropdown-icon">
-                <option value="" disabled selected>Month</option>
-                <option>January</option>
-                <option>February</option>
-                <option>March</option>
-                <option>April</option>
-                <option>May</option>
-                <option>June</option>
-                <option>July</option>
-                <option>August</option>
-                <option>September</option>
-                <option>October</option>
-                <option>November</option>
-                <option>December</option>
-              </select>
-              <select id="fromYear" class="w-1/2 p-2 border border-gray-300 rounded mt-1 dropdown-icon">
-                <option value="" disabled selected>Year</option>
-                <option>2024</option>
-                <option>2023</option>
-                <option>2022</option>
-                <option>2021</option>
-                <option>2020</option>
-                <option>2019</option>
-                <option>2018</option>
-                <option>2017</option>
-                <!-- Add more year options as needed -->
-              </select>
-            </div>
-          </div>
-          <div class="w-1/2">
-            <label for="toDate" class="block text-gray-700">To (or expected graduation year) *</label>
-            <div class="flex space-x-2">
-              <select id="toMonth" class="w-1/2 p-2 border border-gray-300 rounded mt-1 dropdown-icon">
-                <option value="" disabled selected>Month</option>
-                <option>January</option>
-                <option>February</option>
-                <option>March</option>
-                <option>April</option>
-                <option>May</option>
-                <option>June</option>
-                <option>July</option>
-                <option>August</option>
-                <option>September</option>
-                <option>October</option>
-                <option>November</option>
-                <option>December</option>
-              </select>
-              <select id="toYear" class="w-1/2 p-2 border border-gray-300 rounded mt-1 dropdown-icon">
-                <option value="" disabled selected>Year</option>
-                <option>2024</option>
-                <option>2023</option>
-                <option>2022</option>
-                <option>2021</option>
-                <option>2020</option>
-                <option>2019</option>
-                <option>2018</option>
-                <option>2017</option>
-                <!-- Add more year options as needed -->
-              </select>
-            </div>
-          </div>
-        </div>
-        <div class="mb-6">
-          <label for="description" class="block text-gray-700">Description</label>
-          <textarea id="description" class="w-full p-2 border border-gray-300 rounded mt-1" rows="4" placeholder="Describe your studies, awards, etc"></textarea>
-        </div>
-        <div class="flex justify-end">
-          <button type="button" class="bg-gray-100 text-gray-600 py-2 px-4 rounded-lg hover:bg-gray-200 focus:outline-none mr-2" (click)="closeModal()">Cancel</button>
-          <button type="submit" class="bg-teal-600 text-white py-2 px-4 rounded-lg hover:bg-teal-700 focus:outline-none">Save</button>
-        </div>
-      </form>
+<div class="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50">
+  <div class="bg-white p-6 md:p-8 rounded-lg shadow-lg custom-width mx-4">
+    <div class="flex justify-between items-center mb-6">
+      <h2 class="text-xl font-bold">Add Education</h2>
+      <button class="text-gray-600 hover:text-gray-800 focus:outline-none" (click)="closeModal()">&times;</button>
     </div>
+    <form (ngSubmit)="handleSubmit()">
+      <div class="mb-4">
+        <label for="school" class="block text-gray-700">School *</label>
+        <input type="text" id="school" [(ngModel)]="school" name="school" class="w-full p-2 border border-gray-300 rounded mt-1" placeholder="Ex: Northwestern University">
+        <p *ngIf="errors.school" class="text-red-500 text-sm mt-1">{{ errors.school }}</p>
+      </div>
+      <div class="mb-4">
+        <label for="degree" class="block text-gray-700">Degree *</label>
+        <input type="text" id="degree" [(ngModel)]="degree" name="degree" class="w-full p-2 border border-gray-300 rounded mt-1" placeholder="Ex: Bachelors">
+        <p *ngIf="errors.degree" class="text-red-500 text-sm mt-1">{{ errors.degree }}</p>
+      </div>
+      <div class="mb-4">
+        <label for="fieldOfStudy" class="block text-gray-700">Field of Study *</label>
+        <input type="text" id="fieldOfStudy" [(ngModel)]="fieldOfStudy" name="fieldOfStudy" class="w-full p-2 border border-gray-300 rounded mt-1" placeholder="Ex: Computer Science">
+        <p *ngIf="errors.fieldOfStudy" class="text-red-500 text-sm mt-1">{{ errors.fieldOfStudy }}</p>
+      </div>
+      <div class="mb-4 flex flex-col md:flex-row md:space-x-4">
+        <div class="mb-4 md:mb-0 flex-1">
+          <label for="fromDate" class="block text-gray-700">Dates Attended From *</label>
+          <div class="flex flex-col md:flex-row md:space-x-2">
+            <select id="fromMonth" [(ngModel)]="fromMonth" name="fromMonth" class="w-full md:w-1/2 p-2 border border-gray-300 rounded mt-1 dropdown-icon">
+              <option value="" disabled selected>Month</option>
+              <option>January</option>
+              <option>February</option>
+              <option>March</option>
+              <option>April</option>
+              <option>May</option>
+              <option>June</option>
+              <option>July</option>
+              <option>August</option>
+              <option>September</option>
+              <option>October</option>
+              <option>November</option>
+              <option>December</option>
+            </select>
+            <select id="fromYear" [(ngModel)]="fromYear" name="fromYear" class="w-full md:w-1/2 p-2 border border-gray-300 rounded mt-1 dropdown-icon">
+              <option value="" disabled selected>Year</option>
+              <option>2024</option>
+              <option>2023</option>
+              <option>2022</option>
+              <option>2021</option>
+              <option>2020</option>
+              <option>2019</option>
+              <option>2018</option>
+              <option>2017</option>
+              <!-- Add more year options as needed -->
+            </select>
+          </div>
+          <p *ngIf="errors.fromDate" class="text-red-500 text-sm mt-1">{{ errors.fromDate }}</p>
+        </div>
+        <div class="mb-4 md:mb-0 flex-1">
+          <label for="toDate" class="block text-gray-700">To (or expected graduation year) *</label>
+          <div class="flex flex-col md:flex-row md:space-x-2">
+            <select id="toMonth" [(ngModel)]="toMonth" name="toMonth" class="w-full md:w-1/2 p-2 border border-gray-300 rounded mt-1 dropdown-icon">
+              <option value="" disabled selected>Month</option>
+              <option>January</option>
+              <option>February</option>
+              <option>March</option>
+              <option>April</option>
+              <option>May</option>
+              <option>June</option>
+              <option>July</option>
+              <option>August</option>
+              <option>September</option>
+              <option>October</option>
+              <option>November</option>
+              <option>December</option>
+            </select>
+            <select id="toYear" [(ngModel)]="toYear" name="toYear" class="w-full md:w-1/2 p-2 border border-gray-300 rounded mt-1 dropdown-icon">
+              <option value="" disabled selected>Year</option>
+              <option>2024</option>
+              <option>2023</option>
+              <option>2022</option>
+              <option>2021</option>
+              <option>2020</option>
+              <option>2019</option>
+              <option>2018</option>
+              <option>2017</option>
+              <!-- Add more year options as needed -->
+            </select>
+          </div>
+          <p *ngIf="errors.toDate" class="text-red-500 text-sm mt-1">{{ errors.toDate }}</p>
+        </div>
+      </div>
+      <div class="mb-6">
+        <label for="description" class="block text-gray-700">Description</label>
+        <textarea id="description" [(ngModel)]="description" name="description" class="w-full p-2 border border-gray-300 rounded mt-1" rows="4" placeholder="Describe your studies, awards, etc"></textarea>
+        <p *ngIf="errors.description" class="text-red-500 text-sm mt-1">{{ errors.description }}</p>
+      </div>
+      <div class="flex flex-col md:flex-row md:justify-end">
+        <button type="button" class="bg-gray-100 text-gray-600 py-2 px-4 rounded-lg hover:bg-gray-200 focus:outline-none mb-2 md:mb-0 md:mr-2" (click)="closeModal()">Cancel</button>
+        <button type="submit" class="bg-teal-600 text-white py-2 px-4 rounded-lg hover:bg-teal-700 focus:outline-none">Save</button>
+      </div>
+    </form>
   </div>
-</body>
-</html>
+</div>

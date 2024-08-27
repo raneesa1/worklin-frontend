@@ -1,0 +1,154 @@
+<body
+  *ngIf="!isPriceSelected"
+  class="bg-gradient-green min-h-screen flex flex-col"
+>
+  <!-- Header -->
+  <div class="bg-white border-b border-gray-200 w-full p-4">
+    <div class="container mx-auto flex justify-between items-center">
+      <div style="color: #089b8c; font-size: x-large" class="text-xl font-bold">
+        Worklin
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <div class="flex flex-1 w-full justify-center items-center p-4 sm:p-10">
+    <div
+      class="p-4 sm:p-10 rounded-lg max-w-4xl w-full flex flex-col sm:flex-row sm:justify-between space-y-4 sm:space-y-0 sm:space-x-4"
+    >
+      <!-- Left Section -->
+      <div class="w-full sm:w-1/2">
+        <div class="mb-4 sm:mb-8">
+          <span class="text-gray-600">6/6</span>
+          <span class="ml-2 text-gray-800 font-semibold">Job post</span>
+        </div>
+        <h1 class="text-2xl sm:text-4xl font-semibold mb-2">
+          Tell us your budget or your best guess.
+        </h1>
+        <p class="text-gray-700 mb-4 sm:mb-6">
+          This will help us match you to talent within your range.
+        </p>
+      </div>
+
+      <!-- Right Section -->
+      <div class="w-full sm:w-1/2">
+        <div class="p-4 sm:p-6 rounded-lg">
+          <div class="flex flex-col sm:flex-row mb-4 sm:mb-6 space-y-4 sm:space-y-0 sm:space-x-4">
+            <!-- Hourly rate option -->
+            <div
+              class="flex-1 border-2 p-4 rounded-lg cursor-pointer hover:shadow-lg transition w-full sm:w-auto"
+              [class.selected]="selectedRate === 'hourly'"
+              (click)="onRateSelection('hourly')"
+            >
+              <div class="flex items-center space-x-2">
+                <!-- Hourly rate icon -->
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  height="24px"
+                  viewBox="0 -960 960 960"
+                  width="24px"
+                  fill="#000000"
+                >
+                  <path
+                    d="m612-292 56-56-148-148v-184h-80v216l172 172ZM480-80q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm0-400Zm0 320q133 0 226.5-93.5T800-480q0-133-93.5-226.5T480-800q-133 0-226.5 93.5T160-480q0 133 93.5 226.5T480-160Z"
+                  />
+                </svg>
+                <span class="text-lg font-medium text-gray-800">
+                  Hourly rate
+                </span>
+              </div>
+            </div>
+
+            <!-- Fixed price option -->
+            <div
+              class="flex-1 border-2 p-4 rounded-lg cursor-pointer hover:shadow-lg transition w-full sm:w-auto"
+              [class.selected]="selectedRate === 'fixed'"
+              (click)="onRateSelection('fixed')"
+            >
+              <div class="flex items-center space-x-2">
+                <!-- Fixed price icon -->
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  height="24px"
+                  viewBox="0 -960 960 960"
+                  width="24px"
+                  fill="#000000"
+                >
+                  <path
+                    d="M440-200h80v-40h40q17 0 28.5-11.5T600-280v-120q0-17-11.5-28.5T560-440H440v-40h160v-80h-80v-40h-80v40h-40q-17 0-28.5 11.5T360-520v120q0 17 11.5 28.5T400-360h120v40H360v80h80v40ZM240-80q-33 0-56.5-23.5T160-160v-640q0-33 23.5-56.5T240-880h320l240 240v480q0 33-23.5 56.5T720-80H240Zm280-560v-160H240v640h480v-480H520ZM240-800v160-160 640-640Z"
+                  />
+                </svg>
+                <span class="text-lg font-medium text-gray-800">
+                  Fixed price
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Global Validation Error -->
+          <p *ngIf="globalError" class="text-red-600 text-sm mb-4">
+            {{ globalError }}
+          </p>
+
+          <!-- Price Range -->
+          <div class="flex flex-col sm:flex-row items-center space-y-4 sm:space-y-0 sm:space-x-4 mb-4">
+            <div class="flex-1">
+              <label class="text-gray-600 block">From</label>
+              <div class="relative">
+                <input
+                  type="number"
+                  class="w-full p-2 border rounded-lg"
+                  placeholder="$15.00"
+                  [(ngModel)]="priceFrom"
+                  (input)="validateBudget()"
+                />
+                <span
+                  class="absolute inset-y-0 right-4 flex items-center text-gray-600"
+                >{{ selectedRate === "hourly" ? "/hr" : "" }}</span
+                >
+              </div>
+            </div>
+            <div class="flex-1">
+              <label class="text-gray-600 block">To</label>
+              <div class="relative">
+                <input
+                  type="number"
+                  class="w-full p-2 border rounded-lg"
+                  placeholder="$30.00"
+                  [(ngModel)]="priceTo"
+                  (input)="validateBudget()"
+                />
+                <span
+                  class="absolute inset-y-0 right-4 flex items-center text-gray-600"
+                >{{ selectedRate === "hourly" ? "/hr" : "" }}</span
+                >
+              </div>
+            </div>
+          </div>
+
+          <!-- Price Information -->
+          <p class="text-gray-600 text-sm">
+            This is the average rate for similar projects.
+          </p>
+          <p class="text-gray-600 text-sm mt-2">
+            Professionals tend to charge
+            <span class="font-semibold">15 - 30</span>
+            {{ selectedRate === "hourly" ? "/hour" : "" }} (USD) for front-end
+            development projects like yours. Experts may charge higher rates.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Next Button -->
+  <div class="flex justify-end mt-4 sm:mt-10 mr-4 sm:mr-20">
+    <button
+      class="bg-teal-600 text-white py-2 px-4 sm:py-2 sm:px-6 rounded-lg hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-teal-500 mb-7"
+      (click)="onSubmit()"
+      [disabled]="!isFormValid"
+    >
+      Review job post
+    </button>
+  </div>
+</body>

@@ -1,0 +1,46 @@
+<div class="flex flex-col min-h-screen">
+  <!-- Top Navbar -->
+  <button (click)="onLogout()">logout</button>
+  <app-navbar-after-login></app-navbar-after-login>
+
+  <!-- Discover Content -->
+  <main class="w-3/4 ml-16">
+    <div class="bg-white p-4 mb-4">
+      <div class="flex items-center border-b-2 border-gray-200">
+        <h2
+          class="text-xl pr-6 "
+          [ngClass]="{
+            'text-teal-600 border-teal-600 border-b-2': selectedTab === 'bestMatches',
+            'font-thin border-b border-gray-300': selectedTab !== 'bestMatches'
+          }"
+          (click)="showBestMatches()"
+        >
+          Best Matches
+        </h2>
+        <h2
+          class="text-xl pr-6"
+          [ngClass]="{
+            'text-teal-600 border-teal-600 border-b-2': selectedTab === 'mostRecent',
+            'font-thin border-b border-gray-300': selectedTab !== 'mostRecent'
+          }"
+          (click)="showMostRecent()"
+        >
+          Most recent
+        </h2>
+        <h2
+          class="text-xl"
+          [ngClass]="{
+            'text-teal-600 border-teal-600 border-b-2': selectedTab === 'savedJobs',
+            'font-thin border-b border-gray-300': selectedTab !== 'savedJobs'
+          }"
+          (click)="showSavedJobs()"
+        >
+          Saved Jobs
+        </h2>
+      </div>
+    </div>
+
+    <app-job-list *ngIf="selectedTab === 'bestMatches' || selectedTab === 'mostRecent'"></app-job-list>
+    <app-saved-jobs *ngIf="selectedTab === 'savedJobs'"></app-saved-jobs>
+  </main>
+</div>

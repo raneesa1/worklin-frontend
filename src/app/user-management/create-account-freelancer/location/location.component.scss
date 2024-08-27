@@ -18,25 +18,18 @@
      box-shadow: 0 0 0 30px white inset !important;
      -webkit-text-fill-color: #000 !important;
  }
+// .my-config {
+//     --uc-primary-oklch-dark: 69% 0.1768 258.4;
+//     --uc-primary-oklch-light: 59% 0.22 264;
+// }
+/* Add any custom styles you need here */
+img {
+    max-width: 100%;
+    height: auto;
+    margin: 5px;
+}
 
-//  /* Ensure styles apply globally */
-//  ::ng-deep .mat-form-field-appearance-fill .mat-form-field-flex {
-//      background-color: transparent !important;
-//  }
-
-//  ::ng-deep .mat-form-field-appearance-fill .mat-form-field-underline {
-//      background-color: white !important;
-//  }
-
-//  ::ng-deep .mat-form-field-appearance-fill .mat-form-field-label {
-//      color: white !important;
-//  }
-
-//  ::ng-deep .mat-datepicker-toggle .mat-icon {
-//      color: white !important;
-//  }
-
-//  ::ng-deep .mat-datepicker-toggle {
-//      color: white !important;
-//  }
-
+.my-config {
+    --uc-primary-oklch-dark: 69% 0.1768 174;
+    --uc-primary-oklch-light: 59% 0.1523 174;
+}

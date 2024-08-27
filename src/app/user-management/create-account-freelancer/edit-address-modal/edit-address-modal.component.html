@@ -1,0 +1,118 @@
+<div
+  *ngIf="isAddressModalOpen"
+  class="fixed inset-0 bg-gray-800 bg-opacity-50 flex justify-center items-center"
+>
+  <div class="bg-white p-6 rounded-lg w-full max-w-lg">
+    <h2 class="text-xl font-semibold mb-4">Edit Address</h2>
+    <form>
+      <!-- Country -->
+      <div class="mb-4">
+        <label for="country" class="block text-gray-700">Country</label>
+        <select
+          [(ngModel)]="address.country"
+          name="country"
+          id="country"
+          class="mt-1 block w-full p-2 border rounded-md"
+        >
+          <option value="" disabled>Select your country</option>
+          <option value="United States">United States</option>
+          <option value="India">India</option>
+          <option value="India">United States</option>
+          <option value="India">India</option>
+          <option value="India">India</option>
+          <option value="India">India</option>
+          <option value="India">India</option>
+          <option value="India">India</option>
+        </select>
+      </div>
+
+      <!-- Address -->
+      <div class="mb-4">
+        <label for="address" class="block text-gray-700">Street Address</label>
+        <input
+          [(ngModel)]="address.address"
+          name="address"
+          id="address"
+          type="text"
+          class="mt-1 block w-full p-2 border rounded-md"
+        />
+      </div>
+
+      <!-- City and State -->
+      <div class="grid grid-cols-2 gap-4 mb-4">
+        <div>
+          <label for="city" class="block text-gray-700">City</label>
+          <input
+            [(ngModel)]="address.city"
+            name="city"
+            id="city"
+            type="text"
+            class="mt-1 block w-full p-2 border rounded-md"
+          />
+        </div>
+        <div>
+          <label for="state" class="block text-gray-700">State</label>
+          <input
+            [(ngModel)]="address.state"
+            name="state"
+            id="state"
+            type="text"
+            class="mt-1 block w-full p-2 border rounded-md"
+          />
+        </div>
+      </div>
+
+      <!-- Phone -->
+      <div class="mb-4">
+        <label for="phone" class="block text-gray-700">Phone</label>
+        <input
+          [(ngModel)]="address.phone"
+          name="phone"
+          id="phone"
+          type="tel"
+          class="mt-1 block w-full p-2 border rounded-md"
+        />
+      </div>
+
+      <!-- ZIP Code and Apartment -->
+      <div class="grid grid-cols-2 gap-4 mb-4">
+        <div>
+          <label for="zip" class="block text-gray-700">ZIP Code</label>
+          <input
+            [(ngModel)]="address.zip"
+            name="zip"
+            id="zip"
+            type="text"
+            class="mt-1 block w-full p-2 border rounded-md"
+          />
+        </div>
+        <div>
+          <label for="apt" class="block text-gray-700">Apartment</label>
+          <input
+            [(ngModel)]="address.apt"
+            name="apt"
+            id="apt"
+            type="text"
+            class="mt-1 block w-full p-2 border rounded-md"
+          />
+        </div>
+      </div>
+      <div class="flex justify-end space-x-4">
+        <button
+          type="button"
+          class="bg-gray-300 text-gray-800 px-4 py-2 rounded"
+          (click)="closeModal()"
+        >
+          Cancel
+        </button>
+        <button
+          type="button"
+          class="bg-teal-500 text-white px-4 py-2 rounded"
+          (click)="saveChanges()"
+        >
+          Save Changes
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

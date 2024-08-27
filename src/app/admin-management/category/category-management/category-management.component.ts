@@ -24,7 +24,7 @@ export class CategoryManagementComponent implements OnInit {
   selectedCategory: Category | null = null;
   searchQuery = '';
   currentPage = 1;
-  itemsPerPage = 10;
+  itemsPerPage = 5;
   totalItems = 0;
   totalPages = 0;
   constructor(private categoryService: adminManagementService) {}
@@ -34,22 +34,33 @@ export class CategoryManagementComponent implements OnInit {
   }
 
   loadCategories(): void {
-    this.categoryService.getCategories().subscribe({
-      next: (response: { message: string; categories: Category[] }) => {
-        this.categories = response.categories;
-        this.filteredCategories = [...this.categories]; // Display all categories without filtering
-        // this.updatePagination();
-        console.log('Categories fetched:', this.categories);
-      },
-      error: (error) => {
-        console.error('Error fetching categories:', error);
-      },
-      complete: () => {
-        console.log('Category fetching complete.');
-      },
-    });
+    this.categoryService
+      .getCategories(this.currentPage, this.itemsPerPage, this.searchQuery)
+      .subscribe({
+        next: (response: {
+          categories: Category[];
+          totalItems: number;
+          totalPages: number;
+        }) => {
+          this.categories = response.categories;
+          this.filteredCategories = [...this.categories];
+          this.totalItems = response.totalItems;
+          this.totalPages = response.totalPages;
+          console.log('Categories fetched:', this.categories);
+        },
+        error: (error) => {
+          console.error('Error fetching categories:', error);
+        },
+        complete: () => {
+          console.log('Category fetching complete.');
+        },
+      });
   }
 
+  onSearch(): void {
+    this.currentPage = 1; // Reset to first page when searching
+    this.loadCategories();
+  }
   filterCategories(): void {
     //   const query = this.searchQuery.toLowerCase();
     //   this.filteredCategories = this.categories.filter(
@@ -66,23 +77,10 @@ export class CategoryManagementComponent implements OnInit {
     //   this.updatePagination();
   }
 
-  // updatePagination(): void {
-  //   this.totalPages = Math.ceil(
-  //     this.filteredCategories.length / this.itemsPerPage
-  //   );
-  //   this.updatePage();
-  // }
-
-  // updatePage(): void {
-  //   const start = (this.currentPage - 1) * this.itemsPerPage;
-  //   const end = start + this.itemsPerPage;
-  //   this.filteredCategories = this.filteredCategories.slice(start, end);
-  // }
-
   handleCategorySave(category: Category) {
     // Handle the category data, e.g., update category list
     console.log('Category received:', category);
-    this.isCategoryModalOpen = false
+    this.isCategoryModalOpen = false;
     this.loadCategories();
     // Add logic to save the category to your list or server
   }
@@ -117,40 +115,53 @@ export class CategoryManagementComponent implements OnInit {
   }
 
   handleCategoryUpdate(updatedCategory: Category): void {
-    //   this.categoryService.updateCategory(updatedCategory).subscribe(() => {
-    //     const index = this.categories.findIndex(
-    //       (c) => c.id === updatedCategory.id
-    //     );
-    //     if (index !== -1) {
-    //       this.categories[index] = updatedCategory;
-    //       this.filteredCategories[index] = updatedCategory;
-    //       this.filterCategories();
-    //       this.closeEditCategoryModal();
-    //     }
-    //   });
+    // this.categoryService.updateCategory(updatedCategory).subscribe(() => {
+    //   const index = this.categories.findIndex(
+    //     (c) => c.id === updatedCategory.id
+    //   );
+    //   if (index !== -1) {
+    //     this.categories[index] = updatedCategory;
+    //     this.filteredCategories[index] = updatedCategory;
+    //     this.filterCategories();
+    //     this.closeEditCategoryModal();
+    //   }
+    // });
   }
 
-  removeCategory(category: Category): void {
-    //   this.categoryService.deleteCategory(category.id).subscribe(() => {
-    //     this.categories = this.categories.filter((c) => c.id !== category.id);
-    //     this.filteredCategories = this.filteredCategories.filter(
-    //       (c) => c.id !== category.id
-    //     );
-    //     this.filterCategories();
-    //   });
+  removeCategory(categoryId: string): void {
+    // Call the deleteCategory method from the service
+    this.categoryService.deleteCategory(categoryId).subscribe({
+      next: () => {
+        // On successful deletion, remove the category from the arrays
+        this.categories = this.categories.filter(
+          (category) => category._id !== categoryId
+        );
+        this.filteredCategories = this.filteredCategories.filter(
+          (category) => category._id !== categoryId
+        );
+        console.log('Category deleted successfully');
+      },
+      error: (error) => {
+        // Handle errors if the deletion fails
+        console.error('Error deleting category:', error);
+      },
+      complete: () => {
+        console.log('Delete category operation complete.');
+      },
+    });
   }
 
   prevPage(): void {
     if (this.currentPage > 1) {
       this.currentPage--;
-      // this.updatePage();
+      this.loadCategories();
     }
   }
 
   nextPage(): void {
     if (this.currentPage < this.totalPages) {
       this.currentPage++;
-      // this.updatePage();
+      this.loadCategories();
     }
   }
 }

@@ -1,0 +1,180 @@
+<div
+  class="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50"
+>
+  <div class="bg-white p-6 md:p-8 rounded-lg shadow-lg custom-width mx-4">
+    <div class="flex justify-between items-center mb-6">
+      <h2 class="text-xl font-bold">Edit Education</h2>
+      <button
+        class="text-gray-600 hover:text-gray-800 focus:outline-none"
+        (click)="closeEditModal()"
+      >
+        &times;
+      </button>
+    </div>
+    <form
+      *ngIf="education"
+      #editEducationForm="ngForm"
+      (ngSubmit)="saveEducation(editEducationForm)"
+    >
+      <div class="mb-4">
+        <label for="school" class="block text-gray-700">School *</label>
+        <input
+          type="text"
+          id="school"
+          [(ngModel)]="education.school"
+          name="school"
+          class="w-full p-2 border border-gray-300 rounded mt-1"
+          placeholder="Ex: Northwestern University"
+          required
+        />
+        <p
+          *ngIf="
+            editEducationForm.form.controls['school']?.invalid &&
+            editEducationForm.form.controls['school']?.touched
+          "
+          class="text-red-500 text-sm mt-1"
+        >
+          School is required.
+        </p>
+      </div>
+      <div class="mb-4">
+        <label for="degree" class="block text-gray-700">Degree *</label>
+        <input
+          type="text"
+          id="degree"
+          [(ngModel)]="education.degree"
+          name="degree"
+          class="w-full p-2 border border-gray-300 rounded mt-1"
+          placeholder="Ex: Bachelors"
+          required
+        />
+        <p
+          *ngIf="
+            editEducationForm.form.controls['degree']?.invalid &&
+            editEducationForm.form.controls['degree']?.touched
+          "
+          class="text-red-500 text-sm mt-1"
+        >
+          Degree is required.
+        </p>
+      </div>
+      <div class="mb-4">
+        <label for="fieldOfStudy" class="block text-gray-700"
+          >Field of Study *</label
+        >
+        <input
+          type="text"
+          id="fieldOfStudy"
+          [(ngModel)]="education.fieldOfStudy"
+          name="fieldOfStudy"
+          class="w-full p-2 border border-gray-300 rounded mt-1"
+          placeholder="Ex: Computer Science"
+          required
+        />
+        <p
+          *ngIf="
+            editEducationForm.form.controls['fieldOfStudy']?.invalid &&
+            editEducationForm.form.controls['fieldOfStudy']?.touched
+          "
+          class="text-red-500 text-sm mt-1"
+        >
+          Field of Study is required.
+        </p>
+      </div>
+      <div class="mb-4 flex flex-col md:flex-row md:space-x-4">
+        <div class="mb-4 md:mb-0 flex-1">
+          <label for="fromDate" class="block text-gray-700"
+            >Dates Attended From *</label
+          >
+          <div class="flex flex-col md:flex-row md:space-x-2">
+            <select
+              id="fromMonth"
+              [(ngModel)]="education.fromMonth"
+              name="fromMonth"
+              class="w-full md:w-1/2 p-2 border border-gray-300 rounded mt-1 dropdown-icon"
+              required
+            >
+              <option value="" disabled selected>Month</option>
+              <!-- Month options -->
+              <option *ngFor="let month of months" [value]="month">
+                {{ month }}
+              </option>
+            </select>
+            <select
+              id="fromYear"
+              [(ngModel)]="education.fromYear"
+              name="fromYear"
+              class="w-full md:w-1/2 p-2 border border-gray-300 rounded mt-1 dropdown-icon"
+              required
+            >
+              <option value="" disabled selected>Year</option>
+              <!-- Year options -->
+              <option *ngFor="let year of years" [value]="year">
+                {{ year }}
+              </option>
+            </select>
+          </div>
+        </div>
+        <div class="mb-4 md:mb-0 flex-1">
+          <label for="toDate" class="block text-gray-700"
+            >To (or expected graduation year) *</label
+          >
+          <div class="flex flex-col md:flex-row md:space-x-2">
+            <select
+              id="toMonth"
+              [(ngModel)]="education.toMonth"
+              name="toMonth"
+              class="w-full md:w-1/2 p-2 border border-gray-300 rounded mt-1 dropdown-icon"
+              required
+            >
+              <option value="" disabled selected>Month</option>
+              <!-- Month options -->
+              <option *ngFor="let month of months" [value]="month">
+                {{ month }}
+              </option>
+            </select>
+            <select
+              id="toYear"
+              [(ngModel)]="education.toYear"
+              name="toYear"
+              class="w-full md:w-1/2 p-2 border border-gray-300 rounded mt-1 dropdown-icon"
+              required
+            >
+              <option value="" disabled selected>Year</option>
+              <!-- Year options -->
+              <option *ngFor="let year of years" [value]="year">
+                {{ year }}
+              </option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="mb-6">
+        <label for="description" class="block text-gray-700">Description</label>
+        <textarea
+          id="description"
+          [(ngModel)]="education.description"
+          name="description"
+          class="w-full p-2 border border-gray-300 rounded mt-1"
+          rows="4"
+          placeholder="Describe your studies, awards, etc"
+        ></textarea>
+      </div>
+      <div class="flex flex-col md:flex-row md:justify-end">
+        <button
+          type="button"
+          class="bg-gray-100 text-gray-600 py-2 px-4 rounded-lg hover:bg-gray-200 focus:outline-none mb-2 md:mb-0 md:mr-2"
+          (click)="closeEditModal()"
+        >
+          Cancel
+        </button>
+        <button
+          type="submit"
+          class="bg-teal-600 text-white py-2 px-4 rounded-lg hover:bg-teal-700 focus:outline-none"
+        >
+          Save
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

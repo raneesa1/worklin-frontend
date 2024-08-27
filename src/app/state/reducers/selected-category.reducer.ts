@@ -1,3 +1,4 @@
+//selected-category.reducer
 import { createReducer, on, Action } from '@ngrx/store';
 import { Category, SubCategory } from '../../admin-management/types/category.model';
 import {

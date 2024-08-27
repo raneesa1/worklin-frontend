@@ -1,34 +1,18 @@
-<div class="fixed inset-0 bg-gray-800 bg-opacity-75 flex items-center justify-center z-50">
-  <div class="bg-white rounded-lg overflow-hidden w-full max-w-lg mx-4">
-    <div class="p-4 border-b">
-      <h2 class="text-xl font-bold">Your photo</h2>
-      <button class="absolute top-4 right-4 text-gray-600" (click)="closeModal()">
-        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-             xmlns="http://www.w3.org/2000/svg">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                d="M6 18L18 6M6 6l12 12"></path>
-        </svg>
-      </button>
-    </div>
-    <div class="p-4">
-      <!-- <ngx-image-cropper
-        [imageChangedEvent]="imageChangedEvent"
-        [maintainAspectRatio]="true"
-        [aspectRatio]="1 / 1"
-        [cropperMaxWidth]="cropperMaxWidth"
-        format="png"
-        (imageLoaded)="imageLoaded()"
-        (cropperReady)="cropperReady()"
-        (loadImageFailed)="loadImageFailed()"
-        class="w-full"
-      ></ngx-image-cropper> -->
-      <div class="mt-4 flex justify-between items-center">
-        <div class="flex space-x-4">
-          <button class="px-4 py-2 bg-green-500 text-white rounded-md" (click)="zoomIn()">Zoom In</button>
-          <button class="px-4 py-2 bg-green-500 text-white rounded-md" (click)="zoomOut()">Zoom Out</button>
-        </div>
-        <button class="px-4 py-2 bg-green-500 text-white rounded-md" (click)="attachPhoto()">Attach photo</button>
-      </div>
-    </div>
-  </div>
-</div>
+<lr-config
+  [attr.ctx-name]="ctxName"
+  pubkey="2872c2dfae955ee2fff8"
+  max-local-file-size-bytes="10000000"
+  [attr.multiple]="multiple"
+  img-only="false"
+  source-list="local, url, gdrive"
+></lr-config>
+
+<lr-file-uploader-regular
+  [attr.ctx-name]="ctxName"
+  class="my-config"
+></lr-file-uploader-regular>
+
+<lr-upload-ctx-provider
+  [attr.ctx-name]="ctxName"
+  #ctxProvider
+></lr-upload-ctx-provider>

@@ -77,16 +77,28 @@
           <!-- Dynamic Language Inputs -->
           <div *ngFor="let lang of languages; let i = index" class="input-container">
             <div class="input-wrapper flex items-center space-x-2">
-              <input
-                type="text"
+              <select
                 [(ngModel)]="lang.language"
-                placeholder="Language"
                 class="border border-gray-300 rounded p-2 flex-1"
-              />
+              >
+                <option value="" disabled selected>Select Language</option>
+                <option value="Arabic">Arabic</option>
+                <option value="Chinese">Chinese</option>
+                <option value="French">French</option>
+                <option value="German">German</option>
+                <option value="Hindi">Hindi</option>
+                <option value="Italian">Italian</option>
+                <option value="Japanese">Japanese</option>
+                <option value="Korean">Korean</option>
+                <option value="Portuguese">Portuguese</option>
+                <option value="Russian">Russian</option>
+                <option value="Spanish">Spanish</option>
+              </select>
               <select
                 [(ngModel)]="lang.proficiency"
                 class="border border-gray-300 rounded p-2 flex-1"
               >
+                <option value="" disabled selected>Select Proficiency</option>
                 <option>Basic</option>
                 <option>Conversational</option>
                 <option>Fluent</option>

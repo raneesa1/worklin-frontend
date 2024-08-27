@@ -7,14 +7,13 @@ import { CookieService } from 'ngx-cookie-service';
   providedIn: 'root',
 })
 export class AuthService {
-  private readonly JWT_TOKEN_KEY = 'auth';
-
+ 
   private userData: any;
   constructor(private http: HttpClient, private cookieService: CookieService) {}
 
   login(data: any): Observable<any> {
     return this.http.post<any>('/auth/login', data, {
-      withCredentials: true
+      withCredentials: true,
     });
   }
 
@@ -46,12 +45,5 @@ export class AuthService {
 
   resendOtp(email: string): Observable<any> {
     return this.http.post('/auth/resend-otp', { email });
-  }
-  storeToken(token: string) {
-    this.cookieService.set(this.JWT_TOKEN_KEY, token);
-  }
-
-  getToken(): string | null {
-    return this.cookieService.get(this.JWT_TOKEN_KEY) || null;
   }
 }

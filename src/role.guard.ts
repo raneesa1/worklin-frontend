@@ -11,21 +11,18 @@ import { roleService } from './role.service';
   providedIn: 'root',
 })
 export class RoleGuard implements CanActivate {
-  constructor(private authService: roleService, private router: Router) {}
-
+  constructor(private roleService: roleService, private router: Router) {}
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): boolean {
     const expectedRole = route.data['expectedRole'];
-    console.log('Expected role:', expectedRole); // Log expected role
-    const userRole = this.authService.decodeToken()?.accountType;
-    console.log('User role from token:', userRole); // Log role from token
+    const userRole = this.roleService.isRole(expectedRole);
 
-    if (userRole === expectedRole) {
+    if (userRole) {
       return true;
     } else {
-      console.warn('Role guard failed, redirecting to login'); // Log guard failure
+      console.warn('Role guard failed, redirecting to login');
       this.router.navigate(['/nx/login']);
       return false;
     }

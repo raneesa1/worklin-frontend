@@ -1,0 +1,33 @@
+<!-- Edit Rate Modal -->
+<div *ngIf="isRateModalOpen" class="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50">
+  <div class="w-full max-w-lg bg-white rounded-lg p-8">
+    <h2 class="text-lg font-semibold text-green-700 mb-4">Edit Your Rates</h2>
+
+    <!-- Hourly Rate Section -->
+    <div class="mb-6">
+      <label for="modal-hourly-rate" class="block text-gray-700 font-medium mb-2">Hourly rate</label>
+      <div class="flex items-center">
+        <input type="number" id="modal-hourly-rate" class="border rounded px-3 py-2 w-full" placeholder="$0.00" [(ngModel)]="hourlyRate" (ngModelChange)="validateInput()">
+        <span class="ml-2 text-gray-700">/hr</span>
+      </div>
+      <small *ngIf="rateError" class="text-red-500 mt-1 block">Please enter a valid hourly rate.</small>
+      <small class="text-gray-500 mt-1 block">Total amount the client will see.</small>
+    </div>
+
+    <!-- Service Fee Section -->
+    <div>
+      <label for="modal-service-fee" class="block text-gray-700 font-medium mb-2">Service fee</label>
+      <div class="flex items-center">
+        <input type="number" id="modal-service-fee" class="border rounded px-3 py-2 w-full" placeholder="-$0.00" [(ngModel)]="serviceFee" (ngModelChange)="validateInput()">
+        <span class="ml-2 text-gray-700">/hr</span>
+      </div>
+      <small class="text-gray-500 mt-1 block">This helps us run the platform and provide services like payment protection and customer support.</small>
+    </div>
+
+    <!-- Modal Actions -->
+    <div class="flex justify-end mt-6">
+      <button (click)="closeEditRateModal()" class="bg-gray-200 text-gray-700 px-4 py-2 rounded mr-4">Cancel</button>
+      <button (click)="submitRates()" class="bg-green-600 text-white px-6 py-2 rounded">Save Changes</button>
+    </div>
+  </div>
+</div>

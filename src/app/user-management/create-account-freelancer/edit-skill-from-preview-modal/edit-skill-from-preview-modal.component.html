@@ -1,0 +1,80 @@
+<div
+  *ngIf="isEditSkillsModalOpen"
+  class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50"
+>
+  <div class="bg-white w-11/12 max-w-lg p-8 rounded-lg shadow-lg">
+    <div class="flex justify-between items-center mb-4">
+      <h2 class="text-xl font-bold">Edit Your Skills</h2>
+      <button
+        class="text-gray-500 hover:text-gray-700"
+        (click)="closeEditSkillsModal()"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          height="24px"
+          viewBox="0 -960 960 960"
+          width="24px"
+          fill="currentColor"
+        >
+          <path
+            d="M256-200l-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"
+          />
+        </svg>
+      </button>
+    </div>
+
+    <div class="mb-4">
+      <label for="editSkills" class="block text-gray-700 mb-2">Your Skills</label>
+      <select
+        id="editSkills"
+        (change)="onSkillSelected($event)"
+        class="w-full border border-gray-300 p-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
+      >
+        <option *ngFor="let skill of skills" [value]="skill._id">
+          {{ skill.name }}
+        </option>
+      </select>
+    </div>
+
+    <div *ngIf="localSelectedSkills.length > 0" class="mb-4">
+      <div class="flex flex-wrap gap-2">
+        <div
+          *ngFor="let skill of localSelectedSkills"
+          class="flex items-center mb-2"
+        >
+          <span
+            class="bg-teal-600 text-white py-1 px-4 rounded-full flex justify-between items-center"
+          >
+            <span class="mr-2">{{ skill.name }}</span>
+            <button
+              type="button"
+              (click)="removeSelectedSkill(skill._id)"
+              class="text-white focus:outline-none"
+            >
+              <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    height="24px"
+                    viewBox="0 -960 960 960"
+                    width="24px"
+                    fill="#FFFFFF"
+                  >
+                    <path
+                      d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"
+                    />
+                  </svg>
+            </button>
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <div class="flex justify-end mt-4">
+      <button
+        class="bg-teal-600 text-white px-4 py-2 rounded-lg hover:bg-teal-700 focus:outline-none"
+        (click)="saveSkills()"
+      >
+        Save Skills
+      </button>
+    </div>
+  </div>
+</div>

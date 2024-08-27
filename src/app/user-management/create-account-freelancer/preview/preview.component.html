@@ -1,152 +1,494 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Preview Profile - Worklin</title>
-  <link
-    href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
-    rel="stylesheet"
-  />
-  <style>
-    .bg-gradient-green {
-      background: linear-gradient(135deg, white 70%, #97ffee 100%);
-    }
-    .full-height {
-      height: 100vh;
-    }
-    .compact-height {
-      height: auto;
-      max-height: 300px; /* Adjust this value as needed */
-      overflow-y: auto; /* Add scroll if content overflows */
-    }
-  </style>
-</head>
-<body class="min-h-screen flex flex-col items-center">
-  <div class="bg-white w-full border-b border-gray-200 py-4">
-    <div class="container mx-auto flex justify-between">
-      <div class="text-xl font-bold text-green-700">Worklin</div>
-      <div class="text-gray-500">
-        <svg
-          class="w-6 h-6"
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            d="M12 4.354a8 8 0 110 15.292 8 8 0 010-15.292z"
-          ></path>
-        </svg>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Freelancer Profile - Worklin</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
+      rel="stylesheet"
+    />
+    <style>
+      .bg-gradient-green {
+        background: linear-gradient(135deg, white 70%, #97ffee 100%);
+      }
+      .full-height {
+        height: 100vh;
+      }
+    </style>
+  </head>
+
+  <body class="min-h-screen flex flex-col items-center">
+    <!-- Header -->
+    <header class="bg-white w-full border-b border-gray-200 py-4">
+      <div class="container mx-auto flex justify-between items-center">
+        <div class="text-xl font-bold text-green-700">Worklin</div>
+        <div class="text-gray-500"></div>
       </div>
-    </div>
-  </div>
+    </header>
 
-  <div class="container mx-auto mt-10">
-    <div class="bg-white shadow-md rounded-lg p-8 mb-6">
-      <h1 class="text-2xl font-bold mb-4">Looking good, Raneesa!</h1>
-      <p class="text-gray-600 mb-6">
-        Make any edits you want, then submit your profile. You can make more
-        changes after it's live.
-      </p>
-      <button
-        class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600"
-      >
-        Submit profile
-      </button>
-    </div>
+    <main class="container mx-auto mt-10">
+      <div class="bg-white border rounded-lg p-8 mb-6 relative">
+        <div class="flex items-center mb-6">
+          <div class="icon-wrapper w-20 h-20">
+            <img
+              class="w-full h-full rounded-full"
+              [src]="freelancer.picture || 'default-profile-picture-url'"
+              alt="Profile Picture"
+            />
 
-    <div class="flex mb-10">
-      <div class="bg-white shadow-md rounded-lg p-8 w-2/3 mr-4 compact-height">
-        <h2 class="text-xl font-bold mb-4">Raneesa K</h2>
-        <div class="flex items-center mb-4">
-          <svg
-            class="w-5 h-5 text-gray-500 mr-2"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M3 3v18h18"
-            ></path>
-          </svg>
-          <span class="text-gray-600">Shoranur, Kerala</span>
-        </div>
-        <p class="text-gray-600 mb-4">11:45 AM local time</p>
-        <div class="mb-4">
-          <h3 class="text-lg font-bold mb-2">web development</h3>
-        </div>
-      </div>
+            <!-- <button class="px-1 bg-black rounded mt-1">
+                <app-photo-upload-modal
+                (cdnUrl)="onImageUploaded($event)"
+              ></app-photo-upload-modal>
+            </button> -->
+          </div>
 
-      <div class="bg-white shadow-md rounded-lg p-8 w-1/3 full-height">
-        <h3 class="text-lg font-bold mb-4">Languages</h3>
-        <p class="text-gray-600">English: Basic</p>
-      </div>
-    </div>
-
-    <div class="flex mb-10">
-      <div class="bg-white shadow-md rounded-lg p-8 border-custom w-2/3 mr-4 compact-height">
-        <h2 class="text-xl font-bold mb-4">Raneesa K</h2>
-        <div class="flex items-center mb-4">
-          <svg
-            class="w-5 h-5 text-gray-500 mr-2"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M3 3v18h18"
-            ></path>
-          </svg>
-          <span class="text-gray-600">Shoranur, Kerala</span>
-        </div>
-        <p class="text-gray-600 mb-4">11:45 AM local time</p>
-        <div class="mb-4">
-          <h3 class="text-lg font-bold mb-2">web development</h3>
-          <div class="text-gray-600">
-            <p>Data Structure Workouts</p>
-            <ol class="list-decimal list-inside">
-              <li>
-                Learn the concepts of Tree. Complete at least three sample
-                workouts.
-              </li>
-              <li>
-                Learn the concepts of Binary Search Tree. Complete at least
-                three sample workouts. Example:
-                <ul class="list-disc list-inside ml-4">
-                  <li>
-                    Create a Binary Search Tree with insertion, contains,
-                    delete, three traversals (postorder, preorder, in order).
-                  </li>
-                  <li>Find the closest value to a given number in a Tree.</li>
-                  <li>Validate whether a given tree is BST or not.</li>
-                </ul>
-              </li>
-              <li>
-                Learn the concepts of Heap. Complete at least three sample
-                workouts. Example:
-                <ul class="list-disc list-inside ml-4">
-                  <li>
-                    Create a min heap & max heap with build, insert, remove.
-                  </li>
-                </ul>
-              </li>
-            </ol>
+          <div class="ml-6">
+            <h1 class="text-3xl font-bold mb-2">
+              {{ freelancer.firstName || "Name" }}
+            </h1>
+            <p class="text-gray-600">
+              {{ freelancer.role || "Role" }}
+            </p>
+            <p class="text-gray-600 mb-4">
+              {{ freelancer.country || "Location" }}
+            </p>
           </div>
         </div>
+        <p class="text-gray-700 mb-4">
+          {{ freelancer.bio || "Bio goes here" }}
+        </p>
+        <div class="relative mt-6">
+          <div class="flex justify-between items-center mb-4 relative">
+            <p>
+              Hourly Rate:
+              <span class="font-semibold">{{
+                freelancer.hourlyRate || "Rate"
+              }}</span>
+            </p>
+            <button class="text-gray-500 hover:text-gray-700 absolute right-0">
+              <svg
+                (click)="openRateModal()"
+                width="38"
+                height="35"
+                viewBox="0 0 38 35"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <ellipse
+                  cx="19.0007"
+                  cy="17.5"
+                  rx="18.6667"
+                  ry="17.5"
+                  fill="#D9D9D9"
+                />
+                <ellipse
+                  cx="18.9998"
+                  cy="17.5"
+                  rx="17.1111"
+                  ry="15.9444"
+                  fill="white"
+                />
+                <path
+                  d="M14.1395 24.542H15.2479L22.8507 14.8941L21.7423 13.4876L14.1395 23.1355V24.542ZM12.584 26.516V22.3213L22.8507 9.31753C23.0062 9.13658 23.178 8.99675 23.3659 8.89805C23.5539 8.79935 23.7516 8.75 23.959 8.75C24.1664 8.75 24.3673 8.79935 24.5618 8.89805C24.7562 8.99675 24.9247 9.1448 25.0673 9.3422L26.1368 10.724C26.2923 10.905 26.4057 11.1188 26.477 11.3656C26.5483 11.6123 26.584 11.8591 26.584 12.1058C26.584 12.369 26.5483 12.6199 26.477 12.8584C26.4057 13.0969 26.2923 13.3149 26.1368 13.5123L15.8895 26.516H12.584ZM22.2868 14.2032L21.7423 13.4876L22.8507 14.8941L22.2868 14.2032Z"
+                  fill="#089B8C"
+                />
+              </svg>
+            </button>
+          </div>
+          <div class="flex justify-between items-center relative">
+            <p>
+              Service Rate:
+              <span class="font-semibold">{{
+                freelancer.serviceRate || "Rate"
+              }}</span>
+            </p>
+          </div>
+        </div>
+
+        <!-- Edit Icon for Bio -->
+        <button
+          (click)="openBioModal()"
+          class="text-gray-500 hover:text-gray-700 absolute top-4 right-4"
+        >
+          <svg
+            width="38"
+            height="35"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 38 35"
+          >
+            <ellipse
+              cx="19.0007"
+              cy="17.5"
+              rx="18.6667"
+              ry="17.5"
+              fill="#D9D9D9"
+            />
+            <ellipse
+              cx="18.9998"
+              cy="17.5"
+              rx="17.1111"
+              ry="15.9444"
+              fill="white"
+            />
+            <path
+              d="M14.1395 24.542H15.2479L22.8507 14.8941L21.7423 13.4876L14.1395 23.1355V24.542ZM12.584 26.516V22.3213L22.8507 9.31753C23.0062 9.13658 23.178 8.99675 23.3659 8.89805C23.5539 8.79935 23.7516 8.75 23.959 8.75C24.1664 8.75 24.3673 8.79935 24.5618 8.89805C24.7562 8.99675 24.9247 9.1448 25.0673 9.3422L26.1368 10.724C26.2923 10.905 26.4057 11.1188 26.477 11.3656C26.5483 11.6123 26.584 11.8591 26.584 12.1058C26.584 12.369 26.5483 12.6199 26.477 12.8584C26.4057 13.0969 26.2923 13.3149 26.1368 13.5123L15.8895 26.516H12.584ZM22.2868 14.2032L21.7423 13.4876L22.8507 14.8941L22.2868 14.2032Z"
+              fill="#089B8C"
+            />
+          </svg>
+        </button>
       </div>
-    </div>
-  </div>
-</body>
+      <!-- <div class="bg-white border rounded-lg p-8 mb-6 relative">
+        <h2 class="text-2xl font-bold mb-4">Category</h2>
+        <button
+          class="text-gray-500 hover:text-gray-700 absolute top-4 right-4"
+        >
+          <svg
+            width="38"
+            height="35"
+            viewBox="0 0 38 35"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <ellipse
+              cx="19.0007"
+              cy="17.5"
+              rx="18.6667"
+              ry="17.5"
+              fill="#D9D9D9"
+            />
+            <ellipse
+              cx="18.9998"
+              cy="17.5"
+              rx="17.1111"
+              ry="15.9444"
+              fill="white"
+            />
+            <path
+              d="M14.1395 24.542H15.2479L22.8507 14.8941L21.7423 13.4876L14.1395 23.1355V24.542ZM12.584 26.516V22.3213L22.8507 9.31753C23.0062 9.13658 23.178 8.99675 23.3659 8.89805C23.5539 8.79935 23.7516 8.75 23.959 8.75C24.1664 8.75 24.3673 8.79935 24.5618 8.89805C24.7562 8.99675 24.9247 9.1448 25.0673 9.3422L26.1368 10.724C26.2923 10.905 26.4057 11.1188 26.477 11.3656C26.5483 11.6123 26.584 11.8591 26.584 12.1058C26.584 12.369 26.5483 12.6199 26.477 12.8584C26.4057 13.0969 26.2923 13.3149 26.1368 13.5123L15.8895 26.516H12.584ZM22.2868 14.2032L21.7423 13.4876L22.8507 14.8941L22.2868 14.2032Z"
+              fill="#089B8C"
+            />
+          </svg>
+        </button>
+        <ul class="list-disc pl-5">
+          <li class="text-gray-600">
+            <strong>Category:</strong>
+            {{ freelancer.category[0].name || "Category not available" }}
+          </li>
+
+          <li class="text-gray-600 mt-2">
+            <strong>Subcategories:</strong>
+            <ul class="list-disc pl-5">
+              <li
+                *ngFor="let subcategory of freelancer.category[0].subcategories"
+                class="text-gray-600"
+              >
+                {{ subcategory || "No subcategories available" }}
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </div> -->
+
+      <!-- Skills -->
+      <div class="bg-white border rounded-lg p-8 mb-6 relative">
+        <h2 class="text-2xl font-bold mb-4">Skill</h2>
+        <button
+          class="text-gray-500 hover:text-gray-700 absolute top-4 right-4"
+        >
+          <svg
+            (click)="openSkillModal()"
+            width="38"
+            height="35"
+            viewBox="0 0 38 35"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <ellipse
+              cx="19.0007"
+              cy="17.5"
+              rx="18.6667"
+              ry="17.5"
+              fill="#D9D9D9"
+            />
+            <ellipse
+              cx="18.9998"
+              cy="17.5"
+              rx="17.1111"
+              ry="15.9444"
+              fill="white"
+            />
+            <path
+              d="M14.1395 24.542H15.2479L22.8507 14.8941L21.7423 13.4876L14.1395 23.1355V24.542ZM12.584 26.516V22.3213L22.8507 9.31753C23.0062 9.13658 23.178 8.99675 23.3659 8.89805C23.5539 8.79935 23.7516 8.75 23.959 8.75C24.1664 8.75 24.3673 8.79935 24.5618 8.89805C24.7562 8.99675 24.9247 9.1448 25.0673 9.3422L26.1368 10.724C26.2923 10.905 26.4057 11.1188 26.477 11.3656C26.5483 11.6123 26.584 11.8591 26.584 12.1058C26.584 12.369 26.5483 12.6199 26.477 12.8584C26.4057 13.0969 26.2923 13.3149 26.1368 13.5123L15.8895 26.516H12.584ZM22.2868 14.2032L21.7423 13.4876L22.8507 14.8941L22.2868 14.2032Z"
+              fill="#089B8C"
+            />
+          </svg>
+        </button>
+        <ul class="list-disc pl-5">
+          <li
+            class="text-gray-600"
+            *ngFor="let skill of freelancer.skill || []"
+          >
+            {{ skill.name }}
+          </li>
+        </ul>
+      </div>
+
+      <!-- Experience -->
+      <div class="bg-white border rounded-lg p-8 mb-6 relative">
+        <h2 class="text-2xl font-bold mb-4">Experience</h2>
+        <button
+          class="text-gray-500 hover:text-gray-700 absolute top-4 right-4"
+        >
+          <svg
+            (click)="openExperienceModal()"
+            width="38"
+            height="35"
+            viewBox="0 0 38 35"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <ellipse
+              cx="19.0007"
+              cy="17.5"
+              rx="18.6667"
+              ry="17.5"
+              fill="#D9D9D9"
+            />
+            <ellipse
+              cx="18.9998"
+              cy="17.5"
+              rx="17.1111"
+              ry="15.9444"
+              fill="white"
+            />
+            <path
+              d="M14.1395 24.542H15.2479L22.8507 14.8941L21.7423 13.4876L14.1395 23.1355V24.542ZM12.584 26.516V22.3213L22.8507 9.31753C23.0062 9.13658 23.178 8.99675 23.3659 8.89805C23.5539 8.79935 23.7516 8.75 23.959 8.75C24.1664 8.75 24.3673 8.79935 24.5618 8.89805C24.7562 8.99675 24.9247 9.1448 25.0673 9.3422L26.1368 10.724C26.2923 10.905 26.4057 11.1188 26.477 11.3656C26.5483 11.6123 26.584 11.8591 26.584 12.1058C26.584 12.369 26.5483 12.6199 26.477 12.8584C26.4057 13.0969 26.2923 13.3149 26.1368 13.5123L15.8895 26.516H12.584ZM22.2868 14.2032L21.7423 13.4876L22.8507 14.8941L22.2868 14.2032Z"
+              fill="#089B8C"
+            />
+          </svg>
+        </button>
+        <div class="mb-4" *ngFor="let exp of freelancer.experience || []">
+          <h3 class="text-xl font-semibold">{{ exp.title }}</h3>
+          <p class="text-gray-600">Company: {{ exp.company }}</p>
+          <p class="text-gray-600">Location: {{ exp.jobLocation }}</p>
+          <p class="text-gray-600">Country: {{ exp.country }}</p>
+          <p class="text-gray-600">Start Date: {{ exp.startDate }}</p>
+          <p class="text-gray-600">Description: {{ exp.description }}</p>
+        </div>
+      </div>
+
+      <!-- Education -->
+      <div class="bg-white border rounded-lg p-8 mb-6 relative">
+        <h2 class="text-2xl font-bold mb-4">Education</h2>
+        <button
+          class="text-gray-500 hover:text-gray-700 absolute top-4 right-4"
+        >
+          <svg
+            (click)="openEducationModal()"
+            width="38"
+            height="35"
+            viewBox="0 0 38 35"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <ellipse
+              cx="19.0007"
+              cy="17.5"
+              rx="18.6667"
+              ry="17.5"
+              fill="#D9D9D9"
+            />
+            <ellipse
+              cx="18.9998"
+              cy="17.5"
+              rx="17.1111"
+              ry="15.9444"
+              fill="white"
+            />
+            <path
+              d="M14.1395 24.542H15.2479L22.8507 14.8941L21.7423 13.4876L14.1395 23.1355V24.542ZM12.584 26.516V22.3213L22.8507 9.31753C23.0062 9.13658 23.178 8.99675 23.3659 8.89805C23.5539 8.79935 23.7516 8.75 23.959 8.75C24.1664 8.75 24.3673 8.79935 24.5618 8.89805C24.7562 8.99675 24.9247 9.1448 25.0673 9.3422L26.1368 10.724C26.2923 10.905 26.4057 11.1188 26.477 11.3656C26.5483 11.6123 26.584 11.8591 26.584 12.1058C26.584 12.369 26.5483 12.6199 26.477 12.8584C26.4057 13.0969 26.2923 13.3149 26.1368 13.5123L15.8895 26.516H12.584ZM22.2868 14.2032L21.7423 13.4876L22.8507 14.8941L22.2868 14.2032Z"
+              fill="#089B8C"
+            />
+          </svg>
+        </button>
+        <div class="mb-4" *ngFor="let edu of freelancer.education || []">
+          <h3 class="text-xl font-semibold">{{ edu.school }}</h3>
+          <p class="text-gray-600">Degree: {{ edu.degree }}</p>
+          <p class="text-gray-600">Field of Study: {{ edu.fieldOfStudy }}</p>
+          <p class="text-gray-600">
+            From: {{ edu.fromMonth }} {{ edu.fromYear }}
+          </p>
+          <p class="text-gray-600">To: {{ edu.toMonth }} {{ edu.toYear }}</p>
+          <p class="text-gray-600">Description: {{ edu.description }}</p>
+        </div>
+      </div>
+
+      <!-- Languages -->
+      <div class="bg-white border rounded-lg p-8 mb-6 relative">
+        <h2 class="text-2xl font-bold mb-4">Languages</h2>
+        <button
+          (click)="openLanguageModal()"
+          class="text-gray-500 hover:text-gray-700 absolute top-4 right-4"
+        >
+          <svg
+            width="38"
+            height="35"
+            viewBox="0 0 38 35"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <ellipse
+              cx="19.0007"
+              cy="17.5"
+              rx="18.6667"
+              ry="17.5"
+              fill="#D9D9D9"
+            />
+            <ellipse
+              cx="18.9998"
+              cy="17.5"
+              rx="17.1111"
+              ry="15.9444"
+              fill="white"
+            />
+            <path
+              d="M14.1395 24.542H15.2479L22.8507 14.8941L21.7423 13.4876L14.1395 23.1355V24.542ZM12.584 26.516V22.3213L22.8507 9.31753C23.0062 9.13658 23.178 8.99675 23.3659 8.89805C23.5539 8.79935 23.7516 8.75 23.959 8.75C24.1664 8.75 24.3673 8.79935 24.5618 8.89805C24.7562 8.99675 24.9247 9.1448 25.0673 9.3422L26.1368 10.724C26.2923 10.905 26.4057 11.1188 26.477 11.3656C26.5483 11.6123 26.584 11.8591 26.584 12.1058C26.584 12.369 26.5483 12.6199 26.477 12.8584C26.4057 13.0969 26.2923 13.3149 26.1368 13.5123L15.8895 26.516H12.584ZM22.2868 14.2032L21.7423 13.4876L22.8507 14.8941L22.2868 14.2032Z"
+              fill="#089B8C"
+            />
+          </svg>
+        </button>
+        <ul class="list-disc pl-5">
+          <li
+            class="text-gray-600"
+            *ngFor="let lang of freelancer.languages || []"
+          >
+            {{ lang.language }}: {{ lang.proficiency }}
+          </li>
+        </ul>
+      </div>
+
+      <!-- Address -->
+      <div class="bg-white border rounded-lg p-8 mb-6 relative">
+        <h2 class="text-2xl font-bold mb-4">Address</h2>
+        <button
+          (click)="openAddressModal()"
+          class="text-gray-500 hover:text-gray-700 absolute top-4 right-4"
+        >
+          <svg
+            width="38"
+            height="35"
+            viewBox="0 0 38 35"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <ellipse
+              cx="19.0007"
+              cy="17.5"
+              rx="18.6667"
+              ry="17.5"
+              fill="#D9D9D9"
+            />
+            <ellipse
+              cx="18.9998"
+              cy="17.5"
+              rx="17.1111"
+              ry="15.9444"
+              fill="white"
+            />
+            <path
+              d="M14.1395 24.542H15.2479L22.8507 14.8941L21.7423 13.4876L14.1395 23.1355V24.542ZM12.584 26.516V22.3213L22.8507 9.31753C23.0062 9.13658 23.178 8.99675 23.3659 8.89805C23.5539 8.79935 23.7516 8.75 23.959 8.75C24.1664 8.75 24.3673 8.79935 24.5618 8.89805C24.7562 8.99675 24.9247 9.1448 25.0673 9.3422L26.1368 10.724C26.2923 10.905 26.4057 11.1188 26.477 11.3656C26.5483 11.6123 26.584 11.8591 26.584 12.1058C26.584 12.369 26.5483 12.6199 26.477 12.8584C26.4057 13.0969 26.2923 13.3149 26.1368 13.5123L15.8895 26.516H12.584ZM22.2868 14.2032L21.7423 13.4876L22.8507 14.8941L22.2868 14.2032Z"
+              fill="#089B8C"
+            />
+          </svg>
+        </button>
+        <div class="mb-4">
+          <p class="text-gray-600">
+            Address:
+            {{
+              freelancer.address && freelancer.address.length > 0
+                ? freelancer.address[0].address
+                : "Not Available"
+            }}
+          </p>
+          <p class="text-gray-600">
+            City:
+            {{
+              freelancer.address && freelancer.address.length > 0
+                ? freelancer.address[0].city
+                : "Not Available"
+            }}
+          </p>
+          <p class="text-gray-600">
+            State:
+            {{
+              freelancer.address && freelancer.address.length > 0
+                ? freelancer.address[0].state
+                : "Not Available"
+            }}
+          </p>
+          <p class="text-gray-600">
+            Country:
+            {{
+              freelancer.address && freelancer.address.length > 0
+                ? freelancer.address[0].country
+                : "Not Available"
+            }}
+          </p>
+          <p class="text-gray-600">
+            Phone:
+            {{
+              freelancer.address && freelancer.address.length > 0
+                ? freelancer.address[0].phone
+                : "Not Available"
+            }}
+          </p>
+          <p class="text-gray-600">
+            ZIP:
+            {{
+              freelancer.address && freelancer.address.length > 0
+                ? freelancer.address[0].zip
+                : "Not Available"
+            }}
+          </p>
+          <p class="text-gray-600">
+            Date of Birth:
+            {{
+              freelancer.dob
+                ? (freelancer.dob | date : "longDate")
+                : "Not Available"
+            }}
+          </p>
+        </div>
+      </div>
+    </main>
+ <button
+ (click)="submitProfile()"
+  class="fixed bottom-4 right-6 bg-teal-600 text-white px-6 py-2 rounded-lg shadow-lg hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-opacity-50 transition-all duration-300"
+>
+  Post Profile
+</button>
+
+  </body>
 </html>
+<app-edit-address-modal
+  (addressUpdated)="updateFreelancerAddress($event)"
+></app-edit-address-modal>
+<app-edit-experience-from-preview-modal
+  (saveChanges)="updateFreelancerExperience($event)"
+></app-edit-experience-from-preview-modal>
+<app-edit-education-from-preview-modal
+  (educationUpdate)="updateFreelancerEducation($event)"
+>
+</app-edit-education-from-preview-modal>
+<app-edit-skill-from-preview-modal
+  (skillsUpdated)="updateFreelancerSkill($event)"
+></app-edit-skill-from-preview-modal>
+
+<app-edit-bio-from-preview-modal
+  (profileUpdated)="updateFreelancerBio($event)"
+></app-edit-bio-from-preview-modal>
+<app-edit-rate-from-preview-modal></app-edit-rate-from-preview-modal>
+<app-edit-language-from-preview-modal></app-edit-language-from-preview-modal>

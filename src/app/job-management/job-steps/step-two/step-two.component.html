@@ -3,20 +3,34 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Job Post Page</title>
+    <title>Job Post Page - Skills</title>
     <link
       href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
       rel="stylesheet"
     />
     <style>
+      .bg-gradient-green::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 400px; /* Adjust the size of the circle */
+        height: 400px;
+        background: radial-gradient(circle, white 70%, #3bf2d4 100%);
+        z-index: -1; /* Ensure the gradient is behind other content */
+      }
       .bg-gradient-green {
         background: linear-gradient(135deg, white 70%, #97ffee 100%);
       }
     </style>
   </head>
-  <body class="bg-gradient-green min-h-screen flex flex-col">
+  <body
+    *ngIf="!isSkillSelected"
+    class="bg-gradient-green min-h-screen flex flex-col relative"
+  >
+    <!-- Header -->
     <div class="bg-white border-b border-gray-200 w-full p-4">
-      <div class="container mx-auto flex justify-between">
+      <div class="container mx-auto flex justify-between items-center">
         <div
           style="color: #089b8c; font-size: x-large"
           class="text-xl font-bold"
@@ -26,100 +40,56 @@
       </div>
     </div>
 
-    <div class="flex flex-1 w-full justify-center  items-center p-10">
+    <!-- Main Content -->
+    <div class="flex flex-1 w-full justify-center items-center p-6 md:p-10">
       <div
-        class="p-10 rounded-lg max-w-4xl w-full flex justify-between space-x-20"
+        class="p-6 md:p-10 rounded-lg max-w-4xl w-full flex flex-col md:flex-row justify-between space-y-6 md:space-y-0 md:space-x-10"
       >
-        <div class="w-1/2">
-          <div class="mb-8">
-            <span class="text-gray-600">2/5</span>
-            <span class="ml-2 text-gray-800 font-semibold">Job post</span>
+        <!-- Left Section -->
+        <div class="w-full md:w-1/2">
+          <div class="mb-4 md:mb-8">
+            <span class="text-gray-600 text-sm md:text-base">2/6</span>
+            <span class="ml-2 text-gray-800 font-semibold text-lg md:text-xl">Job post</span>
           </div>
-          <h1 class="text-4xl font-semibold mb-2">
+          <h1 class="text-2xl md:text-4xl font-semibold mb-4 md:mb-2">
             What are the main skills required for your work?
           </h1>
         </div>
-        <div class="w-1/2">
-          <div class="mb-6">
-            <label
-              for="skills-search"
-              class="block text-gray-700 font-bold mb-2"
-              >Search skills or add your own</label
-            >
-            <div class="relative">
-              <input
-                id="skills-search"
-                type="text"
-                class="w-full border border-gray-300 p-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
-              />
-              <svg
-                class="absolute top-2.5 right-3 w-5 h-5 text-gray-500"
-                xmlns="http://www.w3.org/2000/svg"
-                height="24px"
-                viewBox="0 -960 960 960"
-                width="24px"
-                fill="#000000"
-              >
-                <path
-                  d="M784-120 532-372q-30 24-69 38t-83 14q-109 0-184.5-75.5T120-580q0-109 75.5-184.5T380-840q109 0 184.5 75.5T640-580q0 44-14 83t-38 69l252 252-56 56ZM380-400q75 0 127.5-52.5T560-580q0-75-52.5-127.5T380-760q-75 0-127.5 52.5T200-580q0 75 52.5 127.5T380-400Z"
-                />
-              </svg>
-            </div>
 
-            <p class="text-gray-500 mt-2">
-              For the best results, add 3-5 skills
-            </p>
+        <!-- Right Section -->
+        <div class="w-full md:w-1/2">
+          <div class="mb-4 md:mb-6">
+            <label
+              for="skills-dropdown"
+              class="block text-gray-700 font-bold mb-2 text-sm md:text-base"
+            >
+              Select skills
+            </label>
+            <select
+              id="skills-dropdown"
+              [(ngModel)]="selectedSkill"
+              (change)="addSkill()"
+              class="w-full border border-gray-300 p-2 rounded-lg text-sm md:text-base focus:outline-none focus:ring-2 focus:ring-teal-500"
+            >
+              <option *ngFor="let skill of skills" [ngValue]="skill">
+                {{ skill.name }}
+              </option>
+            </select>
+            <p *ngIf="error" class="text-red-500 text-xs md:text-sm mt-2">{{ error }}</p>
+            <p class="text-gray-500 text-xs md:text-sm mt-2">For the best results, add 3-5 skills</p>
           </div>
-          <div class="mb-6">
-            <p class="text-gray-700 font-bold mb-2">Selected skills</p>
+          <div class="mb-4 md:mb-6">
+            <p class="text-gray-700 font-bold mb-2 text-sm md:text-base">Selected skills</p>
             <div class="flex flex-wrap gap-2">
               <span
-                class="bg-teal-500 text-white py-1 px-3 rounded-full flex items-center"
+                *ngFor="let skill of selectedSkills"
+                class="bg-teal-500 text-white py-1 px-3 rounded-full flex items-center text-xs md:text-sm"
               >
-                java
-                <button class="ml-2 focus:outline-none">
-                  <svg
-                    class="w-4 h-4"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M6 18L18 6M6 6l12 12"
-                    ></path>
-                  </svg>
-                </button>
-              </span>
-              <span
-                class="bg-teal-500 text-white py-1 px-3 rounded-full flex items-center"
-              >
-                html
-                <button class="ml-2 focus:outline-none">
-                  <svg
-                    class="w-4 h-4"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M6 18L18 6M6 6l12 12"
-                    ></path>
-                  </svg>
-                </button>
-              </span>
-              <span
-                class="bg-teal-500 text-white py-1 px-3 rounded-full flex items-center"
-              >
-                css
-                <button class="ml-2 focus:outline-none">
+                {{ skill.name }}
+                <button
+                  class="ml-2 focus:outline-none"
+                  (click)="removeSkill(skill)"
+                >
                   <svg
                     class="w-4 h-4"
                     fill="none"
@@ -141,13 +111,16 @@
         </div>
       </div>
     </div>
-    <div class="flex justify-end mt-10 mr-20">
+
+    <!-- Next Button -->
+    <div class="flex justify-end p-6 md:p-10">
       <button
-        class="bg-teal-600 text-white py-2 px-6 rounded-lg hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-teal-500 mb-7"
-        routerLink="/job/stepThree"
+        class="bg-teal-600 text-white py-2 px-6 rounded-lg text-sm md:text-base hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-teal-500"
+        (click)="onSubmit()"
       >
-        Next: scope
+        Next: Scope
       </button>
     </div>
   </body>
+  <app-step-third *ngIf="isSkillSelected"></app-step-third>
 </html>

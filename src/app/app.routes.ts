@@ -3,6 +3,8 @@ import { GoogleSigninComponent } from './google-signin/google-signin.component';
 import { LoginComponent } from './auth/login/login.component';
 import { SignupComponent } from './auth/signup/signup.component';
 import { RoleGuard } from '../role.guard';
+import { AdminDashboardComponent } from './admin-management/admin-dashboard/admin-dashboard.component';
+import { ListFreelancersComponent } from './admin-management/list-freelancers/list-freelancers.component';
 
 export const routes: Routes = [
   {
@@ -23,14 +25,14 @@ export const routes: Routes = [
         (m) => m.UserManagementModule
       ),
     canActivate: [RoleGuard],
-    data: { expectedRole: 'freelancer' }, // Only freelancers can access
+    data: { expectedRole: 'freelancer' },
   },
   {
     path: 'job',
     loadChildren: () =>
       import('./job-management/job-post.module').then((m) => m.JobPostModule),
     canActivate: [RoleGuard],
-    data: { expectedRole: 'client' }, // Only clients can access
+    data: { expectedRole: 'client' },
   },
   {
     path: 'browse',
@@ -54,11 +56,16 @@ export const routes: Routes = [
       import('./admin-management/admin-management.module').then(
         (m) => m.AdminManagementModule
       ),
-    canActivate: [RoleGuard],
-    data: { expectedRole: 'admin' }, // Only admins can access
+    // canActivate: [RoleGuard],
+    // data: { expectedRole: 'admin' }, // Only admins can access
+  },
+  {
+    path: 'p',
+    component: AdminDashboardComponent,
   },
   {
     path: '**',
-    redirectTo: '', 
+    redirectTo: '',
   },
+  { path: 'freelancer', component: ListFreelancersComponent },
 ];

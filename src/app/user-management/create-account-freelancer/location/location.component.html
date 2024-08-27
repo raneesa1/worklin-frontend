@@ -19,6 +19,22 @@
         border-color: #38b2ac;
         box-shadow: 0 0 0 3px rgba(5, 125, 119, 0.5);
       }
+      .image-container {
+        position: relative;
+        height: 4rem; /* Adjust based on the desired size */
+        width: 4rem; /* Adjust based on the desired size */
+        border-radius: 50%;
+        overflow: hidden;
+        background-color: #f0f0f0; /* Light gray background */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .image-container img {
+        object-fit: cover; /* Ensures the image covers the container */
+        width: 100%;
+        height: 100%;
+      }
     </style>
   </head>
   <body class="bg-white min-h-screen flex flex-col">
@@ -56,19 +72,28 @@
             keep things safe and simple, they'll pay you through us - which is
             why we need your personal information.
           </p>
-          <form (ngSubmit)="onSubmit()" #profileForm="ngForm">
+          <form (ngSubmit)="onSubmit()" [formGroup]="profileForm">
             <div class="mb-4 items-center">
-              <div
-                class="h-16 w-16 rounded-full bg-gray-200 flex items-center justify-center"
-              >
-                <span class="text-gray-500 text-xl">+</span>
+              <div class="image-container">
+                <img
+                  *ngIf="uploadedImageUrl"
+                  [src]="uploadedImageUrl"
+                  class="object-cover"
+                />
+                <span *ngIf="!uploadedImageUrl" class="text-gray-500 text-xl">
+                  +
+                </span>
               </div>
-              <button
-                type="button"
-                class="mt-6 px-4 py-2 bg-green-500 text-white rounded-md"
-              >
-                Upload photo
+
+              <button class="bg-black p-2 rounded mt-3">
+                <app-photo-upload-modal
+                  (cdnUrl)="onImageUploaded($event)"
+                  class=""
+                ></app-photo-upload-modal>
               </button>
+              <div *ngIf="imageError" class="text-red-500 text-sm mt-1">
+                Image is required.
+              </div>
             </div>
             <div class="mb-4 grid grid-cols-2 gap-4">
               <!-- Date of Birth Component -->
@@ -76,7 +101,14 @@
                 <label for="dob" class="block text-gray-700"
                   >Date of Birth *</label
                 >
-                <app-date-picker></app-date-picker>
+                <app-date-picker
+                  name="dob"
+                  required
+                  (dateSelected)="onDateSelected($event)"
+                ></app-date-picker>
+                <div *ngIf="dobError" class="text-red-500 text-sm mt-1">
+                  {{ dobErrorMessage }}
+                </div>
               </div>
 
               <!-- Country Dropdown -->
@@ -86,22 +118,27 @@
                 >
                 <select
                   id="country"
-                  [(ngModel)]="user.country"
-                  name="country"
+                  formControlName="country"
                   class="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:border-none focus:ring-teal-500 focus:border-teal-500"
-                  [ngClass]="{
-                    'border-red-500':
-                      country.invalid && (country.dirty || country.touched)
-                  }"
-                  #country="ngModel"
                   required
                 >
                   <option value="" disabled>Select your country</option>
                   <option value="India">India</option>
+                  <option value="India">India</option>
+                  <option value="India">India</option>
+                  <option value="India">India</option>
+                  <option value="India">India</option>
+                  <option value="India">India</option>
+                  <option value="India">India</option>
+                  <option value="India">India</option>
+                  <option value="India">India</option>
                   <!-- Add other options as needed -->
                 </select>
                 <div
-                  *ngIf="country.invalid && (country.dirty || country.touched)"
+                  *ngIf="
+                    profileForm.get('country')?.invalid &&
+                    profileForm.get('country')?.touched
+                  "
                   class="text-red-500 text-sm mt-1"
                 >
                   Country is required.
@@ -115,21 +152,18 @@
               <input
                 type="text"
                 id="address"
-                [(ngModel)]="user.address"
-                name="address"
+                formControlName="address"
                 class="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:border-none focus:ring-teal-500 focus:border-teal-500"
-                [ngClass]="{
-                  'border-red-500':
-                    address.invalid && (address.dirty || address.touched)
-                }"
-                #address="ngModel"
                 required
               />
               <div
-                *ngIf="address.invalid && (address.dirty || address.touched)"
+                *ngIf="
+                  profileForm.get('address')?.invalid &&
+                  profileForm.get('address')?.touched
+                "
                 class="text-red-500 text-sm mt-1"
               >
-                Street address is required.
+                Address is required.
               </div>
             </div>
             <div class="mb-4 grid grid-cols-2 gap-4">
@@ -138,132 +172,93 @@
                 <input
                   type="text"
                   id="city"
-                  [(ngModel)]="user.city"
-                  name="city"
+                  formControlName="city"
                   class="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:border-none focus:ring-teal-500 focus:border-teal-500"
-                  [ngClass]="{
-                    'border-red-500':
-                      city.invalid && (city.dirty || city.touched)
-                  }"
-                  #city="ngModel"
                   required
                 />
                 <div
-                  *ngIf="city.invalid && (city.dirty || city.touched)"
+                  *ngIf="
+                    profileForm.get('city')?.invalid &&
+                    profileForm.get('city')?.touched
+                  "
                   class="text-red-500 text-sm mt-1"
                 >
                   City is required.
                 </div>
               </div>
               <div>
-                <label for="state" class="block text-gray-700"
-                  >State/Province</label
-                >
+                <label for="state" class="block text-gray-700">State</label>
                 <input
                   type="text"
                   id="state"
-                  [(ngModel)]="user.state"
-                  name="state"
+                  formControlName="state"
                   class="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:border-none focus:ring-teal-500 focus:border-teal-500"
-                  #state="ngModel"
                 />
-                <div
-                  *ngIf="state.invalid && (state.dirty || state.touched)"
-                  class="text-red-500 text-sm mt-1"
-                >
-                  State/Province is required.
-                </div>
               </div>
             </div>
             <div class="mb-4 grid grid-cols-2 gap-4">
               <div>
                 <label for="phone" class="block text-gray-700">Phone *</label>
-                <div class="flex mt-1">
-                  <span
-                    class="flex items-center px-3 border border-gray-300 bg-gray-100 rounded-l-md"
-                    >+91</span
-                  >
-                  <input
-                    type="tel"
-                    id="phone"
-                    [(ngModel)]="user.phone"
-                    name="phone"
-                    class="w-full p-2 border border-gray-300 rounded-r-md focus:border-none focus:ring-teal-500 focus:border-teal-500"
-                    placeholder="Enter number"
-                    [ngClass]="{
-                      'border-red-500':
-                        phone.invalid && (phone.dirty || phone.touched)
-                    }"
-                    #phone="ngModel"
-                    required
-                  />
-                </div>
+                <input
+                  type="tel"
+                  id="phone"
+                  formControlName="phone"
+                  class="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:border-none focus:ring-teal-500 focus:border-teal-500"
+                  required
+                />
                 <div
-                  *ngIf="phone.invalid && (phone.dirty || phone.touched)"
+                  *ngIf="
+                    profileForm.get('phone')?.invalid &&
+                    profileForm.get('phone')?.touched
+                  "
                   class="text-red-500 text-sm mt-1"
                 >
-                  Phone number is required.
+                  Phone number is required and must be 10 digits.
                 </div>
               </div>
               <div>
-                <label for="zip" class="block text-gray-700"
-                  >ZIP/Postal code</label
-                >
+                <label for="zip" class="block text-gray-700">ZIP Code</label>
                 <input
                   type="text"
                   id="zip"
-                  [(ngModel)]="user.zip"
-                  name="zip"
+                  formControlName="zip"
                   class="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:border-none focus:ring-teal-500 focus:border-teal-500"
-                  #zip="ngModel"
                 />
-                <div
-                  *ngIf="zip.invalid && (zip.dirty || zip.touched)"
-                  class="text-red-500 text-sm mt-1"
-                >
-                  ZIP/Postal code is required.
-                </div>
               </div>
             </div>
-            <div class="mb-6">
-              <label for="apt" class="block text-gray-700"
-                >Apt/Suite (Optional)</label
-              >
+            <div class="mb-4">
+              <label for="apt" class="block text-gray-700">Apartment</label>
               <input
                 type="text"
                 id="apt"
-                [(ngModel)]="user.apt"
-                name="apt"
+                formControlName="apt"
                 class="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:border-none focus:ring-teal-500 focus:border-teal-500"
-                #apt="ngModel"
               />
             </div>
-            <button
-              type="submit"
-              class="w-full py-2 bg-green-500 text-white rounded-md"
-              [disabled]="profileForm.invalid"
-            >
-              Review your profile
-            </button>
+            <div class="flex justify-center">
+              <button
+                type="submit"
+                class="bg-green-500 text-white px-4 py-2 rounded-md"
+              >
+                Save & Continue
+              </button>
+            </div>
           </form>
         </div>
       </div>
     </div>
-
     <div class="bg-white w-full p-4 border-t border-gray-200">
       <div class="container mx-auto flex justify-between items-center">
-        <button class="text-blue-500">Back</button>
-        <div class="flex space-x-4">
-          <button class="text-gray-500">Skip for now</button>
-          <button
-            class="bg-teal-600 text-white px-4 py-2 rounded hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-teal-500"
-            routerLink="/user/create-account-preview"
-          >
-            Next
-          </button>
-        </div>
+        <button class="bg-gray-200 text-gray-700 px-4 py-2 rounded">
+          Back
+        </button>
+        <button
+          class="bg-green-600 text-white px-6 py-2 rounded"
+
+        >
+          Post Profile
+        </button>
       </div>
     </div>
-    <!-- <app-photo-upload-modal ></app-photo-upload-modal> -->
   </body>
 </html>

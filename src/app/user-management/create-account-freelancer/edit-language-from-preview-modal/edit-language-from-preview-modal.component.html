@@ -1,0 +1,154 @@
+<!-- Modal Background -->
+<div
+  *ngIf="isModalOpen"
+  class="fixed inset-0 z-50 flex items-center justify-center bg-gray-900 bg-opacity-50"
+>
+  <!-- Modal Container -->
+  <div class="bg-white p-6 rounded-lg shadow-lg max-w-2xl w-full relative">
+    <!-- Close Button -->
+    <button
+      (click)="closeModal()"
+      class="absolute top-2 right-2 text-gray-600 hover:text-gray-800"
+    >
+      <svg
+        class="w-6 h-6"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M6 18L18 6M6 6l12 12"
+        ></path>
+      </svg>
+    </button>
+
+    <!-- Modal Content -->
+    <div class="mb-6">
+      <h2 class="text-2xl font-bold mb-4">Edit Language Proficiency</h2>
+      <p class="text-gray-600 mb-6">
+        You can update the proficiency level of your English and add or edit
+        other languages.
+      </p>
+
+      <!-- English Language Input (Cannot be Changed) -->
+      <div class="mb-4">
+        <label class="block text-gray-700 font-medium mb-2">Language</label>
+        <div class="flex items-center mb-4">
+          <span class="text-gray-700 flex-1">English</span>
+          <div class="flex-1">
+            <label class="block text-gray-700 font-medium mb-2"
+              >Proficiency</label
+            >
+            <select
+              [(ngModel)]="englishProficiency"
+              class="border border-gray-300 rounded p-2 w-full"
+            >
+              <option value="Basic">Basic</option>
+              <option value="Conversational">Conversational</option>
+              <option value="Fluent">Fluent</option>
+              <option value="Native/Bilingual">Native/Bilingual</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- Dynamic Language Inputs -->
+      <div *ngFor="let lang of languages; let i = index" class="mb-4">
+        <div class="flex items-center space-x-4">
+          <!-- Language Dropdown -->
+          <div class="flex-1">
+            <select
+              [(ngModel)]="lang.language"
+              class="border border-gray-300 rounded p-2 w-full"
+            >
+              <option value="" disabled>Select Language</option>
+              <option value="Arabic">Arabic</option>
+              <option value="Chinese">Chinese</option>
+              <option value="French">French</option>
+              <option value="German">German</option>
+              <option value="Hindi">Hindi</option>
+              <option value="Italian">Italian</option>
+              <option value="Japanese">Japanese</option>
+              <option value="Korean">Korean</option>
+              <option value="Portuguese">Portuguese</option>
+              <option value="Russian">Russian</option>
+              <option value="Spanish">Spanish</option>
+            </select>
+          </div>
+          <div class="flex-1">
+            <select
+              [(ngModel)]="lang.proficiency"
+              class="border border-gray-300 rounded p-2 w-full"
+            >
+              <option value="" disabled>Select Proficiency</option>
+              <option>Basic</option>
+              <option>Conversational</option>
+              <option>Fluent</option>
+              <option>Native/Bilingual</option>
+            </select>
+          </div>
+          <!-- Delete Icon -->
+          <button
+            *ngIf="languages.length > 1"
+            (click)="removeLanguage(i)"
+            class="text-red-600 hover:text-red-800"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              height="24px"
+              viewBox="0 -960 960 960"
+              width="24px"
+              fill="#4bb97b"
+            >
+              <path
+                d="M280-120q-33 0-56.5-23.5T200-200v-520h-40v-80h200v-40h240v40h200v80h-40v520q0 33-23.5 56.5T680-120H280Zm400-600H280v520h400v-520ZM360-280h80v-360h-80v360Zm160 0h80v-360h-80v360ZM280-720v520-520Z"
+              />
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Add Language Button -->
+      <button
+        (click)="addLanguage()"
+        class="text-green-600 border border-green-600 rounded-lg px-4 py-2 flex items-center"
+      >
+        <svg
+          class="w-4 h-4 mr-2"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M12 4v16m8-8H4"
+          ></path>
+        </svg>
+        Add a language
+      </button>
+    </div>
+
+    <!-- Modal Footer -->
+    <div class="flex justify-end space-x-4">
+      <button
+        (click)="closeModal()"
+        class="bg-gray-200 text-gray-700 px-4 py-2 rounded"
+      >
+        Cancel
+      </button>
+      <button
+        (click)="saveLanguages()"
+        class="bg-green-600 text-white px-6 py-2 rounded"
+      >
+        Save
+      </button>
+    </div>
+  </div>
+</div>

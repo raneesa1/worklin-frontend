@@ -1,120 +1,171 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Worklin Profile</title>
-  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-  <style>
-    .bg-light-gray {
-      background-color: #f7f7f7;
-    }
-  </style>
-</head>
-<body class="bg-light-gray min-h-screen flex flex-col items-center">
-
-  <!-- Navbar -->
-  <div class="bg-white w-full border-b border-gray-200 py-4">
-    <div class="container mx-auto flex justify-between items-center px-4">
-      <div class="text-2xl font-bold text-green-700">Worklin</div>
-      <div class="flex space-x-4 text-gray-500">
-        <a href="#" class="hover:text-green-700">Find Freelancers</a>
-        <a href="#" class="hover:text-green-700">Find Job</a>
-        <a href="#" class="hover:text-green-700">Message</a>
-        <a href="#" class="hover:text-green-700">About</a>
-        <div class="relative">
-          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.121 18.364l4.243-4.243m0 0l4.243 4.243M5.121 13.757l4.243-4.243m4.243 4.243l4.243-4.243"></path>
-          </svg>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Profile Section -->
-  <div class="container mx-auto mt-10 px-4">
-    <div class="bg-white shadow-md rounded-lg p-8 mb-6">
-      <div class="flex items-center justify-between mb-4">
-        <h1 class="text-2xl font-bold">Raneesa K.</h1>
-        <button class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">Profile settings</button>
-      </div>
-      <p class="text-gray-600 mb-6">Pattambi, India - 10:41 AM local time</p>
-      <div class="grid grid-cols-3 gap-4">
-        <div class="col-span-1">
-          <h2 class="text-xl font-bold mb-2">Promote with ads</h2>
-          <p class="text-gray-600">Availability badge: <span class="font-bold">Off</span></p>
-          <p class="text-gray-600">Boost your profile: <span class="font-bold">Off</span></p>
-        </div>
-        <div class="col-span-2">
-          <h2 class="text-xl font-bold mb-2">software developer</h2>
-          <p class="text-gray-600">I am a passionate software developer with a diverse skill set and a drive for continuous learning and innovation</p>
-          <div class="mt-4">
-            <h2 class="text-lg font-bold">Portfolio</h2>
-            <p class="text-gray-600">Published: <span class="font-bold">Drafts</span></p>
-            <button class="bg-gray-100 text-green-500 px-4 py-2 rounded hover:bg-gray-200 mt-2">Add a project</button>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Worklin Profile</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
+      rel="stylesheet"
+    />
+    <style>
+      .bg-light-gray {
+        background-color: #f7f7f7;
+      }
+    </style>
+  </head>
+  <body class="min-h-screen flex flex-col items-center">
+    <!-- Navbar -->
+    <div class="bg-white w-full border-b py-4">
+      <div class="container mx-auto flex justify-between items-center px-4">
+        <div class="text-2xl font-bold text-green-700">Worklin</div>
+        <div class="flex space-x-4 text-gray-500">
+          <a href="#" class="hover:text-green-700">Find Freelancers</a>
+          <a href="#" class="hover:text-green-700">Find Job</a>
+          <a href="#" class="hover:text-green-700">Message</a>
+          <a href="#" class="hover:text-green-700">About</a>
+          <div class="relative">
+            <svg
+              class="w-6 h-6"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M5.121 18.364l4.243-4.243m0 0l4.243 4.243M5.121 13.757l4.243-4.243m4.243 4.243l4.243-4.243"
+              ></path>
+            </svg>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- Profile Details Section -->
-    <div class="flex mb-10">
-      <!-- Left Column -->
-      <div class="w-1/3 mr-4">
-        <div class="bg-white shadow-md rounded-lg p-4 mb-4">
-          <h3 class="text-lg font-bold mb-2">Video introduction</h3>
-          <p class="text-green-500 text-center">+</p>
+    <!-- Profile Section -->
+    <div class="container mx-auto mt-10 px-4">
+      <div class="bg-white shadow-md rounded-lg p-8 mb-6">
+        <div class="flex items-center justify-between mb-4">
+          <h1 class="text-2xl font-bold">Raneesa K.</h1>
+          <button
+            class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600"
+          >
+            Profile settings
+          </button>
         </div>
-        <div class="bg-white shadow-md rounded-lg p-4 mb-4">
-          <h3 class="text-lg font-bold mb-2">Hours per week</h3>
-          <p class="text-gray-600">More than 30 hrs/week</p>
-        </div>
-        <div class="bg-white shadow-md rounded-lg p-4 mb-4">
-          <h3 class="text-lg font-bold mb-2">Languages</h3>
-          <p class="text-gray-600">English: Fluent</p>
-        </div>
-        <div class="bg-white shadow-md rounded-lg p-4 mb-4">
-          <h3 class="text-lg font-bold mb-2">Verifications</h3>
-          <p class="text-green-500 text-center">+</p>
-        </div>
-        <div class="bg-white shadow-md rounded-lg p-4 mb-4">
-          <h3 class="text-lg font-bold mb-2">Licenses</h3>
-          <p class="text-green-500 text-center">+</p>
-        </div>
-        <div class="bg-white shadow-md rounded-lg p-4 mb-4">
-          <h3 class="text-lg font-bold mb-2">Education</h3>
-          <p class="text-green-500 text-center">+</p>
-        </div>
-        <div class="bg-white shadow-md rounded-lg p-4 mb-4">
-          <h3 class="text-lg font-bold mb-2">Linked accounts</h3>
-          <div class="flex space-x-2">
-            <button class="bg-gray-100 text-green-500 px-4 py-2 rounded hover:bg-gray-200">GitHub</button>
-            <button class="bg-gray-100 text-green-500 px-4 py-2 rounded hover:bg-gray-200">StackOverflow</button>
+        <p class="text-gray-600 mb-6">Pattambi, India - 10:41 AM local time</p>
+        <div class="grid grid-cols-3 gap-4">
+          <div class="col-span-1">
+            <h2 class="text-xl font-bold mb-2">Promote with ads</h2>
+            <p class="text-gray-600">
+              Availability badge: <span class="font-bold">Off</span>
+            </p>
+            <p class="text-gray-600">
+              Boost your profile: <span class="font-bold">Off</span>
+            </p>
+          </div>
+          <div class="col-span-2">
+            <h2 class="text-xl font-bold mb-2">software developer</h2>
+            <p class="text-gray-600">
+              I am a passionate software developer with a diverse skill set and
+              a drive for continuous learning and innovation
+            </p>
+            <div class="mt-4">
+              <h2 class="text-lg font-bold">Portfolio</h2>
+              <p class="text-gray-600">
+                Published: <span class="font-bold">Drafts</span>
+              </p>
+              <button
+                class="bg-gray-100 text-green-500 px-4 py-2 rounded hover:bg-gray-200 mt-2"
+              >
+                Add a project
+              </button>
+            </div>
           </div>
         </div>
       </div>
 
-      <!-- Right Column -->
-      <div class="w-2/3">
-        <div class="bg-white shadow-md rounded-lg p-4 mb-4">
-          <h3 class="text-lg font-bold mb-2">Work history</h3>
-          <p class="text-gray-600">No items</p>
+      <!-- Profile Details Section -->
+      <div class="flex mb-10">
+        <!-- Left Column -->
+        <div class="w-1/3 mr-4">
+          <div class="bg-white shadow-md rounded-lg p-4 mb-4">
+            <h3 class="text-lg font-bold mb-2">Video introduction</h3>
+            <p class="text-green-500 text-center">+</p>
+          </div>
+          <div class="bg-white shadow-md rounded-lg p-4 mb-4">
+            <h3 class="text-lg font-bold mb-2">Hours per week</h3>
+            <p class="text-gray-600">More than 30 hrs/week</p>
+          </div>
+          <div class="bg-white shadow-md rounded-lg p-4 mb-4">
+            <h3 class="text-lg font-bold mb-2">Languages</h3>
+            <p class="text-gray-600">English: Fluent</p>
+          </div>
+          <div class="bg-white shadow-md rounded-lg p-4 mb-4">
+            <h3 class="text-lg font-bold mb-2">Verifications</h3>
+            <p class="text-green-500 text-center">+</p>
+          </div>
+          <div class="bg-white shadow-md rounded-lg p-4 mb-4">
+            <h3 class="text-lg font-bold mb-2">Licenses</h3>
+            <p class="text-green-500 text-center">+</p>
+          </div>
+          <div class="bg-white shadow-md rounded-lg p-4 mb-4">
+            <h3 class="text-lg font-bold mb-2">Education</h3>
+            <p class="text-green-500 text-center">+</p>
+          </div>
+          <div class="bg-white shadow-md rounded-lg p-4 mb-4">
+            <h3 class="text-lg font-bold mb-2">Linked accounts</h3>
+            <div class="flex space-x-2">
+              <button
+                class="bg-gray-100 text-green-500 px-4 py-2 rounded hover:bg-gray-200"
+              >
+                GitHub
+              </button>
+              <button
+                class="bg-gray-100 text-green-500 px-4 py-2 rounded hover:bg-gray-200"
+              >
+                StackOverflow
+              </button>
+            </div>
+          </div>
         </div>
-        <div class="bg-white shadow-md rounded-lg p-4 mb-4">
-          <h3 class="text-lg font-bold mb-2">Skills</h3>
-          <div class="flex flex-wrap gap-2">
-            <span class="bg-gray-200 text-gray-800 px-4 py-2 rounded-full">Node.js</span>
-            <span class="bg-gray-200 text-gray-800 px-4 py-2 rounded-full">JavaScript</span>
-            <span class="bg-gray-200 text-gray-800 px-4 py-2 rounded-full">MongoDB</span>
-            <span class="bg-gray-200 text-gray-800 px-4 py-2 rounded-full">PostgreSQL</span>
-            <span class="bg-gray-200 text-gray-800 px-4 py-2 rounded-full">React</span>
-            <span class="bg-gray-200 text-gray-800 px-4 py-2 rounded-full">Tailwind CSS</span>
-            <span class="bg-gray-200 text-gray-800 px-4 py-2 rounded-full">Angular</span>
+
+        <!-- Right Column -->
+        <div class="w-2/3">
+          <div class="bg-white shadow-md rounded-lg p-4 mb-4">
+            <h3 class="text-lg font-bold mb-2">Work history</h3>
+            <p class="text-gray-600">No items</p>
+          </div>
+          <div class="bg-white shadow-md rounded-lg p-4 mb-4">
+            <h3 class="text-lg font-bold mb-2">Skills</h3>
+            <div class="flex flex-wrap gap-2">
+              <span class="bg-gray-200 text-gray-800 px-4 py-2 rounded-full"
+                >Node.js</span
+              >
+              <span class="bg-gray-200 text-gray-800 px-4 py-2 rounded-full"
+                >JavaScript</span
+              >
+              <span class="bg-gray-200 text-gray-800 px-4 py-2 rounded-full"
+                >MongoDB</span
+              >
+              <span class="bg-gray-200 text-gray-800 px-4 py-2 rounded-full"
+                >PostgreSQL</span
+              >
+              <span class="bg-gray-200 text-gray-800 px-4 py-2 rounded-full"
+                >React</span
+              >
+              <span class="bg-gray-200 text-gray-800 px-4 py-2 rounded-full"
+                >Tailwind CSS</span
+              >
+              <span class="bg-gray-200 text-gray-800 px-4 py-2 rounded-full"
+                >Angular</span
+              >
+            </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
-
-</body>
+  </body>
 </html>

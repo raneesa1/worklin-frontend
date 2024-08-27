@@ -55,6 +55,9 @@
           <label for="skills" class="block text-gray-700 mb-2"
             >Your skills</label
           >
+          <div *ngIf="errorMessage" class="text-red-500 m-1">
+            {{ errorMessage }}
+          </div>
           <select
             id="skills"
             (change)="onSkillSelected($event)"

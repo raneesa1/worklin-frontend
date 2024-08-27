@@ -1,0 +1,90 @@
+<app-navbar-after-login></app-navbar-after-login>
+<div class="mx-4 md:mx-10 mt-8 md:mt-12">
+  <h1 class="text-xl md:text-2xl font-semibold m-4">
+    {{ jobData?.title }}
+  </h1>
+
+  <div class="font-sans antialiased text-gray-900">
+    <!-- Navbar -->
+    <div class="flex items-center justify-center p-2 md:p-4">
+      <div
+        class="flex flex-col md:flex-row rounded-full overflow-hidden border border-gray-300 w-full md:w-2/3"
+      >
+        <!-- Step 1 -->
+        <div
+          class="flex-1 text-center py-2 md:py-3 arrow-shape cursor-pointer"
+          [ngClass]="{
+            'bg-green-600 text-white': activeStep === 'view-job-post'
+          }"
+          (click)="setActiveStep('view-job-post')"
+        >
+          VIEW JOB POST
+        </div>
+        <!-- Step 2 -->
+        <div
+          class="flex-1 text-center py-2 md:py-3 arrow-shape cursor-pointer"
+          [ngClass]="{
+            'bg-green-600 text-white': activeStep === 'invite-freelancers'
+          }"
+          (click)="setActiveStep('invite-freelancers')"
+        >
+          INVITE FREELANCERS
+        </div>
+        <!-- Step 3 -->
+        <div
+          class="flex-1 text-center py-2 md:py-3 arrow-shape cursor-pointer"
+          [ngClass]="{
+            'bg-green-600 text-white': activeStep === 'review-proposals'
+          }"
+          (click)="setActiveStep('review-proposals')"
+        >
+          REVIEW PROPOSALS ({{ getApplicationsCount()}})
+        </div>
+        <!-- Step 4 -->
+        <div
+          class="flex-1 text-center py-2 md:py-3 cursor-pointer"
+          [ngClass]="{ 'bg-green-600 text-white': activeStep === 'hire' }"
+          (click)="setActiveStep('hire')"
+        >
+          HIRE (0)
+        </div>
+      </div>
+    </div>
+
+    <!-- Conditionally Displayed Components -->
+    <ng-container *ngIf="activeStep === 'view-job-post' && jobData">
+      <app-view-job-post [job]="jobData"></app-view-job-post>
+    </ng-container>
+
+    <ng-container *ngIf="activeStep === 'invite-freelancers'">
+      <app-invite-freelancers [jobData]="jobData"></app-invite-freelancers>
+    </ng-container>
+    <ng-container *ngIf="activeStep === 'review-proposals'">
+      <app-review-applications [jobData]="jobData"></app-review-applications>
+    </ng-container>
+    <ng-container *ngIf="activeStep === 'hire'">
+      <app-job-post-hires [jobData]="jobData"></app-job-post-hires>
+    </ng-container>
+  </div>
+</div>
+
+<style>
+  .arrow-shape {
+    clip-path: polygon(0% 0%, 90% 0%, 100% 50%, 90% 100%, 0% 100%);
+  }
+
+  .arrow-shape:last-child {
+    clip-path: none;
+  }
+
+  /* Make arrows responsive */
+  @media (max-width: 768px) {
+    .arrow-shape {
+      clip-path: none;
+    }
+
+    .arrow-shape:last-child {
+      clip-path: none;
+    }
+  }
+</style>

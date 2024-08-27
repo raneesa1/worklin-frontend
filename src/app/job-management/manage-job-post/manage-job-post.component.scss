@@ -1,0 +1,19 @@
+.arrow-shape {
+    clip-path: polygon(0% 0%, 90% 0%, 100% 50%, 90% 100%, 0% 100%);
+}
+
+.arrow-shape:last-child {
+    clip-path: none;
+}
+
+
+/* Make arrows responsive */
+@media (max-width: 768px) {
+    .arrow-shape {
+        clip-path: none;
+    }
+
+    .arrow-shape:last-child {
+        clip-path: none;
+    }
+}

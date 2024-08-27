@@ -1,0 +1,28 @@
+.job-item {
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.job-item:hover {
+    background-color: #f9f9f9;
+}
+
+.fixed {
+    position: fixed;
+}
+
+.right-0 {
+    right: 0;
+}
+
+.h-full {
+    height: 100%;
+}
+
+.shadow-lg {
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+.overflow-y-auto {
+    overflow-y: auto;
+}

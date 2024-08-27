@@ -1,0 +1,67 @@
+<div *ngIf="isSkillModalOpen" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+  <div class="bg-white p-6 rounded-lg max-w-lg w-full">
+   <h2 class="text-2xl font-semibold mb-2">
+          What are the main skills required for your work?
+        </h2>
+    <div class="mb-6">
+      <label
+        for="skills-dropdown"
+        class="block text-gray-700 font-bold mb-2"
+        >Select skills</label
+      >
+
+      <select
+        id="skills-dropdown"
+        [(ngModel)]="selectedSkill"
+        (change)="addSkill()"
+        class="w-full border border-gray-300 p-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
+      >
+        <option *ngFor="let skill of skills" [ngValue]="skill">
+          {{ skill.name }}
+        </option>
+      </select>
+      <p class="text-gray-500 mt-2">For the best results, add 3-5 skills</p>
+    </div>
+    <div class="mb-6">
+      <p class="text-gray-700 font-bold mb-2">Selected skills</p>
+      <div class="flex flex-wrap gap-2">
+        <span
+          *ngFor="let skill of selectedSkills"
+          class="bg-teal-500 text-white py-1 px-3 rounded-full flex items-center"
+        >
+          {{ skill.name }}
+          <button class="ml-2 focus:outline-none" (click)="removeSkill(skill)">
+            <svg
+              class="w-4 h-4"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M6 18L18 6M6 6l12 12"
+              ></path>
+            </svg>
+          </button>
+        </span>
+      </div>
+    </div>
+    <div class="flex justify-end space-x-4">
+      <button
+        class="bg-gray-500 text-white py-2 px-6 rounded-lg hover:bg-gray-600 focus:outline-none"
+        (click)="close()"
+      >
+        Cancel
+      </button>
+      <button
+        class="bg-teal-600 text-white py-2 px-6 rounded-lg hover:bg-teal-700 focus:outline-none"
+        (click)="saveChanges()"
+      >
+        Save Changes
+      </button>
+    </div>
+  </div>
+</div>

@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
 @Component({
@@ -10,6 +10,7 @@ import { FormsModule } from '@angular/forms';
   styleUrls: ['./date-picker.component.scss'],
 })
 export class DatePickerComponent implements OnInit {
+  @Output() dateSelected = new EventEmitter<Date>();
   MONTH_NAMES = [
     'January',
     'February',
@@ -24,13 +25,13 @@ export class DatePickerComponent implements OnInit {
     'November',
     'December',
   ];
-  selectedDate: number | null = null;
+  selectedDate: number | null = null; // Default no date selected
   DAYS = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
   years: number[] = [];
   no_of_days: number[] = [];
   blankdays: number[] = [];
   showDatepicker = false;
-  datepickerValue = 'Select date'; // Default text
+  datepickerValue: string | null = null; // Updated to handle null or empty string
   month!: number;
   year!: number;
   minYear!: number;
@@ -45,15 +46,12 @@ export class DatePickerComponent implements OnInit {
   }
 
   initDate() {
-    // Set default year to 2000 and random month and date internally
-    this.year = 2000;
-    this.month = Math.floor(Math.random() * 12); // Random month
-    const today = new Date(this.year, this.month);
-    const randomDay =
-      Math.floor(
-        Math.random() * new Date(this.year, this.month + 1, 0).getDate()
-      ) + 1;
-    // No need to update datepickerValue here since it should display 'Select date'
+    // Initialize without setting a default date
+    const today = new Date();
+    this.year = today.getFullYear();
+    this.month = today.getMonth();
+    // Ensure no default date is set
+    this.datepickerValue = null;
   }
 
   generateYearOptions() {
@@ -75,8 +73,9 @@ export class DatePickerComponent implements OnInit {
 
   getDateValue(date: number) {
     const selectedDate = new Date(this.year, this.month, date);
-    this.datepickerValue = selectedDate.toDateString();
+    this.datepickerValue = selectedDate.toDateString(); // Update the display value
     this.selectedDate = date;
+    this.dateSelected.emit(selectedDate);
     this.showDatepicker = false;
   }
 

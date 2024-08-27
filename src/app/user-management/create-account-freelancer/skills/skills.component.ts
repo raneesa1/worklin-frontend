@@ -14,6 +14,8 @@ import {
 } from '../../../state/selectors/category.selectors';
 import { FormsModule } from '@angular/forms';
 import { adminManagementService } from '../../../admin-management/service/admin-management.service';
+import { roleService } from '../../../../role.service';
+import { ProfileManagementService } from '../../service/profile-management.service';
 
 @Component({
   selector: 'app-skills',
@@ -27,11 +29,14 @@ export class SkillsComponent implements OnInit {
   selectedSubcategories: SubCategory[] = [];
   skills: Skill[] = [];
   selectedSkills: Skill[] = [];
+  errorMessage: string | null = null;
 
   constructor(
     private store: Store<AppState>,
     private adminService: adminManagementService,
-    private router: Router
+    private router: Router,
+    private roleService: roleService,
+    private profileService: ProfileManagementService
   ) {}
 
   ngOnInit(): void {
@@ -63,6 +68,7 @@ export class SkillsComponent implements OnInit {
     if (skill && !this.selectedSkills.includes(skill)) {
       this.selectedSkills.push(skill);
     }
+    this.errorMessage = null;
   }
 
   removeSelectedSkill(skillId?: string): void {
@@ -71,26 +77,31 @@ export class SkillsComponent implements OnInit {
     );
   }
   submitSkills(): void {
+    if (this.selectedSkills.length === 0) {
+      this.errorMessage = 'Please select at least one skill before proceeding.';
+      return;
+    }
+    const userId = this.roleService.getUserId();
     const payload = {
       category: this.selectedCategory,
       subcategories: this.selectedSubcategories,
       skills: this.selectedSkills,
+      userId,
     };
 
-    console.log(payload,'consoling the payload')
-
+    console.log(payload, 'consoling the payload');
 
     if (payload) {
-      // this.adminService.submitUserSkills(payload).subscribe(
-      //   (response: any) => {
-      //     console.log('Skills submitted successfully', response);
-      //     // Navigate to the next page
+      this.profileService.submitUserSkills(payload).subscribe(
+        (response: any) => {
+          console.log('Skills submitted successfully', response);
+          // Navigate to the next page
           this.router.navigate(['/user/create-account-title']);
-      //   },
-      //   (error: any) => {
-      //     console.error('Error submitting skills', error);
-      //   }
-      // );
+        },
+        (error: any) => {
+          console.error('Error submitting skills', error);
+        }
+      );
     }
   }
 }

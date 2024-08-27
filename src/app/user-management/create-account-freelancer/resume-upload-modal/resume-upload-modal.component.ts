@@ -2,20 +2,27 @@ import {
   Component,
   ElementRef,
   EventEmitter,
+  OnInit,
   Output,
   ViewChild,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ProfileManagementService } from '../../service/profile-management.service';
+import { HttpClient, HttpEvent, HttpEventType } from '@angular/common/http';
+import { roleService } from '../../../../role.service';
+import { Observable } from 'rxjs';
+import { PhotoUploadModalComponent } from '../photo-upload-modal/photo-upload-modal.component';
+import { FormsModule } from '@angular/forms';
+declare var cloudinary: any;
 
 @Component({
   selector: 'app-resume-upload-modal',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, PhotoUploadModalComponent, FormsModule],
   templateUrl: './resume-upload-modal.component.html',
   styleUrls: ['./resume-upload-modal.component.scss'],
 })
-export class ResumeUploadModalComponent {
+export class ResumeUploadModalComponent implements OnInit {
   @ViewChild('fileInput') fileInput!: ElementRef<HTMLInputElement>;
   selectedFile: File | null = null;
   isModalOpen = true;
@@ -25,28 +32,129 @@ export class ResumeUploadModalComponent {
   uploadedFileName = '';
   isError = false;
   errorMessage = '';
+  uploadedImageUrl: string = '';
   @Output() close = new EventEmitter<void>();
+  cloudinaryWidget: any;
 
-  constructor(private profileManagementService: ProfileManagementService) {}
+  constructor(
+    private profileManagementService: ProfileManagementService,
+    private http: HttpClient,
+    private roleService: roleService // Inject roleService
+  ) {}
+  ngOnInit() {
+    this.initCloudinaryWidget();
+  }
+  initCloudinaryWidget() {
+    this.cloudinaryWidget = cloudinary.createUploadWidget(
+      {
+        cloudName: 'dgyd6acjg', // Replace with your Cloudinary cloud name
+        uploadPreset: 'worklin', // Replace with your upload preset
+        sources: ['local', 'url'],
+        multiple: false,
+        maxFiles: 1,
+        maxFileSize: 10000000, // 10MB
+        clientAllowedFormats: ['pdf', 'doc', 'docx'],
+      },
+      (error: any, result: any) => {
+        if (!error && result && result.event === 'success') {
+          console.log(
+            'Done! Here is the file info: ==========>>>>>>>>>>',
+            result.info
+          );
+          console.log(result.info.secure_url, 'consoling the url');
+          this.saveResumeUrl(
+            result.info.secure_url,
+            result.info.original_filename,
+            result.info.public_id
+          );
+        }
+      }
+    );
+  }
+  openCloudinaryWidget() {
+    this.cloudinaryWidget.open();
+  }
+  saveResumeUrl(url: string, fileName: string, publicId: string) {
+    const freelancerId = this.roleService.getUserId();
+    if (!freelancerId) {
+      this.showError('Failed to retrieve user ID. Please try again.');
+      return;
+    }
 
+    this.http
+      .post('http://localhost:8000/user/uploadResume', {
+        url,
+        freelancerId,
+        publicId,
+      })
+      .subscribe({
+        next: (response: any) => {
+          console.log('Resume URL saved successfully', response);
+          this.resumeUploaded = true;
+          this.uploadedFileName = fileName;
+          this.closeModal();
+        },
+        error: (error) => {
+          console.error('Error saving resume URL', error);
+          this.showError('Failed to save resume. Please try again.');
+        },
+      });
+  }
   closeModal() {
-    this.close.emit(); // Emit close event
+    this.close.emit();
+    this.resetState();
   }
 
   onFileSelected(event: Event) {
     const input = event.target as HTMLInputElement;
     if (input.files && input.files.length > 0) {
       this.selectedFile = input.files[0];
-      if (this.isValidFileType(this.selectedFile)) {
-        this.uploadedFileName = input.files[0].name;
-        console.log('Selected file:', this.selectedFile);
-        this.onUpload();
-      } else {
-        this.isError = true;
-        console.log('Invalid file type');
-        this.errorMessage =
-          'Invalid file type. Please upload a PDF, Word doc, or rich text file.';
+      if (this.selectedFile && this.selectedFile.size > 10 * 1024 * 1024) {
+        this.showError(
+          'File size exceeds 10MB limit. Please choose a smaller file.'
+        );
+        console.log(
+          'File size exceeds 10MB limit. Please choose a smaller file.'
+        );
+        return;
       }
+      this.uploadedFileName = this.selectedFile.name;
+      // this.submit();
+      this.submitToCloudinary();
+    }
+  }
+
+  submitToCloudinary() {
+    if (this.selectedFile) {
+      const formData = new FormData();
+      formData.append('file', this.selectedFile);
+      formData.append('upload_preset', 'worklin'); // Replace with your upload preset
+
+      this.isLoading = true;
+      this.http
+        .post(`https://api.cloudinary.com/v1_1/dgyd6acjg/raw/upload`, formData)
+        .subscribe({
+          next: (response: any) => {
+            console.log(response, 'consoling the response  ========>>>>>>>>>>');
+            const resumeUrl = response.secure_url;
+            const publicId = response.public_id;
+            this.uploadedFileName = response.original_filename;
+
+            // Pass resumeUrl and publicId to saveResumeUrl method
+            this.saveResumeUrl(
+              resumeUrl,
+              this.uploadedFileName,
+              publicId
+            );
+          },
+          error: (err) => {
+            console.error('Error uploading to Cloudinary:', err);
+            this.isLoading = false;
+            this.showError('Upload failed. Please try again.');
+          },
+        });
+    } else {
+      this.showError('No file selected. Please choose a file to upload.');
     }
   }
 
@@ -55,16 +163,9 @@ export class ResumeUploadModalComponent {
     event.stopPropagation();
     if (event.dataTransfer?.files && event.dataTransfer.files.length > 0) {
       this.selectedFile = event.dataTransfer.files[0];
-      if (this.isValidFileType(this.selectedFile)) {
-        this.onUpload();
-        console.log('Dropped file:', this.selectedFile);
-        event.dataTransfer.clearData();
-      } else {
-        console.log('Invalid file type');
-        this.isError = true;
-        this.errorMessage =
-          'Invalid file type. Please upload a PDF, Word doc, or rich text file.';
-      }
+      this.uploadedFileName = this.selectedFile.name;
+      this.submit();
+      event.dataTransfer.clearData();
     }
   }
 
@@ -77,22 +178,60 @@ export class ResumeUploadModalComponent {
     event.preventDefault();
     event.stopPropagation();
   }
-
-  onUpload() {
+  submit() {
     if (this.selectedFile) {
-      this.isLoading = true;
+      const freelancerId = this.roleService.getUserId();
+      if (!freelancerId) {
+        this.showError('Failed to retrieve user ID. Please try again.');
+        this.isLoading = false;
+        return;
+      }
 
-      this.loadingProgress = 0;
+      console.log('File size:', this.selectedFile.size);
+      console.log('File type:', this.selectedFile.type);
 
-      // Simulate loading process
-      const interval = setInterval(() => {
-        this.loadingProgress += 10;
-        if (this.loadingProgress >= 100) {
-          clearInterval(interval);
+      // const formData = new FormData();
+      // formData.append('resume', this.selectedFile, this.selectedFile.name);
+      // formData.append('id', freelancerId);
+
+      const formData = new FormData();
+      formData.append('resume', this.selectedFile, this.selectedFile.name);
+      // formData.append('id', freelancerId);
+
+      this.http
+        .post('http://localhost:8000/user/uploadResume', formData, {
+          reportProgress: true,
+          observe: 'events',
+        })
+        .subscribe({
+          next: (event: HttpEvent<any>) => this.handleUploadEvent(event),
+          error: (err) => {
+            console.error('Error from submit function:', err);
+            this.isLoading = false;
+            this.showError('Upload failed. Please try again.');
+          },
+        });
+    } else {
+      this.showError('No file selected. Please choose a file to upload.');
+    }
+  }
+  handleUploadEvent(event: HttpEvent<any>) {
+    switch (event.type) {
+      case HttpEventType.UploadProgress:
+        if (event.total) {
+          this.loadingProgress = Math.round((event.loaded / event.total) * 100);
+        }
+        break;
+      case HttpEventType.Response:
+        if (event.body && event.body.success) {
           this.resumeUploaded = true;
           this.isLoading = false;
+          this.closeModal();
+        } else {
+          this.showError(event.body?.message || 'Failed to upload resume.');
+          this.isLoading = false;
         }
-      }, 200);
+        break;
     }
   }
 
@@ -102,46 +241,30 @@ export class ResumeUploadModalComponent {
   }
 
   triggerFileInput() {
-    const fileInput = document.getElementById('resume') as HTMLInputElement;
-    fileInput.click();
+    this.fileInput.nativeElement.click();
   }
 
-  isValidFileType(file: File): boolean {
-    const allowedTypes = [
-      'application/pdf',
-      'application/msword',
-      'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-      'application/rtf',
-    ];
-    return allowedTypes.includes(file.type);
+  showError(message: string) {
+    this.isError = true;
+    this.errorMessage = message;
+    setTimeout(() => {
+      this.isError = false;
+      this.errorMessage = '';
+    }, 5000);
   }
 
-  submit() {
-    if (this.selectedFile) {
-      const formData = new FormData();
-      formData.append('resume', this.selectedFile); // Use the field name expected by your backend
+  resetState() {
+    this.selectedFile = null;
+    this.isLoading = false;
+    this.loadingProgress = 0;
+    this.resumeUploaded = false;
+    this.uploadedFileName = '';
+    this.isError = false;
+    this.errorMessage = '';
+  }
 
-      // Log FormData entries for debugging
-      formData.forEach((value, key) => {
-        console.log(`${key}:`, value);
-      });
-      console.log(formData, 'consoling the form data');
-      this.profileManagementService.uploadResume(formData).subscribe({
-        next: (response) => {
-          console.log('Upload successful:', response);
-          this.resumeUploaded = true;
-          this.closeModal(); // Close modal on successful upload
-        },
-        error: (err) => {
-          console.error('Upload failed:', err);
-          this.isError = true;
-          this.errorMessage = 'Failed to upload resume. Please try again.';
-        },
-      });
-    } else {
-      console.error('No file selected');
-      this.isError = true;
-      this.errorMessage = 'No file selected. Please choose a file to upload.';
-    }
+  onImageUploaded(url: string) {
+    this.uploadedImageUrl = url;
+    console.log(this.uploadedImageUrl);
   }
 }

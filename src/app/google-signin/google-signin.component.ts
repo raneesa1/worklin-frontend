@@ -7,6 +7,7 @@ import { AuthService } from '../auth/services/auth.service';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { roleService } from '../../role.service';
+import { CookieService } from 'ngx-cookie-service';
 
 @Component({
   selector: 'app-google-signin',
@@ -21,7 +22,8 @@ export class GoogleSigninComponent {
     private authService: AuthService,
     private router: Router,
     private socialAuthService: SocialAuthService,
-    private roleService: roleService
+    private roleService: roleService,
+    private cookieService: CookieService
   ) {}
   errorMessage: string | null = null;
 
@@ -68,12 +70,16 @@ export class GoogleSigninComponent {
   handleGoogleSignIn(idToken: string): void {
     this.authService.googleSignin({ credential: idToken }).subscribe({
       next: (response) => {
-        console.log('Backend response:', response);
+        console.log(response, 'consoling the response');
         if (response.token) {
-          console.log(response.token, 'consoling the token from reposonse');
-          console.log('console from signup insid if case');
-          this.roleService.storeToken(response.token); // Store the token
+          this.cookieService.set('auth', response.token, {
+            secure: true,
+            sameSite: 'Strict',
+          });
+          localStorage.setItem('auth', response.token);
         }
+        console.log('Backend response:', response);
+        // Redirect based on user account type
         if (response.user.accountType === 'client') {
           this.router.navigate(['job/clientIntro']);
         } else if (response.user.accountType === 'freelancer') {

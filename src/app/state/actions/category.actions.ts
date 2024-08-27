@@ -1,3 +1,4 @@
+// category.actions.ts
 import { Category, SubCategory } from "../../admin-management/types/category.model";
 import { createAction, props } from '@ngrx/store';
 

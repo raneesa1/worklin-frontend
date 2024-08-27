@@ -5,17 +5,25 @@ import { AddExperienceModalComponent } from '../add-experience-modal/add-experie
 import { Experience } from '../../interfaces/experience';
 import { ProfileManagementService } from '../../service/profile-management.service';
 import { roleService } from '../../../../role.service';
+import { EditExperienceModalComponent } from '../edit-experience-modal/edit-experience-modal.component';
 
 @Component({
   selector: 'app-experience',
   standalone: true,
-  imports: [RouterModule, CommonModule, AddExperienceModalComponent],
+  imports: [
+    RouterModule,
+    CommonModule,
+    AddExperienceModalComponent,
+    EditExperienceModalComponent,
+  ],
   templateUrl: './experience.component.html',
   styleUrl: './experience.component.scss',
 })
 export class ExperienceComponent implements OnInit {
   isModalOpen = false;
+  isEditModalOpen = false;
   experiences: Experience[] = [];
+  selectedExperience: Experience | null = null;
   userId: string | null = null;
 
   constructor(
@@ -37,6 +45,14 @@ export class ExperienceComponent implements OnInit {
 
   closeModal() {
     this.isModalOpen = false;
+  }
+  closeEditModal(): void {
+    this.isEditModalOpen = false;
+  }
+
+  openEditModal(experience: Experience): void {
+    this.selectedExperience = { ...experience };
+    this.isEditModalOpen = true;
   }
 
   fetchExperiences(): void {
@@ -69,6 +85,22 @@ export class ExperienceComponent implements OnInit {
           console.error('Error deleting experience:', error);
         }
       );
+    }
+  }
+  saveExperience(updatedExperience: Experience) {
+    if (updatedExperience._id) {
+      this.profileService
+        .updateExperience(updatedExperience._id, updatedExperience)
+        .subscribe(
+          () => {
+            this.fetchExperiences();
+            this.closeEditModal()
+            console.log('Experience updated successfully');
+          },
+          (error) => {
+            console.error('Error updating experience:', error);
+          }
+        );
     }
   }
 }

@@ -1,0 +1,104 @@
+/* Job Card Container */
+.job-card {
+  transition: background-color 0.3s ease-in-out;
+  /* Smooth background color transition */
+}
+
+
+/* Job Title Styling */
+.job-title {
+  color: #4a5568; /* Default text color */
+  transition: color 0.3s ease-in-out, font-weight 0.3s ease-in-out, text-decoration 0.3s ease-in-out;
+  /* Smooth transitions for color, font-weight, and text-decoration */
+}
+
+.job-card:hover .job-title {
+  color: #389174; /* Teal color on hover */
+  font-weight: bold;
+  text-decoration: underline; /* Bold font on hover */
+}
+
+/* Job Title Underline on Hover */
+.job-title:hover {
+  text-decoration: underline; /* Underline text on hover */
+}
+
+
+/* Modal animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(100%) scale(0.95);
+    }
+
+    to {
+        transform: translateX(0) scale(1);
+    }
+}
+
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+    }
+
+    to {
+        opacity: 0;
+    }
+}
+
+@keyframes slideOut {
+    from {
+        transform: translateX(0) scale(1);
+    }
+
+    to {
+        transform: translateX(100%) scale(0.95);
+    }
+}
+
+.modal-container {
+    animation: fadeIn 0.3s ease-out;
+}
+
+.modal-content {
+    animation: slideIn 0.3s ease-out;
+}
+
+.modal-container.closing {
+    animation: fadeOut 0.3s ease-in;
+}
+
+.modal-content.closing {
+    animation: slideOut 0.3s ease-in;
+}.skills-container {
+    overflow-x: auto;
+    /* Allows horizontal scrolling */
+    scrollbar-width: thin;
+    /* Firefox */
+    -ms-overflow-style: none;
+
+    /* IE 10+ */
+    ::-webkit-scrollbar {
+        height: 0;
+        /* Hide scrollbar for Chrome, Safari, and Opera */
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background-color: rgba(0, 0, 0, 0.2);
+        /* Custom scrollbar styling */
+        border-radius: 10px;
+    }
+
+    &::-webkit-scrollbar-track {
+        background: transparent;
+    }
+}

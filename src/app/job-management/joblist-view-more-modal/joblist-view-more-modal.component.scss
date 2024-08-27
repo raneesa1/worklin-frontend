@@ -1,0 +1,14 @@
+.modal {
+    position: fixed;
+    /* or absolute depending on your layout */
+    z-index: 1000;
+    /* or any high value */
+    /* other modal styles */
+}
+
+.dropdown {
+    position: absolute;
+    z-index: 999;
+    /* Ensure it's lower than modal */
+    /* other dropdown styles */
+}

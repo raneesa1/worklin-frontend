@@ -17,6 +17,9 @@ import { PreviewComponent } from './create-account-freelancer/preview/preview.co
 import { FreelancerProfileComponent } from './freelancer-profile/freelancer-profile.component';
 import { DatePickerComponent } from './create-account-freelancer/date-picker/date-picker.component';
 import { SkillManagementComponent } from '../admin-management/skill/skill-management/skill-management.component';
+import { PhotoUploadModalComponent } from './create-account-freelancer/photo-upload-modal/photo-upload-modal.component';
+import { ProfileCreatedComponent } from './profile-created/profile-created.component';
+import { ListFreelancersComponent } from '../admin-management/list-freelancers/list-freelancers.component';
 
 const routes: Routes = [
   { path: 'page-two', component: FreelancerPagetwoComponent },
@@ -32,7 +35,10 @@ const routes: Routes = [
   { path: 'create-account-category', component: CategoryComponent },
   { path: 'create-account-location', component: LocationComponent },
   { path: 'create-account-preview', component: PreviewComponent },
-  { path: 'freelancer-profile', component: FreelancerProfileComponent },
+  { path: 'myProfile', component: FreelancerProfileComponent },
+  { path: 'upload', component: PhotoUploadModalComponent },
+  { path: 'profileCreated', component: ProfileCreatedComponent },
+  { path: 'freelancers', component: ListFreelancersComponent },
 ];
 
 @NgModule({

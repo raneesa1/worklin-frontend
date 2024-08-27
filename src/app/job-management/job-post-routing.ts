@@ -9,17 +9,27 @@ import { ReviewPostComponent } from './job-steps/review-post/review-post.compone
 import { SkillManagementComponent } from '../admin-management/skill/skill-management/skill-management.component';
 import { ClientintroComponent } from '../user-management/clientintro/clientintro.component';
 import { CategoryManagementComponent } from '../admin-management/category/category-management/category-management.component';
+import { BudgetComponent } from './job-steps/budget/budget.component';
+import { JobPostedNotificationComponent } from './job-posted-notification/job-posted-notification.component';
+import { ListMyJobsComponent } from './list-my-jobs/list-my-jobs.component';
+import { InviteFreelancersComponent } from './invite-freelancers/invite-freelancers.component';
+import { ManageJobPostComponent } from './manage-job-post/manage-job-post.component';
+import { ListFreelancersComponent } from '../admin-management/list-freelancers/list-freelancers.component';
+
+
 
 const routes: Routes = [
-  { path: 'stepOne', component: StepOneComponent },
   { path: 'clientIntro', component: ClientintroComponent },
-  { path: 'stepTwo', component: StepTwoComponent },
-  { path: 'stepThree', component: StepThirdComponent },
-  { path: 'stepFour', component: StepFourComponent },
+  { path: 'jobPost', component: StepOneComponent },
   { path: 'stepFive', component: StepFiveComponent },
   { path: 'reviewPost', component: ReviewPostComponent },
+  { path: 'budget', component: BudgetComponent },
   { path: 'admin/skills', component: SkillManagementComponent },
   { path: 'admin/category', component: CategoryManagementComponent },
+  { path: 'job-posted', component: JobPostedNotificationComponent },
+  { path: 'list-my-jobs', component: ListMyJobsComponent },
+  { path: 'applications', component: ManageJobPostComponent },
+  { path: 'admin/users', component: ListFreelancersComponent },
 ];
 
 @NgModule({

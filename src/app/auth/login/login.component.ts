@@ -11,6 +11,7 @@ import { Router, RouterModule } from '@angular/router';
 import { AuthService } from '../services/auth.service';
 import { GoogleSigninComponent } from '../../google-signin/google-signin.component';
 import { roleService } from '../../../role.service';
+import { CookieService } from 'ngx-cookie-service';
 declare var google: any;
 @Component({
   selector: 'app-login',
@@ -33,7 +34,8 @@ export class LoginComponent {
     private fb: FormBuilder,
     private authService: AuthService,
     private router: Router,
-    private roleService: roleService
+    private roleService: roleService,
+    private cookieService: CookieService
   ) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
@@ -52,12 +54,15 @@ export class LoginComponent {
     if (this.loginForm.valid) {
       this.authService.login(this.loginForm.value).subscribe(
         (response) => {
-          console.log('Login successful!', response);
           if (response.token) {
-            console.log(response.token, 'consoling the token from reposonse');
-            console.log('console from signup insid if case');
-            this.roleService.storeToken(response.token); // Store the token
+            this.cookieService.set('auth', response.token, {
+              secure: true,
+              sameSite: 'Strict',
+            });
+            localStorage.setItem('auth', response.token);
           }
+          console.log('Login successful!', response);
+          // Redirect based on user account type if needed
           if (response.user.accountType === 'client') {
             this.router.navigate(['job/clientIntro']);
           } else if (response.user.accountType === 'freelancer') {

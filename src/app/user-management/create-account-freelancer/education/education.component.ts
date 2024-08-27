@@ -1,44 +1,144 @@
 import { Component } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { AddEducationModalComponent } from '../add-education-modal/add-education-modal.component';
 import { Education } from '../../interfaces/education';
 import { CommonModule } from '@angular/common';
+import { ProfileManagementService } from '../../service/profile-management.service';
+import { roleService } from '../../../../role.service';
+import { EditEducationModalComponent } from '../edit-education-modal/edit-education-modal.component';
 
 @Component({
   selector: 'app-education',
   standalone: true,
-  imports: [RouterModule, AddEducationModalComponent,CommonModule],
+  imports: [
+    RouterModule,
+    AddEducationModalComponent,
+    CommonModule,
+    EditEducationModalComponent,
+  ],
   templateUrl: './education.component.html',
   styleUrl: './education.component.scss',
 })
 export class EducationComponent {
-  education: Education[] = [
-     {
-      school: 'Northwestern University',
-      degree: 'Bachelor’s Degree',
-      fieldOfStudy: 'Computer Science',
-      fromMonth: 'September',
-      fromYear: '2016',
-      toMonth: 'June',
-      toYear: '2020',
-      description: 'Studied core concepts of computer science including algorithms, data structures, and software development.'
-    },
-  ];
+  education: Education[] = [];
+  selectedEducation: Education | null = null;
+  errorMessage: string | null = null;
   isModalOpen: boolean = false;
+  isEditModalOpen: boolean = false;
 
-  // Open the modal for adding/editing education
+  constructor(
+    private profileService: ProfileManagementService,
+    private roleService: roleService,
+    private router: Router
+  ) {}
+
+  ngOnInit(): void {
+    this.getEducationData();
+  }
+
   openModal() {
     this.isModalOpen = true;
   }
 
-  // Close the modal
+  openEditModal(education: Education) {
+    this.selectedEducation = { ...education };
+    console.log('clicked');
+    this.isEditModalOpen = true;
+  }
+
   closeModal() {
     this.isModalOpen = false;
+  }
+
+  closeEditModal() {
+    this.isEditModalOpen = false;
+  }
+
+  getEducationData(): void {
+    const userId = this.roleService.getUserId();
+    if (!userId) {
+      return console.log('userId is required');
+    }
+    this.profileService.getEducation(userId).subscribe(
+      (data: Education[]) => {
+        this.education = data;
+        console.log(this.education, 'consoling the edu details');
+      },
+      (error) => {
+        console.error('Error fetching education data:', error);
+      }
+    );
   }
 
   // Add new education entry
   addEducation(newEducation: Education) {
     this.education.push(newEducation);
+    this.errorMessage = null;
     this.closeModal();
+  }
+
+  deleteEducation(educationId: string): void {
+    console.log(educationId, 'consoling the education id');
+    if (confirm('Are you sure you want to delete this education entry?')) {
+      this.profileService.deleteEducation(educationId).subscribe(
+        () => {
+          // Remove the deleted entry from the list
+          this.education = this.education.filter((e) => e._id !== educationId);
+          console.log('Education entry deleted successfully.');
+        },
+        (error) => {
+          console.error('Error deleting education entry:', error);
+        }
+      );
+    }
+  }
+
+  saveEducation(editEducationForm: any) {
+    if (editEducationForm.valid && this.selectedEducation) {
+      this.updateEducation(this.selectedEducation);
+    }
+  }
+  updateEducation(editedEducation: Education) {
+    const userId = this.roleService.getUserId();
+    if (!userId || !editedEducation._id) {
+      return console.error('User ID and Education ID are required');
+    }
+
+    const updatedData = { ...editedEducation, userId };
+
+    console.log(updatedData,'consoling the updated data from frontend')
+    this.profileService
+      .updateEducation(editedEducation._id, updatedData)
+      .subscribe(
+        (response) => {
+          if (response.success) {
+            const index = this.education.findIndex(
+              (e) => e._id === editedEducation._id
+            );
+            if (index !== -1) {
+              this.education[index] = editedEducation; // Update the entry in the list
+            }
+            this.isEditModalOpen = false; // Close the edit modal
+          } else {
+            console.error(
+              'Failed to update education entry:',
+              response.message
+            );
+          }
+        },
+        (error) => {
+          console.error('Error updating education entry:', error);
+        }
+      );
+  }
+
+  onNext() {
+    if (this.education.length === 0) {
+      this.errorMessage =
+        'Please add at least one education entry before proceeding.';
+    } else {
+      this.errorMessage = null;
+      this.router.navigate(['/user/create-account-language']);
+    }
   }
 }

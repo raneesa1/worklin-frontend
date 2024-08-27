@@ -12,6 +12,7 @@ import { OverviewComponent } from '../overview/overview.component';
   styleUrl: './language.component.scss',
 })
 export class LanguageComponent {
+  englishProficiency: string = 'Conversational';
   @Output() languagesSelected = new EventEmitter<
     { language: string; proficiency: string }[]
   >();

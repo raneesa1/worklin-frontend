@@ -23,6 +23,7 @@ export class VerifyemailComponent {
   resendCodeTimer: number = 30;
   canResendCode: boolean = false;
   @Input() email!: string;
+  errorMessage: string = '';
 
   @HostListener('keydown', ['$event'])
   handleKeyboardEvents(event: KeyboardEvent): void {
@@ -78,7 +79,7 @@ export class VerifyemailComponent {
   resendCode() {
     if (this.canResendCode) {
       this.canResendCode = false;
-      this.resendCodeTimer = 30; // reset the timer
+      this.resendCodeTimer = 30;
       this.startResendCodeTimer();
       this.authService.resendOtp(this.email).subscribe(
         (response) => {

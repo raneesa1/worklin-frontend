@@ -1,0 +1,48 @@
+  .job-item {
+      border-bottom: 1px solid #e9ebea;
+      /* Light grey line */
+  }
+
+  .job-item:hover {
+      background-color: #eeeeee;
+      /* Light gray color on hover */
+  }
+
+  .job-title {
+      color: #5fa694;
+      /* Default color */
+      transition: color 0.3s ease, font-weight 0.3s ease;
+  }
+
+  .job-item:hover .job-title {
+      color: teal;
+      /* Color on hover */
+      font-weight: bold;
+      /* Bold on hover */
+      text-decoration: underline;
+      /* Underline on hover */
+  }
+
+  .main-container {
+      display: flex;
+  }
+
+  .job-list {
+      flex: 1;
+  }
+
+  .job-details-container {
+      width: 30%;
+      position: fixed;
+      right: 0;
+      top: 0;
+      bottom: 0;
+      background: #fff;
+      box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
+      transform: translateX(100%);
+      transition: transform 0.3s ease-in-out;
+  }
+
+  .job-details-container.show {
+      transform: translateX(0);
+  }

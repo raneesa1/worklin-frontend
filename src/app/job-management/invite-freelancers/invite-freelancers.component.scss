@@ -1,0 +1,72 @@
+// styles.scss
+.segment-container {
+    display: flex;
+    border-radius: 25px;
+    overflow: hidden;
+    border: 1px solid #d1d5db; // Tailwind's gray-300
+    width: 66.66%; // Adjust width as needed
+}
+
+.segment {
+    flex: 1;
+    text-align: center;
+    padding: 12px 0;
+    position: relative;
+
+    &:not(:first-child)::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 0;
+        height: 100%;
+        width: 20px;
+        background: inherit;
+        clip-path: polygon(0 0, 100% 0, 0 100%);
+        z-index: 1;
+    }
+}
+
+.active-segment {
+    background-color: #16a34a; // Tailwind's green-600
+    color: white;
+}
+
+.segment:not(.active-segment) {
+    background-color: white;
+    color: black;
+}
+
+/* Ensure the text is contained within a single line */
+ .fixed-width-button {
+     width: 120px;
+     /* Set your preferred width */
+     height: 40px;
+     /* Set your preferred height */
+     display: flex;
+     align-items: center;
+     justify-content: center;
+     border-radius: 8px;
+     font-size: 14px;
+ }
+
+ .fixed-width-button.green {
+     background-color: #38a169;
+     /* Adjust as needed */
+     color: white;
+     border: 1px solid #38a169;
+     /* Match the background color */
+ }
+
+ .fixed-width-button.white {
+     background-color: white;
+     color: #38a169;
+     /* Adjust as needed */
+     border: 1px solid #38a169;
+     /* Match the text color */
+ }
+
+ .fixed-width-button.white:hover,
+ .fixed-width-button.green:hover {
+     opacity: 0.9;
+     /* Slightly decrease opacity on hover */
+ }

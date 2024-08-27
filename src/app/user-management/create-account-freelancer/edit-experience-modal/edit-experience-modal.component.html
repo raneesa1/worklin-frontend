@@ -1,112 +1,94 @@
-<div class="fixed inset-0 bg-gray-500 bg-opacity-50 flex items-center justify-center" *ngIf="isModalOpen">
-  <div class="bg-white p-8 rounded-lg max-w-lg w-full shadow-lg">
-    <h2 class="text-xl font-bold mb-4">Edit Experience</h2>
-    <form (ngSubmit)="save()">
+<div class="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50">
+  <div class="bg-white p-8 rounded-lg shadow-lg custom-width">
+    <div class="flex justify-between items-center mb-6">
+      <h2 class="text-xl font-bold">Edit Experience</h2>
+      <button class="text-gray-600 hover:text-gray-800 focus:outline-none" (click)="closeEditModal()">&times;</button>
+    </div>
+    <form (ngSubmit)="onSave(experienceForm)" #experienceForm="ngForm"  *ngIf="experience">
       <div class="mb-4">
-        <label for="title" class="block text-gray-700">Title</label>
-        <input
-          id="title"
-          type="text"
-          [(ngModel)]="experience.title"
-          name="title"
-          class="border border-gray-300 rounded p-2 w-full"
-          required
-        />
+        <label for="title" class="block text-gray-700">Title *</label>
+        <input [(ngModel)]="experience.title" name="title" type="text" id="title" class="w-full p-2 border border-gray-300 rounded mt-1" placeholder="Ex: Software Engineer" required>
+        <div *ngIf="experienceForm.submitted && !experienceForm.controls['title']?.valid" class="text-red-500 text-sm">
+          Title is required.
+        </div>
       </div>
       <div class="mb-4">
-        <label for="company" class="block text-gray-700">Company</label>
-        <input
-          id="company"
-          type="text"
-          [(ngModel)]="experience.company"
-          name="company"
-          class="border border-gray-300 rounded p-2 w-full"
-          required
-        />
+        <label for="company" class="block text-gray-700">Company *</label>
+        <input [(ngModel)]="experience.company" name="company" type="text" id="company" class="w-full p-2 border border-gray-300 rounded mt-1" required>
+        <div *ngIf="experienceForm.submitted && !experienceForm.controls['company']?.valid" class="text-red-500 text-sm">
+          Company is required.
+        </div>
       </div>
-      <div class="mb-4">
-        <label for="jobLocation" class="block text-gray-700">Job Location</label>
-        <input
-          id="jobLocation"
-          type="text"
-          [(ngModel)]="experience.jobLocation"
-          name="jobLocation"
-          class="border border-gray-300 rounded p-2 w-full"
-        />
+      <div class="mb-4 flex space-x-4">
+        <div class="w-1/2">
+          <label for="jobLocation" class="block text-gray-700">Location</label>
+          <input [(ngModel)]="experience.jobLocation" name="jobLocation" type="text" id="jobLocation" class="w-full p-2 border border-gray-300 rounded mt-1" placeholder="Ex: London">
+        </div>
+        <div class="w-1/2">
+          <label for="country" class="block text-gray-700">Country *</label>
+          <select [(ngModel)]="experience.country" name="country" id="country" class="w-full p-2 border border-gray-300 rounded mt-1" required>
+            <option value="" disabled>Select Country</option>
+            <option *ngFor="let country of countries" [value]="country">{{ country }}</option>
+          </select>
+          <div *ngIf="experienceForm.submitted && !experienceForm.controls['country']?.valid" class="text-red-500 text-sm">
+            Country is required.
+          </div>
+        </div>
       </div>
-      <div class="mb-4">
-        <label for="country" class="block text-gray-700">Country</label>
-        <select
-          id="country"
-          [(ngModel)]="experience.country"
-          name="country"
-          class="border border-gray-300 rounded p-2 w-full"
-          required
-        >
-          <option value="" disabled>Select country</option>
-          <option *ngFor="let country of countries" [value]="country">{{ country }}</option>
-        </select>
-      </div>
-      <div class="mb-4">
-        <label for="startDate" class="block text-gray-700">Start Date (YYYY-MM)</label>
-        <input
-          id="startDate"
-          type="text"
-          [(ngModel)]="experience.startDate"
-          name="startDate"
-          class="border border-gray-300 rounded p-2 w-full"
-          placeholder="e.g., 2023-01"
-          required
-        />
-      </div>
-      <div class="mb-4">
-        <label for="endDate" class="block text-gray-700">End Date (YYYY-MM)</label>
-        <input
-          id="endDate"
-          type="text"
-          [(ngModel)]="experience.endDate"
-          name="endDate"
-          class="border border-gray-300 rounded p-2 w-full"
-          placeholder="e.g., 2024-05"
-        />
-      </div>
-      <div class="mb-4">
-        <label for="description" class="block text-gray-700">Description</label>
-        <textarea
-          id="description"
-          [(ngModel)]="experience.description"
-          name="description"
-          class="border border-gray-300 rounded p-2 w-full"
-          rows="4"
-        ></textarea>
-      </div>
-      <div class="mb-4">
+       <div class="mb-4">
         <label class="inline-flex items-center">
-          <input
-            type="checkbox"
-            [(ngModel)]="isCurrentlyWorking"
-            (change)="toggleCurrentlyWorking($event)"
-            class="form-checkbox h-5 w-5 text-teal-600"
-          />
-          <span class="ml-2 text-gray-700">Currently Working Here</span>
+          <input [(ngModel)]="isCurrentlyWorking" name="currentlyWorking" type="checkbox" class="form-checkbox" (change)="toggleCurrentlyWorking($event)">
+          <span class="ml-2">I am currently working in this role</span>
         </label>
       </div>
-      <div class="flex justify-end space-x-4">
-        <button
-          type="button"
-          (click)="closeModal()"
-          class="bg-gray-100 text-gray-600 py-2 px-4 rounded-lg hover:bg-gray-200 focus:outline-none"
-        >
-          Cancel
-        </button>
-        <button
-          type="submit"
-          class="bg-teal-600 text-white px-4 py-2 rounded-lg hover:bg-teal-700 focus:outline-none"
-        >
-          Save
-        </button>
+      <div class="mb-4 flex space-x-4">
+        <div class="w-1/2">
+          <label for="startDate" class="block text-gray-700">Start Date *</label>
+          <div class="flex space-x-2">
+            <select [(ngModel)]="experience.startMonth" name="startMonth" id="startMonth" class="w-1/2 p-2 border border-gray-300 rounded mt-1" required>
+              <option value="" disabled>Month</option>
+              <option *ngFor="let month of months" [value]="month">{{ month }}</option>
+            </select>
+            <select [(ngModel)]="experience.startYear" name="startYear" id="startYear" class="w-1/2 p-2 border border-gray-300 rounded mt-1" required>
+              <option value="" disabled>Year</option>
+              <option *ngFor="let year of years" [value]="year">{{ year }}</option>
+            </select>
+          </div>
+          <div *ngIf="experienceForm.submitted && (!experienceForm.controls['startMonth']?.valid || !experienceForm.controls['startYear']?.valid)" class="text-red-500 text-sm">
+            Start date is required.
+          </div>
+        </div>
+        <div class="w-1/2" *ngIf="!isCurrentlyWorking">
+          <label for="endDate" class="block text-gray-700">End Date *</label>
+          <div class="flex space-x-2">
+            <select [(ngModel)]="experience.endMonth" name="endMonth" id="endMonth" class="w-1/2 p-2 border border-gray-300 rounded mt-1" required>
+              <option value="" disabled>Month</option>
+              <option *ngFor="let month of months" [value]="month">{{ month }}</option>
+            </select>
+            <select [(ngModel)]="experience.endYear" name="endYear" id="endYear" class="w-1/2 p-2 border border-gray-300 rounded mt-1" required>
+              <option value="" disabled>Year</option>
+              <option *ngFor="let year of years" [value]="year">{{ year }}</option>
+            </select>
+          </div>
+          <div *ngIf="experienceForm.submitted && (!experienceForm.controls['endMonth']?.valid || !experienceForm.controls['endYear']?.valid)" class="text-red-500 text-sm">
+            End date is required.
+          </div>
+          <div *ngIf="dateError" class="text-red-500 text-sm mt-2">
+            End date cannot be before start date.
+          </div>
+        </div>
+      </div>
+      <div class="mb-6">
+        <label for="description" class="block text-gray-700">Description *</label>
+        <textarea [(ngModel)]="experience.description" name="description" id="description" class="w-full p-2 border border-gray-300 rounded mt-1" rows="4" required></textarea>
+        <div *ngIf="experienceForm.submitted && !experienceForm.controls['description']?.valid" class="text-red-500 text-sm">
+          Description is required.
+        </div>
+      </div>
+      <div class="flex justify-end">
+        <button type="button" class="bg-gray-100 text-gray-600 py-2 px-4 rounded-lg hover:bg-gray-200 focus:outline-none mr-2" (click)="closeEditModal()">Cancel</button>
+        <button type="submit" class="bg-teal-600 text-white py-2 px-4 rounded-lg hover:bg-teal-700 focus:outline-none">Save</button>
       </div>
     </form>
   </div>
 </div>
-

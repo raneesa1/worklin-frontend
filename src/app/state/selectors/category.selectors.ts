@@ -1,3 +1,4 @@
+//category.selectors.ts
 import { createSelector } from '@ngrx/store';
 import { AppState } from '../reducers';
 import { CategoryState } from '../reducers/selected-category.reducer';

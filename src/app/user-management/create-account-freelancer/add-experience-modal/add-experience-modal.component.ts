@@ -10,17 +10,15 @@ import { roleService } from '../../../../role.service';
   standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './add-experience-modal.component.html',
-  styleUrl: './add-experience-modal.component.scss',
+  styleUrls: ['./add-experience-modal.component.scss'],
 })
 export class AddExperienceModalComponent {
   @Output() close = new EventEmitter<void>();
   @Output() experienceAdded = new EventEmitter<void>();
   isModalOpen = false;
   isCurrentlyWorking = false;
-  constructor(
-    private profileManagementService: ProfileManagementService,
-    private roleService: roleService
-  ) {}
+  dateError = false;
+
   experience: Experience = {
     userId: '',
     title: '',
@@ -32,6 +30,11 @@ export class AddExperienceModalComponent {
     description: '',
   };
 
+  constructor(
+    private profileManagementService: ProfileManagementService,
+    private roleService: roleService
+  ) {}
+
   openModal() {
     this.isModalOpen = true;
   }
@@ -39,41 +42,61 @@ export class AddExperienceModalComponent {
   closeModal() {
     this.close.emit();
   }
+
   save() {
-    const userId = this.roleService.getUserId();
+    this.dateError = false;
 
-    // Format dates as strings
-    const startDate = `${this.experience.startMonth} ${this.experience.startYear}`;
-    const endDate = this.isCurrentlyWorking
-      ? ''
-      : `${this.experience.endMonth} ${this.experience.endYear}`;
+    if (this.validateFields()) {
+      const startDate = new Date(
+        `${this.experience.startMonth} 1, ${this.experience.startYear}`
+      );
+      const endDate = new Date(
+        `${this.experience.endMonth} 1, ${this.experience.endYear}`
+      );
 
-    const experienceData: Experience = {
-      ...this.experience,
-      endDate: endDate,
-      startDate: startDate,
-      userId: userId || '',
-    };
-    console.log(
-      experienceData,
-      'consoling the data before sending to the backend'
-    );
-
-    // Send the data to the backend using the service
-    this.profileManagementService.sendExperienceData(experienceData).subscribe(
-      (response) => {
-        console.log('Experience data saved successfully', response);
-        this.experienceAdded.emit();
-        this.close.emit();
-      },
-      (error) => {
-        console.error('Error saving experience data', error);
-        // Handle the error appropriately
+      if (!this.isCurrentlyWorking && endDate < startDate) {
+        this.dateError = true;
+        return;
       }
-    );
+
+      this.experience.userId = this.roleService.getUserId();
+      this.experience.startDate = `${this.experience.startMonth} ${this.experience.startYear}`;
+      this.experience.endDate = this.isCurrentlyWorking
+        ? ''
+        : `${this.experience.endMonth} ${this.experience.endYear}`;
+
+        console.log(this.experience,'consoling the experience before sending req to add experience')
+      this.profileManagementService
+        .sendExperienceData(this.experience)
+        .subscribe(() => {
+          this.experienceAdded.emit();
+          this.closeModal();
+        });
+    }
   }
 
-  toggleCurrentlyWorking(event: Event) {
-    this.isCurrentlyWorking = (event.target as HTMLInputElement).checked;
+  toggleCurrentlyWorking(event: any) {
+    this.isCurrentlyWorking = event.target.checked;
+  }
+
+  validateFields(): boolean {
+    const requiredFields = [
+      'title',
+      'company',
+      'country',
+      'startMonth',
+      'startYear',
+      'description',
+    ];
+    if (!this.isCurrentlyWorking) {
+      requiredFields.push('endMonth', 'endYear');
+    }
+
+    for (const field of requiredFields) {
+      if (!this.experience[field as keyof Experience]) {
+        return false;
+      }
+    }
+    return true;
   }
 }
