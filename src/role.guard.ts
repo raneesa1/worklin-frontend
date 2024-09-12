@@ -5,7 +5,7 @@ import {
   RouterStateSnapshot,
   Router,
 } from '@angular/router';
-import { roleService } from './role.service';
+import { roleService } from './app/shared/service/role.service';
 
 @Injectable({
   providedIn: 'root',

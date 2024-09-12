@@ -1,15 +1,16 @@
 //selected-category.reducer
 import { createReducer, on, Action } from '@ngrx/store';
-import { Category, SubCategory } from '../../admin-management/types/category.model';
+
 import {
   selectCategory,
   clearCategorySelection,
   selectSubcategory,
   clearSubcategorySelection,
 } from '../actions/category.actions';
+import { Category, SubCategory } from '../../pages/admin-management/types/category.model';
 
 export interface CategoryState {
-  selectedCategory: Category | null;
+  selectedCategory: Category| null;
   selectedSubcategories: SubCategory[];
 }
 

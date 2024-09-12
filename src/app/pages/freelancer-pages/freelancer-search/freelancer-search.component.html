@@ -1,0 +1,66 @@
+<app-navbar-after-login></app-navbar-after-login>
+<div class="min-h-screen p-4">
+  <!-- Search Bar -->
+  <div class="flex flex-col md:flex-row items-center justify-between bg-white p-4 rounded-lg mb-4">
+    <div class="w-full md:w-1/2 mb-4 md:mb-0">
+      <input
+        type="text"
+        [(ngModel)]="searchQuery"
+        (ngModelChange)="onSearchQueryChange()"
+        placeholder="full stack developer"
+        class="w-full p-3 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-teal-600 focus:border-transparent"
+      />
+    </div>
+    <div class="flex flex-wrap items-center justify-end space-x-4">
+      <!-- <button class="text-teal-600 font-semibold whitespace-nowrap">Advanced search</button> -->
+      <div class="relative">
+        <button class="flex items-center space-x-2 whitespace-nowrap">
+          <!-- <i class="far fa-heart"></i> Saved jobs (2) -->
+        </button>
+      </div>
+      <button class="border border-gray-300 px-4 py-2 rounded-lg whitespace-nowrap">
+        Sort by: Newest
+      </button>
+    </div>
+  </div>
+
+  <div class="flex flex-col md:flex-row">
+    <!-- Sidebar for Filters -->
+    <aside class="w-full md:w-1/4 bg-white p-4 rounded-lg md:mr-4 mb-4 md:mb-0">
+      <h3 class="text-lg font-semibold mb-4">Filters</h3>
+      
+      <!-- Categories Filter -->
+      <div class="mb-6">
+        <h4 class="text-lg font-medium mb-2">Category</h4>
+        <select class="w-full p-2 border rounded-lg">
+          <option>Select Categories</option>
+        </select>
+      </div>
+      
+      <!-- Experience Level Filter -->
+      <div class="mb-6">
+        <h4 class="text-lg font-medium mb-2">Experience Level</h4>
+        <div>
+          <label class="flex items-center space-x-2">
+            <input type="checkbox" /> <span>Entry Level (464)</span>
+          </label>
+          <label class="flex items-center space-x-2 mt-2">
+            <input type="checkbox" /> <span>Intermediate (5,000)</span>
+          </label>
+          <label class="flex items-center space-x-2 mt-2">
+            <input type="checkbox" /> <span>Expert (4,339)</span>
+          </label>
+        </div>
+      </div>
+      
+      <!-- Other filters can go here, like Job Type, Proposals, etc. -->
+    </aside>
+    
+    <!-- Main Job Listings -->
+    <main class="w-full md:w-3/4 bg-white p-4 rounded-lg">
+      <h3 class="text-2xl mb-6">Search Results</h3>
+      
+      <app-job-list></app-job-list>
+    </main>
+  </div>
+</div>

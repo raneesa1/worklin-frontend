@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Job Posting Design</title>
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+      rel="stylesheet"
+    />
+  </head>
+
+  <body>
+    <div class="flex flex-col min-h-screen">
+  <!-- Top Navbar -->
+  <button (click)="onLogout()">logout</button>
+  <app-navbar-after-login></app-navbar-after-login>
+
+  <!-- Discover Content -->
+  <main class="w-3/4 ml-16">
+    <div class="bg-white p-4 mb-4">
+      <div class="flex items-center border-b-2 border-gray-200">
+        <h2
+          class="text-xl pr-6"
+          [ngClass]="{
+            'text-teal-600 border-teal-600 border-b-2':
+              selectedTab === 'bestMatches',
+            'font-thin border-b border-gray-300': selectedTab !== 'bestMatches'
+          }"
+          (click)="showBestMatches()"
+        >
+          Best Matches
+        </h2>
+        <h2
+          class="text-xl pr-6"
+          [ngClass]="{
+            'text-teal-600 border-teal-600 border-b-2':
+              selectedTab === 'mostRecent',
+            'font-thin border-b border-gray-300': selectedTab !== 'mostRecent'
+          }"
+          (click)="showMostRecent()"
+        >
+          Most recent
+        </h2>
+        <h2
+          class="text-xl"
+          [ngClass]="{
+            'text-teal-600 border-teal-600 border-b-2':
+              selectedTab === 'savedJobs',
+            'font-thin border-b border-gray-300': selectedTab !== 'savedJobs'
+          }"
+          (click)="showSavedJobs()"
+        >
+          Saved Jobs
+        </h2>
+      </div>
+    </div>
+    <div
+      *ngIf="isSuccessModalVisible"
+      class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full flex items-center justify-center z-50"
+    >
+      <div class="relative p-5 border w-96 shadow-lg rounded-md bg-white">
+        <div class="mt-3 text-center">
+          <div
+            class="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-green-100"
+          >
+            <i class="fas fa-check text-green-600 text-xl"></i>
+          </div>
+          <h3 class="text-lg leading-6 font-medium text-gray-900 mt-4">
+            Application Successful!
+          </h3>
+          <div class="mt-2 px-7 py-3">
+            <p class="text-sm text-gray-500">
+              Your application has been successfully submitted. Good luck!
+            </p>
+          </div>
+          <div class="items-center px-4 py-3">
+            <button
+              (click)="closeSuccessModal()"
+              class="px-4 py-2 bg-green-500 text-white text-base font-medium rounded-md w-full shadow-sm hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-300"
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <app-job-list
+      *ngIf="selectedTab === 'bestMatches' || selectedTab === 'mostRecent'"
+      (jobAppliedEvent)="showSuccessModal()"
+    ></app-job-list>
+    <app-saved-jobs *ngIf="selectedTab === 'savedJobs'"></app-saved-jobs>
+  </main>
+</div>
+</body>
+</html>

@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Freelancer Profile</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
+      rel="stylesheet"
+    />
+    <style>
+      .border-box {
+        border: 2px solid #efefef; /* Adjust border thickness */
+      }
+      .rounded-box {
+        border-radius: 0.5rem; /* Adjust border-radius */
+      }
+      .section-header {
+        font-size: 1.125rem; /* 18px */
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+      }
+      .section-content {
+        color: #4b5563; /* Gray-600 color */
+        margin-bottom: 1.5rem;
+      }
+      .skill-badge {
+        background-color: #f3f4f6;
+        color: #1f2937;
+        padding: 0.5rem 1rem;
+        border-radius: 9999px; /* Fully rounded */
+      }
+      .vertical-line {
+        border-left: 2px solid #e5e7eb;
+        margin: 0 1rem;
+      }
+    </style>
+  </head>
+  <body class="">
+    <!-- Navbar -->
+    <app-navbar-after-login></app-navbar-after-login>
+
+    <!-- Main Container -->
+    <div *ngIf="loading" class="text-center mt-10">Loading profile...</div>
+
+    <div *ngIf="error" class="text-red-500 text-center mt-10">
+      {{ error }}
+    </div>
+
+    <div *ngIf="!loading && !error" class="container mx-auto mt-10 px-4">
+      <!-- Combined Profile Box -->
+      <div class="bg-white border-box rounded-box p-8 ">
+        <!-- Profile Header -->
+        <div class="flex items-center justify-between mb-4">
+          <div class="flex items-center">
+            <!-- Profile Image -->
+            <img
+              src="{{ freelancer.picture }}"
+              alt="Profile Image"
+              class="w-16 h-16 rounded-full mr-4"
+            />
+            <!-- Freelancer Name -->
+            <h1 class="text-2xl font-bold">
+              {{ freelancer.firstName }}
+              {{ freelancer.secondName }}
+            </h1>
+          </div>
+          <button
+            class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600"
+          >
+            Profile settings
+          </button>
+        </div>
+        <p class="text-gray-600 mb-6">
+          {{ freelancer.country }} - {{ currentTime }} local time
+        </p>
+        <div class="grid grid-cols-3 gap-4 mb-6">
+          <div class="col-span-1">
+            <h2 class="section-header">Profile Status</h2>
+            <p class="section-content">
+              Profile Completed:
+              <span class="font-bold">{{
+                freelancer.isProfileCompleted ? "Yes" : "No"
+              }}</span>
+            </p>
+            <p class="section-content">
+              Account Status:
+              <span class="font-bold">{{
+                freelancer.isBlocked ? "Blocked" : "Active"
+              }}</span>
+            </p>
+          </div>
+          <div class="col-span-2">
+            <h2 class="section-header">{{ freelancer.role }}</h2>
+            <p class="section-content">{{ freelancer.bio }}</p>
+            <div class="mt-4">
+              <h2 class="section-header">Resume</h2>
+              <p class="section-content">
+                <a
+                  href="{{ freelancer.resume }}"
+                  target="_blank"
+                  class="text-blue-500 hover:underline"
+                  >View Resume</a
+                >
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Main Profile Content -->
+        <div class="flex">
+          <!-- Left Column -->
+          <div class="w-1/3 pr-8">
+            <div class="border-b border-gray-300 pb-4 mb-6">
+              <h3 class="text-lg font-bold mb-2">Video Introduction</h3>
+              <p class="text-green-500 text-center">
+                {{ freelancer.videoIntroduction ? "View" : "+" }}
+              </p>
+            </div>
+            <div class="border-b border-gray-300 pb-4 mb-6">
+              <h3 class="text-lg font-bold mb-2">Hourly Rate</h3>
+              <p class="text-gray-600">${{ freelancer.hourlyRate }}/hour</p>
+            </div>
+            <div class="border-b border-gray-300 pb-4 mb-6">
+              <h3 class="text-lg font-bold mb-2">Languages</h3>
+              <div
+                *ngFor="let lang of freelancer.languages"
+                class="text-gray-600"
+              >
+                {{ lang.language }}: {{ lang.proficiency }}
+              </div>
+            </div>
+            <div class="border-b border-gray-300 pb-4 mb-6">
+              <h3 class="text-lg font-bold mb-2">Education</h3>
+              <div *ngFor="let edu of freelancer.education" class="mb-2">
+                <p class="font-semibold">{{ edu.school }}</p>
+                <p class="text-gray-600">
+                  {{ edu.degree }}, {{ edu.fieldOfStudy }}
+                </p>
+                <p class="text-gray-600">
+                  {{ edu.fromMonth }}/{{ edu.fromYear }} - {{ edu.toMonth }}/
+                  {{ edu.toYear }}
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Vertical Line -->
+          <div class="vertical-line"></div>
+
+          <!-- Right Column -->
+          <div class="w-2/3">
+            <div class="border-b border-gray-300 pb-4 mb-6">
+              <h3 class="text-lg font-bold mb-2">Work Experience</h3>
+              <div *ngFor="let exp of freelancer.experience" class="mb-4">
+                <p class="font-semibold">
+                  {{ exp.title }} at {{ exp.company }}
+                </p>
+                <p class="text-gray-600">
+                  {{ exp.startDate }} - {{ exp.endDate || "Present" }}
+                </p>
+                <p class="text-gray-600">{{ exp.description }}</p>
+              </div>
+            </div>
+            <div class="border-b border-gray-300 pb-4">
+              <h3 class="text-lg font-bold mb-2">Skills</h3>
+              <div class="flex flex-wrap gap-2">
+                <span
+                  *ngFor="let skill of freelancer.skill"
+                  class="bg-teal-100 text-gray-800 px-4 py-2 rounded-full"
+                  >{{ skill.name }}</span
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

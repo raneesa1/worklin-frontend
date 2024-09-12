@@ -1,0 +1,53 @@
+<div class="fixed inset-0 z-50 flex items-center justify-center">
+  <div class="bg-gray-500 bg-opacity-50 fixed inset-0"></div>
+  <div
+    class="bg-white rounded-lg shadow-xl w-11/12 max-w-3xl max-h-screen p-10 relative overflow-y-auto"
+  >
+    <button
+      class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 focus:outline-none"
+    >
+      <span class="sr-only">Close</span>
+      &times;
+    </button>
+
+    <!-- Modal Header -->
+    <h2 class="text-2xl font-bold mb-4">Invite to job</h2>
+
+    <!-- Profile Info -->
+    <div class="flex items-center mb-4">
+      <img class="w-12 h-12 rounded-full" />
+      <div class="ml-4">
+        <h3 class="font-semibold text-teal-600 hover:text-teal-700">
+          {{ clientName }}
+        </h3>
+      </div>
+    </div>
+
+    <label for="message" class="block text-lg font-semibold mb-2"
+      >Message</label
+    >
+    <textarea
+      id="message"
+      class="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-teal-600 mb-6"
+      rows="8"
+      >{{ message }}
+    </textarea>
+    <!-- Footer Links and Buttons -->
+
+    <div class="flex justify-end">
+      <div class="text-sm text-gray-600 mr-3 mt-3"></div>
+      <button
+        (click)="declineInvite()"
+        class="bg-teal-600 mr-2 text-white rounded-lg py-2 px-4 hover:bg-teal-700"
+      >
+        Reject
+      </button>
+      <button
+        (click)="acceptInvite()"
+        class="bg-teal-600 text-white rounded-lg py-2 px-4 hover:bg-teal-700"
+      >
+        Accept
+      </button>
+    </div>
+  </div>
+</div>

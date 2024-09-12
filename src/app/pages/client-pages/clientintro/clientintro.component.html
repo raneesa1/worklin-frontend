@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Welcome Page</title>
+    <style>
+      body {
+        position: relative; /* Ensure pseudo-element is positioned relative to the body */
+        margin: 0;
+        min-height: 100vh;
+      }
+      .bg-gradient-green::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 200px; /* Adjust the size of the circle */
+        height: 200px;
+        background: radial-gradient(circle, white 70%, #3bf2d4 100%);
+        z-index: -1; /* Ensure the gradient is behind other content */
+      }
+      .bg-gradient-green {
+        background: linear-gradient(135deg, white 70%, #97ffee 100%);
+      }
+      .content-container {
+        text-align: left; /* Align text to the left */
+      }
+    </style>
+  </head>
+  <body class="bg-gradient-green min-h-screen flex flex-col">
+    <div class="bg-white border-b border-gray-200 w-full p-4">
+      <div class="container mx-auto flex justify-between">
+        <div
+          style="color: #089b8c; font-size: x-large"
+          class="text-xl font-bold"
+        >
+          Worklin
+        </div>
+      </div>
+    </div>
+
+    <div class="flex flex-1 w-full">
+      <div
+        class="text-center bg-white p-10 rounded-lg m-20 max-w-md w-full content-container"
+      >
+        <h1 class="text-4xl font-semibold mb-2">Welcome, Raneesa!</h1>
+        <h1 class="text-4xl font-semibold mb-2">Let's start with your</h1>
+        <h1 class="text-4xl font-semibold mb-2">first job post.</h1>
+        <p class="text-gray-700 mb-6">
+          It's the fastest way to meet top talent.
+        </p>
+        <button
+          routerLink="/client/jobPost"
+          class="bg-white text-teal-600 border border-teal-600 py-2 px-4 rounded-lg hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
+        >
+          Get started!
+        </button>
+      </div>
+    </div>
+  </body>
+</html>

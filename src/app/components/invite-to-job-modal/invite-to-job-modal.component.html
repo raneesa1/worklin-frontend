@@ -1,0 +1,85 @@
+<div class="fixed inset-0 z-50 flex items-center justify-center">
+  <!-- Background overlay -->
+  <div class="bg-gray-500 bg-opacity-50 fixed inset-0"></div>
+
+  <!-- Modal container with increased width and height -->
+  <div
+    class="bg-white rounded-lg shadow-xl w-11/12 max-w-3xl max-h-screen p-10 relative overflow-y-auto"
+  >
+    <!-- Close Button -->
+    <button
+      (click)="closeModal()"
+      class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 focus:outline-none"
+    >
+      <span class="sr-only">Close</span>
+      &times;
+    </button>
+
+    <!-- Modal Header -->
+    <h2 class="text-2xl font-bold mb-4">Invite to job</h2>
+
+    <!-- Profile Info -->
+    <div class="flex items-center mb-4" *ngIf="freelancer">
+      <img
+        [src]="freelancer.picture || 'https://via.placeholder.com/40'"
+        alt="{{ freelancer.firstName }}"
+        class="w-12 h-12 rounded-full"
+      />
+      <div class="ml-4">
+        <h3 class="font-semibold text-teal-600 hover:text-teal-700">
+          {{ freelancer.firstName }}
+        </h3>
+        <p class="text-sm text-gray-600">{{ freelancer.role }}</p>
+      </div>
+    </div>
+
+    <!-- Message Content -->
+    <label for="message" class="block text-lg font-semibold mb-2"
+      >Message</label
+    >
+    <textarea
+      [(ngModel)]="message"
+      id="message"
+      class="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-teal-600 mb-6"
+      rows="8"
+    >
+Hello!
+
+I'd like to invite you to take a look at the job I've posted. Please submit a proposal if you're available and interested.
+
+Raneesa K.
+    </textarea>
+    <!-- Footer Links and Buttons -->
+    <div class="flex items-center">
+      <h3 class="mr-3 font-bold">
+        Want to talk to {{ freelancer?.firstName }} about your project?
+      </h3>
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        height="24px"
+        viewBox="0 -960 960 960"
+        width="24px"
+        fill="#4bb97b"
+      >
+        <path
+          d="M160-160q-33 0-56.5-23.5T80-240v-480q0-33 23.5-56.5T160-800h480q33 0 56.5 23.5T720-720v180l160-160v440L720-420v180q0 33-23.5 56.5T640-160H160Zm0-80h480v-480H160v480Zm0 0v-480 480Z"
+        />
+      </svg>
+      <a href="#" class="text-teal-600 hover:underline text-sm ml-2"
+        >Schedule a consultation</a
+      >
+    </div>
+    <div class="flex justify-end">
+      <div class="text-sm text-gray-600 mr-3 mt-3">
+        <span>You have </span>
+        <span class="font-semibold text-teal-700">29 invites left</span>
+      </div>
+      <button
+        class="bg-teal-600 text-white rounded-lg py-2 px-4 hover:bg-teal-700"
+        (click)="onSendInvitation()"
+      >
+        Send Invitation
+      </button>
+    </div>
+  </div>
+</div>

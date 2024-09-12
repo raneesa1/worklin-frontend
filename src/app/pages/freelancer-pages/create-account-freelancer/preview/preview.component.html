@@ -1,0 +1,1033 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Freelancer Profile - Worklin</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
+      rel="stylesheet"
+    />
+    <style>
+      .bg-gradient-green {
+        background: linear-gradient(135deg, white 70%, #97ffee 100%);
+      }
+      .full-height {
+        height: 100vh;
+      }
+    </style>
+  </head>
+
+  <body class="min-h-screen flex flex-col items-center">
+    <!-- Header -->
+    <header class="bg-white w-full border-b border-gray-200 py-4">
+      <div class="container mx-auto flex justify-between items-center">
+        <div class="text-xl font-bold text-green-700">Worklin</div>
+        <div class="text-gray-500"></div>
+      </div>
+    </header>
+
+    <main class="container mx-auto mt-10">
+      <!-- submit-profile.component.html -->
+      <div
+        class="bg-gray-100 rounded-lg p-6 flex items-center justify-between mb-10"
+      >
+      
+        <div>
+          <h2 class="text-xl font-semibold">Looking good,   {{ freelancer.firstName || "Name" }}!</h2>
+          <p class="text-gray-600">
+            Make any edits you want, then submit your profile. You can make more
+            changes after it's live.
+          </p>
+          <button
+            class="bg-teal-600 text-white font-normal py-2 px-4 rounded-full mt-5"
+            (click)="submitProfile()"
+          >
+            Submit profile
+          </button>
+        </div>
+        <div class="flex items-center">
+          <svg
+            width="130px"
+            height="130px"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 145 130"
+            aria-hidden="true"
+            role="img"
+          >
+            <path
+              d="M102.599 34.44l-2.541-2.776v1.274l.118.228H6.474c-2.085 0-3.815 1.74-3.815 3.815v65.243l-1.503.582 2.55 2.777a4.047 4.047 0 002.776 1.156h91.264a5.977 5.977 0 006.017-6.017V37.108a4.993 4.993 0 00-1.156-2.659l-.008-.008z"
+              fill="#9AAA97"
+            ></path>
+            <path
+              d="M3.815 30.51h93.348c2.085 0 3.815 1.738 3.815 3.815v65.816c0 2.085-1.738 3.815-3.815 3.815H3.815c-2.085 0-3.815-1.739-3.815-3.815V34.443c0-2.195 1.739-3.933 3.815-3.933z"
+              fill="url(#paint0_linear_32212_48130)"
+            ></path>
+            <path
+              d="M97.163 30.51H3.815C1.73 30.51 0 32.248 0 34.325v6.127h101.096v-6.127c0-2.085-1.738-3.815-3.933-3.815z"
+              fill="#D5E0D5"
+            ></path>
+            <path
+              d="M65.353 78.98H47.08c-.929 0-1.74-.81-1.74-1.739V66.252c0-.928.811-1.738 1.74-1.738h18.273c.928 0 1.738.81 1.738 1.738v10.99c.118.928-.692 1.738-1.738 1.738zm23.48-14.458H70.56c-.928 0-1.739.81-1.739 1.739V77.25c0 .928.81 1.739 1.739 1.739h18.273c.928 0 1.739-.81 1.739-1.74V66.262c0-.929-.81-1.739-1.739-1.739zm-23.48 16.079H47.08c-.929 0-1.74.81-1.74 1.738v10.99c0 .928.811 1.738 1.74 1.738h18.273c.928 0 1.738-.81 1.738-1.739V82.34c.118-.928-.692-1.738-1.738-1.738zm23.48 0H70.56c-.928 0-1.739.81-1.739 1.738v10.99c0 .928.81 1.738 1.739 1.738h18.273c.928 0 1.739-.81 1.739-1.739V82.34c0-.928-.81-1.738-1.739-1.738z"
+              fill="#E4EBE4"
+            ></path>
+            <path
+              d="M32.385 78.171H8.795c-.465 0-.692-.346-.692-.81 0-.465.346-.81.692-.81h23.598a.79.79 0 01.81.81c-.118.464-.464.81-.81.81h-.008zM90.57 48.554a.79.79 0 00-.81-.81H46.15a.79.79 0 00-.81.81c0 .465.346.81.81.81h43.728c.346 0 .692-.345.692-.81zm0 5.09c0-.464-.346-.692-.81-.692H46.15c-.464 0-.81.346-.81.692 0 .464.346.81.81.81h43.728c.346-.118.692-.464.692-.81zm0 4.971a.79.79 0 00-.81-.81H46.15a.79.79 0 00-.81.81c0 .464.346.692.81.692h43.728c.346.118.692-.228.692-.692z"
+              fill="#BDA1E7"
+            ></path>
+            <path
+              d="M20.358 73.31c7.03 0 12.727-5.698 12.727-12.729 0-7.03-5.697-12.728-12.727-12.728-7.031 0-12.728 5.698-12.728 12.728 0 7.031 5.697 12.728 12.728 12.728z"
+              fill="#C3D2C3"
+            ></path>
+            <path
+              d="M23.251 62.9l-.464-3.814h-4.86l-.465 3.814h5.79z"
+              fill="url(#paint1_linear_32212_48130)"
+            ></path>
+            <path
+              d="M20.358 61.51c1.502 0 2.895.691 2.895.691l-.228-1.502H20.02l.346.81h-.008z"
+              fill="url(#paint2_linear_32212_48130)"
+            ></path>
+            <path
+              d="M17.353 60.471c.078.079.078.079 0 0 1.848 1.275 4.16 1.275 6.018 0 2.312-1.62 2.776-4.861 1.156-7.174-1.62-2.313-4.862-2.777-7.174-1.156-2.313 1.62-2.777 4.861-1.157 7.174.346.464.692.928 1.157 1.156z"
+              fill="url(#paint3_radial_32212_48130)"
+            ></path>
+            <path
+              d="M31.346 64.404c-1.038-1.62-2.895-2.548-4.743-2.548-.464 0-1.038.118-1.502.227l-1.384.346c-2.195.583-4.508.583-6.592 0l-1.384-.346c-.465-.118-1.039-.227-1.503-.227-1.966 0-3.705.928-4.743 2.548-.228.465-.464.929-.692 1.385 2.895 6.473 10.406 9.368 16.77 6.473a12.621 12.621 0 006.474-6.473 7.492 7.492 0 00-.692-1.385h-.009z"
+              fill="url(#paint4_radial_32212_48130)"
+            ></path>
+            <path
+              d="M14.338 35.487c0 1.156-.928 2.194-2.194 2.194-1.156 0-2.194-.928-2.194-2.194 0-1.156.929-2.194 2.194-2.194 1.156.118 2.194 1.038 2.194 2.194z"
+              fill="url(#paint5_radial_32212_48130)"
+            ></path>
+            <path
+              d="M7.629 35.487a2.195 2.195 0 01-4.389 0c0-1.156.929-2.194 2.194-2.194 1.275.118 2.195 1.038 2.195 2.194z"
+              fill="url(#paint6_radial_32212_48130)"
+            ></path>
+            <path
+              d="M100.987 56.14a34.11 34.11 0 00-4.845 7.334l-1.257 2.575a5.282 5.282 0 00-.194.455 4.483 4.483 0 001.587 5.124l-8.491 9.824c-.051.06-.085.127-.119.194a.652.652 0 00-.059.22v.025l-.472 5.975a.481.481 0 00.439.515c.05 0 .1 0 .152-.008l1.046-.236 4.803-1.09a.761.761 0 00.413-.252l7.006-8.103V56.123l-.009.017z"
+              fill="#D5E0D5"
+            ></path>
+            <path
+              d="M87.668 81.647a.652.652 0 00-.059.22v.025l-.472 5.976a.481.481 0 00.439.515c.05 0 .1 0 .152-.009l1.046-.236 1.815-.414v-5.401c0-.929-.81-1.739-1.739-1.739h-.312l-.743.86a.974.974 0 00-.118.195l-.009.008z"
+              fill="#C3D2C3"
+            ></path>
+            <path
+              d="M117.732 56.941l-.566.515a10.096 10.096 0 00-2.287 11.867l4.667 9.605a3.57 3.57 0 003.925 1.941 3.578 3.578 0 002.541-5.013l-3.908-8.432"
+              fill="url(#paint7_radial_32212_48130)"
+            ></path>
+            <path
+              d="M117.892 57.734a12.608 12.608 0 00-1.915 3.95 4.243 4.243 0 012.287-2.363 25.281 25.281 0 01-.372-1.587z"
+              fill="#51200F"
+            ></path>
+            <path
+              d="M117.892 57.743a12.491 12.491 0 00-1.899 10.82l2.118 7.36a4.301 4.301 0 01-4.136 5.495 4.084 4.084 0 01-3.95-3.03l-1.882-7.03a16.852 16.852 0 014.035-15.953l5.174-5.477"
+              fill="url(#paint8_radial_32212_48130)"
+            ></path>
+            <path
+              d="M117.597 56.08l-4.87 3.333-.312.44a28.893 28.893 0 00-.861 5.367c1.055-1.62 3.486-5.098 5.368-5.959.278-.531.599-1.046.953-1.536a29.173 29.173 0 01-.287-1.663l.009.017z"
+              fill="#51200F"
+            ></path>
+            <path
+              d="M142.377 48.104a19.608 19.608 0 00-13.833-9.326 23.196 23.196 0 00-18.56 5.208 23.247 23.247 0 00-8.12 20.079l1.486 14.652a4.403 4.403 0 004 3.95 4.412 4.412 0 004.786-4.01 3.627 3.627 0 000-.674l-.591-8.98a28.958 28.958 0 014.465-17.455l1.359-2.135a29.24 29.24 0 003.536 16.56l.203.37 6.136 8.761 4.499-.793a15.804 15.804 0 0011.883-9.605 18.656 18.656 0 00-1.266-16.593l.017-.009z"
+              fill="url(#paint9_radial_32212_48130)"
+            ></path>
+            <path
+              d="M142.377 48.104a19.608 19.608 0 00-13.833-9.326 23.196 23.196 0 00-18.56 5.208 23.247 23.247 0 00-8.12 20.079l1.486 14.652a4.403 4.403 0 004 3.95 4.412 4.412 0 004.786-4.01 3.627 3.627 0 000-.674l-.591-8.98a28.958 28.958 0 014.465-17.455l1.359-2.135a29.24 29.24 0 003.536 16.56l.203.37 6.136 8.761 4.499-.793a15.804 15.804 0 0011.883-9.605 18.656 18.656 0 00-1.266-16.593l.017-.009z"
+              fill="url(#paint10_radial_32212_48130)"
+            ></path>
+            <path
+              d="M102.86 73.822l.127 1.266c-.253-2.515 6.718-7.427 8.516-7.883 0-1.216.068-2.422.22-3.621l-8.854 10.246-.009-.008zm32.993-32.344a19.564 19.564 0 00-6.837-2.625l-11.715 12.163a29.44 29.44 0 00.591 6.718c2.22-3.739 12.703-13.116 17.961-16.264v.008z"
+              fill="#51200F"
+            ></path>
+            <path
+              d="M112.128 77.603a143.36 143.36 0 01-6.6.684 5.018 5.018 0 01-2.254-.337l.076.76a4.407 4.407 0 004.811 3.975 4.41 4.41 0 003.984-4.71l-.025-.371h.008z"
+              fill="url(#paint11_radial_32212_48130)"
+            ></path>
+            <path
+              d="M117.353 53.751l-3.461 1.882a26.047 26.047 0 00-11.124 11.8 4.474 4.474 0 01-5.553 2.312 4.482 4.482 0 01-2.718-5.722c.059-.16.118-.313.194-.456l1.257-2.574a34.054 34.054 0 018.812-11.243 33.995 33.995 0 0120.982-7.857h.287"
+              fill="url(#paint12_radial_32212_48130)"
+            ></path>
+            <path
+              d="M142.056 28.49c.414-.481-.633-2.068-2.346-3.545-1.714-1.477-3.435-2.287-3.849-1.806l-48.278 55.84a.734.734 0 00-.185.447l-.473 5.976a.48.48 0 00.439.515c.05 0 .101 0 .152-.009l5.849-1.325a.733.733 0 00.413-.253l48.278-55.84z"
+              fill="url(#paint13_linear_32212_48130)"
+            ></path>
+            <path
+              d="M93.591 84.474l-.194-1.19a.633.633 0 00-.616-.532h-.717a.656.656 0 01-.616-.54l-.101-.709a.633.633 0 00-.616-.532h-.718a.642.642 0 01-.616-.54l-.118-.709a.633.633 0 00-.616-.531l-1.207-.017a.937.937 0 00-.067.253l-.473 5.975a.48.48 0 00.439.515c.05 0 .101 0 .152-.009l5.848-1.325a.649.649 0 00.236-.101v-.008z"
+              fill="#C3D2C3"
+            ></path>
+            <path
+              d="M87.92 84.836a2.517 2.517 0 00-.903-.506l-.084 1.072a.48.48 0 00.439.515c.05 0 .1 0 .151-.009l1.047-.236c-.152-.32-.371-.6-.641-.827l-.009-.009z"
+              fill="#13544E"
+            ></path>
+            <path
+              d="M119.875 63.871l-4.17.98a99.71 99.71 0 00-12.348 3.764 5.006 5.006 0 002.17 9.672c4.566-.371 9.098-.954 13.614-1.747l8.119-1.435 1.688-.295-9.073-10.922v-.017z"
+              fill="url(#paint14_radial_32212_48130)"
+            ></path>
+            <path
+              d="M106.629 76.557c1.756-.198 3.026-1.71 2.838-3.377-.188-1.668-1.763-2.86-3.518-2.661-1.756.198-3.026 1.71-2.838 3.377.188 1.667 1.763 2.858 3.518 2.66z"
+              fill="url(#paint15_radial_32212_48130)"
+              opacity=".5"
+            ></path>
+            <path
+              d="M106.629 76.557c1.756-.198 3.026-1.71 2.838-3.377-.188-1.668-1.763-2.86-3.518-2.661-1.756.198-3.026 1.71-2.838 3.377.188 1.667 1.763 2.858 3.518 2.66z"
+              fill="url(#paint16_radial_32212_48130)"
+            ></path>
+            <path
+              d="M106.629 76.557c1.756-.198 3.026-1.71 2.838-3.377-.188-1.668-1.763-2.86-3.518-2.661-1.756.198-3.026 1.71-2.838 3.377.188 1.667 1.763 2.858 3.518 2.66z"
+              fill="url(#paint17_radial_32212_48130)"
+            ></path>
+            <path
+              d="M109.146 72.145a2.9 2.9 0 01.059 2.371c-.649 1.57-2.506 2.355-4.152 1.756a3.054 3.054 0 01-1.679-1.452 3.084 3.084 0 001.738 1.553c1.646.6 3.503-.186 4.152-1.755a2.873 2.873 0 00-.118-2.481v.008z"
+              fill="url(#paint18_radial_32212_48130)"
+            ></path>
+            <defs>
+              <radialGradient
+                id="paint3_radial_32212_48130"
+                cx="0"
+                cy="0"
+                r="1"
+                gradientUnits="userSpaceOnUse"
+                gradientTransform="translate(18.131 53.917) scale(6.08536)"
+              >
+                <stop offset=".68" stop-color="#F7B0B2"></stop>
+                <stop offset=".8" stop-color="#E69B9F"></stop>
+                <stop offset="1" stop-color="#C17078"></stop>
+              </radialGradient>
+              <radialGradient
+                id="paint4_radial_32212_48130"
+                cx="0"
+                cy="0"
+                r="1"
+                gradientUnits="userSpaceOnUse"
+                gradientTransform="matrix(15.4118 0 0 15.4117 23.202 64.247)"
+              >
+                <stop offset=".68" stop-color="#1F57C3"></stop>
+                <stop offset=".77" stop-color="#1C50AE"></stop>
+                <stop offset=".97" stop-color="#143C79"></stop>
+                <stop offset="1" stop-color="#133970"></stop>
+              </radialGradient>
+              <radialGradient
+                id="paint5_radial_32212_48130"
+                cx="0"
+                cy="0"
+                r="1"
+                gradientUnits="userSpaceOnUse"
+                gradientTransform="translate(10.034 33.744) scale(2.15196)"
+              >
+                <stop stop-color="#14A800"></stop>
+                <stop offset=".33" stop-color="#14A500"></stop>
+                <stop offset=".56" stop-color="#149C00"></stop>
+                <stop offset=".75" stop-color="#138D00"></stop>
+                <stop offset=".92" stop-color="#127800"></stop>
+                <stop offset="1" stop-color="#126B00"></stop>
+              </radialGradient>
+              <radialGradient
+                id="paint6_radial_32212_48130"
+                cx="0"
+                cy="0"
+                r="1"
+                gradientUnits="userSpaceOnUse"
+                gradientTransform="translate(3.392 33.744) scale(2.15196)"
+              >
+                <stop stop-color="#01CDBE"></stop>
+                <stop offset=".26" stop-color="#02CABE"></stop>
+                <stop offset=".44" stop-color="#04C1BE"></stop>
+                <stop offset=".59" stop-color="#08B2BF"></stop>
+                <stop offset=".73" stop-color="#0D9DC0"></stop>
+                <stop offset=".85" stop-color="#1481C1"></stop>
+                <stop offset=".97" stop-color="#1D60C3"></stop>
+                <stop offset="1" stop-color="#1F57C3"></stop>
+              </radialGradient>
+              <radialGradient
+                id="paint7_radial_32212_48130"
+                cx="0"
+                cy="0"
+                r="1"
+                gradientUnits="userSpaceOnUse"
+                gradientTransform="matrix(9.0131 -3.19524 5.84731 16.494 114.674 68.061)"
+              >
+                <stop offset=".38" stop-color="#BC5118"></stop>
+                <stop offset=".49" stop-color="#B34D17"></stop>
+                <stop offset=".67" stop-color="#9A4115"></stop>
+                <stop offset=".9" stop-color="#722E11"></stop>
+                <stop offset=".92" stop-color="#6D2B11"></stop>
+              </radialGradient>
+              <radialGradient
+                id="paint8_radial_32212_48130"
+                cx="0"
+                cy="0"
+                r="1"
+                gradientUnits="userSpaceOnUse"
+                gradientTransform="matrix(11.7656 0 0 19.5309 107.299 70.1)"
+              >
+                <stop offset=".38" stop-color="#BC5118"></stop>
+                <stop offset=".51" stop-color="#AF4B17"></stop>
+                <stop offset=".74" stop-color="#8C3A14"></stop>
+                <stop offset=".92" stop-color="#6D2B11"></stop>
+              </radialGradient>
+              <radialGradient
+                id="paint9_radial_32212_48130"
+                cx="0"
+                cy="0"
+                r="1"
+                gradientUnits="userSpaceOnUse"
+                gradientTransform="matrix(23.2695 0 0 30.2504 120.88 55.747)"
+              >
+                <stop offset=".38" stop-color="#BC5118"></stop>
+                <stop offset=".59" stop-color="#BA5018"></stop>
+                <stop offset=".69" stop-color="#B24C17"></stop>
+                <stop offset=".77" stop-color="#A54616"></stop>
+                <stop offset=".84" stop-color="#933D14"></stop>
+                <stop offset=".9" stop-color="#7B3212"></stop>
+                <stop offset=".92" stop-color="#6D2B11"></stop>
+              </radialGradient>
+              <radialGradient
+                id="paint10_radial_32212_48130"
+                cx="0"
+                cy="0"
+                r="1"
+                gradientUnits="userSpaceOnUse"
+                gradientTransform="rotate(-34.8 134.396 -154.694) scale(12.3648 6.55337)"
+              >
+                <stop offset=".38" stop-color="#6D2B11"></stop>
+                <stop
+                  offset=".47"
+                  stop-color="#6D2B11"
+                  stop-opacity=".93"
+                ></stop>
+                <stop
+                  offset=".59"
+                  stop-color="#6D2B11"
+                  stop-opacity=".74"
+                ></stop>
+                <stop
+                  offset=".75"
+                  stop-color="#6D2B11"
+                  stop-opacity=".44"
+                ></stop>
+                <stop offset=".92" stop-color="#6D2B11" stop-opacity="0"></stop>
+              </radialGradient>
+              <radialGradient
+                id="paint11_radial_32212_48130"
+                cx="0"
+                cy="0"
+                r="1"
+                gradientUnits="userSpaceOnUse"
+                gradientTransform="matrix(5.47978 .6641 -.81684 6.74013 104.227 78.776)"
+              >
+                <stop offset=".38" stop-color="#BC5118"></stop>
+                <stop offset=".63" stop-color="#9B4115"></stop>
+                <stop offset=".92" stop-color="#6D2B11"></stop>
+              </radialGradient>
+              <radialGradient
+                id="paint12_radial_32212_48130"
+                cx="0"
+                cy="0"
+                r="1"
+                gradientUnits="userSpaceOnUse"
+                gradientTransform="rotate(-39.76 117.377 -116.655) scale(27.152 15.4767)"
+              >
+                <stop offset=".38" stop-color="#BC5118"></stop>
+                <stop offset=".59" stop-color="#BA5018"></stop>
+                <stop offset=".69" stop-color="#B24C17"></stop>
+                <stop offset=".77" stop-color="#A54616"></stop>
+                <stop offset=".84" stop-color="#933D14"></stop>
+                <stop offset=".9" stop-color="#7B3212"></stop>
+                <stop offset=".92" stop-color="#6D2B11"></stop>
+              </radialGradient>
+              <radialGradient
+                id="paint14_radial_32212_48130"
+                cx="0"
+                cy="0"
+                r="1"
+                gradientUnits="userSpaceOnUse"
+                gradientTransform="matrix(26.44074 -4.30615 2.36838 14.5424 121.728 64.71)"
+              >
+                <stop offset=".38" stop-color="#BC5118"></stop>
+                <stop offset=".59" stop-color="#BA5018"></stop>
+                <stop offset=".69" stop-color="#B24C17"></stop>
+                <stop offset=".77" stop-color="#A54616"></stop>
+                <stop offset=".84" stop-color="#933D14"></stop>
+                <stop offset=".9" stop-color="#7B3212"></stop>
+                <stop offset=".92" stop-color="#6D2B11"></stop>
+              </radialGradient>
+              <radialGradient
+                id="paint15_radial_32212_48130"
+                cx="0"
+                cy="0"
+                r="1"
+                gradientUnits="userSpaceOnUse"
+                gradientTransform="matrix(6.34576 -.0731 .06945 6.02847 79.431 67.07)"
+              >
+                <stop offset=".43" stop-color="#E4EBE4"></stop>
+                <stop
+                  offset=".49"
+                  stop-color="#E3EAE3"
+                  stop-opacity=".91"
+                ></stop>
+                <stop
+                  offset=".64"
+                  stop-color="#DFE8DF"
+                  stop-opacity=".68"
+                ></stop>
+                <stop
+                  offset=".84"
+                  stop-color="#DAE4DA"
+                  stop-opacity=".32"
+                ></stop>
+                <stop offset="1" stop-color="#D5E0D5" stop-opacity="0"></stop>
+              </radialGradient>
+              <radialGradient
+                id="paint16_radial_32212_48130"
+                cx="0"
+                cy="0"
+                r="1"
+                gradientUnits="userSpaceOnUse"
+                gradientTransform="matrix(6.34576 -.0731 .06945 6.02847 80.626 66.752)"
+              >
+                <stop offset=".43" stop-color="#D5E0D5" stop-opacity="0"></stop>
+                <stop offset=".56" stop-color="#D5E0D5" stop-opacity="0"></stop>
+                <stop
+                  offset=".64"
+                  stop-color="#D6E1D6"
+                  stop-opacity=".05"
+                ></stop>
+                <stop
+                  offset=".71"
+                  stop-color="#D7E1D7"
+                  stop-opacity=".11"
+                ></stop>
+                <stop
+                  offset=".76"
+                  stop-color="#D8E2D8"
+                  stop-opacity=".19"
+                ></stop>
+                <stop
+                  offset=".82"
+                  stop-color="#DAE3DA"
+                  stop-opacity=".31"
+                ></stop>
+                <stop
+                  offset=".87"
+                  stop-color="#DCE5DC"
+                  stop-opacity=".44"
+                ></stop>
+                <stop
+                  offset=".91"
+                  stop-color="#DEE7DE"
+                  stop-opacity=".61"
+                ></stop>
+                <stop
+                  offset=".96"
+                  stop-color="#E1E9E1"
+                  stop-opacity=".79"
+                ></stop>
+                <stop offset="1" stop-color="#E4EBE4"></stop>
+              </radialGradient>
+              <radialGradient
+                id="paint17_radial_32212_48130"
+                cx="0"
+                cy="0"
+                r="1"
+                gradientUnits="userSpaceOnUse"
+                gradientTransform="matrix(3.20664 -.03694 .0351 3.0463 81.198 66.625)"
+              >
+                <stop offset=".43" stop-color="#E4EBE4"></stop>
+                <stop
+                  offset=".56"
+                  stop-color="#E4EBE4"
+                  stop-opacity=".99"
+                ></stop>
+                <stop
+                  offset=".64"
+                  stop-color="#E3EAE3"
+                  stop-opacity=".95"
+                ></stop>
+                <stop
+                  offset=".71"
+                  stop-color="#E2EAE2"
+                  stop-opacity=".89"
+                ></stop>
+                <stop
+                  offset=".76"
+                  stop-color="#E1E9E1"
+                  stop-opacity=".81"
+                ></stop>
+                <stop
+                  offset=".82"
+                  stop-color="#DFE8DF"
+                  stop-opacity=".69"
+                ></stop>
+                <stop
+                  offset=".87"
+                  stop-color="#DDE6DD"
+                  stop-opacity=".56"
+                ></stop>
+                <stop
+                  offset=".91"
+                  stop-color="#DBE4DB"
+                  stop-opacity=".39"
+                ></stop>
+                <stop
+                  offset=".96"
+                  stop-color="#D8E2D8"
+                  stop-opacity=".21"
+                ></stop>
+                <stop offset="1" stop-color="#D5E0D5" stop-opacity="0"></stop>
+              </radialGradient>
+              <radialGradient
+                id="paint18_radial_32212_48130"
+                cx="0"
+                cy="0"
+                r="1"
+                gradientUnits="userSpaceOnUse"
+                gradientTransform="matrix(4.8016 -.04777 .04538 4.56151 91.349 73.91)"
+              >
+                <stop offset=".43" stop-color="#E4EBE4"></stop>
+                <stop
+                  offset=".49"
+                  stop-color="#E3EAE3"
+                  stop-opacity=".91"
+                ></stop>
+                <stop
+                  offset=".64"
+                  stop-color="#DFE8DF"
+                  stop-opacity=".68"
+                ></stop>
+                <stop
+                  offset=".84"
+                  stop-color="#DAE4DA"
+                  stop-opacity=".32"
+                ></stop>
+                <stop offset="1" stop-color="#D5E0D5" stop-opacity="0"></stop>
+              </radialGradient>
+              <linearGradient
+                id="paint0_linear_32212_48130"
+                x1="50.489"
+                y1="103.973"
+                x2="50.489"
+                y2="30.518"
+                gradientUnits="userSpaceOnUse"
+              >
+                <stop stop-color="#F2F7F2"></stop>
+                <stop offset=".62" stop-color="#F0F5F0"></stop>
+                <stop offset=".91" stop-color="#E8EFE8"></stop>
+                <stop offset="1" stop-color="#E4EBE4"></stop>
+              </linearGradient>
+              <linearGradient
+                id="paint1_linear_32212_48130"
+                x1="17.437"
+                y1="60.993"
+                x2="23.302"
+                y2="60.993"
+                gradientUnits="userSpaceOnUse"
+              >
+                <stop offset=".52" stop-color="#F7B0B2"></stop>
+                <stop offset=".64" stop-color="#EEA5A8"></stop>
+                <stop offset=".86" stop-color="#D5878D"></stop>
+                <stop offset="1" stop-color="#C17078"></stop>
+              </linearGradient>
+              <linearGradient
+                id="paint2_linear_32212_48130"
+                x1="21.632"
+                y1="62.218"
+                x2="21.632"
+                y2="60.741"
+                gradientUnits="userSpaceOnUse"
+              >
+                <stop stop-color="#A06069" stop-opacity="0"></stop>
+                <stop
+                  offset=".46"
+                  stop-color="#A06069"
+                  stop-opacity=".5"
+                ></stop>
+                <stop
+                  offset=".82"
+                  stop-color="#A06069"
+                  stop-opacity=".86"
+                ></stop>
+                <stop offset="1" stop-color="#A06069"></stop>
+              </linearGradient>
+              <linearGradient
+                id="paint13_linear_32212_48130"
+                x1="111.95"
+                y1="54.165"
+                x2="118.382"
+                y2="59.524"
+                gradientUnits="userSpaceOnUse"
+              >
+                <stop offset=".04" stop-color="#14A800"></stop>
+                <stop offset=".21" stop-color="#139500"></stop>
+                <stop offset=".47" stop-color="#137E00"></stop>
+                <stop offset=".71" stop-color="#127000"></stop>
+                <stop offset=".92" stop-color="#126B00"></stop>
+              </linearGradient>
+            </defs>
+          </svg>
+        </div>
+      </div>
+
+      <div class="bg-white border rounded-lg p-8 mb-6 relative">
+        <div class="flex items-center mb-6">
+          <div class="icon-wrapper w-20 h-20">
+            <img
+              class="w-full h-full rounded-full"
+              [src]="freelancer.picture || 'default-profile-picture-url'"
+              alt="Profile Picture"
+            />
+
+            <!-- <button class="px-1 bg-black rounded mt-1">
+                <app-photo-upload-modal
+                (cdnUrl)="onImageUploaded($event)"
+              ></app-photo-upload-modal>
+            </button> -->
+          </div>
+
+          <div class="ml-6">
+            <h1 class="text-3xl font-bold mb-2">
+              {{ freelancer.firstName || "Name" }}
+            </h1>
+            <p class="text-gray-600">
+              {{ freelancer.role || "Role" }}
+            </p>
+            <p class="text-gray-600 mb-4">
+              {{ freelancer.country || "Location" }}
+            </p>
+          </div>
+        </div>
+        <p class="text-gray-700 mb-4">
+          {{ freelancer.bio || "Bio goes here" }}
+        </p>
+        <div class="relative mt-6">
+          <div class="flex justify-between items-center mb-4 relative">
+            <p>
+              Hourly Rate:
+              <span class="font-semibold">{{
+                freelancer.hourlyRate || "Rate"
+              }}</span>
+            </p>
+            <button class="text-gray-500 hover:text-gray-700 absolute right-0">
+              <svg
+                (click)="openRateModal()"
+                width="38"
+                height="35"
+                viewBox="0 0 38 35"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <ellipse
+                  cx="19.0007"
+                  cy="17.5"
+                  rx="18.6667"
+                  ry="17.5"
+                  fill="#D9D9D9"
+                />
+                <ellipse
+                  cx="18.9998"
+                  cy="17.5"
+                  rx="17.1111"
+                  ry="15.9444"
+                  fill="white"
+                />
+                <path
+                  d="M14.1395 24.542H15.2479L22.8507 14.8941L21.7423 13.4876L14.1395 23.1355V24.542ZM12.584 26.516V22.3213L22.8507 9.31753C23.0062 9.13658 23.178 8.99675 23.3659 8.89805C23.5539 8.79935 23.7516 8.75 23.959 8.75C24.1664 8.75 24.3673 8.79935 24.5618 8.89805C24.7562 8.99675 24.9247 9.1448 25.0673 9.3422L26.1368 10.724C26.2923 10.905 26.4057 11.1188 26.477 11.3656C26.5483 11.6123 26.584 11.8591 26.584 12.1058C26.584 12.369 26.5483 12.6199 26.477 12.8584C26.4057 13.0969 26.2923 13.3149 26.1368 13.5123L15.8895 26.516H12.584ZM22.2868 14.2032L21.7423 13.4876L22.8507 14.8941L22.2868 14.2032Z"
+                  fill="#089B8C"
+                />
+              </svg>
+            </button>
+          </div>
+          <div class="flex justify-between items-center relative">
+            <p>
+              Service Rate:
+              <span class="font-semibold">{{
+                freelancer.serviceRate || "Rate"
+              }}</span>
+            </p>
+          </div>
+        </div>
+
+        <!-- Edit Icon for Bio -->
+        <button
+          (click)="openBioModal()"
+          class="text-gray-500 hover:text-gray-700 absolute top-4 right-4"
+        >
+          <svg
+            width="38"
+            height="35"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 38 35"
+          >
+            <ellipse
+              cx="19.0007"
+              cy="17.5"
+              rx="18.6667"
+              ry="17.5"
+              fill="#D9D9D9"
+            />
+            <ellipse
+              cx="18.9998"
+              cy="17.5"
+              rx="17.1111"
+              ry="15.9444"
+              fill="white"
+            />
+            <path
+              d="M14.1395 24.542H15.2479L22.8507 14.8941L21.7423 13.4876L14.1395 23.1355V24.542ZM12.584 26.516V22.3213L22.8507 9.31753C23.0062 9.13658 23.178 8.99675 23.3659 8.89805C23.5539 8.79935 23.7516 8.75 23.959 8.75C24.1664 8.75 24.3673 8.79935 24.5618 8.89805C24.7562 8.99675 24.9247 9.1448 25.0673 9.3422L26.1368 10.724C26.2923 10.905 26.4057 11.1188 26.477 11.3656C26.5483 11.6123 26.584 11.8591 26.584 12.1058C26.584 12.369 26.5483 12.6199 26.477 12.8584C26.4057 13.0969 26.2923 13.3149 26.1368 13.5123L15.8895 26.516H12.584ZM22.2868 14.2032L21.7423 13.4876L22.8507 14.8941L22.2868 14.2032Z"
+              fill="#089B8C"
+            />
+          </svg>
+        </button>
+      </div>
+      <!-- <div class="bg-white border rounded-lg p-8 mb-6 relative">
+        <h2 class="text-2xl font-bold mb-4">Category</h2>
+        <button
+          class="text-gray-500 hover:text-gray-700 absolute top-4 right-4"
+        >
+          <svg
+            width="38"
+            height="35"
+            viewBox="0 0 38 35"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <ellipse
+              cx="19.0007"
+              cy="17.5"
+              rx="18.6667"
+              ry="17.5"
+              fill="#D9D9D9"
+            />
+            <ellipse
+              cx="18.9998"
+              cy="17.5"
+              rx="17.1111"
+              ry="15.9444"
+              fill="white"
+            />
+            <path
+              d="M14.1395 24.542H15.2479L22.8507 14.8941L21.7423 13.4876L14.1395 23.1355V24.542ZM12.584 26.516V22.3213L22.8507 9.31753C23.0062 9.13658 23.178 8.99675 23.3659 8.89805C23.5539 8.79935 23.7516 8.75 23.959 8.75C24.1664 8.75 24.3673 8.79935 24.5618 8.89805C24.7562 8.99675 24.9247 9.1448 25.0673 9.3422L26.1368 10.724C26.2923 10.905 26.4057 11.1188 26.477 11.3656C26.5483 11.6123 26.584 11.8591 26.584 12.1058C26.584 12.369 26.5483 12.6199 26.477 12.8584C26.4057 13.0969 26.2923 13.3149 26.1368 13.5123L15.8895 26.516H12.584ZM22.2868 14.2032L21.7423 13.4876L22.8507 14.8941L22.2868 14.2032Z"
+              fill="#089B8C"
+            />
+          </svg>
+        </button>
+        <ul class="list-disc pl-5">
+          <li class="text-gray-600">
+            <strong>Category:</strong>
+            {{ freelancer.category[0].name || "Category not available" }}
+          </li>
+
+          <li class="text-gray-600 mt-2">
+            <strong>Subcategories:</strong>
+            <ul class="list-disc pl-5">
+              <li
+                *ngFor="let subcategory of freelancer.category[0].subcategories"
+                class="text-gray-600"
+              >
+                {{ subcategory || "No subcategories available" }}
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </div> -->
+
+      <!-- Skills -->
+      <div class="bg-white border rounded-lg p-8 mb-6 relative">
+        <h2 class="text-2xl font-bold mb-4">Skill</h2>
+        <button
+          class="text-gray-500 hover:text-gray-700 absolute top-4 right-4"
+        >
+          <svg
+            (click)="openSkillModal()"
+            width="38"
+            height="35"
+            viewBox="0 0 38 35"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <ellipse
+              cx="19.0007"
+              cy="17.5"
+              rx="18.6667"
+              ry="17.5"
+              fill="#D9D9D9"
+            />
+            <ellipse
+              cx="18.9998"
+              cy="17.5"
+              rx="17.1111"
+              ry="15.9444"
+              fill="white"
+            />
+            <path
+              d="M14.1395 24.542H15.2479L22.8507 14.8941L21.7423 13.4876L14.1395 23.1355V24.542ZM12.584 26.516V22.3213L22.8507 9.31753C23.0062 9.13658 23.178 8.99675 23.3659 8.89805C23.5539 8.79935 23.7516 8.75 23.959 8.75C24.1664 8.75 24.3673 8.79935 24.5618 8.89805C24.7562 8.99675 24.9247 9.1448 25.0673 9.3422L26.1368 10.724C26.2923 10.905 26.4057 11.1188 26.477 11.3656C26.5483 11.6123 26.584 11.8591 26.584 12.1058C26.584 12.369 26.5483 12.6199 26.477 12.8584C26.4057 13.0969 26.2923 13.3149 26.1368 13.5123L15.8895 26.516H12.584ZM22.2868 14.2032L21.7423 13.4876L22.8507 14.8941L22.2868 14.2032Z"
+              fill="#089B8C"
+            />
+          </svg>
+        </button>
+        <ul class="list-disc pl-5">
+          <li
+            class="text-gray-600"
+            *ngFor="let skill of freelancer.skill || []"
+          >
+            {{ skill.name }}
+          </li>
+        </ul>
+      </div>
+
+      <!-- Experience -->
+      <div class="bg-white border rounded-lg p-8 mb-6 relative">
+        <h2 class="text-2xl font-bold mb-4">Experience</h2>
+        <button
+          class="text-gray-500 hover:text-gray-700 absolute top-4 right-4"
+        >
+          <svg
+            (click)="openExperienceModal()"
+            width="38"
+            height="35"
+            viewBox="0 0 38 35"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <ellipse
+              cx="19.0007"
+              cy="17.5"
+              rx="18.6667"
+              ry="17.5"
+              fill="#D9D9D9"
+            />
+            <ellipse
+              cx="18.9998"
+              cy="17.5"
+              rx="17.1111"
+              ry="15.9444"
+              fill="white"
+            />
+            <path
+              d="M14.1395 24.542H15.2479L22.8507 14.8941L21.7423 13.4876L14.1395 23.1355V24.542ZM12.584 26.516V22.3213L22.8507 9.31753C23.0062 9.13658 23.178 8.99675 23.3659 8.89805C23.5539 8.79935 23.7516 8.75 23.959 8.75C24.1664 8.75 24.3673 8.79935 24.5618 8.89805C24.7562 8.99675 24.9247 9.1448 25.0673 9.3422L26.1368 10.724C26.2923 10.905 26.4057 11.1188 26.477 11.3656C26.5483 11.6123 26.584 11.8591 26.584 12.1058C26.584 12.369 26.5483 12.6199 26.477 12.8584C26.4057 13.0969 26.2923 13.3149 26.1368 13.5123L15.8895 26.516H12.584ZM22.2868 14.2032L21.7423 13.4876L22.8507 14.8941L22.2868 14.2032Z"
+              fill="#089B8C"
+            />
+          </svg>
+        </button>
+        <div class="mb-4" *ngFor="let exp of freelancer.experience || []">
+          <h3 class="text-xl font-semibold">{{ exp.title }}</h3>
+          <p class="text-gray-600">Company: {{ exp.company }}</p>
+          <p class="text-gray-600">Location: {{ exp.jobLocation }}</p>
+          <p class="text-gray-600">Country: {{ exp.country }}</p>
+          <p class="text-gray-600">Start Date: {{ exp.startDate }}</p>
+          <p class="text-gray-600">Description: {{ exp.description }}</p>
+        </div>
+      </div>
+
+      <!-- Education -->
+      <div class="bg-white border rounded-lg p-8 mb-6 relative">
+        <h2 class="text-2xl font-bold mb-4">Education</h2>
+        <button
+          class="text-gray-500 hover:text-gray-700 absolute top-4 right-4"
+        >
+          <svg
+            (click)="openEducationModal()"
+            width="38"
+            height="35"
+            viewBox="0 0 38 35"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <ellipse
+              cx="19.0007"
+              cy="17.5"
+              rx="18.6667"
+              ry="17.5"
+              fill="#D9D9D9"
+            />
+            <ellipse
+              cx="18.9998"
+              cy="17.5"
+              rx="17.1111"
+              ry="15.9444"
+              fill="white"
+            />
+            <path
+              d="M14.1395 24.542H15.2479L22.8507 14.8941L21.7423 13.4876L14.1395 23.1355V24.542ZM12.584 26.516V22.3213L22.8507 9.31753C23.0062 9.13658 23.178 8.99675 23.3659 8.89805C23.5539 8.79935 23.7516 8.75 23.959 8.75C24.1664 8.75 24.3673 8.79935 24.5618 8.89805C24.7562 8.99675 24.9247 9.1448 25.0673 9.3422L26.1368 10.724C26.2923 10.905 26.4057 11.1188 26.477 11.3656C26.5483 11.6123 26.584 11.8591 26.584 12.1058C26.584 12.369 26.5483 12.6199 26.477 12.8584C26.4057 13.0969 26.2923 13.3149 26.1368 13.5123L15.8895 26.516H12.584ZM22.2868 14.2032L21.7423 13.4876L22.8507 14.8941L22.2868 14.2032Z"
+              fill="#089B8C"
+            />
+          </svg>
+        </button>
+        <div class="mb-4" *ngFor="let edu of freelancer.education || []">
+          <h3 class="text-xl font-semibold">{{ edu.school }}</h3>
+          <p class="text-gray-600">Degree: {{ edu.degree }}</p>
+          <p class="text-gray-600">Field of Study: {{ edu.fieldOfStudy }}</p>
+          <p class="text-gray-600">
+            From: {{ edu.fromMonth }} {{ edu.fromYear }}
+          </p>
+          <p class="text-gray-600">To: {{ edu.toMonth }} {{ edu.toYear }}</p>
+          <p class="text-gray-600">Description: {{ edu.description }}</p>
+        </div>
+      </div>
+
+      <!-- Languages -->
+      <div class="bg-white border rounded-lg p-8 mb-6 relative">
+        <h2 class="text-2xl font-bold mb-4">Languages</h2>
+        <button
+          (click)="openLanguageModal()"
+          class="text-gray-500 hover:text-gray-700 absolute top-4 right-4"
+        >
+          <svg
+            width="38"
+            height="35"
+            viewBox="0 0 38 35"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <ellipse
+              cx="19.0007"
+              cy="17.5"
+              rx="18.6667"
+              ry="17.5"
+              fill="#D9D9D9"
+            />
+            <ellipse
+              cx="18.9998"
+              cy="17.5"
+              rx="17.1111"
+              ry="15.9444"
+              fill="white"
+            />
+            <path
+              d="M14.1395 24.542H15.2479L22.8507 14.8941L21.7423 13.4876L14.1395 23.1355V24.542ZM12.584 26.516V22.3213L22.8507 9.31753C23.0062 9.13658 23.178 8.99675 23.3659 8.89805C23.5539 8.79935 23.7516 8.75 23.959 8.75C24.1664 8.75 24.3673 8.79935 24.5618 8.89805C24.7562 8.99675 24.9247 9.1448 25.0673 9.3422L26.1368 10.724C26.2923 10.905 26.4057 11.1188 26.477 11.3656C26.5483 11.6123 26.584 11.8591 26.584 12.1058C26.584 12.369 26.5483 12.6199 26.477 12.8584C26.4057 13.0969 26.2923 13.3149 26.1368 13.5123L15.8895 26.516H12.584ZM22.2868 14.2032L21.7423 13.4876L22.8507 14.8941L22.2868 14.2032Z"
+              fill="#089B8C"
+            />
+          </svg>
+        </button>
+        <ul class="list-disc pl-5">
+          <li
+            class="text-gray-600"
+            *ngFor="let lang of freelancer.languages || []"
+          >
+            {{ lang.language }}: {{ lang.proficiency }}
+          </li>
+        </ul>
+      </div>
+
+      <!-- Address -->
+      <div class="bg-white border rounded-lg p-8 mb-6 relative">
+        <h2 class="text-2xl font-bold mb-4">Address</h2>
+        <button
+          (click)="openAddressModal()"
+          class="text-gray-500 hover:text-gray-700 absolute top-4 right-4"
+        >
+          <svg
+            width="38"
+            height="35"
+            viewBox="0 0 38 35"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <ellipse
+              cx="19.0007"
+              cy="17.5"
+              rx="18.6667"
+              ry="17.5"
+              fill="#D9D9D9"
+            />
+            <ellipse
+              cx="18.9998"
+              cy="17.5"
+              rx="17.1111"
+              ry="15.9444"
+              fill="white"
+            />
+            <path
+              d="M14.1395 24.542H15.2479L22.8507 14.8941L21.7423 13.4876L14.1395 23.1355V24.542ZM12.584 26.516V22.3213L22.8507 9.31753C23.0062 9.13658 23.178 8.99675 23.3659 8.89805C23.5539 8.79935 23.7516 8.75 23.959 8.75C24.1664 8.75 24.3673 8.79935 24.5618 8.89805C24.7562 8.99675 24.9247 9.1448 25.0673 9.3422L26.1368 10.724C26.2923 10.905 26.4057 11.1188 26.477 11.3656C26.5483 11.6123 26.584 11.8591 26.584 12.1058C26.584 12.369 26.5483 12.6199 26.477 12.8584C26.4057 13.0969 26.2923 13.3149 26.1368 13.5123L15.8895 26.516H12.584ZM22.2868 14.2032L21.7423 13.4876L22.8507 14.8941L22.2868 14.2032Z"
+              fill="#089B8C"
+            />
+          </svg>
+        </button>
+        <div class="mb-4">
+          <p class="text-gray-600">
+            Address:
+            {{
+              freelancer.address && freelancer.address.length > 0
+                ? freelancer.address[0].address
+                : "Not Available"
+            }}
+          </p>
+          <p class="text-gray-600">
+            City:
+            {{
+              freelancer.address && freelancer.address.length > 0
+                ? freelancer.address[0].city
+                : "Not Available"
+            }}
+          </p>
+          <p class="text-gray-600">
+            State:
+            {{
+              freelancer.address && freelancer.address.length > 0
+                ? freelancer.address[0].state
+                : "Not Available"
+            }}
+          </p>
+          <p class="text-gray-600">
+            Country:
+            {{
+              freelancer.address && freelancer.address.length > 0
+                ? freelancer.address[0].country
+                : "Not Available"
+            }}
+          </p>
+          <p class="text-gray-600">
+            Phone:
+            {{
+              freelancer.address && freelancer.address.length > 0
+                ? freelancer.address[0].phone
+                : "Not Available"
+            }}
+          </p>
+          <p class="text-gray-600">
+            ZIP:
+            {{
+              freelancer.address && freelancer.address.length > 0
+                ? freelancer.address[0].zip
+                : "Not Available"
+            }}
+          </p>
+          <p class="text-gray-600">
+            Date of Birth:
+            {{
+              freelancer.dob
+                ? (freelancer.dob | date : "longDate")
+                : "Not Available"
+            }}
+          </p>
+        </div>
+      </div>
+    </main>
+    <button
+      (click)="submitProfile()"
+      class="fixed bottom-4 right-6 bg-teal-600 text-white px-6 py-2 rounded-lg shadow-lg hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-opacity-50 transition-all duration-300"
+    >
+      Post Profile
+    </button>
+  </body>
+</html>
+<app-edit-address-modal
+  (addressUpdated)="updateFreelancerAddress($event)"
+></app-edit-address-modal>
+<app-edit-experience-from-preview-modal
+  (saveChanges)="updateFreelancerExperience($event)"
+></app-edit-experience-from-preview-modal>
+<app-edit-education-from-preview-modal
+  (educationUpdate)="updateFreelancerEducation($event)"
+>
+</app-edit-education-from-preview-modal>
+<app-edit-skill-from-preview-modal
+  (skillsUpdated)="updateFreelancerSkill($event)"
+></app-edit-skill-from-preview-modal>
+
+<app-edit-bio-from-preview-modal
+  (profileUpdated)="updateFreelancerBio($event)"
+></app-edit-bio-from-preview-modal>
+<app-edit-rate-from-preview-modal></app-edit-rate-from-preview-modal>
+<app-edit-language-from-preview-modal></app-edit-language-from-preview-modal>

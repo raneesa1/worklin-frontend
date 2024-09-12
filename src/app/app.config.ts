@@ -31,6 +31,7 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
 import { CookieService } from 'ngx-cookie-service';
 import { JwtHelperService, JwtModule } from '@auth0/angular-jwt';
 import { AuthInterceptor } from './interceptors/auth.interceptor';
+import { AudioContextModule } from 'angular-audio-context';
 
 export function tokenGetter(cookieService: CookieService) {
   return cookieService.get('auth');
@@ -66,16 +67,16 @@ export const appConfig: ApplicationConfig = {
               '991799621824-0r0rvo9sr9d32bd0mm7a1pj2ae94mmbk.apps.googleusercontent.com'
             ),
           },
-          {
-            provide: HTTP_INTERCEPTORS,
-            useClass: AuthInterceptor,
-            multi: true,
-          },
         ],
         onError: (err: any) => {
           console.error(err);
         },
       } as SocialAuthServiceConfig,
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true,
     },
     JwtHelperService,
     CookieService,

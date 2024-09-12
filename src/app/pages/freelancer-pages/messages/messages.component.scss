@@ -1,0 +1,47 @@
+
+@import '@ctrl/ngx-emoji-mart/picker';
+audio {
+    max-width: 100%;
+    border-radius: 20px;
+}
+.h-screen {
+    height: 100vh;
+    height: calc(var(--vh, 1vh) * 100);
+}.audio-preview,
+.image-preview,
+.video-preview,
+.file-preview {
+    margin: 8px 0;
+}
+
+.file-preview {
+    display: flex;
+    align-items: center;
+    background-color: #f7f7f7;
+    padding: 8px;
+    border-radius: 8px;
+    transition: background-color 0.3s ease;
+}
+
+.file-preview:hover {
+    background-color: #e2e2e2;
+}
+
+.file-icon {
+    margin-right: 12px;
+}
+
+.file-name {
+    font-size: 14px;
+}
+
+.download-link {
+    margin-left: auto;
+    font-weight: 500;
+    color: #007bff;
+}
+
+.download-link:hover {
+    text-decoration: none;
+    color: #0056b3;
+}

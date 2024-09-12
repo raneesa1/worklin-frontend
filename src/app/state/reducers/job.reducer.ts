@@ -9,7 +9,7 @@ import {
   setSelectedSkills,
   setJobDescription,
 } from '../actions/job.actions';
-import { Skill } from '../../admin-management/types/category.model';
+import { Skill } from '../../pages/admin-management/types/category.model';
 
 export interface JobState {
   selectedDuration: string;

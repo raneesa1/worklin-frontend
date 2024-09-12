@@ -1,0 +1,67 @@
+<!-- Modal Overlay -->
+<div
+  class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50"
+>
+  <!-- Modal Content -->
+  <div class="bg-white w-full max-w-2xl rounded-2xl shadow-lg p-8 relative">
+    <!-- Close Button -->
+    <button class="absolute top-4 right-4 text-gray-500 hover:text-gray-700">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        class="h-8 w-8"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M6 18L18 6M6 6l12 12"
+        />
+      </svg>
+    </button>
+
+    <!-- Modal Header -->
+    <h2 class="text-2xl font-semibold mb-6">Add video introduction</h2>
+
+    <!-- Input Field for YouTube Link -->
+    <label for="youtube-link" class="text-lg font-medium text-gray-700"
+      >Link to your YouTube video</label
+    >
+    <input
+      id="youtube-link"
+      type="text"
+      class="w-full mt-3 mb-6 p-3 border border-gray-300 rounded focus:ring-2 focus:ring-green-600 focus:outline-none text-lg"
+      placeholder="Ex: https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+    />
+
+    <!-- Guidelines Text -->
+    <a href="#" class="text-lg text-green-600 underline mb-6 block"
+      >Does your video meet Upwork's guidelines?</a
+    >
+
+    <!-- Dropdown for Video Type -->
+    <label for="video-type" class="text-lg font-medium text-gray-700"
+      >What type of video is this?</label
+    >
+    <select
+      id="video-type"
+      class="w-full mt-3 mb-6 p-3 border border-gray-300 rounded focus:ring-2 focus:ring-green-600 focus:outline-none text-lg"
+    >
+      <option>Me talking about my skills and experience</option>
+      <option>Visual samples of my work</option>
+      <option>Something else</option>
+    </select>
+
+    <!-- Action Buttons -->
+    <div class="flex justify-end space-x-6">
+      <button class="text-lg text-gray-500 hover:text-gray-700">Cancel</button>
+      <button
+        class="bg-green-600 text-lg text-white px-6 py-3 rounded hover:bg-green-700"
+      >
+        Save
+      </button>
+    </div>
+  </div>
+</div>

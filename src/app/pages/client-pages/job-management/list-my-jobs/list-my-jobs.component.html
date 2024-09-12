@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Job Postings</title>
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
+  </head>
+  <body class="">
+    <app-navbar-after-login></app-navbar-after-login>
+    <div class="mx-20 mt-8">
+      <!-- Navigation -->
+      <div class="flex items-center justify-between pb-4">
+        <div class="flex space-x-4">
+          <button
+            class="text-teal-700 font-medium text-lg border-b-2 border-teal-700"
+          >
+            All job posts
+          </button>
+          <button class="text-gray-600 font-medium text-lg">
+            All contracts
+          </button>
+        </div>
+
+        <button
+          class="bg-teal-600 text-white px-4 py-2 rounded-md hover:bg-teal-700"
+        >
+          Post a new job
+        </button>
+      </div>
+      <h1 class="text-5xl">All job posts</h1>
+
+      <!-- Search and Filter -->
+      <div class="mt-4 flex items-center justify-between border-b pb-8">
+        <input
+          type="text"
+          placeholder="Search job postings"
+          class="border px-4 py-2 w-full max-w-lg rounded-full"
+        />
+        <button class="text-teal-600 ml-4 flex items-center">
+          <span class="material-icons">filter_list</span>
+          Filters
+        </button>
+      </div>
+
+      <!-- Job Post List -->
+      <div class="space-y-1">
+        <!-- Job Post Card -->
+        <div
+          class="bg-white p-6 border-b"
+          *ngFor="let jobPost of jobPosts; let i = index"
+        >
+          <div class="flex justify-between items-center">
+            <div class="max-w-xs min-w-[300px]">
+              <!-- Adjust the width as needed -->
+              <h2 class="text-3xl truncate" title="{{ jobPost.title }}">
+                {{ jobPost.title }}
+              </h2>
+              <p class="text-gray-500 text-base pb-2">
+                Posted {{ timeAgo(jobPost.createdAt) }}
+              </p>
+              <p class="text-gray-400 text-sm pb-2">{{ jobPost.status }}</p>
+            </div>
+            <!-- Centered section for Proposals, Messaged, Hired -->
+            <div class="flex flex-1 justify-center space-x-8">
+              <div class="text-center">
+                <p class="text-2xl font-semibold"> {{ jobPost.applications?.length }}</p>
+                <p class="text-gray-600">Proposals</p>
+              </div>
+              <div class="text-center">
+                <p class="text-2xl font-semibold">{{jobPost.invitedFreelancers?.length}}</p>
+                <p class="text-gray-600">invited</p>
+              </div>
+              <div class="text-center">
+                <p class="text-2xl font-semibold">{{ jobPost.hires?.length }}</p>
+                <p class="text-gray-600">Hired</p>
+              </div>
+            </div>
+
+            <app-joblist-view-more-modal
+              [jobPost]="jobPost"
+            ></app-joblist-view-more-modal>
+          </div>
+        </div>
+        <!-- Repeat similar blocks for other job posts -->
+      </div>
+    </div>
+  </body>
+</html>

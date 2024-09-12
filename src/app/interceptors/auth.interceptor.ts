@@ -1,60 +1,88 @@
 import { Injectable } from '@angular/core';
 import {
+  HttpRequest,
+  HttpHandler,
   HttpEvent,
   HttpInterceptor,
-  HttpHandler,
-  HttpRequest,
   HttpErrorResponse,
 } from '@angular/common/http';
-import { Observable, throwError } from 'rxjs';
-import { catchError, switchMap } from 'rxjs/operators';
-import { AuthService } from '../auth/services/auth.service'; // Adjust the path as needed
-import { roleService } from '../../role.service';
+import { Observable, throwError, BehaviorSubject } from 'rxjs';
+import { catchError, filter, take, switchMap } from 'rxjs/operators';
+import { roleService } from '../shared/service/role.service';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
-  constructor(
-    private authService: AuthService,
-    private roleService: roleService
-  ) {}
+  private isRefreshing = false;
+  private refreshTokenSubject: BehaviorSubject<any> = new BehaviorSubject<any>(
+    null
+  );
+
+  constructor(private roleService: roleService) {}
 
   intercept(
-    req: HttpRequest<any>,
+    request: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
-    // Get the auth token from the roleService
-    const authToken = this.roleService.getToken();
-
-    // Clone the request and add the authorization header
-    let authReq = req;
-    if (authToken) {
-      authReq = req.clone({
-        setHeaders: { Authorization: `Bearer ${authToken}` },
-      });
+    if (request.url.includes('api.cloudinary.com')) {
+      // For Cloudinary requests, don't add the Authorization header
+      return next.handle(request);
     }
 
-    // Handle the request and potential errors
-    return next.handle(authReq).pipe(
-      catchError((error: HttpErrorResponse) => {
-        if (error.status === 401 && !authReq.url.includes('auth/login')) {
-          // Token might be expired, try refreshing it
-          return this.roleService.refreshToken().pipe(
-            switchMap((newToken: string) => {
-              this.roleService.setToken(newToken); // Update the token using roleService
-              const newAuthReq = req.clone({
-                setHeaders: { Authorization: `Bearer ${newToken}` },
-              });
-              return next.handle(newAuthReq);
-            }),
-            catchError((err) => {
-              this.roleService.logout(); // Handle logout on refresh token failure
-              return throwError(() => err);
-            })
-          );
+    const accessToken = this.roleService.getAccessToken();
+
+    if (accessToken) {
+      console.log('access token present');
+      console.log('Token being used in request:', accessToken);
+
+      request = this.addToken(request, accessToken);
+    }
+
+    return next.handle(request).pipe(
+      catchError((error) => {
+        if (error instanceof HttpErrorResponse && error.status === 401) {
+          return this.handle401Error(request, next);
         } else {
           return throwError(() => error);
         }
       })
     );
+  }
+  private addToken(request: HttpRequest<any>, token: string) {
+    const modifiedRequest = request.clone({
+      setHeaders: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    return modifiedRequest;
+  }
+
+  private handle401Error(request: HttpRequest<any>, next: HttpHandler) {
+    if (!this.isRefreshing) {
+      this.isRefreshing = true;
+      this.refreshTokenSubject.next(null);
+
+      return this.roleService.refreshToken().pipe(
+        switchMap((token: any) => {
+          this.isRefreshing = false;
+          this.refreshTokenSubject.next(token.accessToken);
+          this.roleService.setTokens(token.accessToken, token.refreshToken);
+          return next.handle(this.addToken(request, token.accessToken));
+        }),
+        catchError((err) => {
+          this.isRefreshing = false;
+          this.roleService.logout();
+          return throwError(() => err);
+        })
+      );
+    } else {
+      return this.refreshTokenSubject.pipe(
+        filter((token) => token != null),
+        take(1),
+        switchMap((jwt) => {
+          return next.handle(this.addToken(request, jwt));
+        })
+      );
+    }
   }
 }

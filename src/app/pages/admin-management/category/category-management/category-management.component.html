@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Category Management - Worklin</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
+      rel="stylesheet"
+    />
+    <style>
+      .add-category-btn {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: #089b8c;
+        color: white;
+        font-size: 24px;
+        cursor: pointer;
+      }
+      .category-container {
+        display: flex;
+        align-items: flex-start;
+        gap: 16px;
+      }
+      .category-list {
+        flex: 1;
+      }
+      .input-container {
+        flex: 1;
+      }
+      .expanded-input-container {
+        flex: 2;
+      }
+      .search-container {
+        display: flex;
+        align-items: center;
+        position: relative;
+      }
+      .search-container input {
+        width: 100%;
+        padding-right: 48px; /* Ensure space for the icon */
+      }
+      .search-container svg {
+        position: absolute;
+        right: 12px;
+        width: 24px; /* Adjust size as needed */
+        height: 24px; /* Adjust size as needed */
+        color: gray; /* Adjust color as needed */
+      }
+    </style>
+  </head>
+  <body class="bg-white min-h-screen flex flex-col bg-gradient-blue">
+    <app-admin-navbar></app-admin-navbar>
+
+    <div class="flex flex-1 w-full justify-center items-center px-10">
+      <div class="bg-white p-10 rounded-lg max-w-4xl w-full">
+        <div class="search-container mb-10">
+          <input
+            type="text"
+            placeholder="Search categories..."
+            class="px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-teal-500"
+            [(ngModel)]="searchQuery"
+            placeholder="Search categories..."
+            (ngModelChange)="onSearch()"
+          />
+          <svg
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M11 4a7 7 0 000 14 7 7 0 000-14zM21 21l-4.35-4.35"
+            ></path>
+          </svg>
+        </div>
+        <div class="mb-8">
+          <h1 class="text-3xl font-bold mt-2 mb-4">Categories</h1>
+          <p class="text-gray-600 mb-6">
+            As an admin, you can add, edit, or remove categories to keep the
+            list organized. This helps users find and manage different
+            categories easily.
+          </p>
+
+          <!-- Container for categories and add button -->
+          <div class="category-container">
+            <!-- Display the add category button -->
+            <div
+              *ngIf="categories.length === 0"
+              class="input-container border-dashed border-2 border-gray-300 p-10 text-center rounded-lg mb-6 custom-border expanded-input-container"
+            >
+              <button
+                class="text-teal-500 text-lg"
+                (click)="openCategoryModal()"
+              >
+                + Add Category
+              </button>
+            </div>
+
+            <div
+              *ngIf="categories.length > 0"
+              class="add-category-btn mt-6"
+              (click)="openCategoryModal()"
+            >
+              +
+            </div>
+
+            <!-- Display categories only if there are any -->
+            <div *ngIf="filteredCategories.length > 0" class="category-list">
+              <div
+                *ngFor="let category of filteredCategories"
+                class="border p-4 rounded-lg flex justify-between items-center mb-4"
+              >
+                <div>
+                  <h2 class="text-lg font-bold">{{ category.name }}</h2>
+                  <p class="text-gray-600">{{ category.description }}</p>
+                </div>
+                <div class="flex space-x-2">
+                  <button
+                    class="text-green-600"
+                    (click)="openEditCategoryModal(category)"
+                  >
+                    <svg
+                      width="26"
+                      height="25"
+                      viewBox="0 0 26 25"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <ellipse
+                        cx="13"
+                        cy="12.5202"
+                        rx="13"
+                        ry="12.4801"
+                        fill="#4BB97B"
+                      />
+                      <ellipse
+                        cx="12.9998"
+                        cy="12.5197"
+                        rx="11.8182"
+                        ry="11.2321"
+                        fill="white"
+                      />
+                      <path
+                        d="M8.65808 17.3101H9.64047L16.3793 10.5713L15.3969 9.58888L8.65808 16.3277V17.3101ZM7.2793 18.6889V15.759L16.3793 6.67619C16.5172 6.5498 16.6694 6.45213 16.836 6.38319C17.0026 6.31425 17.1778 6.27979 17.3617 6.27979C17.5455 6.27979 17.7236 6.31425 17.896 6.38319C18.0683 6.45213 18.2177 6.55554 18.3441 6.69342L19.292 7.65857C19.4299 7.78496 19.5304 7.93433 19.5936 8.10668C19.6568 8.27903 19.6884 8.45138 19.6884 8.62372C19.6884 8.80756 19.6568 8.98278 19.5936 9.14939C19.5304 9.31599 19.4299 9.46823 19.292 9.60611L10.2092 18.6889H7.2793ZM15.8795 10.0887L15.3969 9.58888L16.3793 10.5713L15.8795 10.0887Z"
+                        fill="#4BB97B"
+                      />
+                    </svg>
+                  </button>
+                  <button
+                    class="text-red-600"
+                    (click)="removeCategory(category._id!)"
+                  >
+                    <svg
+                      width="26"
+                      height="25"
+                      viewBox="0 0 26 25"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <ellipse
+                        cx="13"
+                        cy="12.5202"
+                        rx="13"
+                        ry="12.4801"
+                        fill="#4BB97B"
+                      />
+                      <ellipse
+                        cx="12.9998"
+                        cy="12.5197"
+                        rx="11.8182"
+                        ry="11.2321"
+                        fill="white"
+                      />
+                      <path
+                        d="M9.4375 20C8.99063 20 8.60807 19.8477 8.28984 19.5431C7.97161 19.2384 7.8125 18.8722 7.8125 18.4444V8.33333H7V6.77778H11.0625V6H15.9375V6.77778H20V8.33333H19.1875V18.4444C19.1875 18.8722 19.0284 19.2384 18.7102 19.5431C18.3919 19.8477 18.0094 20 17.5625 20H9.4375ZM17.5625 8.33333H9.4375V18.4444H17.5625V8.33333ZM11.0625 16.8889H12.6875V9.88889H11.0625V16.8889ZM14.3125 16.8889H15.9375V9.88889H14.3125V16.8889Z"
+                        fill="#4BB97B"
+                      />
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- <app-edit-category-modal
+      *ngIf="isEditCategoryModalOpen && selectedCategory"
+      [category]="selectedCategory"
+      (onUpdate)="handleCategoryUpdate($event)"
+      (onClose)="closeEditCategoryModal()"
+    ></app-edit-category-modal> -->
+    <div class="flex justify-between items-center mb-6">
+      <button
+        class="text-teal-500"
+        (click)="prevPage()"
+        [disabled]="currentPage === 1"
+      >
+        Previous
+      </button>
+      <span class="text-gray-600">
+        Page {{ currentPage }} of {{ totalPages }}
+      </span>
+      <button
+        class="text-teal-500"
+        (click)="nextPage()"
+        [disabled]="currentPage === totalPages"
+      >
+        Next
+      </button>
+    </div>
+    <app-add-category-modal
+      *ngIf="isCategoryModalOpen"
+      (categorySaved)="handleCategorySave($event)"
+      (categoryModalClosed)="closeCategoryModal()"
+    ></app-add-category-modal>
+  </body>
+</html>

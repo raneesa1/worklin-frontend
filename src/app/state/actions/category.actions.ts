@@ -1,6 +1,6 @@
 // category.actions.ts
-import { Category, SubCategory } from "../../admin-management/types/category.model";
 import { createAction, props } from '@ngrx/store';
+import { Category, SubCategory } from '../../pages/admin-management/types/category.model';
 
 export const selectCategory = createAction(
   '[Category] Select Category',
@@ -13,7 +13,7 @@ export const clearCategorySelection = createAction(
 
 export const selectSubcategory = createAction(
   '[Category] Select Subcategory',
-  props<{ subcategory: SubCategory }>()
+  props<{ subcategory: SubCategory}>()
 );
 
 export const clearSubcategorySelection = createAction(

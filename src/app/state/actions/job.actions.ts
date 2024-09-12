@@ -1,6 +1,6 @@
 // src/app/state/actions/job.actions.ts
 import { createAction, props } from '@ngrx/store';
-import { Skill } from '../../admin-management/types/category.model';
+import { Skill } from '../../pages/admin-management/types/category.model';
 
 export const setSelectedDuration = createAction(
   '[Job] Set Selected Duration',

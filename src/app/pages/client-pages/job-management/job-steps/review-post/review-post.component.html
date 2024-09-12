@@ -1,0 +1,311 @@
+<body class="p-6">
+  <div class="max-w-4xl mx-auto p-6 rounded-lg">
+    <div class="space-y-4">
+      <div>
+        <h2 class="text-2xl font-bold ml-1">Job details</h2>
+      </div>
+
+      <div class="max-w-4xl mx-auto bg-white rounded-lg border p-8">
+        <!-- Job Details -->
+        <div class="space-y-8">
+          <!-- Job Title -->
+          <span *ngIf="isErrorMessage" class="text-red-500 text-center">
+            Title is required
+          </span>
+          <div class="flex justify-between items-center border-b pb-4">
+            <h3 *ngIf="!isTitleEditing" class="text-2xl font-semibold">
+              {{ jobPost.title || "Title not available" }}
+            </h3>
+
+            <input
+              #titleInput
+              *ngIf="isTitleEditing"
+              (ngModelChange)="onTitleInput()"
+              class="rounded px-2 py-1 text-lg w-full mt-0"
+              [(ngModel)]="jobPost.title"
+              (blur)="saveTitle()"
+            />
+
+            <button class="text-blue-500 hover:underline">
+              <svg
+                *ngIf="!isTitleEditing"
+                (click)="editTitle()"
+                width="38"
+                height="35"
+                viewBox="0 0 38 35"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <ellipse
+                  cx="19.0007"
+                  cy="17.5"
+                  rx="18.6667"
+                  ry="17.5"
+                  fill="#D9D9D9"
+                />
+                <ellipse
+                  cx="18.9998"
+                  cy="17.5"
+                  rx="17.1111"
+                  ry="15.9444"
+                  fill="white"
+                />
+                <path
+                  d="M14.1395 24.542H15.2479L22.8507 14.8941L21.7423 13.4876L14.1395 23.1355V24.542ZM12.584 26.516V22.3213L22.8507 9.31753C23.0062 9.13658 23.178 8.99675 23.3659 8.89805C23.5539 8.79935 23.7516 8.75 23.959 8.75C24.1664 8.75 24.3673 8.79935 24.5618 8.89805C24.7562 8.99675 24.9247 9.1448 25.0673 9.3422L26.1368 10.724C26.2923 10.905 26.4057 11.1188 26.477 11.3656C26.5483 11.6123 26.584 11.8591 26.584 12.1058C26.584 12.369 26.5483 12.6199 26.477 12.8584C26.4057 13.0969 26.2923 13.3149 26.1368 13.5123L15.8895 26.516H12.584ZM22.2868 14.2032L21.7423 13.4876L22.8507 14.8941L22.2868 14.2032Z"
+                  fill="#089B8C"
+                />
+              </svg>
+              <svg
+                *ngIf="isTitleEditing"
+                xmlns="http://www.w3.org/2000/svg"
+                height="24px"
+                viewBox="0 -960 960 960"
+                width="24px"
+                fill="#4bb97b"
+              >
+                <path
+                  d="m381-240 424-424-57-56-368 367-169-170-57 57 227 226Zm0 113L42-466l169-170 170 170 366-367 172 168-538 538Z"
+                />
+              </svg>
+            </button>
+          </div>
+          <span *ngIf="descriptionError" class="text-red-500 text-center">
+            description is required
+          </span>
+          <!-- Job Description -->
+          <div class="flex justify-between items-center border-b pb-4">
+            <p *ngIf="!isDescriptionEditing">
+              {{ jobPost.description || "Description not available" }}
+            </p>
+            <textarea
+              #descriptionInput
+              *ngIf="isDescriptionEditing"
+              (ngModelChange)="onDescriptionInput()"
+              class="rounded px-2 py-1 text-lg w-full"
+              [(ngModel)]="jobPost.description"
+              (blur)="saveDescription()"
+            ></textarea>
+            <button class="text-blue-500 hover:underline">
+              <svg
+                *ngIf="!isDescriptionEditing"
+                (click)="editDescription()"
+                width="38"
+                height="35"
+                viewBox="0 0 38 35"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <ellipse
+                  cx="19.0007"
+                  cy="17.5"
+                  rx="18.6667"
+                  ry="17.5"
+                  fill="#D9D9D9"
+                />
+                <ellipse
+                  cx="18.9998"
+                  cy="17.5"
+                  rx="17.1111"
+                  ry="15.9444"
+                  fill="white"
+                />
+                <path
+                  d="M14.1395 24.542H15.2479L22.8507 14.8941L21.7423 13.4876L14.1395 23.1355V24.542ZM12.584 26.516V22.3213L22.8507 9.31753C23.0062 9.13658 23.178 8.99675 23.3659 8.89805C23.5539 8.79935 23.7516 8.75 23.959 8.75C24.1664 8.75 24.3673 8.79935 24.5618 8.89805C24.7562 8.99675 24.9247 9.1448 25.0673 9.3422L26.1368 10.724C26.2923 10.905 26.4057 11.1188 26.477 11.3656C26.5483 11.6123 26.584 11.8591 26.584 12.1058C26.584 12.369 26.5483 12.6199 26.477 12.8584C26.4057 13.0969 26.2923 13.3149 26.1368 13.5123L15.8895 26.516H12.584ZM22.2868 14.2032L21.7423 13.4876L22.8507 14.8941L22.2868 14.2032Z"
+                  fill="#089B8C"
+                />
+              </svg>
+              <svg
+                (click)="saveDescription()"
+                *ngIf="isDescriptionEditing"
+                xmlns="http://www.w3.org/2000/svg"
+                height="24px"
+                viewBox="0 -960 960 960"
+                width="24px"
+                fill="#4bb97b"
+              >
+                <path
+                  d="m381-240 424-424-57-56-368 367-169-170-57 57 227 226Zm0 113L42-466l169-170 170 170 366-367 172 168-538 538Z"
+                />
+              </svg>
+            </button>
+          </div>
+
+          <!-- Category -->
+          <div class="flex justify-between items-center border-b pb-4">
+            <div>
+              <p class="font-medium">Duration</p>
+              <p>{{ jobPost.duration || "Duration not available" }}</p>
+            </div>
+            <button class="text-blue-500 hover:underline">
+              <svg
+                (click)="openDurationModal()"
+                width="38"
+                height="35"
+                viewBox="0 0 38 35"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <ellipse
+                  cx="19.0007"
+                  cy="17.5"
+                  rx="18.6667"
+                  ry="17.5"
+                  fill="#D9D9D9"
+                />
+                <ellipse
+                  cx="18.9998"
+                  cy="17.5"
+                  rx="17.1111"
+                  ry="15.9444"
+                  fill="white"
+                />
+                <path
+                  d="M14.1395 24.542H15.2479L22.8507 14.8941L21.7423 13.4876L14.1395 23.1355V24.542ZM12.584 26.516V22.3213L22.8507 9.31753C23.0062 9.13658 23.178 8.99675 23.3659 8.89805C23.5539 8.79935 23.7516 8.75 23.959 8.75C24.1664 8.75 24.3673 8.79935 24.5618 8.89805C24.7562 8.99675 24.9247 9.1448 25.0673 9.3422L26.1368 10.724C26.2923 10.905 26.4057 11.1188 26.477 11.3656C26.5483 11.6123 26.584 11.8591 26.584 12.1058C26.584 12.369 26.5483 12.6199 26.477 12.8584C26.4057 13.0969 26.2923 13.3149 26.1368 13.5123L15.8895 26.516H12.584ZM22.2868 14.2032L21.7423 13.4876L22.8507 14.8941L22.2868 14.2032Z"
+                  fill="#089B8C"
+                />
+              </svg>
+            </button>
+          </div>
+
+          <!-- Skills -->
+          <div class="flex justify-between items-center border-b pb-4">
+            <div>
+              <p class="font-medium">Skills</p>
+              <p>{{ skillsList || "No skills listed" }}</p>
+            </div>
+            <button class="text-blue-500 hover:underline">
+              <svg
+                (click)="openSkillModal()"
+                width="38"
+                height="35"
+                viewBox="0 0 38 35"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <ellipse
+                  cx="19.0007"
+                  cy="17.5"
+                  rx="18.6667"
+                  ry="17.5"
+                  fill="#D9D9D9"
+                />
+                <ellipse
+                  cx="18.9998"
+                  cy="17.5"
+                  rx="17.1111"
+                  ry="15.9444"
+                  fill="white"
+                />
+                <path
+                  d="M14.1395 24.542H15.2479L22.8507 14.8941L21.7423 13.4876L14.1395 23.1355V24.542ZM12.584 26.516V22.3213L22.8507 9.31753C23.0062 9.13658 23.178 8.99675 23.3659 8.89805C23.5539 8.79935 23.7516 8.75 23.959 8.75C24.1664 8.75 24.3673 8.79935 24.5618 8.89805C24.7562 8.99675 24.9247 9.1448 25.0673 9.3422L26.1368 10.724C26.2923 10.905 26.4057 11.1188 26.477 11.3656C26.5483 11.6123 26.584 11.8591 26.584 12.1058C26.584 12.369 26.5483 12.6199 26.477 12.8584C26.4057 13.0969 26.2923 13.3149 26.1368 13.5123L15.8895 26.516H12.584ZM22.2868 14.2032L21.7423 13.4876L22.8507 14.8941L22.2868 14.2032Z"
+                  fill="#089B8C"
+                />
+              </svg>
+            </button>
+          </div>
+
+          <!-- Scope -->
+          <div class="flex justify-between items-center border-b pb-4">
+            <div>
+              <p class="font-medium">Experience</p>
+              <p>{{ jobPost.experience }} level</p>
+            </div>
+            <button class="text-blue-500 hover:underline">
+              <svg
+                (click)="openExperienceModal()"
+                width="38"
+                height="35"
+                viewBox="0 0 38 35"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <ellipse
+                  cx="19.0007"
+                  cy="17.5"
+                  rx="18.6667"
+                  ry="17.5"
+                  fill="#D9D9D9"
+                />
+                <ellipse
+                  cx="18.9998"
+                  cy="17.5"
+                  rx="17.1111"
+                  ry="15.9444"
+                  fill="white"
+                />
+                <path
+                  d="M14.1395 24.542H15.2479L22.8507 14.8941L21.7423 13.4876L14.1395 23.1355V24.542ZM12.584 26.516V22.3213L22.8507 9.31753C23.0062 9.13658 23.178 8.99675 23.3659 8.89805C23.5539 8.79935 23.7516 8.75 23.959 8.75C24.1664 8.75 24.3673 8.79935 24.5618 8.89805C24.7562 8.99675 24.9247 9.1448 25.0673 9.3422L26.1368 10.724C26.2923 10.905 26.4057 11.1188 26.477 11.3656C26.5483 11.6123 26.584 11.8591 26.584 12.1058C26.584 12.369 26.5483 12.6199 26.477 12.8584C26.4057 13.0969 26.2923 13.3149 26.1368 13.5123L15.8895 26.516H12.584ZM22.2868 14.2032L21.7423 13.4876L22.8507 14.8941L22.2868 14.2032Z"
+                  fill="#089B8C"
+                />
+              </svg>
+            </button>
+          </div>
+
+          <!-- Budget -->
+          <div class="flex justify-between items-center">
+            <div>
+              <p class="font-medium">Budget</p>
+              <p>${{ jobPost.priceFrom }} - ${{ jobPost.priceTo }}</p>
+            </div>
+            <button class="text-blue-500 hover:underline">
+              <svg
+                (click)="openBudgetModal()"
+                width="38"
+                height="35"
+                viewBox="0 0 38 35"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <ellipse
+                  cx="19.0007"
+                  cy="17.5"
+                  rx="18.6667"
+                  ry="17.5"
+                  fill="#D9D9D9"
+                />
+                <ellipse
+                  cx="18.9998"
+                  cy="17.5"
+                  rx="17.1111"
+                  ry="15.9444"
+                  fill="white"
+                />
+                <path
+                  d="M14.1395 24.542H15.2479L22.8507 14.8941L21.7423 13.4876L14.1395 23.1355V24.542ZM12.584 26.516V22.3213L22.8507 9.31753C23.0062 9.13658 23.178 8.99675 23.3659 8.89805C23.5539 8.79935 23.7516 8.75 23.959 8.75C24.1664 8.75 24.3673 8.79935 24.5618 8.89805C24.7562 8.99675 24.9247 9.1448 25.0673 9.3422L26.1368 10.724C26.2923 10.905 26.4057 11.1188 26.477 11.3656C26.5483 11.6123 26.584 11.8591 26.584 12.1058C26.584 12.369 26.5483 12.6199 26.477 12.8584C26.4057 13.0969 26.2923 13.3149 26.1368 13.5123L15.8895 26.516H12.584ZM22.2868 14.2032L21.7423 13.4876L22.8507 14.8941L22.2868 14.2032Z"
+                  fill="#089B8C"
+                />
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+<div class="flex justify-end mt-10 mr-20">
+  <button
+    class="bg-teal-600 text-white py-2 px-6 rounded-lg hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-teal-500 mb-7"
+    routerLink="/client/reviewPost"
+    (click)="sendDataToBackend()"
+  >
+    POST
+  </button>
+</div>
+<app-edit-duration-modal
+  (durationSaved)="onDurationSaved($event)"
+></app-edit-duration-modal>
+<app-edit-skill-modal
+  (updateSkills)="onSkillsUpdated($event)"
+></app-edit-skill-modal>
+<app-edit-experience-level-modal
+  (experienceUpdated)="onExperienceUpdated($event)"
+></app-edit-experience-level-modal>
+<app-edit-budget-modal
+  (budgetUpdated)="onBudgetUpdated($event)"
+></app-edit-budget-modal>
+<app-confirm-job-post-modal
+  *ngIf="isConfirmModalOpen"
+  (modalClosed)="handleConfirmModalClosed()"
+  (editJobPostClicked)="handleEditJobPostFromConfirm()"
+  (jobPosted)="handleConfirmJobPosted()"
+></app-confirm-job-post-modal>

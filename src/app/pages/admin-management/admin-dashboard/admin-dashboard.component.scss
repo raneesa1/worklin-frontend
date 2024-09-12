@@ -1,0 +1,8 @@
+/* Example custom styles */
+.card {
+    @apply bg-white p-4 shadow-lg rounded-lg;
+}
+
+.chart-placeholder {
+    height: 200px;
+ }

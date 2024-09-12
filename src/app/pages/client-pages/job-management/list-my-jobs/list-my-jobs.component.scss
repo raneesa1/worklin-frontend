@@ -1,0 +1,71 @@
+.container {
+    max-width: 1024px;
+}
+
+.material-icons {
+    font-size: 24px;
+}
+
+button {
+    cursor: pointer;
+}
+
+input[type='text'] {
+    &:focus {
+        outline: none;
+        border-color: #22c55e;
+    }
+}
+
+.shadow-lg {
+    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+}
+
+.modal {
+    position: fixed;
+    /* or absolute depending on your layout */
+    z-index: 1000;
+    /* or any high value */
+    /* other modal styles */
+}.dropdown {
+    position: absolute;
+    z-index: 999;
+    /* Ensure it's lower than modal */
+    /* other dropdown styles */
+}
+.flex-1 {
+    flex: 1;
+    min-width: 0;
+    /* Prevent the flex item from overflowing */
+}
+
+.truncate {
+    white-space: nowrap;
+    /* Prevent line breaks */
+    overflow: hidden;
+    /* Hide overflow content */
+    text-overflow: ellipsis;
+    /* Show "..." for overflowed content */
+}
+
+.flex-col {
+    display: flex;
+    flex-direction: column;
+} 
+h2 {
+    max-width: 300px;
+    /* Set the maximum width you want for the title */
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    /* Prevent text from wrapping */
+}
+
+ /* In your global or component-specific styles */
+ .max-w-xs {
+     max-width: 250px;
+     /* Adjust this value as needed to set a fixed width */
+     white-space: nowrap;
+     overflow: hidden;
+     text-overflow: ellipsis;
+ }

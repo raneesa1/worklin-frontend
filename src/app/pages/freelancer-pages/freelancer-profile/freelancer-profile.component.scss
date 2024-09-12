@@ -1,0 +1,30 @@
+.custom-button {
+  border-radius: 30px; /* Creates rounded edges */
+  padding: 10px 20px;
+  font-size: 16px;
+  font-weight: 500;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  cursor: pointer;
+}
+
+.teal-outline {
+  color: #00796b; /* Teal color for text */
+  border: 2px solid #00796b; /* Teal border */
+  background-color: transparent;
+  
+  &:hover {
+    background-color: #00796b; /* Teal background on hover */
+    color: white; /* White text on hover */
+  }
+}
+
+.black-outline {
+  color: black;
+  border: 2px solid black;
+  background-color: transparent;
+  
+  &:hover {
+    background-color: black;
+    color: white;
+  }
+}

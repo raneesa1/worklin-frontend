@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Freelancer Profile</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
+      rel="stylesheet"
+    />
+  </head>
+  <body class="text-lg">
+    <app-navbar-after-login></app-navbar-after-login>
+
+    <div *ngIf="loading" class="text-center mt-10">Loading profile...</div>
+
+    <div *ngIf="error" class="text-red-500 text-center mt-10">
+      {{ error }}
+    </div>
+
+    <div *ngIf="!loading && !error" class="container mx-auto mt-10 px-8">
+      <div class="bg-white border-box rounded-3xl">
+        <div
+          class="flex items-center justify-between mb-6 pb-12 border-b px-5 pt-5"
+        >
+          <div class="flex items-center">
+            <img
+              src="{{ freelancer.picture }}"
+              alt="Profile Image"
+              class="w-20 h-20 rounded-full mr-6 border-2 border-gray-200"
+            />
+            <div>
+              <h1 class="text-3xl font-medium text-gray-900">
+                {{ freelancer.firstName }}
+                {{ freelancer.secondName }}
+              </h1>
+              <p class="text-gray-600 text-xl mt-1">
+                {{ freelancer.country }} - {{ currentTime }} local time
+              </p>
+            </div>
+          </div>
+          <!-- <button
+            class="bg-green-900 text-white px-6 py-3 rounded hover:bg-green-600 transition duration-300"
+          >
+            Profile settings
+          </button> -->
+        </div>
+
+        <div class="grid grid-cols-1 gap-8 border-b px-5">
+          <div class="col-span-2">
+            <div class="flex items-center mb-2">
+              <h2 class="font-medium text-2xl mr-2">{{ freelancer.role }}</h2>
+              <button class="edit-button mb-2  ">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  height="24px"
+                  viewBox="0 -960 960 960"
+                  width="24px"
+                  fill="#4bb97b"
+                >
+                  <path
+                    d="M200-200h57l391-391-57-57-391 391v57Zm-80 80v-170l528-527q12-11 26.5-17t30.5-6q16 0 31 6t26 18l55 56q12 11 17.5 26t5.5 30q0 16-5.5 30.5T817-647L290-120H120Zm640-584-56-56 56 56Zm-141 85-28-29 57 57-29-28Z"
+                  />
+                </svg>
+              </button>
+            </div>
+            <p class="section-content bio-content">{{ freelancer.bio }}</p>
+          </div>
+        </div>
+
+        <div class="flex">
+          <div class="w-1/2">
+            <div class="border-b border-gray-200 pb-6 mb-8 pt-5 px-5">
+              <div class="flex items-center justify-between mb-3">
+                <h3 class="text-2xl font-medium">Hourly Rate</h3>
+                <button class="edit-button">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    height="24px"
+                    viewBox="0 -960 960 960"
+                    width="24px"
+                    fill="#4bb97b"
+                  >
+                    <path
+                      d="M200-200h57l391-391-57-57-391 391v57Zm-80 80v-170l528-527q12-11 26.5-17t30.5-6q16 0 31 6t26 18l55 56q12 11 17.5 26t5.5 30q0 16-5.5 30.5T817-647L290-120H120Zm640-584-56-56 56 56Zm-141 85-28-29 57 57-29-28Z"
+                    />
+                  </svg>
+                </button>
+              </div>
+              <p class="text-gray-800 text-2xl font-semibold">
+                ${{ freelancer.hourlyRate }}/hour
+              </p>
+            </div>
+
+            <div class="border-b border-gray-200 pb-6 mb-8 px-5">
+              <div class="flex items-center justify-between mb-3">
+                <h3 class="text-2xl font-medium">Education</h3>
+                <button class="edit-button">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    height="24px"
+                    viewBox="0 -960 960 960"
+                    width="24px"
+                    fill="#4bb97b"
+                  >
+                    <path
+                      d="M200-200h57l391-391-57-57-391 391v57Zm-80 80v-170l528-527q12-11 26.5-17t30.5-6q16 0 31 6t26 18l55 56q12 11 17.5 26t5.5 30q0 16-5.5 30.5T817-647L290-120H120Zm640-584-56-56 56 56Zm-141 85-28-29 57 57-29-28Z"
+                    />
+                  </svg>
+                </button>
+              </div>
+              <div *ngFor="let edu of freelancer.education" class="mb-4">
+                <p class="font-semibold text-lg text-gray-800">
+                  {{ edu.school }}
+                </p>
+                <p class="text-gray-700 text-lg">
+                  {{ edu.degree }}, {{ edu.fieldOfStudy }}
+                </p>
+                <p class="text-gray-600 text-base">
+                  {{ edu.fromMonth }}/{{ edu.fromYear }} - {{ edu.toMonth }}/
+                  {{ edu.toYear }}
+                </p>
+              </div>
+            </div>
+
+            <div class="px-5">
+              <div class="flex items-center justify-between mb-3">
+                <h3 class="text-2xl font-medium">Experience</h3>
+                <button class="edit-button">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    height="24px"
+                    viewBox="0 -960 960 960"
+                    width="24px"
+                    fill="#4bb97b"
+                  >
+                    <path
+                      d="M200-200h57l391-391-57-57-391 391v57Zm-80 80v-170l528-527q12-11 26.5-17t30.5-6q16 0 31 6t26 18l55 56q12 11 17.5 26t5.5 30q0 16-5.5 30.5T817-647L290-120H120Zm640-584-56-56 56 56Zm-141 85-28-29 57 57-29-28Z"
+                    />
+                  </svg>
+                </button>
+              </div>
+              <div *ngFor="let exp of freelancer.experience" class="mb-4">
+                <p class="font-semibold text-lg text-gray-800">
+                  {{ exp.title }}
+                </p>
+                <p class="text-gray-700 text-lg">{{ exp.company }}</p>
+                <p class="text-gray-600 text-base">
+                  {{ exp.startMonth }}/{{ exp.startYear }} - {{ exp.endMonth }}/
+                  {{ exp.endYear }}
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="w-1/2 vertical-line">
+            <div class="pb-6 mb-5 pt-5 px-5 border-b">
+              <div class="flex items-center justify-between mb-3">
+                <h3 class="text-2xl font-medium">Skills</h3>
+                <button class="edit-button">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    height="24px"
+                    viewBox="0 -960 960 960"
+                    width="24px"
+                    fill="#4bb97b"
+                  >
+                    <path
+                      d="M200-200h57l391-391-57-57-391 391v57Zm-80 80v-170l528-527q12-11 26.5-17t30.5-6q16 0 31 6t26 18l55 56q12 11 17.5 26t5.5 30q0 16-5.5 30.5T817-647L290-120H120Zm640-584-56-56 56 56Zm-141 85-28-29 57 57-29-28Z"
+                    />
+                  </svg>
+                </button>
+              </div>
+              <div class="flex flex-wrap">
+                <span
+                  *ngFor="let skill of freelancer.skill"
+                  class="skill-badge mr-2 mb-2"
+                >
+                  {{ skill.name }}
+                </span>
+              </div>
+            </div>
+
+            <!-- Resume Section -->
+            <div class="pb-6 mb-8 px-5 border-b">
+              <div class="flex items-center justify-between mb-3">
+                <h3 class="text-2xl font-medium">Resume</h3>
+                <svg
+                  *ngIf="!freelancer.resume"
+                  width="26"
+                  height="25"
+                  viewBox="0 0 26 25"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <ellipse
+                    cx="13"
+                    cy="12.4801"
+                    rx="13"
+                    ry="12.4801"
+                    fill="#4BB97B"
+                  />
+                  <ellipse
+                    cx="12.9998"
+                    cy="12.4797"
+                    rx="11.8182"
+                    ry="11.2321"
+                    fill="white"
+                  />
+                  <path
+                    d="M12 13H6V11H12V5H14V11H20V13H14V19H12V13Z"
+                    fill="#4BB97B"
+                  />
+                </svg>
+              </div>
+              <div class="border rounded-lg p-4 mt-4">
+                <div class="flex items-center">
+                  <a class="hover:underline" href="{{ freelancer.resume }}"
+                    >Resume.pdf</a
+                  >
+                  <button class="ml-auto text-gray-500 text-lg edit-button">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      height="24px"
+                      viewBox="0 -960 960 960"
+                      width="24px"
+                      fill="#4bb97b"
+                    >
+                      <path
+                        d="M280-120q-33 0-56.5-23.5T200-200v-520h-40v-80h200v-40h240v40h200v80h-40v520q0 33-23.5 56.5T680-120H280Zm400-600H280v520h400v-520ZM360-280h80v-360h-80v360Zm160 0h80v-360h-80v360ZM280-720v520-520Z"
+                      />
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+            <!-- End Resume Section -->
+            <div class="pb-6 mb-8 px-5">
+              <div class="flex items-center justify-between mb-3">
+                <h3 class="text-2xl font-medium">Video Introduction</h3>
+                <button class="edit-button">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    height="24px"
+                    viewBox="0 -960 960 960"
+                    width="24px"
+                    fill="#4bb97b"
+                  >
+                    <path
+                      d="M440-440H200v-80h240v-240h80v240h240v80H520v240h-80v-240Z"
+                    />
+                  </svg>
+                </button>
+              </div>
+              <div class="flex mt-8 items-center justify-center">
+                <svg
+                  width="180px"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 145 130"
+                  aria-hidden="true"
+                  role="img"
+                >
+                  <path
+                    d="M37.502 10.01c5.417-3.18 13.543-8.008 14.839-8.715C54.696 0 57.405 0 59.76 0h43.692v96.687H35.147V13.661c0-.824.235-1.884 1.295-2.944.236-.236.589-.471 1.06-.707z"
+                    fill="url(#paint0_linear_11370_56470-uid-14)"
+                  ></path>
+                  <path
+                    d="M63.646 59.12h-28.5v37.567h30.62V61.121c0-1.178-.942-2.002-2.12-2.002z"
+                    fill="#D5E0D5"
+                  ></path>
+                  <path
+                    d="M46.923 45.577h44.634c.589 0 1.06-.471 1.06-1.06 0-.589-.471-1.06-1.06-1.06H46.923c-.589 0-1.06.471-1.06 1.06.118.589.59 1.06 1.06 1.06zm-.001 10.01h44.634c.589 0 1.06-.472 1.06-1.06 0-.59-.471-1.06-1.06-1.06H46.922c-.589 0-1.06.47-1.06 1.06.118.588.59 1.06 1.06 1.06zm0 10.011h44.634c.589 0 1.06-.47 1.06-1.06 0-.588-.471-1.06-1.06-1.06H46.922c-.589 0-1.06.472-1.06 1.06.118.707.59 1.06 1.06 1.06zm0 10.125h44.634c.589 0 1.06-.47 1.06-1.06 0-.588-.471-1.06-1.06-1.06H46.922c-.589 0-1.06.472-1.06 1.06.118.59.59 1.06 1.06 1.06z"
+                    fill="#F66DBC"
+                  ></path>
+                  <path
+                    d="M37.501 10.01c5.535-3.298 13.426-7.89 14.839-8.715-2.709 1.53-7.42 12.012-7.42 12.012-1.766-.47-4.946-5.417-8.479-2.59.236-.236.59-.472 1.06-.707z"
+                    fill="url(#paint1_linear_11370_56470-uid-14)"
+                  ></path>
+                  <path
+                    d="M43.979 12.837c-.825 1.06-1.296 1.884-1.296 1.884-1.295-.589-3.062-4.004-5.653-4.357 2.709-1.531 5.182 1.295 6.949 2.473z"
+                    fill="#D5E0D5"
+                  ></path>
+                  <path
+                    d="M69.3 35.096c7.154 0 12.954-5.8 12.954-12.954 0-7.155-5.8-12.954-12.955-12.954-7.154 0-12.954 5.8-12.954 12.954 0 7.155 5.8 12.954 12.954 12.954z"
+                    fill="#C3D2C3"
+                  ></path>
+                  <path
+                    d="M72.243 24.499l-.588-3.768h-4.829l-.589 3.768h6.007z"
+                    fill="url(#paint2_linear_11370_56470-uid-14)"
+                  ></path>
+                  <path
+                    d="M69.3 23.082c1.53 0 2.944.824 2.944.824l-.236-1.531h-3.062l.354.707z"
+                    fill="url(#paint3_linear_11370_56470-uid-14)"
+                  ></path>
+                  <path
+                    d="M66.237 22.14s.117 0 0 0c.942.589 2.002.942 3.062.942 1.177 0 2.237-.353 3.061-.942 1.296-.942 2.12-2.473 2.12-4.24 0-2.826-2.355-5.181-5.181-5.181-2.827 0-5.182 2.237-5.3 5.064 0 1.766.942 3.297 2.238 4.357z"
+                    fill="url(#paint4_radial_11370_56470-uid-14)"
+                  ></path>
+                  <path
+                    d="M80.369 26.028c-1.06-1.648-2.944-2.59-4.829-2.59-.47 0-1.06.117-1.53.235l-1.414.353c-2.237.59-4.593.59-6.712 0l-1.414-.353c-.47-.118-1.06-.235-1.53-.235-2.003 0-3.77.942-4.83 2.59l-.706 1.414A12.971 12.971 0 0069.3 35.214c5.3 0 9.892-3.18 11.894-7.772-.235-.471-.47-.942-.824-1.414z"
+                    fill="url(#paint5_radial_11370_56470-uid-14)"
+                  ></path>
+                  <path
+                    d="M9.002 96.57c-1.178 0-2.002-.94-2.002-2V59.592c0-1.178.942-2.002 2.002-2.002h52.171c1.178 0 2.002.942 2.002 2.002v34.977c0 1.178-.942 2.002-2.002 2.002H9.003z"
+                    fill="url(#paint6_linear_11370_56470-uid-14)"
+                  ></path>
+                  <path
+                    d="M61.173 57.47H9.003c-1.18 0-2.003.944-2.003 2.004v3.18h56.293v-3.18c0-1.06-.942-2.002-2.12-2.002z"
+                    fill="#C3D2C3"
+                  ></path>
+                  <path
+                    d="M51.398 79.729c-.353 0-.589-.118-.824-.353l-7.89-7.537c-.472-.471-.472-1.296 0-1.767.47-.471 1.295-.471 1.766 0l7.89 7.537c.471.471.471 1.296 0 1.767-.235.235-.589.353-.942.353z"
+                    fill="url(#paint7_linear_11370_56470-uid-14)"
+                  ></path>
+                  <path
+                    d="M42.684 86.441c0-.353.117-.589.353-.824l7.537-7.89c.471-.472 1.296-.472 1.767 0 .47.47.47 1.295 0 1.766l-7.538 7.89c-.47.471-1.295.471-1.766 0-.236-.353-.353-.706-.353-.942zm-23.907-6.712c.353 0 .589-.118.824-.353l7.89-7.537c.472-.471.472-1.296 0-1.767-.47-.471-1.295-.471-1.766 0l-7.89 7.537c-.471.471-.471 1.296 0 1.767.353.235.589.353.942.353z"
+                    fill="#F66DBC"
+                  ></path>
+                  <path
+                    d="M27.609 86.441c0-.353-.118-.589-.353-.824l-7.538-7.89c-.47-.472-1.295-.472-1.766 0-.471.47-.471 1.295 0 1.766l7.537 7.89c.471.471 1.296.471 1.767 0 .117-.353.353-.706.353-.942z"
+                    fill="url(#paint8_linear_11370_56470-uid-14)"
+                  ></path>
+                  <path
+                    d="M31.26 87.5c-.235 0-.353 0-.589-.117-.589-.353-.824-1.06-.589-1.649l7.42-15.192c.353-.588 1.06-.824 1.649-.588.588.353.824 1.06.588 1.648L32.32 86.794c-.118.471-.589.707-1.06.707z"
+                    fill="#F66DBC"
+                  ></path>
+                  <path
+                    d="M14.537 60.18a1.18 1.18 0 01-1.178 1.177c-.588 0-1.177-.47-1.177-1.177 0-.59.47-1.178 1.177-1.178.707 0 1.178.471 1.178 1.178z"
+                    fill="url(#paint9_radial_11370_56470-uid-14)"
+                  ></path>
+                  <path
+                    d="M11.005 60.18a1.18 1.18 0 01-1.178 1.177c-.589 0-1.178-.47-1.178-1.177 0-.59.471-1.178 1.178-1.178s1.178.471 1.178 1.178z"
+                    fill="url(#paint10_radial_11370_56470-uid-14)"
+                  ></path>
+                  <path
+                    d="M101.45 60.77l-2.591-2.592c-9.186-9.185-24.025-9.185-33.21 0-9.187 9.186-9.187 24.025 0 33.21l2.59 2.592c9.186 9.186 24.025 9.186 33.211 0 9.185-9.186 9.185-24.025 0-33.21z"
+                    fill="#14A800"
+                  ></path>
+                  <path
+                    d="M65.767 91.505c9.186 9.186 24.024 9.186 33.21 0 9.186-9.185 9.186-24.024 0-33.21l2.591 2.59c9.186 9.187 9.186 24.025 0 33.211s-24.025 9.186-33.21 0l-2.591-2.59z"
+                    fill="url(#paint11_linear_11370_56470-uid-14)"
+                  ></path>
+                  <path
+                    d="M96.858 60.3c8.008 8.007 8.008 21.08 0 29.088-8.009 8.008-21.081 8.008-29.09 0-8.007-8.009-8.007-21.08 0-29.089 8.127-8.008 21.081-8.008 29.09 0z"
+                    fill="#F2F7F2"
+                  ></path>
+                  <path
+                    d="M94.149 86.56H65.413c-.47-.707-.942-1.53-1.413-2.355h30.15c.706 0 1.177.47 1.177 1.177 0 .707-.47 1.178-1.177 1.178zm1.177-12.837c0-.706-.47-1.177-1.177-1.177H61.88c-.117.824-.117 1.53-.117 2.355h32.386c.706 0 1.177-.589 1.177-1.178zM94.15 60.887H67.298c-.707.706-1.296 1.53-1.885 2.355H94.15c.706 0 1.177-.471 1.177-1.178 0-.706-.47-1.177-1.177-1.177z"
+                    fill="#F66DBC"
+                  ></path>
+                  <path
+                    d="M106.044 93.746l-4.829 4.828c-1.06 1.06-2.944 1.06-4.004 0l-.235-.236c-1.06-1.06-1.06-2.944 0-4.004l4.828-4.828c1.06-1.06 2.944-1.06 4.004 0l.236.235c1.177 1.178 1.177 2.945 0 4.005z"
+                    fill="url(#paint12_radial_11370_56470-uid-14)"
+                  ></path>
+                  <path
+                    d="M104.394 93.038a10.262 10.262 0 00-3.887 3.886c-.235.354-.117.707.118 1.06l19.196 22.965c2.356 2.944 5.182 5.535 8.126 7.773 2.356 1.884 5.771 1.648 7.891-.471 2.119-2.12 2.355-5.536.471-7.891a63.489 63.489 0 00-7.773-8.126l-22.965-19.196c-.471-.236-.824-.236-1.177 0z"
+                    fill="url(#paint13_linear_11370_56470-uid-14)"
+                  ></path>
+                  <path
+                    opacity=".35"
+                    d="M82.372 95.512c11.382 0 20.609-9.228 20.609-20.61s-9.227-20.609-20.609-20.609c-11.382 0-20.61 9.227-20.61 20.61 0 11.381 9.228 20.609 20.61 20.609z"
+                    fill="url(#paint14_linear_11370_56470-uid-14)"
+                  ></path>
+                  <path
+                    opacity=".3"
+                    d="M82.372 95.512c11.382 0 20.609-9.228 20.609-20.61s-9.227-20.609-20.609-20.609c-11.382 0-20.61 9.227-20.61 20.61 0 11.381 9.228 20.609 20.61 20.609z"
+                    fill="url(#paint15_radial_11370_56470-uid-14)"
+                  ></path>
+                  <path
+                    opacity=".3"
+                    d="M65.766 78.789c0-11.306 9.186-20.61 20.61-20.61 4.71 0 8.95 1.531 12.483 4.24-3.769-4.946-9.657-8.126-16.37-8.126-11.306 0-20.61 9.186-20.61 20.61 0 6.712 3.18 12.6 8.127 16.369-2.709-3.415-4.24-7.773-4.24-12.483z"
+                    fill="#01CDBE"
+                  ></path>
+                  <path
+                    d="M69.064 61.594c7.772-7.773 20.374-8.008 28.5-.589-.236-.235-.354-.47-.59-.589-8.008-8.008-21.08-8.008-29.088 0-8.008 8.008-8.008 21.08 0 29.089l.589.589c-7.537-8.126-7.302-20.727.589-28.5z"
+                    fill="url(#paint16_linear_11370_56470-uid-14)"
+                  ></path>
+                  <path
+                    d="M105.454 93.037c-.354-.236-.707-.236-1.06-.118a10.262 10.262 0 00-3.887 3.886c-.235.354-.117.707.118 1.06l2.12 2.591c-.707-.824 1.766-8.243 4.122-6.241l-1.413-1.178z"
+                    fill="#6D2B11"
+                  ></path>
+                  <defs>
+                    <linearGradient
+                      id="paint0_linear_11370_56470-uid-14"
+                      x1="77.353"
+                      y1="30.342"
+                      x2="44.789"
+                      y2="94.529"
+                      gradientUnits="userSpaceOnUse"
+                    >
+                      <stop offset=".576" stop-color="#E4EBE4"></stop>
+                      <stop offset=".726" stop-color="#E1E9E1"></stop>
+                      <stop offset=".825" stop-color="#D9E2D9"></stop>
+                      <stop offset=".908" stop-color="#CAD7CA"></stop>
+                      <stop offset=".935" stop-color="#C3D2C3"></stop>
+                    </linearGradient>
+                    <linearGradient
+                      id="paint1_linear_11370_56470-uid-14"
+                      x1="47.28"
+                      y1="12.859"
+                      x2="44.108"
+                      y2="5.331"
+                      gradientUnits="userSpaceOnUse"
+                    >
+                      <stop offset=".264" stop-color="#E4EBE4"></stop>
+                      <stop offset="1" stop-color="#F2F7F2"></stop>
+                    </linearGradient>
+                    <linearGradient
+                      id="paint2_linear_11370_56470-uid-14"
+                      x1="66.276"
+                      y1="22.613"
+                      x2="72.25"
+                      y2="22.613"
+                      gradientUnits="userSpaceOnUse"
+                    >
+                      <stop offset=".52" stop-color="#F7B0B2"></stop>
+                      <stop offset=".642" stop-color="#EEA5A8"></stop>
+                      <stop offset=".856" stop-color="#D5878D"></stop>
+                      <stop offset="1" stop-color="#C17078"></stop>
+                    </linearGradient>
+                    <linearGradient
+                      id="paint3_linear_11370_56470-uid-14"
+                      x1="70.508"
+                      y1="23.829"
+                      x2="70.508"
+                      y2="22.324"
+                      gradientUnits="userSpaceOnUse"
+                    >
+                      <stop stop-color="#A06069" stop-opacity="0"></stop>
+                      <stop offset="1" stop-color="#A06069"></stop>
+                    </linearGradient>
+                    <linearGradient
+                      id="paint6_linear_11370_56470-uid-14"
+                      x1="35.111"
+                      y1="96.552"
+                      x2="35.111"
+                      y2="57.611"
+                      gradientUnits="userSpaceOnUse"
+                    >
+                      <stop stop-color="#F2F6F1"></stop>
+                      <stop offset=".62" stop-color="#F0F4EF"></stop>
+                      <stop offset=".91" stop-color="#E9EEE8"></stop>
+                      <stop offset="1" stop-color="#E4EAE4"></stop>
+                    </linearGradient>
+                    <linearGradient
+                      id="paint7_linear_11370_56470-uid-14"
+                      x1="42.36"
+                      y1="74.779"
+                      x2="52.667"
+                      y2="74.779"
+                      gradientUnits="userSpaceOnUse"
+                    >
+                      <stop stop-color="#746493"></stop>
+                      <stop offset=".061" stop-color="#7B699B"></stop>
+                      <stop offset=".21" stop-color="#8571A6"></stop>
+                      <stop offset=".419" stop-color="#8B76AD"></stop>
+                      <stop offset="1" stop-color="#8D77AF"></stop>
+                    </linearGradient>
+                    <linearGradient
+                      id="paint8_linear_11370_56470-uid-14"
+                      x1="17.557"
+                      y1="82.476"
+                      x2="27.553"
+                      y2="82.476"
+                      gradientUnits="userSpaceOnUse"
+                    >
+                      <stop stop-color="#746493"></stop>
+                      <stop offset=".061" stop-color="#7B699B"></stop>
+                      <stop offset=".21" stop-color="#8571A6"></stop>
+                      <stop offset=".419" stop-color="#8B76AD"></stop>
+                      <stop offset="1" stop-color="#8D77AF"></stop>
+                    </linearGradient>
+                    <linearGradient
+                      id="paint11_linear_11370_56470-uid-14"
+                      x1="65.74"
+                      y1="79.588"
+                      x2="108.378"
+                      y2="79.588"
+                      gradientUnits="userSpaceOnUse"
+                    >
+                      <stop offset=".448" stop-color="#14A800"></stop>
+                      <stop offset=".613" stop-color="#14A500"></stop>
+                      <stop offset=".721" stop-color="#149D00"></stop>
+                      <stop offset=".812" stop-color="#138E00"></stop>
+                      <stop offset=".894" stop-color="#127900"></stop>
+                      <stop offset=".935" stop-color="#126B00"></stop>
+                    </linearGradient>
+                    <linearGradient
+                      id="paint13_linear_11370_56470-uid-14"
+                      x1="114.476"
+                      y1="115.941"
+                      x2="123.411"
+                      y2="107.006"
+                      gradientUnits="userSpaceOnUse"
+                    >
+                      <stop stop-color="#BC5118"></stop>
+                      <stop offset=".239" stop-color="#B84F18"></stop>
+                      <stop offset=".459" stop-color="#AD4A17"></stop>
+                      <stop offset=".67" stop-color="#9B4115"></stop>
+                      <stop offset=".875" stop-color="#813413"></stop>
+                      <stop offset="1" stop-color="#6D2B11"></stop>
+                    </linearGradient>
+                    <linearGradient
+                      id="paint14_linear_11370_56470-uid-14"
+                      x1="67.812"
+                      y1="60.342"
+                      x2="96.888"
+                      y2="89.418"
+                      gradientUnits="userSpaceOnUse"
+                    >
+                      <stop stop-color="#01CDBE" stop-opacity=".5"></stop>
+                      <stop
+                        offset=".147"
+                        stop-color="#01CDBE"
+                        stop-opacity=".936"
+                      ></stop>
+                      <stop offset=".169" stop-color="#01CDBE"></stop>
+                      <stop
+                        offset=".514"
+                        stop-color="#01CDBE"
+                        stop-opacity=".5"
+                      ></stop>
+                      <stop
+                        offset=".881"
+                        stop-color="#01CDBE"
+                        stop-opacity=".936"
+                      ></stop>
+                      <stop offset=".935" stop-color="#01CDBE"></stop>
+                    </linearGradient>
+                    <linearGradient
+                      id="paint16_linear_11370_56470-uid-14"
+                      x1="65.775"
+                      y1="77.032"
+                      x2="93.378"
+                      y2="54.385"
+                      gradientUnits="userSpaceOnUse"
+                    >
+                      <stop stop-color="#126B00"></stop>
+                      <stop offset="1" stop-color="#14A800"></stop>
+                    </linearGradient>
+                    <radialGradient
+                      id="paint4_radial_11370_56470-uid-14"
+                      cx="0"
+                      cy="0"
+                      r="1"
+                      gradientUnits="userSpaceOnUse"
+                      gradientTransform="translate(68.056 16.151) scale(6.19155)"
+                    >
+                      <stop offset=".677" stop-color="#F7B0B2"></stop>
+                      <stop offset=".797" stop-color="#E69B9F"></stop>
+                      <stop offset="1" stop-color="#C17078"></stop>
+                    </radialGradient>
+                    <radialGradient
+                      id="paint5_radial_11370_56470-uid-14"
+                      cx="0"
+                      cy="0"
+                      r="1"
+                      gradientUnits="userSpaceOnUse"
+                      gradientTransform="translate(68.532 23.453) scale(15.6906)"
+                    >
+                      <stop offset=".677" stop-color="#14A800"></stop>
+                      <stop offset=".802" stop-color="#139300"></stop>
+                      <stop offset="1" stop-color="#126B00"></stop>
+                    </radialGradient>
+                    <radialGradient
+                      id="paint9_radial_11370_56470-uid-14"
+                      cx="0"
+                      cy="0"
+                      r="1"
+                      gradientUnits="userSpaceOnUse"
+                      gradientTransform="translate(13.196 59.852) scale(1.14255)"
+                    >
+                      <stop stop-color="#14A800"></stop>
+                      <stop offset=".334" stop-color="#14A500"></stop>
+                      <stop offset=".557" stop-color="#149C00"></stop>
+                      <stop offset=".747" stop-color="#138D00"></stop>
+                      <stop offset=".918" stop-color="#127800"></stop>
+                      <stop offset="1" stop-color="#126B00"></stop>
+                    </radialGradient>
+                    <radialGradient
+                      id="paint10_radial_11370_56470-uid-14"
+                      cx="0"
+                      cy="0"
+                      r="1"
+                      gradientUnits="userSpaceOnUse"
+                      gradientTransform="translate(9.665 59.852) scale(1.14255)"
+                    >
+                      <stop stop-color="#01CDBE"></stop>
+                      <stop offset=".265" stop-color="#02CABE"></stop>
+                      <stop offset=".441" stop-color="#04C1BE"></stop>
+                      <stop offset=".592" stop-color="#08B2BF"></stop>
+                      <stop offset=".728" stop-color="#0D9DC0"></stop>
+                      <stop offset=".855" stop-color="#1481C1"></stop>
+                      <stop offset=".972" stop-color="#1D60C3"></stop>
+                      <stop offset="1" stop-color="#1F57C3"></stop>
+                    </radialGradient>
+                    <radialGradient
+                      id="paint12_radial_11370_56470-uid-14"
+                      cx="0"
+                      cy="0"
+                      r="1"
+                      gradientUnits="userSpaceOnUse"
+                      gradientTransform="matrix(11.76216 -11.76216 4.85116 4.85116 105.193 97.812)"
+                    >
+                      <stop stop-color="#AD8D05"></stop>
+                      <stop offset=".26" stop-color="#AF8E08"></stop>
+                      <stop offset=".432" stop-color="#B49311"></stop>
+                      <stop offset=".58" stop-color="#BE9B20"></stop>
+                      <stop offset=".703" stop-color="#CAA533"></stop>
+                      <stop offset=".769" stop-color="#D1AB3F"></stop>
+                      <stop offset=".886" stop-color="#E5BB5D"></stop>
+                      <stop offset="1" stop-color="#FCCD81"></stop>
+                    </radialGradient>
+                    <radialGradient
+                      id="paint15_radial_11370_56470-uid-14"
+                      cx="0"
+                      cy="0"
+                      r="1"
+                      gradientUnits="userSpaceOnUse"
+                      gradientTransform="translate(73.768 69.804) scale(35.5567)"
+                    >
+                      <stop stop-color="#01CDBE" stop-opacity="0"></stop>
+                      <stop offset="1" stop-color="#01CDBE"></stop>
+                    </radialGradient>
+                  </defs>
+                </svg>
+              </div>
+              <p class="font-normal text-sm p-5 text-center">
+                Stand out from the crowd! Share your story and showcase your
+                unique skills with a personal introduction video!
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

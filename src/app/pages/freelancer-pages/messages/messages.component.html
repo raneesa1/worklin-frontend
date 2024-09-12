@@ -1,0 +1,411 @@
+<app-navbar-after-login></app-navbar-after-login>
+<div class="flex h-screen">
+  <!-- People List -->
+  <div class="w-1/3 bg-white px-7 flex flex-col border-r border-gray-200">
+    <div class="flex items-center justify-between">
+      <h1 class="text-4xl font-normal">Messages</h1>
+      <button class="text-gray-500">
+        <svg
+          class="w-6 h-6"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M12 4v16m8-8H4"
+          ></path>
+        </svg>
+      </button>
+    </div>
+    <div class="relative mt-6">
+      <input
+        type="text"
+        class="w-full p-3 pl-10 border rounded-full focus:ring focus:ring-teal-500"
+        placeholder="Search"
+      />
+      <svg
+        class="absolute left-3 top-4 w-5 h-5 text-gray-400"
+        xmlns="http://www.w3.org/2000/svg"
+        height="24px"
+        viewBox="0 -960 960 960"
+        width="24px"
+        fill="#666666"
+      >
+        <path
+          d="M784-120 532-372q-30 24-69 38t-83 14q-109 0-184.5-75.5T120-580q0-109 75.5-184.5T380-840q109 0 184.5 75.5T640-580q0 44-14 83t-38 69l252 252-56 56ZM380-400q75 0 127.5-52.5T560-580q0-75-52.5-127.5T380-760q-75 0-127.5 52.5T200-580q0 75 52.5 127.5T380-400Z"
+        />
+      </svg>
+    </div>
+    <div class="mt-6 flex-grow bg-gray-100 rounded-2xl overflow-y-auto">
+      <!-- List of Conversations -->
+      <div
+        *ngFor="let room of rooms"
+        class="p-4 cursor-pointer hover:bg-gray-200"
+        (click)="selectRoom(room)"
+        [class.bg-gray-300]="currentRoom?._id === room._id"
+      >
+        <div class="flex items-center">
+          <div
+            class="flex-shrink-0 w-12 h-12 bg-gray-300 rounded-full overflow-hidden"
+          >
+            <img
+              *ngIf="room?.participant?.picture"
+              [src]="room?.participant?.picture"
+              alt="profile"
+              class="w-full h-full object-cover"
+            />
+          </div>
+          <div class="ml-4">
+            <div class="font-semibold">
+              {{ room.participant?.firstName }}
+            </div>
+            <div class="text-sm text-gray-500 truncate">
+              {{ room.lastMessage | date : "dd/MM/yyyy HH:mm" }}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Chat Area -->
+  <div class="w-2/3 flex flex-col bg-white">
+    <!-- Chat Header -->
+    <app-chat-header
+      *ngIf="currentRoom"
+      [currentRoom]="currentRoom"
+      [currentReceiver]="currentReceiver"
+    ></app-chat-header>
+
+    <!-- Chat Messages -->
+    <!-- Chat Messages -->
+    <div *ngIf="messages.length === 0" class="text-center text-gray-500">
+      No messages yet. Start chatting!
+    </div>
+    <div
+      #messageContainer
+      class="overflow-y-auto flex-grow p-4 bg-gray-100"
+      style="max-height: calc(100vh - 160px)"
+    >
+      <div *ngFor="let message of messages" class="mb-6">
+        <div
+          [ngClass]="{
+            'flex justify-end': message.sender === userId,
+            'flex justify-start': message.sender !== userId
+          }"
+        >
+          <div
+            [ngClass]="{
+              'bg-teal-100': message.sender === userId,
+              'bg-white': message.sender !== userId
+            }"
+            class="rounded-lg p-3 shadow-md max-w-3/4"
+          >
+            <div class="text-sm text-gray-600 mb-1">
+              {{ message.sender === userId ? "You" : currentUser?.firstName }}
+            </div>
+            <ng-container [ngSwitch]="message.type">
+              <ng-container *ngSwitchCase="'text'">
+                <p class="text-gray-800">{{ message.content }}</p>
+              </ng-container>
+              <!-- Other message types (audio, image, video, file) remain unchanged -->
+            </ng-container>
+            <div
+              class="text-xs text-gray-500 mt-1 flex justify-between items-center"
+            >
+              <span>{{ message.createdAt | date : "shortTime" }}</span>
+              <ng-container *ngIf="message.sender === userId">
+                <span class="flex items-center">
+                  <ng-container [ngSwitch]="message.status">
+                    <ng-container *ngSwitchCase="'sent'">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="16"
+                        height="16"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        class="text-gray-400"
+                      >
+                        <polyline points="20 6 9 17 4 12"></polyline>
+                      </svg>
+                    </ng-container>
+                    <ng-container *ngSwitchCase="'delivered'">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="16"
+                        height="16"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        class="text-gray-400"
+                      >
+                        <path d="M18 7l-8 8-4-4"></path>
+                        <path d="M18 13l-8 8-4-4"></path>
+                      </svg>
+                    </ng-container>
+                    <ng-container *ngSwitchCase="'read'">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="16"
+                        height="16"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        class="text-blue-500"
+                      >
+                        <path d="M18 7l-8 8-4-4"></path>
+                        <path d="M18 13l-8 8-4-4"></path>
+                      </svg>
+                    </ng-container>
+                  </ng-container>
+                </span>
+              </ng-container>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Message Input -->
+    <!-- Message Input -->
+    <div *ngIf="currentRoom" class="p-4 border-t">
+      <form (ngSubmit)="sendMessage()">
+        <div class="flex items-center">
+          <!-- File input (hidden) -->
+          <input
+            type="file"
+            #fileInput
+            style="display: none"
+            (change)="handleFileInput($event)"
+          />
+          <!-- Add the "+" icon (optional) -->
+          <button type="button" class="p-2" (click)="openModal()">
+            <svg
+              *ngIf="!isPlusClicked"
+              class="w-6 h-6 text-gray-400"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M12 4v16m8-8H4"
+              ></path>
+            </svg>
+            <svg
+              *ngIf="isPlusClicked"
+              class="w-6 h-6 text-gray-400"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M6 18L18 6M6 6l12 12"
+              />
+            </svg>
+          </button>
+
+          <!-- Message input with emoji inside -->
+          <div class="relative flex-grow ml-2">
+            <input
+              type="text"
+              [(ngModel)]="newMessage"
+              name="newMessage"
+              class="w-full p-2 bg-gray-100 rounded-full focus:outline-none focus:ring-2 focus:ring-teal-500 pl-4"
+              placeholder="Type a message..."
+            />
+
+            <!-- Emoji icon inside the input -->
+            <button
+              type="button"
+              class="absolute inset-y-0 right-0 flex items-center pr-3"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                height="24px"
+                viewBox="0 -960 960 960"
+                width="24px"
+                fill="#4bb97b"
+              >
+                <path
+                  d="M620-520q25 0 42.5-17.5T680-580q0-25-17.5-42.5T620-640q-25 0-42.5 17.5T560-580q0 25 17.5 42.5T620-520Zm-280 0q25 0 42.5-17.5T400-580q0-25-17.5-42.5T340-640q-25 0-42.5 17.5T280-580q0 25 17.5 42.5T340-520Zm140 260q68 0 123.5-38.5T684-400H276q25 63 80.5 101.5T480-260Zm0 180q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm0-400Zm0 320q134 0 227-93t93-227q0-134-93-227t-227-93q-134 0-227 93t-93 227q0 134 93 227t227 93Z"
+                />
+              </svg>
+            </button>
+          </div>
+
+          <!-- Dynamic icon: Voice or Send -->
+          <button
+            type="button"
+            [ngClass]="{
+              'px-3 py-2 ml-3 rounded-full hover:bg-teal-100': true,
+              'text-gray-400': !isRecording,
+              'text-red-500': isRecording
+            }"
+            (click)="isRecording ? stopRecording() : startRecording()"
+            [disabled]="sendingAudioMessage"
+          >
+            <ng-container *ngIf="!sendingAudioMessage; else sendingAudio">
+              <svg
+                *ngIf="!isRecording"
+                xmlns="http://www.w3.org/2000/svg"
+                height="24px"
+                viewBox="0 -960 960 960"
+                width="24px"
+                [attr.fill]="newMessage ? '#4bb97b' : 'currentColor'"
+              >
+                <path
+                  d="M480-400q-50 0-85-35t-35-85v-240q0-50 35-85t85-35q50 0 85 35t35 85v240q0 50-35 85t-85 35Zm0-240Zm-40 520v-123q-104-14-172-93t-68-184h80q0 83 58.5 141.5T480-320q83 0 141.5-58.5T680-520h80q0 105-68 184t-172 93v123h-80Zm40-360q17 0 28.5-11.5T520-520v-240q0-17-11.5-28.5T480-800q-17 0-28.5 11.5T440-760v240q0 17 11.5 28.5T480-480Z"
+                />
+              </svg>
+              <svg
+                *ngIf="isRecording"
+                xmlns="http://www.w3.org/2000/svg"
+                height="24px"
+                viewBox="0 0 24 24"
+                width="24px"
+                fill="currentColor"
+              >
+                <path d="M0 0h24v24H0z" fill="none" />
+                <path d="M6 6h12v12H6z" />
+              </svg>
+            </ng-container>
+            <ng-template #sendingAudio>
+              <svg
+                class="animate-spin h-5 w-5 text-gray-500"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+              >
+                <circle
+                  class="opacity-25"
+                  cx="12"
+                  cy="12"
+                  r="10"
+                  stroke="currentColor"
+                  stroke-width="4"
+                ></circle>
+                <path
+                  class="opacity-75"
+                  fill="currentColor"
+                  d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                ></path>
+              </svg>
+            </ng-template>
+          </button>
+
+          <!-- Send button -->
+          <button
+            type="submit"
+            [ngClass]="{
+              'px-3 py-2 ml-3 rounded-full hover:bg-teal-100': newMessage,
+              'text-gray-400 p-2 ml-2': !newMessage
+            }"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              height="24px"
+              viewBox="0 -960 960 960"
+              width="24px"
+              [attr.fill]="newMessage ? '#4bb97b' : 'currentColor'"
+            >
+              <path
+                d="M120-160v-640l760 320-760 320Zm80-120 474-200-474-200v140l240 60-240 60v140Zm0 0v-400 400Z"
+              />
+            </svg>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<ng-template #welcome>
+  <div class="p-4 text-center">
+    <h2 class="text-lg font-semibold">Welcome to the Chat</h2>
+    <p class="text-gray-600">Select a room to start chatting</p>
+  </div>
+</ng-template>
+<!-- Modal -->
+<div *ngIf="isModalOpen" class="absolute bottom-0 left-80 text-black w-48 z-50">
+  <div class="bg-gray-800 text-white rounded-lg p-4 shadow-lg relative w-64">
+    <!-- Close Button -->
+    <button
+      class="absolute top-2 right-2 text-gray-400 hover:text-gray-200"
+      (click)="closeModal()"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke-width="2"
+        stroke="currentColor"
+        class="w-6 h-6"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          d="M6 18L18 6M6 6l12 12"
+        />
+      </svg>
+    </button>
+
+    <!-- Menu Items -->
+    <div class="space-y-4">
+      <div
+        class="flex items-center space-x-2 cursor-pointer hover:bg-gray-700 p-2 rounded"
+        (click)="openFileInput()"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          height="24px"
+          viewBox="0 -960 960 960"
+          width="24px"
+          fill="#0055ff"
+        >
+          <path
+            d="M320-240h320v-80H320v80Zm0-160h320v-80H320v80ZM240-80q-33 0-56.5-23.5T160-160v-640q0-33 23.5-56.5T240-880h320l240 240v480q0 33-23.5 56.5T720-80H240Zm280-520v-200H240v640h480v-440H520ZM240-800v200-200 640-640Z"
+          />
+        </svg>
+        <span>File</span>
+      </div>
+      <div
+        class="flex items-center space-x-2 cursor-pointer hover:bg-gray-700 p-2 rounded"
+        (click)="openFileInput()"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          height="24px"
+          viewBox="0 -960 960 960"
+          width="24px"
+          fill="#eacb2e"
+        >
+          <path
+            d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h560q33 0 56.5 23.5T840-760v560q0 33-23.5 56.5T760-120H200Zm0-80h560v-560H200v560Zm40-80h480L570-480 450-320l-90-120-120 160Zm-40 80v-560 560Zm140-360q25 0 42.5-17.5T400-620q0-25-17.5-42.5T340-680q-25 0-42.5 17.5T280-620q0 25 17.5 42.5T340-560Z"
+          />
+        </svg>
+        <span>Photos & Videos</span>
+      </div>
+    </div>
+  </div>
+</div>
