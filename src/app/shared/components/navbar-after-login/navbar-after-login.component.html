@@ -1,98 +1,245 @@
-<header class="bg-white mb-4">
-  <div class="flex items-center justify-between p-4">
-    <div class="flex items-center space-x-4">
-      <div class="flex items-center justify-start">
-        <span class="text-3xl font-bold text-teal-600 pl-5 pr-3">Worklin</span>
-      </div>
-      
-      <a [routerLink]="['/' + rolePrefix + '/discover']">Discover</a>
-      <a [routerLink]="['/' + rolePrefix + '/list-my-jobs']">Jobs</a>
-      <a [routerLink]="['/' + rolePrefix + '/projects']">Projects</a>
-      <a [routerLink]="['/' + rolePrefix + '/messages']">Messages</a>
-      <a href="#" class="text-gray-700 hover:text-teal-600">About</a>
-    </div>
-    
-    <div class="flex items-center space-x-4">
-      <!-- Search input field, icon, and Dropdown Button container -->
-      <div class="relative flex items-center">
-        <!-- Container for input field, icon, and button -->
-        <div
-          class="flex items-center border border-gray-300 rounded-full overflow-hidden"
+<header class="bg-white mb-4 mt-3">
+  <nav class="mx-auto px-4 py-2">
+    <div class="flex items-center justify-between">
+      <!-- Logo -->
+      <div class="flex items-center">
+        <span class="text-2xl md:text-3xl font-bold text-teal-600 pl-5 pr-3"
+          >Worklin</span
         >
-          <!-- Search Icon -->
-          <svg
-            class="w-5 h-5 text-gray-500 ml-3"
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            aria-hidden="true"
-            viewBox="0 0 24 24"
-            role="img"
+      </div>
+
+      <!-- Hamburger menu button for mobile -->
+      <button (click)="toggleMobileMenu()" class="md:hidden">
+        <svg
+          class="w-6 h-6"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth="2"
+            d="M4 6h16M4 12h16m-7 6h7"
+          ></path>
+        </svg>
+      </button>
+
+      <!-- Desktop menu and search -->
+      <div class="hidden md:flex items-center justify-between flex-grow ml-4">
+        <div class="flex items-center space-x-4">
+          <a
+            [routerLink]="['/' + rolePrefix + '/discover']"
+            class="text-gray-700 hover:text-teal-600"
+            >Discover</a
           >
-            <path
-              stroke="currentColor"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="1.5"
-              d="M21 21l-4.35-4.35M18.35 12.65a6.5 6.5 0 1 1-13 0 6.5 6.5 0 0 1 13 0z"
-            ></path>
-          </svg>
-          
-          <!-- Search input field -->
-          <input
-            type="text"
-            [(ngModel)]="searchQuery"
-            (ngModelChange)="onSearchQueryChange()"
-            (keyup.enter)="onSearch()"
-            placeholder="Search {{ searchType }}..."
-            class="px-4 py-2 border-0 w-64 focus:outline-none flex-1 pr-4"
-          />
-          
-          <!-- Tiny Border Line -->
-          <div class="w-0.5 h-6 bg-gray-300"></div>
-          
-          <!-- Dropdown Button -->
-          <button 
-            (click)="toggleDropdown()" 
-            class="px-4 py-2 text-gray-700 hover:bg-gray-100 relative"
+          <a
+            [routerLink]="['/' + rolePrefix + '/' + jobsLink]"
+            class="text-gray-700 hover:text-teal-600"
+            >Jobs</a
           >
-            <span>{{ buttonLabel }}</span>
-            <!-- Dropdown arrow -->
-            <svg 
-              class="w-4 h-4 ml-1 inline-block" 
-              fill="none" 
-              stroke="currentColor" 
-              viewBox="0 0 24 24" 
-              xmlns="http://www.w3.org/2000/svg"
+          <a
+            [routerLink]="['/' + rolePrefix + '/paymentList']"
+            class="text-gray-700 hover:text-teal-600"
+            >Payments</a
+          >
+          <a
+            [routerLink]="['/' + rolePrefix + '/messages']"
+            class="text-gray-700 hover:text-teal-600"
+            >Messages</a
+          >
+          <a href="#" class="text-gray-700 hover:text-teal-600">About</a>
+        </div>
+
+        <!-- Search and user actions -->
+        <div class="flex items-center space-x-4">
+          <!-- Search input -->
+          <div class="relative flex items-center">
+            <div
+              class="flex items-center border border-gray-300 rounded-full overflow-hidden"
             >
-              <path 
-                stroke-linecap="round" 
-                stroke-linejoin="round" 
-                stroke-width="2" 
-                d="M19 9l-7 7-7-7"
-              ></path>
-            </svg>
-            
-            <!-- Dropdown Menu -->
-            <div 
-              *ngIf="isDropdownOpen" 
+              <svg
+                class="w-5 h-5 text-gray-500 ml-3"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                />
+              </svg>
+              <input
+                type="text"
+                [(ngModel)]="searchQuery"
+                (ngModelChange)="onSearchQueryChange()"
+                (keyup.enter)="onSearch()"
+                placeholder="Search {{ searchType }}..."
+                class="px-4 py-2 border-0 w-64 focus:outline-none flex-1 pr-4"
+              />
+              <div class="w-0.5 h-6 bg-gray-300"></div>
+              <button
+                (click)="toggleDropdown()"
+                class="px-4 py-2 text-gray-700 hover:bg-gray-100 relative"
+              >
+                <span>{{ buttonLabel }}</span>
+                <svg
+                  class="w-4 h-4 ml-1 inline-block"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M19 9l-7 7-7-7"
+                  ></path>
+                </svg>
+                <div
+                  *ngIf="isDropdownOpen"
+                  class="absolute right-0 mt-2 py-2 w-48 bg-white rounded-md z-20"
+                >
+                  <a
+                    (click)="toggleSearchType()"
+                    class="block px-4 py-2 text-sm text-gray-700 hover:bg-teal-500 hover:text-white"
+                  >
+                    Search {{ searchType === "talent" ? "Jobs" : "Talents" }}
+                  </a>
+                </div>
+              </button>
+            </div>
+          </div>
+
+          <!-- User actions -->
+          <span
+            class="material-icons text-gray-700 cursor-pointer hover:text-teal-600"
+            >help_outline</span
+          >
+          <span
+            class="material-icons text-gray-700 cursor-pointer hover:text-teal-600"
+            >favorite_border</span
+          >
+          <div
+            class="relative"
+            #profileDropdown
+            (mouseenter)="openProfileDropdown()"
+            (mouseleave)="closeProfileDropdown()"
+          >
+            <button
+              class="text-gray-700 hover:text-teal-600 focus:outline-none"
+            >
+              <span class="material-icons">account_circle</span>
+            </button>
+            <div
+              *ngIf="isProfileDropdownOpen"
               class="absolute right-0 mt-2 py-2 w-48 bg-white rounded-md shadow-xl z-20"
             >
-              <a 
-                (click)="toggleSearchType()" 
-                class="block px-4 py-2 text-sm capitalize text-gray-700 hover:bg-teal-500 hover:text-white"
+              <a
+                [routerLink]="['/' + rolePrefix + '/myProfile']"
+                class="block px-4 py-2 text-sm text-gray-700 hover:bg-teal-500 hover:text-white"
               >
-                Search {{ searchType === 'talent' ? 'Jobs' : 'Talents' }}
+                Profile
+              </a>
+              <a
+                (click)="logout()"
+                class="block px-4 py-2 text-sm text-gray-700 hover:bg-teal-500 hover:text-white cursor-pointer"
+              >
+                Logout
               </a>
             </div>
-          </button>
+          </div>
         </div>
       </div>
-      
-      <span class="material-icons text-gray-700">help_outline</span>
-      <span class="material-icons text-gray-700">favorite_border</span>
-      <span class="material-icons text-gray-700">
-        <a [routerLink]="['/' + rolePrefix + '/myProfile']">account_circle</a>
-      </span>
     </div>
-  </div>
+
+    <!-- Mobile menu -->
+    <div *ngIf="isMobileMenuOpen" class="md:hidden mt-4">
+      <a
+        [routerLink]="['/' + rolePrefix + '/discover']"
+        class="block py-2 text-gray-700 hover:text-teal-600"
+        >Discover</a
+      >
+      <a
+        [routerLink]="['/' + rolePrefix + '/' + jobsLink]"
+        class="block py-2 text-gray-700 hover:text-teal-600"
+        >Jobs</a
+      >
+      <a
+        [routerLink]="['/' + rolePrefix + '/paymentList']"
+        class="block py-2 text-gray-700 hover:text-teal-600"
+        >Projects</a
+      >
+      <a
+        [routerLink]="['/' + rolePrefix + '/messages']"
+        class="block py-2 text-gray-700 hover:text-teal-600"
+        >Messages</a
+      >
+      <a href="#" class="block py-2 text-gray-700 hover:text-teal-600">About</a>
+
+      <!-- Mobile search -->
+      <div class="mt-4 relative">
+        <input
+          type="text"
+          [(ngModel)]="searchQuery"
+          (ngModelChange)="onSearchQueryChange()"
+          (keyup.enter)="onSearch()"
+          placeholder="Search {{ searchType }}..."
+          class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-teal-500"
+        />
+        <svg
+          class="w-5 h-5 text-gray-500 absolute left-3 top-2.5"
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth="2"
+            d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+          />
+        </svg>
+      </div>
+
+      <!-- Mobile user actions -->
+      <div class="mt-4 flex justify-between">
+        <span class="material-icons text-gray-700">help_outline</span>
+        <span class="material-icons text-gray-700">favorite_border</span>
+        <div
+          class="relative"
+          #profileDropdown
+          (mouseenter)="openProfileDropdown()"
+          (mouseleave)="closeProfileDropdown()"
+        >
+          <button class="text-gray-700 hover:text-teal-600 focus:outline-none">
+            <span class="material-icons">account_circle</span>
+          </button>
+          <div
+            *ngIf="isProfileDropdownOpen"
+            class="absolute right-0 mt-2 py-2 w-48 bg-white rounded-md shadow-xl z-20"
+          >
+            <a
+              [routerLink]="['/' + rolePrefix + '/myProfile']"
+              class="block px-4 py-2 text-sm text-gray-700 hover:bg-teal-500 hover:text-white"
+            >
+              Profile
+            </a>
+            <a
+              (click)="logout()"
+              class="block px-4 py-2 text-sm text-gray-700 hover:bg-teal-500 hover:text-white cursor-pointer"
+            >
+              Logout
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
 </header>

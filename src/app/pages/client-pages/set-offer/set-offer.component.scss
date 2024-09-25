@@ -1,0 +1,56 @@
+.deposit-options {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    /* Spacing between the radio buttons */
+}
+
+.option {
+    display: flex;
+    align-items: center;
+    font-family: Arial, sans-serif;
+}
+
+input[type="radio"] {
+    appearance: none;
+    background-color: #fff;
+    border: 2px solid #b0b0b0;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    position: relative;
+    outline: none;
+    margin-right: 12px;
+    /* Space between radio and label */
+    cursor: pointer;
+}
+
+input[type="radio"]:checked {
+    border-color: #369c7a;
+    /* Exact green color */
+}
+
+input[type="radio"]:checked::before {
+    content: "";
+    display: block;
+    width: 10px;
+    /* Adjusted width for centering */
+    height: 10px;
+    /* Adjusted height for centering */
+    border-radius: 50%;
+    background-color: #369c7a;
+    /* Inner circle green */
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    /* Centering the inner circle */
+}
+
+label {
+    font-size: 16px;
+    font-weight: 400;
+    color: #333333;
+    /* Text color */
+    line-height: 1.5;
+}

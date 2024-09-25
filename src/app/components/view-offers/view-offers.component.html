@@ -1,0 +1,124 @@
+<h1 class="text-5xl pb-2">Job Offers</h1>
+<div class="mt-6 space-y-6">
+  <div *ngIf="jobOffers.length === 0" class="text-center text-gray-500">
+    No job offers available.
+  </div>
+
+  <div *ngFor="let offer of jobOffers; let i = index">
+    <div
+      class="job-card p-4 bg-white rounded-lg cursor-pointer hover:bg-gray-100 transition-all duration-300 ease-in-out relative"
+      (click)="showOfferDetails(offer)"
+    >
+      <h3
+        class="job-title text-lg transition-all duration-300 ease-in-out text-gray-700"
+      >
+        {{ offer.title }}
+      </h3>
+      <div class="text-gray-600">
+        {{ offer.paymentOption }} - Total Amount: ${{ offer.totalAmount }}
+      </div>
+      <p class="mt-2 text-gray-700">
+        {{
+          showMore[i]
+            ? offer.description
+            : (offer.description | slice : 0 : 150) + "..."
+        }}
+      </p>
+      <button
+        (click)="handleShowMoreClick($event, i)"
+        class="text-teal-600 underline"
+      >
+        {{ showMore[i] ? "Show Less" : "Show More" }}
+      </button>
+      <div class="mt-4 flex items-center text-gray-600">
+        <span class="mr-2">
+          <svg
+            class="w-5"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+            />
+          </svg>
+        </span>
+        Due Date: {{ offer.dueDate | date }}
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal for Offer Detail (conditionally displayed) -->
+<div
+  *ngIf="selectedOffer || isClosing"
+  class="fixed inset-0 flex justify-end bg-black bg-opacity-50 transition-opacity duration-300 modal-container"
+  [ngClass]="{
+    'opacity-100 pointer-events-auto': selectedOffer && !isClosing,
+    'opacity-0 pointer-events-none': !selectedOffer || isClosing,
+    closing: isClosing
+  }"
+  (click)="hideOfferDetails()"
+>
+  <div
+    class="bg-white w-full md:w-2/3 lg:w-3/4 xl:w-2/3 p-6 rounded-l-lg shadow-lg transform transition-all duration-300 ease-in-out h-full overflow-y-auto modal-content"
+    [ngClass]="{
+      'translate-x-0 scale-100 opacity-100': selectedOffer && !isClosing,
+      'translate-x-full scale-95 opacity-0': !selectedOffer || isClosing,
+      closing: isClosing
+    }"
+    (click)="$event.stopPropagation()"
+  >
+    <button
+      class="absolute top-2 right-2 text-gray-500 hover:text-gray-700 focus:outline-none"
+      (click)="hideOfferDetails()"
+    >
+      <svg
+        class="w-6 h-6"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M6 18L18 6M6 6l12 12"
+        ></path>
+      </svg>
+    </button>
+    <div *ngIf="selectedOffer">
+      <h2 class="text-2xl font-bold mb-4">{{ selectedOffer.title }}</h2>
+      <p><strong>Hiring Team:</strong> {{ selectedOffer.hiringTeam }}</p>
+      <p>
+        <strong>Payment:</strong> {{ selectedOffer.paymentOption }} - ${{
+          selectedOffer.totalAmount
+        }}
+      </p>
+      <p><strong>Description:</strong> {{ selectedOffer.description }}</p>
+      <p><strong>Status:</strong> {{ selectedOffer.offerStatus }}</p>
+      <p><strong>Due Date:</strong> {{ selectedOffer.dueDate }}</p>
+      <div class="mt-4">
+        <button
+          (click)="acceptOffer($event, selectedOffer)"
+          class="bg-teal-500 hover:bg-teal-700 text-white font-bold py-2 px-4 rounded mr-2"
+          [disabled]="!selectedOffer"
+        >
+          Accept Offer
+        </button>
+        <button
+          (click)="declineOffer($event, selectedOffer)"
+          class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+          [disabled]="!selectedOffer"
+        >
+          Decline Offer
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

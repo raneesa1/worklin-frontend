@@ -11,12 +11,16 @@ import { ManageJobPostComponent } from './job-management/manage-job-post/manage-
 import { FreelancerProfileComponent } from '../freelancer-pages/freelancer-profile/freelancer-profile.component';
 import { SkillManagementComponent } from '../admin-management/skill/skill-management/skill-management.component';
 import { CategoryManagementComponent } from '../admin-management/category/category-management/category-management.component';
-import { ListFreelancersComponent } from '../admin-management/list-freelancers/list-freelancers.component';
 import { InvitesComponent } from '../freelancer-pages/invites/invites.component';
 import { MyProposalsComponent } from '../freelancer-pages/my-proposals/my-proposals.component';
 import { DiscoverFreelancersComponent } from './discover-freelancers/discover-freelancers.component';
 import { MessagesComponent } from '../freelancer-pages/messages/messages.component';
 import { ClientSearchComponent } from './client-search/client-search.component';
+import { SetOfferComponent } from './set-offer/set-offer.component';
+import { PaymentCheckoutComponent } from './payment-checkout/payment-checkout.component';
+import { PaymentSuccessComponent } from '../../components/payment-success/payment-success.component';
+import { PaymentFailComponent } from '../../components/payment-fail/payment-fail.component';
+import { PaymentsComponent } from '../../shared/pages/payments/payments.component';
 
 const routes: Routes = [
   { path: 'clientIntro', component: ClientintroComponent },
@@ -29,17 +33,20 @@ const routes: Routes = [
   { path: 'job-posted', component: JobPostedNotificationComponent },
   { path: 'list-my-jobs', component: ListMyJobsComponent },
   { path: 'applications', component: ManageJobPostComponent },
-  { path: 'admin/users', component: ListFreelancersComponent },
-  { path: 'my-proposals', component: MyProposalsComponent },
   { path: 'invites', component: InvitesComponent },
   { path: 'applicant/:id', component: FreelancerProfileComponent },
-  { path: 'messages', component: MessagesComponent},
-  { path: 'discover-freelancers', component: DiscoverFreelancersComponent },
+  { path: 'messages', component: MessagesComponent },
+  { path: 'discover', component: DiscoverFreelancersComponent },
   { path: 'search', component: ClientSearchComponent },
+  { path: 'set-offer', component: SetOfferComponent },
+  // { path: 'checkout', component: PaymentCheckoutComponent },
+  { path: 'paymentList', component: PaymentsComponent },
+  // { path: 'payment-success', component: PaymentSuccessComponent },
+  // { path: 'payment-failed', component: PaymentFailComponent },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
-})
+})  
 export class ClientRoutingModule {}

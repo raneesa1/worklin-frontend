@@ -12,6 +12,9 @@ import {
 } from '../../client-pages/job-management/interfaces/jobPost';
 import { BrowseService } from '../../../shared/service/browse.service';
 import { Skill } from '../../client-pages/job-management/interfaces/skill';
+import { IJobOffer } from '../../../shared/types/IJobOffer';
+import { takeUntil } from 'rxjs';
+import { ViewOffersComponent } from '../../../components/view-offers/view-offers.component';
 
 @Component({
   selector: 'app-invites',
@@ -21,6 +24,7 @@ import { Skill } from '../../client-pages/job-management/interfaces/skill';
     CommonModule,
     JobDetailPageComponent,
     ViewRequestModalComponent,
+    ViewOffersComponent,
   ],
   templateUrl: './invites.component.html',
   styleUrl: './invites.component.scss',
@@ -35,7 +39,9 @@ export class InvitesComponent implements OnInit {
   IsInviteSelected: boolean = false;
   hasAppliedToSelectedJob: boolean = false;
   currentUserId: string;
-
+  jobOffers: IJobOffer[] = [];
+  activeTab: 'invites' | 'offers' = 'invites';
+  selectedOffer: IJobOffer | null = null;
   @Output() jobAppliedEvent = new EventEmitter<void>();
 
   selectedInvite: IInviteFreelancer | null = null;
@@ -49,6 +55,10 @@ export class InvitesComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadInvites();
+    this.fetchJobOffers();
+  }
+  setActiveTab(tab: 'invites' | 'offers') {
+    this.activeTab = tab;
   }
 
   loadInvites(): void {
@@ -85,6 +95,35 @@ export class InvitesComponent implements OnInit {
       this.hasAppliedToSelectedJob,
       'consoling in show job detail function from invites component'
     );
+  }
+
+  fetchJobOffers(): void {
+    const clientId = this.roleService.getUserId();
+    this.invitesService.fetchOffers(clientId).subscribe({
+      next: (response: any) => {
+        this.jobOffers = response.jobOffer;
+        console.log(this.jobOffers, 'Fetched job offers');
+      },
+      error: (err) => {
+        console.error('Error fetching job offers', err);
+      },
+    });
+  }
+
+  showOfferDetails(offer: any) {
+    this.selectedOffer = offer;
+  }
+
+  closeOfferModal() {
+    this.selectedOffer = null;
+  }
+
+  acceptOffer(offerId: string) {
+    // Implement accept offer logic
+  }
+
+  declineOffer(offerId: string) {
+    // Implement decline offer logic
   }
 
   hideJobDetails(): void {

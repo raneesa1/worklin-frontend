@@ -15,7 +15,7 @@ import { Subject, takeUntil } from 'rxjs';
 @Component({
   selector: 'app-add-skills-modal',
   standalone: true,
-  imports: [CommonModule, BrowseModule, FormsModule, ReactiveFormsModule],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule],
   templateUrl: './add-skills-modal.component.html',
   styleUrl: './add-skills-modal.component.scss',
 })

@@ -20,7 +20,11 @@ import { MessagesComponent } from './messages/messages.component';
 import { DiscoverComponent } from './discover-jobs/discover.component';
 import { InvitesComponent } from './invites/invites.component';
 import { FreelancerSearchComponent } from './freelancer-search/freelancer-search.component';
-
+import { ViewOffersComponent } from '../../components/view-offers/view-offers.component';
+import { PaymentsComponent } from '../../shared/pages/payments/payments.component';
+import { VideoCallComponentComponent } from '../../components/video-call-component/video-call-component.component';
+import { MyProposalsComponent } from './my-proposals/my-proposals.component';
+// import { VideoCallComponent } from '../../components/video-call/video-call.component';
 
 const routes: Routes = [
   { path: 'page-two', component: FreelancerPagetwoComponent },
@@ -42,10 +46,15 @@ const routes: Routes = [
   { path: 'discover', component: DiscoverComponent },
   { path: 'my-invites', component: InvitesComponent },
   { path: 'search', component: FreelancerSearchComponent },
+  { path: 'profileCreated', component: ProfileCreatedComponent },
+  { path: 'paymentList', component: PaymentsComponent },
+  { path: 'video-call', component: VideoCallComponentComponent },
+  { path: 'my-proposals', component: MyProposalsComponent },
+  // { path: 'vdo', component: VideoCallComponent },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class FreelancerRoutingModule { }
+export class FreelancerRoutingModule {}

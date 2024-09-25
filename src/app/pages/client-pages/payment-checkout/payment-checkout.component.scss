@@ -1,0 +1,11 @@
+#card-element {
+    background-color: #ffffff;
+}
+
+#card-element.StripeElement--focus {
+    outline: 2px solid #10B981;
+}
+
+#card-errors {
+    min-height: 20px;
+}

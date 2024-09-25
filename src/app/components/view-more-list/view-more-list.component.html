@@ -1,0 +1,262 @@
+<div class="p-4 bg-white shadow-lg rounded-lg">
+  <h2 class="text-xl font-bold mb-4">Task List</h2>
+
+  <div class="mb-4">
+    <input
+      [(ngModel)]="newItemContent"
+      placeholder="New task..."
+      class="w-full p-2 border rounded mb-2"
+    />
+    <div class="flex justify-between">
+      <select [(ngModel)]="newItemPriority" class="p-2 border rounded">
+        <option value="low">Low Priority</option>
+        <option value="medium">Medium Priority</option>
+        <option value="high">High Priority</option>
+      </select>
+      <button
+        (click)="addListItem()"
+        class="bg-teal-500 text-white px-4 py-2 rounded"
+      >
+        Add Task
+      </button>
+    </div>
+  </div>
+  <div
+    *ngIf="listItems.length === 0"
+    class="flex flex-col items-center justify-center py-8"
+  >
+    <svg
+      width="200px"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 145 130"
+      aria-hidden="true"
+      role="img"
+    >
+      <g clip-path="url(#clip0_11393_56976)">
+        <path
+          d="M140.025 46.716c-3.204.29-5.679 2.912-5.824 6.115l-.292 6.116-.291-6.116c-.145-3.203-2.621-5.824-5.824-6.115 3.203-.291 5.679-2.912 5.824-6.116l.291-5.387.292 5.387c.145 3.204 2.62 5.825 5.824 6.116zm-16.744-16.454l.146 1.165c.146 1.019 1.165 1.601 2.039 1.164l1.164-.582-1.019.728c-.874.582-.874 1.747 0 2.33l1.019.728-1.164-.583c-.874-.437-2.039.146-2.039 1.165l-.146 1.602v-1.31c-.145-1.02-1.164-1.602-2.038-1.165l-1.165.582 1.019-.728c.874-.582.874-1.747 0-2.33l-1.019-.873 1.165.582c.874.437 2.038-.146 2.038-1.165v-1.31z"
+          fill="#D5E0D5"
+        ></path>
+        <path
+          d="M39.412 60.838c-8.154 1.602-16.017 4.368-23.297 8.3-5.096 2.766-8.882 7.28-10.775 12.667-2.912 8.3-1.019 17.473 5.097 23.88 4.95 5.241 11.502 8.59 18.783 9.318 8.59 1.02 17.181.728 25.772-.873l-6.116-55.185-9.464 1.893z"
+          fill="url(#paint0_radial_11393_56976-uid-12)"
+        ></path>
+        <path
+          d="M39.412 60.838c-8.154 1.602-16.017 4.368-23.297 8.3-5.096 2.766-8.882 7.28-10.775 12.667-2.912 8.3-1.019 17.473 5.097 23.88 4.95 5.241 11.502 8.59 18.783 9.318 8.59 1.02 17.181.728 25.772-.873l-6.116-55.185-9.464 1.893z"
+          fill="url(#paint1_radial_11393_56976-uid-12)"
+        ></path>
+        <path
+          d="M114.108 7.691A5181.832 5181.832 0 0194.014.557c-3.203-1.02-6.552-.437-9.318.145l-58.97 11.212L48.294 130l88.965-17.036-19.365-101.341c-.146-1.02-.728-2.33-2.33-3.35-.437-.145-.874-.436-1.456-.582z"
+          fill="url(#paint2_linear_11393_56976-uid-12)"
+        ></path>
+        <path
+          d="M41.45 95.055c1.31-1.747 2.475-3.494 3.494-5.387l.292-.437 16.89-5.533c3.64-1.165 5.533-5.096 4.514-8.59-1.165-3.495-4.66-5.534-8.3-4.66-6.552 1.602-13.25 3.058-19.948 4.077l-.873.145 3.93 20.385z"
+          fill="#9AAA97"
+        ></path>
+        <path
+          d="M114.108 7.691c-7.571-2.62-18.2-6.552-20.093-7.134 3.64 1.31 11.939 12.959 11.939 12.959 2.039-1.02 4.805-7.718 9.756-5.097-.583-.29-1.019-.582-1.602-.728z"
+          fill="url(#paint3_linear_11393_56976-uid-12)"
+        ></path>
+        <path
+          d="M82.948 32.152L51.06 38.268c-.437.145-.874-.146-.874-.583-.145-.437.146-.873.583-.873l31.887-6.116c.437-.146.874.146.874.582.145.437-.146.729-.582.874zm20.968 22.57l-47.904 9.174c-.437.145-.873-.146-.873-.583-.146-.437.145-.873.582-.873l47.904-9.174c.437-.145.874.146.874.583 0 .437-.146.873-.583.873zm1.455 7.864l-47.904 9.173c-.437.145-.873-.146-.873-.583-.146-.436.145-.873.582-.873l47.904-9.173c.437-.146.874.145.874.582.145.437-.146.874-.583.874zm1.456 8.008l-47.904 9.173c-.437.145-.873-.146-.873-.583-.146-.437.145-.873.582-.873l47.904-9.174c.437-.145.874.146.874.583.145.291-.146.728-.583.874zm1.602 7.863L60.525 87.63c-.437.146-.874-.146-.874-.582-.145-.437.146-.874.583-.874L108.138 77c.437-.146.873.145.873.582 0 .437-.145.728-.582.874zm1.455 7.861L61.98 95.491c-.437.146-.874-.145-.874-.582-.145-.437.146-.874.583-.874l47.904-9.173c.437-.145.873.146.873.583.146.436-.145.873-.582.873z"
+          fill="#BDA1E7"
+        ></path>
+        <path
+          d="M25.87 101.17c7.135-2.766 13.396-7.717 17.765-14.123l.29-.437 17.473-3.495c3.786-.728 6.116-4.368 5.388-8.008-.728-3.64-4.077-5.97-7.572-5.533a232.17 232.17 0 01-20.239 1.747l-5.533.291-11.212.583"
+          fill="url(#paint4_radial_11393_56976-uid-12)"
+        ></path>
+        <path
+          d="M25.87 101.17c7.135-2.766 13.396-7.717 17.765-14.123l.29-.437 17.473-3.495c3.786-.728 6.116-4.368 5.388-8.008-.728-3.64-4.077-5.97-7.572-5.533a232.17 232.17 0 01-20.239 1.747l-5.533.291-11.212.583"
+          fill="url(#paint5_radial_11393_56976-uid-12)"
+        ></path>
+        <path
+          opacity=".5"
+          d="M61.543 70.884c-.145-.583-.728-1.165-1.456-1.456h-.728c-1.747.29-3.64.437-5.387.582-1.165.583-1.893 1.456-1.748 2.33.292 1.31 2.476 2.038 5.097 1.602 2.475-.292 4.368-1.748 4.222-3.058z"
+          fill="url(#paint6_radial_11393_56976-uid-12)"
+        ></path>
+        <path
+          opacity=".5"
+          d="M61.543 70.884c0-.145-.145-.291-.145-.437.291 1.31-1.748 2.767-4.223 3.204-2.33.436-4.368-.146-4.95-1.165.29 1.31 2.475 2.038 5.096 1.601 2.475-.436 4.368-1.892 4.222-3.203z"
+          fill="url(#paint7_radial_11393_56976-uid-12)"
+        ></path>
+        <path
+          d="M138.716 45.55c-3.203.29-5.678 2.912-5.824 6.115l-.291 6.116-.291-6.116c-.146-3.203-2.621-5.824-5.825-6.115 3.204-.291 5.679-2.912 5.825-6.116l.291-5.387.291 5.387c.146 3.204 2.621 5.679 5.824 6.116zM121.97 29.096l.146 1.165c.145 1.019 1.164 1.601 2.038 1.164l1.165-.582-1.019.728c-.874.582-.874 1.747 0 2.33l1.019.728-1.165-.583c-.874-.437-2.038.146-2.038 1.165l-.146 1.165-.146-.874c-.145-1.019-1.164-1.601-2.038-1.165l-1.165.583 1.019-.728c.874-.583.874-1.747 0-2.33l-1.019-.728 1.165.583c.874.436 2.038-.146 2.038-1.165l.146-1.456z"
+          fill="#FCCD81"
+        ></path>
+      </g>
+      <defs>
+        <radialGradient
+          id="paint0_radial_11393_56976-uid-12"
+          cx="0"
+          cy="0"
+          r="1"
+          gradientUnits="userSpaceOnUse"
+          gradientTransform="matrix(43.56469 -13.1022 9.05357 30.10303 38.276 82.417)"
+        >
+          <stop offset=".613" stop-color="#A18085"></stop>
+          <stop offset="1" stop-color="#6D565B"></stop>
+        </radialGradient>
+        <radialGradient
+          id="paint1_radial_11393_56976-uid-12"
+          cx="0"
+          cy="0"
+          r="1"
+          gradientUnits="userSpaceOnUse"
+          gradientTransform="matrix(32.894 -9.89308 4.98472 16.57393 56.866 78.038)"
+        >
+          <stop offset=".72" stop-color="#6D565B"></stop>
+          <stop offset="1" stop-color="#6D565B" stop-opacity="0"></stop>
+        </radialGradient>
+        <radialGradient
+          id="paint4_radial_11393_56976-uid-12"
+          cx="0"
+          cy="0"
+          r="1"
+          gradientUnits="userSpaceOnUse"
+          gradientTransform="matrix(19.61168 -24.73473 15.08836 11.96326 22.084 87.538)"
+        >
+          <stop offset=".613" stop-color="#A18085"></stop>
+          <stop offset="1" stop-color="#6D565B"></stop>
+        </radialGradient>
+        <radialGradient
+          id="paint5_radial_11393_56976-uid-12"
+          cx="0"
+          cy="0"
+          r="1"
+          gradientUnits="userSpaceOnUse"
+          gradientTransform="rotate(-9.735 401.593 -276.05) scale(41.2062 22.4969)"
+        >
+          <stop offset=".613" stop-color="#A18085"></stop>
+          <stop offset="1" stop-color="#A18085" stop-opacity="0"></stop>
+        </radialGradient>
+        <radialGradient
+          id="paint6_radial_11393_56976-uid-12"
+          cx="0"
+          cy="0"
+          r="1"
+          gradientUnits="userSpaceOnUse"
+          gradientTransform="translate(53.936 69.062) scale(9.62874)"
+        >
+          <stop offset=".426" stop-color="#E4EBE4"></stop>
+          <stop offset="1" stop-color="#D5E0D5" stop-opacity="0"></stop>
+        </radialGradient>
+        <radialGradient
+          id="paint7_radial_11393_56976-uid-12"
+          cx="0"
+          cy="0"
+          r="1"
+          gradientUnits="userSpaceOnUse"
+          gradientTransform="translate(53.95 70.107) scale(9.04311)"
+        >
+          <stop offset=".426" stop-color="#E4EBE4"></stop>
+          <stop offset="1" stop-color="#D5E0D5" stop-opacity="0"></stop>
+        </radialGradient>
+        <linearGradient
+          id="paint2_linear_11393_56976-uid-12"
+          x1="68.877"
+          y1="117.93"
+          x2="98.832"
+          y2="14.675"
+          gradientUnits="userSpaceOnUse"
+        >
+          <stop offset=".35" stop-color="#F2F7F2"></stop>
+          <stop offset=".79" stop-color="#DDE6DD"></stop>
+          <stop offset=".93" stop-color="#D5E0D5"></stop>
+        </linearGradient>
+        <linearGradient
+          id="paint3_linear_11393_56976-uid-12"
+          x1="99.523"
+          y1="12.971"
+          x2="103.355"
+          y2="4.544"
+          gradientUnits="userSpaceOnUse"
+        >
+          <stop offset=".264" stop-color="#E4EBE4"></stop>
+          <stop offset="1" stop-color="#F2F7F2"></stop>
+        </linearGradient>
+        <clipPath id="clip0_11393_56976-uid-12">
+          <rect width="145" height="130" fill="#fff"></rect>
+        </clipPath>
+      </defs>
+    </svg>
+
+    <p class="mt-4 text-lg text-gray-600">
+      No tasks yet. Add a new task to get started!
+    </p>
+  </div>
+
+  <!-- List Items -->
+  <!-- List Items (Limited to 3) -->
+  <div *ngIf="listItems.length > 0" class="space-y-4">
+    <div
+      *ngFor="let item of displayedListItems"
+      class="p-4 bg-gray-100 rounded-lg flex justify-between items-center"
+    >
+      <div>
+        <p>{{ item.content }}</p>
+        <span [class]="getPriorityClass(item.priority)" class="font-bold">
+          {{ item.priority | titlecase }} Priority
+        </span>
+      </div>
+      <button
+        (click)="removeListItem(item.id)"
+        class="text-red-500 hover:text-red-700"
+      >
+        Remove
+      </button>
+    </div>
+  </div>
+
+  <!-- View More Button -->
+  <div *ngIf="listItems.length > 3" class="mt-4 text-center">
+    <button
+      (click)="toggleAllItems()"
+      class="text-blue-500 hover:text-blue-700"
+    >
+      View More
+    </button>
+  </div>
+  <div
+    *ngIf="showAllItems"
+    class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full"
+    id="my-modal"
+  >
+    <div
+      style="width: 50%; max-width: 800px"
+      class="relative top-20 mx-auto p-5 w-128 border w-96 shadow-lg rounded-md bg-white"
+    >
+      <div class="mt-3 text-center">
+        <h3 class="text-lg leading-6 font-medium text-gray-900">All Tasks</h3>
+        <div class="mt-2 px-7 py-3">
+          <div
+            *ngFor="let item of listItems"
+            class="mb-4 p-4 bg-gray-100 rounded-lg flex justify-between items-center"
+          >
+            <div>
+              <p>{{ item.content }}</p>
+              <span [class]="getPriorityClass(item.priority)" class="font-bold">
+                {{ item.priority | titlecase }} Priority
+              </span>
+            </div>
+            <button
+              (click)="removeListItem(item.id)"
+              class="text-red-500 hover:text-red-700"
+            >
+              Remove
+            </button>
+          </div>
+        </div>
+        <div class="items-center px-4 py-3">
+          <button
+            id="ok-btn"
+            (click)="toggleAllItems()"
+            class="px-4 py-2 bg-blue-500 text-white text-base font-medium rounded-md w-full shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-300"
+          >
+            Close
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

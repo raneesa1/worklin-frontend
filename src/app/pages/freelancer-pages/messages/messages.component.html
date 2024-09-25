@@ -79,6 +79,7 @@
       *ngIf="currentRoom"
       [currentRoom]="currentRoom"
       [currentReceiver]="currentReceiver"
+      [currentReceiverId]="currentReceiverId"
     ></app-chat-header>
 
     <!-- Chat Messages -->
@@ -91,90 +92,120 @@
       class="overflow-y-auto flex-grow p-4 bg-gray-100"
       style="max-height: calc(100vh - 160px)"
     >
-      <div *ngFor="let message of messages" class="mb-6">
-        <div
-          [ngClass]="{
-            'flex justify-end': message.sender === userId,
-            'flex justify-start': message.sender !== userId
-          }"
-        >
+      <div *ngIf="messages.length === 0" class="text-center text-gray-500">
+        No messages yet. Start chatting!
+      </div>
+      <div
+        *ngFor="let message of messages"
+        class="mb-6 flex"
+        [ngClass]="{
+          'justify-end': message.sender === userId,
+          'justify-start': message.sender !== userId
+        }"
+      >
+        <div class="flex flex-col max-w-[70%]">
           <div
             [ngClass]="{
               'bg-teal-100': message.sender === userId,
               'bg-white': message.sender !== userId
             }"
-            class="rounded-lg p-3 shadow-md max-w-3/4"
+            class="rounded-lg p-3 shadow-md inline-block"
           >
             <div class="text-sm text-gray-600 mb-1">
               {{ message.sender === userId ? "You" : currentUser?.firstName }}
             </div>
             <ng-container [ngSwitch]="message.type">
               <ng-container *ngSwitchCase="'text'">
-                <p class="text-gray-800">{{ message.content }}</p>
+                <p class="text-gray-800 break-words">{{ message.content }}</p>
               </ng-container>
-              <!-- Other message types (audio, image, video, file) remain unchanged -->
+              <ng-container *ngSwitchCase="'audio'">
+                <audio controls style="max-width: 100%">
+                  <source [src]="message.content" type="audio/webm" />
+                  Your browser does not support the audio element.
+                </audio>
+              </ng-container>
+              <ng-container *ngSwitchCase="'image'">
+                <img
+                  [src]="message.content"
+                  alt="Image message"
+                  class="max-w-full h-auto rounded"
+                />
+              </ng-container>
+              <ng-container *ngSwitchCase="'file'">
+                <a
+                  [href]="message.content"
+                  target="_blank"
+                  class="text-blue-500 hover:underline break-all"
+                >
+                  {{ getFileName(message.content) }}
+                </a>
+              </ng-container>
             </ng-container>
-            <div
-              class="text-xs text-gray-500 mt-1 flex justify-between items-center"
-            >
-              <span>{{ message.createdAt | date : "shortTime" }}</span>
-              <ng-container *ngIf="message.sender === userId">
-                <span class="flex items-center">
-                  <ng-container [ngSwitch]="message.status">
-                    <ng-container *ngSwitchCase="'sent'">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="16"
-                        height="16"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        class="text-gray-400"
-                      >
-                        <polyline points="20 6 9 17 4 12"></polyline>
-                      </svg>
-                    </ng-container>
-                    <ng-container *ngSwitchCase="'delivered'">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="16"
-                        height="16"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        class="text-gray-400"
-                      >
-                        <path d="M18 7l-8 8-4-4"></path>
-                        <path d="M18 13l-8 8-4-4"></path>
-                      </svg>
-                    </ng-container>
-                    <ng-container *ngSwitchCase="'read'">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="16"
-                        height="16"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        class="text-blue-500"
-                      >
-                        <path d="M18 7l-8 8-4-4"></path>
-                        <path d="M18 13l-8 8-4-4"></path>
-                      </svg>
-                    </ng-container>
+          </div>
+          <div
+            class="text-xs text-gray-500 mt-1 flex items-center"
+            [ngClass]="{
+              'justify-end': message.sender === userId,
+              'justify-start': message.sender !== userId
+            }"
+          >
+            <span>{{ message.createdAt | date : "shortTime" }}</span>
+            <ng-container *ngIf="message.sender === userId">
+              <span class="ml-1">
+                <ng-container [ngSwitch]="message.status">
+                  <ng-container *ngSwitchCase="'sent'">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      class="text-gray-400"
+                    >
+                      <polyline points="20 6 9 17 4 12"></polyline>
+                    </svg>
                   </ng-container>
-                </span>
-              </ng-container>
-            </div>
+                  <ng-container *ngSwitchCase="'delivered'">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      class="text-gray-400"
+                    >
+                      <path d="M18 7l-8 8-4-4"></path>
+                      <path d="M18 13l-8 8-4-4"></path>
+                    </svg>
+                  </ng-container>
+                  <ng-container *ngSwitchCase="'read'">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      class="text-blue-500"
+                    >
+                      <path d="M18 7l-8 8-4-4"></path>
+                      <path d="M18 13l-8 8-4-4"></path>
+                    </svg>
+                  </ng-container>
+                </ng-container>
+              </span>
+            </ng-container>
           </div>
         </div>
       </div>
@@ -237,6 +268,7 @@
 
             <!-- Emoji icon inside the input -->
             <button
+              (click)="toggleEmojiPicker()"
               type="button"
               class="absolute inset-y-0 right-0 flex items-center pr-3"
             >
@@ -409,3 +441,11 @@
     </div>
   </div>
 </div>
+<emoji-mart
+  *ngIf="showEmojiPicker"
+  class="emoji-mart"
+  [style]="{ position: 'absolute', bottom: '30px', right: '20px' }"
+  (emojiSelect)="addEmoji($event)"
+  title="Pick your emoji"
+  emoji="point_up"
+></emoji-mart>

@@ -12,7 +12,6 @@ import { ProfileManagementService } from '../../../shared/service/profile-manage
   imports: [
     RouterOutlet,
     FreelancerPagetwoComponent,
-    BrowseModule,
     CommonModule,
   ],
   templateUrl: './freelancer-page-one.component.html',

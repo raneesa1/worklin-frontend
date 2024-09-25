@@ -2,12 +2,14 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { Category, Skill } from '../types/category.model';
+import { clientEntity } from '../../../shared/types/ClientEntity';
 
 @Injectable({
   providedIn: 'root',
 })
 export class adminManagementService {
   private apiUrl = 'http://localhost:8000/job/'; // Replace with your API URL
+  private userUrl = 'http://localhost:8000/user/'; // Replace with your API URL
 
   constructor(private http: HttpClient) {}
   private skillsSubject = new BehaviorSubject<Skill[]>([]);
@@ -85,5 +87,9 @@ export class adminManagementService {
   // }
   deleteCategory(categoryId: string): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}deleteCategory/${categoryId}`);
+  }
+
+  getAllClients(): Observable<clientEntity[]> {
+    return this.http.get<clientEntity[]>(`${this.userUrl}getAllClient`);
   }
 }

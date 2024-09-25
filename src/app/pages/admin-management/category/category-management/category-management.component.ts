@@ -17,7 +17,6 @@ import { Subject, debounceTime, distinctUntilChanged, takeUntil } from 'rxjs';
   styleUrls: ['./category-management.component.scss'],
   imports: [
     CommonModule,
-    BrowseModule,
     FormsModule,
     AddCategoryModalComponent,
     AdminNavbarComponent,

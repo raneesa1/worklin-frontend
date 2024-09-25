@@ -52,6 +52,11 @@ export class roleService {
     return decodedToken?.accountType === role;
   }
 
+  getUserRole(): string {
+    const decodedToken = this.decodeToken(this.getAccessToken());
+    return decodedToken?.accountType || '';
+  }
+
   getUserId(): string {
     const decodedToken = this.decodeToken(this.getAccessToken());
     return decodedToken?.userId || '';

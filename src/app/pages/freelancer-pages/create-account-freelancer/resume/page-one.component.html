@@ -8,12 +8,9 @@
       href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
       rel="stylesheet"
     />
-    <style>
-   
-    </style>
   </head>
   <body class="bg-gradient-green min-h-screen flex flex-col">
-    <div class=" border-b border-gray-200 w-full p-4">
+    <div class="border-b border-gray-200 w-full p-4">
       <div class="container mx-auto flex justify-between">
         <div
           style="color: #089b8c; font-size: x-large"
@@ -24,40 +21,80 @@
       </div>
     </div>
 
- <div class="flex flex-1 w-full justify-center items-center p-10">
-  <div class="p-10 rounded-lg max-w-4xl w-full flex justify-between space-x-20">
-    <div class="w-1/2">
-      <div class="mb-8">
-        <span class="text-gray-600">1/10</span>
-        <span class="ml-2 text-gray-800 font-semibold">Create your profile</span>
-        <span class="ml-2 text-gray-600">5-10 min</span>
-      </div>
-      <h1 class="text-4xl font-semibold mb-4">
-        How would you like to tell us about yourself?
-      </h1>
-      <p class="text-gray-600 mb-6">
-        We need to get a sense of your education, experience and skills.
-      </p>
-      <div class="space-y-4">
-        <button 
-          (click)="openModal()" 
-          class="w-full py-3 px-4 border border-green-500 text-green-500 rounded-md flex items-center justify-center hover:bg-green-100 cursor-pointer">
-          Upload your resume
-        </button>
+    <div class="flex flex-1 w-full justify-center items-center p-10">
+      <div
+        class="p-10 rounded-lg max-w-4xl w-full flex justify-between space-x-20"
+      >
+        <div class="w-1/2">
+          <div class="mb-8">
+            <span class="text-gray-600">1/10</span>
+            <span class="ml-2 text-gray-800 font-semibold"
+              >Create your profile</span
+            >
+            <span class="ml-2 text-gray-600">5-10 min</span>
+          </div>
+          <h1 class="text-4xl font-semibold mb-4">
+            How would you like to tell us about yourself?
+          </h1>
+          <p class="text-gray-600 mb-6">
+            We need to get a sense of your education, experience and skills.
+          </p>
+          <div class="space-y-4">
+            <ng-container *ngIf="!isResumeUploaded; else resumeUploaded">
+              <button
+                (click)="openModal()"
+                class="w-full py-3 px-4 border border-green-500 text-green-500 rounded-md flex items-center justify-center hover:bg-green-100 cursor-pointer"
+              >
+                Upload your resume
+              </button>
+            </ng-container>
+            <ng-template #resumeUploaded>
+              <div class="border border-green-500 rounded-md p-4">
+                <div class="flex justify-between items-center mb-2">
+                  <h3 class="text-lg font-semibold text-green-500">
+                    Resume Uploaded
+                  </h3>
+                  <button
+                    (click)="removeResume()"
+                    class="text-red-500 hover:text-red-700"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      class="h-5 w-5"
+                      viewBox="0 0 20 20"
+                      fill="currentColor"
+                    >
+                      <path
+                        fill-rule="evenodd"
+                        d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                        clip-rule="evenodd"
+                      />
+                    </svg>
+                  </button>
+                </div>
+                <p class="text-gray-600">
+                  File: {{ resumeInfo?.fileName }}.{{ resumeInfo?.fileFormat }}
+                </p>
+                <p class="text-gray-600">
+                  Uploaded on: {{ resumeInfo?.uploadDate | date : "medium" }}
+                </p>
+              </div>
+            </ng-template>
+            <p *ngIf="showError" class="text-red-500 mt-2">
+              Please upload your resume before proceeding.
+            </p>
+          </div>
+        </div>
+        <div class="w-1/2">
+          <div class="p-4 bg-gray-100 rounded-md">
+            <p class="text-gray-800 font-semibold mb-2">
+              "Your profile is how you stand out from the crowd. It's what you
+              use to win work, so let's make it a good one."
+            </p>
+          </div>
+        </div>
       </div>
     </div>
-    <div class="w-1/2">
-      <div class="p-4 bg-gray-100 rounded-md">
-        <p class="text-gray-800 font-semibold mb-2">
-          "Your profile is how you stand out from the crowd. It's what you use to win work, so let's make it a good one."
-        </p>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- Conditional Modal Display -->
-<app-resume-upload-modal *ngIf="isModalOpen" (close)="closeModal()"></app-resume-upload-modal>
 
     <div class="flex mt-10 mr-20 justify-between">
       <button
@@ -66,12 +103,16 @@
         back
       </button>
       <button
-      routerLink="/freelancer/create-account-category"
+        (click)="nextPage()"
         class="bg-teal-600 text-white py-2 px-6 rounded-lg hover:bg-teal-700 focus:outline-none focus:ring-2 mb-7 focus:ring-teal-500"
       >
         next
       </button>
     </div>
-    <app-resume-upload-modal *ngIf="isModalOpen" (close)="closeModal()"></app-resume-upload-modal>
+    <app-resume-upload-modal
+      *ngIf="isModalOpen"
+      (close)="closeModal()"
+      (resumeUpload)="onResumeUploaded($event)"
+    ></app-resume-upload-modal>
   </body>
 </html>

@@ -1,0 +1,125 @@
+/* job-offers.component.css */
+.job-offers-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+}
+
+.tabs {
+    display: flex;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.tab {
+    padding: 10px 20px;
+    color: #666;
+    text-decoration: none;
+}
+
+.tab.active {
+    border-bottom: 2px solid #14a800;
+    color: #14a800;
+}
+
+.job-card {
+    background-color: #fff;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+    padding: 20px;
+    margin-bottom: 20px;
+    cursor: pointer;
+}
+
+.job-title {
+    font-size: 18px;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.job-price {
+    color: #14a800;
+    margin-bottom: 10px;
+    font-size: 14px;
+}
+
+.job-description {
+    margin-bottom: 10px;
+    color: #666;
+    font-size: 14px;
+}
+
+.show-more {
+    color: #14a800;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.job-tags {
+    margin-top: 10px;
+}
+
+.tag {
+    background-color: #f2f2f2;
+    padding: 5px 10px;
+    border-radius: 20px;
+    margin-right: 5px;
+    font-size: 12px;
+    color: #666;
+}
+
+.job-location {
+    margin-top: 10px;
+    color: #666;
+    font-size: 14px;
+}
+
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 4px;
+    max-width: 600px;
+    width: 100%;
+}
+
+.close-button {
+    float: right;
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+.skills-list {
+    margin-bottom: 20px;
+}
+
+.skill-tag {
+    background-color: #f2f2f2;
+    padding: 5px 10px;
+    border-radius: 20px;
+    margin-right: 5px;
+    font-size: 12px;
+}
+
+.job-details,
+.client-info {
+    margin-bottom: 20px;
+}
+
+.verified {
+    color: #14a800;
+}

@@ -26,20 +26,37 @@ export class ReviewApplicationsComponent implements OnInit {
   }
 
   triggerDownload(publicId: string): void {
-    console.log('Download triggered');
-    // Generate the Cloudinary download URL with the attachment flag
-    const downloadUrl = `https://res.cloudinary.com/dgyd6acjg/image/upload/fl_attachment/${publicId}.pdf`;
+    console.log('Download triggered for public ID:', publicId);
+
+    // Construct the Cloudinary URL using the correct format
+    const downloadUrl = `https://res.cloudinary.com/dgyd6acjg/raw/upload/${publicId}`;
 
     console.log('Download URL:', downloadUrl);
 
-    // Create a temporary anchor element and trigger the download
-    const link = document.createElement('a');
-    link.href = downloadUrl;
-    link.download = `resume_${publicId}.pdf`; // Customize the file name as needed
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+    this.http.get(downloadUrl, { responseType: 'blob' }).subscribe({
+      next: (blob: Blob) => {
+        // Create a blob URL for the file
+        const url = window.URL.createObjectURL(blob);
+
+        // Create a temporary anchor element and trigger the download
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = `resume_${publicId.split('/').pop()}`; // Use the last part of the public ID as the filename
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+
+        // Clean up the blob URL
+        window.URL.revokeObjectURL(url);
+      },
+      error: (error) => {
+        console.error('Download failed:', error);
+        // Inform the user about the error
+        alert('Failed to download the file. Please try again later.');
+      },
+    });
   }
+
   viewProfile(freelancerId: string): void {
     console.log('Navigating to applicant profile with ID:', freelancerId);
     this.router.navigate(['/client/applicant', freelancerId]);

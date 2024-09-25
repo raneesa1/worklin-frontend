@@ -1,0 +1,124 @@
+<app-admin-navbar></app-admin-navbar>
+<div class="px-8 py-3 min-h-screen">
+  <div class="flex items-center justify-between mb-6">
+    <h1 class="text-xl font-semibold">Users</h1>
+    <!-- <div class="flex items-center space-x-4">
+      <button class="bg-teal-600 text-white py-2 px-4 rounded">
+        + Add New User
+      </button>
+      <button class="bg-teal-100 text-teal-600 py-2 px-4 rounded border border-teal-600">
+        Export
+      </button>
+    </div> -->
+  </div>
+
+  <!-- User Type Toggle and Filters -->
+  <div class="flex items-center justify-between mb-4">
+    <div class="flex items-center space-x-2 text-sm text-gray-500">
+      <span 
+        class="text-xl font-medium cursor-pointer"
+        [ngClass]="{'border-b-4 border-teal-700 text-teal-700': userType === 'freelancers'}"
+        (click)="toggleUserType('freelancers')"
+      >
+        Freelancers
+      </span>
+      <span 
+        class="text-xl font-medium cursor-pointer"
+        [ngClass]="{'border-b-4 border-teal-700 text-teal-700': userType === 'clients'}"
+        (click)="toggleUserType('clients')"
+      >
+        Clients
+      </span>
+    </div>
+    <div class="flex space-x-4">
+      <button 
+        *ngFor="let option of filterOptions"
+        class="filter-btn py-2 px-4 rounded"
+        [ngClass]="{'bg-teal-600 text-white': currentFilter === option, 'bg-gray-200 text-gray-700': currentFilter !== option}"
+        (click)="currentFilter = option; applyFilters()"
+      >
+        {{ option }}
+      </button>
+      <input
+        type="text"
+        [(ngModel)]="searchTerm"
+        (ngModelChange)="applyFilters()"
+        placeholder="Search..."
+        class="search-input ml-4 py-2 px-4 border border-gray-300 rounded w-64"
+      />
+    </div>
+  </div>
+
+  <!-- Table or Empty State -->
+  <div class="bg-white shadow-md rounded-lg overflow-hidden">
+    <ng-container *ngIf="hasUsers; else emptyState">
+      <table class="w-full text-left">
+        <thead>
+          <tr class="bg-gray-100 text-gray-600 text-sm uppercase">
+            <th *ngFor="let col of columns" class="p-4">{{ col.header }}</th>
+            <th class="p-4 text-center">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let user of paginatedUsers" class="border-b">
+            <td *ngFor="let col of columns" class="p-4">
+              <ng-container [ngSwitch]="col.key">
+                <ng-container *ngSwitchCase="'isBlocked'">
+                  <span
+                    [ngClass]="user[col.key] ? 'text-red-600 bg-red-100' : 'text-green-600 bg-green-100'"
+                    class="py-1 px-3 rounded-full text-xs font-semibold"
+                  >
+                    {{ user[col.key] ? 'Blocked' : 'Active' }}
+                  </span>
+                </ng-container>
+                <ng-container *ngSwitchCase="'dob'">
+                  {{ user[col.key] | date : "dd MMM yyyy" }}
+                </ng-container>
+                <ng-container *ngSwitchDefault>
+                  {{ user[col.key] }}
+                </ng-container>
+              </ng-container>
+            </td>
+            <td class="p-4 text-center flex justify-center space-x-4">
+              <button class="text-teal-500">View more</button>
+              <button class="text-red-500"><i class="fas fa-trash"></i></button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </ng-container>
+    <ng-template #emptyState>
+      <div class="p-8 text-center">
+        <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+          <path vector-effect="non-scaling-stroke" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 13h6m-3-3v6m-9 1V7a2 2 0 012-2h6l2 2h6a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2z" />
+        </svg>
+        <h3 class="mt-2 text-sm font-medium text-gray-900">{{ emptyStateMessage }}</h3>
+        <p class="mt-1 text-sm text-gray-500">
+          Try adjusting your search or filter to find what you're looking for.
+        </p>
+        <div class="mt-6">
+          <button type="button" class="inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-teal-600 hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500" (click)="resetFilters()">
+            Clear filters
+          </button>
+        </div>
+      </div>
+    </ng-template>
+  </div>
+
+  <!-- Pagination -->
+  <div *ngIf="hasUsers" class="flex justify-between items-center mt-4">
+    <div class="text-sm text-gray-500">
+      Showing {{ (currentPage - 1) * itemsPerPage + 1 }} - {{ getMinValue(currentPage * itemsPerPage, filteredUsers.length) }} from {{ filteredUsers.length }}
+    </div>
+    <div class="flex space-x-2">
+      <button 
+        *ngFor="let page of [].constructor(totalPages); let i = index"
+        class="pagination-btn py-2 px-4 rounded"
+        [ngClass]="{'bg-teal-600 text-white': currentPage === i + 1, 'bg-gray-200 text-gray-700': currentPage !== i + 1}"
+        (click)="changePage(i + 1)"
+      >
+        {{ i + 1 }}
+      </button>
+    </div>
+  </div>
+</div>

@@ -31,7 +31,8 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
 import { CookieService } from 'ngx-cookie-service';
 import { JwtHelperService, JwtModule } from '@auth0/angular-jwt';
 import { AuthInterceptor } from './interceptors/auth.interceptor';
-import { AudioContextModule } from 'angular-audio-context';
+import { AngularFireModule } from '@angular/fire/compat';
+import { AngularFireMessagingModule } from '@angular/fire/compat/messaging';
 
 export function tokenGetter(cookieService: CookieService) {
   return cookieService.get('auth');
@@ -39,9 +40,14 @@ export function tokenGetter(cookieService: CookieService) {
 
 export const appConfig: ApplicationConfig = {
   providers: [
+    provideAnimations(),
     provideRouter(routes),
     provideHttpClient(withInterceptorsFromDi()),
     provideAnimations(),
+    importProvidersFrom(
+      AngularFireModule.initializeApp(environment.firebase),
+      AngularFireMessagingModule
+    ),
     importProvidersFrom(
       JwtModule.forRoot({
         config: {

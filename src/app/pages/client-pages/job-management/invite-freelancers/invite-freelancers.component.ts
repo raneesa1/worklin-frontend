@@ -3,7 +3,7 @@ import { Component, Input } from '@angular/core';
 import { IInviteFreelancer, IJobPost } from '../interfaces/jobPost';
 import { jobManagementService } from '../service/job-management.service';
 import { InviteToJobModalComponent } from '../../../../components/invite-to-job-modal/invite-to-job-modal.component';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { NavbarAfterLoginComponent } from '../../../../shared/components/navbar-after-login/navbar-after-login.component';
 import { FreelancerEntity } from '../../../../shared/types/FreelancerEntity';
 import { ViewInvitedFreelancerComponent } from '../../../../components/view-invited-freelancer/view-invited-freelancer.component';
@@ -34,7 +34,8 @@ export class InviteFreelancersComponent {
 
   constructor(
     private jobManagementService: jobManagementService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -88,6 +89,12 @@ export class InviteFreelancersComponent {
   closeInviteFreelancer() {
     this.openInvitedFreelancer = false;
   }
+  hireFreelancer(freelancer: FreelancerEntity) {
+    // Navigate to the set-offer page with freelancer data
+    this.router.navigate(['client/set-offer'], {
+      state: { freelancer: freelancer },
+    });
+  }
 
   // Show all freelancers and hide invited freelancers
   displayAllFreelancers() {
@@ -96,7 +103,6 @@ export class InviteFreelancersComponent {
   }
 
   ngOnDestroy() {
-    // Emit a value to signal that the component is being destroyed
     this.destroy$.next();
     this.destroy$.complete();
   }

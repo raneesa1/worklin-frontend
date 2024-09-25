@@ -20,13 +20,21 @@
     "useDefineForClassFields": false,
     "lib": [
       "ES2022",
-      "dom"
-    ]
+      "dom",
+       "webworker"
+    ],
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,
     "strictInjectionParameters": true,
     "strictInputAccessModifiers": true,
     "strictTemplates": true
-  }
+  },
+ "include": [
+    "src/**/*.ts",
+    "src/**/*.d.ts"
+  ],
+   "files": [
+    "src/firebase-messaging-sw.ts"
+  ]
 }

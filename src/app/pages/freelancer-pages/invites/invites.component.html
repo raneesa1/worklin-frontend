@@ -1,218 +1,250 @@
 <app-navbar-after-login></app-navbar-after-login>
 <div class="mx-20 mt-12">
-  <h1 class="text-5xl border-b pb-2">Job Invites</h1>
-  <div class="mt-6 space-y-6">
-    <div *ngIf="jobPosts.length === 0" class="text-center text-gray-500">
-      No job invites available.
-    </div>
+  <!-- Navigation Tabs -->
+  <div class="flex space-x-4 border-b pb-2 mb-6">
+    <button
+      (click)="setActiveTab('invites')"
+      [ngClass]="{
+        'text-teal-700 border-b-2 border-teal-700': activeTab === 'invites',
+        'text-gray-600': activeTab !== 'invites'
+      }"
+      class="font-medium text-lg pb-2"
+    >
+      Job Invites
+    </button>
+    <button
+      (click)="setActiveTab('offers')"
+      [ngClass]="{
+        'text-teal-700 border-b-2 border-teal-700': activeTab === 'offers',
+        'text-gray-600': activeTab !== 'offers'
+      }"
+      class="font-medium text-lg pb-2"
+    >
+      Job Offers
+    </button>
+  </div>
 
-    <div *ngFor="let job of jobPosts; let i = index">
-      <div
-        class="job-card p-4 bg-white rounded-lg cursor-pointer hover:bg-gray-100 transition-all duration-300 ease-in-out relative"
-        (click)="showJobDetails(job)"
-      >
-        <button
-          class="absolute top-2 right-2 p-1 rounded-full duration-200"
-          (click)="toggleFavorite($event, job)"
+  <div *ngIf="activeTab === 'invites'">
+    <h1 class="text-5xl pb-2">Job Invites</h1>
+    <div class="mt-6 space-y-6">
+      <div *ngIf="jobPosts.length === 0" class="text-center text-gray-500">
+        No job invites available.
+      </div>
+
+      <div *ngFor="let job of jobPosts; let i = index">
+        <div
+          class="job-card p-4 bg-white rounded-lg cursor-pointer hover:bg-gray-100 transition-all duration-300 ease-in-out relative"
+          (click)="showJobDetails(job)"
         >
-          <svg
-            *ngIf="!job.isFavorite"
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 512 512"
-            class="w-6 h-6"
-          >
-            <path
-              fill="#4fa17d"
-              d="M225.8 468.2l-2.5-2.3L48.1 303.2C17.4 274.7 0 234.7 0 192.8l0-3.3c0-70.4 50-130.8 119.2-144C158.6 37.9 198.9 47 231 69.6c9 6.4 17.4 13.8 25 22.3c4.2-4.8 8.7-9.2 13.5-13.3c3.7-3.2 7.5-6.2 11.5-9c0 0 0 0 0 0C313.1 47 353.4 37.9 392.8 45.4C462 58.6 512 119.1 512 189.5l0 3.3c0 41.9-17.4 81.9-48.1 110.4L288.7 465.9l-2.5 2.3c-8.2 7.6-19 11.9-30.2 11.9s-22-4.2-30.2-11.9zM239.1 145c-.4-.3-.7-.7-1-1.1l-17.8-20-.1-.1s0 0 0 0c-23.1-25.9-58-37.7-92-31.2C81.6 101.5 48 142.1 48 189.5l0 3.3c0 28.5 11.9 55.8 32.8 75.2L256 430.7 431.2 268c20.9-19.4 32.8-46.7 32.8-75.2l0-3.3c0-47.3-33.6-88-80.1-96.9c-34-6.5-69 5.4-92 31.2c0 0 0 0-.1 .1s0 0-.1 .1l-17.8 20c-.3 .4-.7 .7-1 1.1c-4.5 4.5-10.6 7-16.9 7s-12.4-2.5-16.9-7z"
-            />
-          </svg>
-          <svg
-            *ngIf="job.isFavorite"
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 512 512"
-            class="w-6 h-6"
-          >
-            <path
-              fill="#4fa17d"
-              d="M47.6 300.4L228.3 469.1c7.5 7 17.4 10.9 27.7 10.9s20.2-3.9 27.7-10.9L464.4 300.4c30.4-28.3 47.6-68 47.6-109.5v-5.8c0-69.9-50.5-129.5-119.4-141C347 36.5 300.6 51.4 268 84L256 96 244 84c-32.6-32.6-79-47.5-124.6-39.9C50.5 55.6 0 115.2 0 185.1v5.8c0 41.5 17.2 81.2 47.6 109.5z"
-            />
-          </svg>
-        </button>
-        <!-- Job Title -->
-        <h3
-          class="job-title text-lg transition-all duration-300 ease-in-out text-gray-700"
-        >
-          {{ job.title }}
-        </h3>
-        <!-- Job Meta -->
-        <div class="text-gray-600">
-          Fixed-price - {{ job.experience }} - Est. Budget: ${{
-            job.priceFrom
-          }}
-          to ${{ job.priceTo }}
-        </div>
-        <!-- Job Description -->
-        <p class="mt-2 text-gray-700">
-          {{
-            showMore[i]
-              ? job.description
-              : (job.description | slice : 0 : 150) + "..."
-          }}
-        </p>
-        <!-- Show More / Show Less Button -->
-        <button
-          (click)="handleShowMoreClick($event, i)"
-          class="text-teal-600 underline"
-        >
-          {{ showMore[i] ? "Show Less" : "Show More" }}
-        </button>
-        <!-- Job Skills -->
-        <div class="flex items-center mt-4 mb-4">
-          <!-- Left Scroll Button -->
           <button
-            class="p-2 mr-2 rounded-full text-teal-600 hover:bg-gray-200"
-            (click)="scrollLeft($event, skillsContainer)"
+            class="absolute top-2 right-2 p-1 rounded-full duration-200"
+            (click)="toggleFavorite($event, job)"
           >
-            <!-- Left Arrow SVG -->
             <svg
+              *ngIf="!job.isFavorite"
               xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke-width="2"
-              stroke="currentColor"
-              class="w-4 h-4"
+              viewBox="0 0 512 512"
+              class="w-6 h-6"
             >
               <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                d="M15 19l-7-7 7-7"
+                fill="#4fa17d"
+                d="M225.8 468.2l-2.5-2.3L48.1 303.2C17.4 274.7 0 234.7 0 192.8l0-3.3c0-70.4 50-130.8 119.2-144C158.6 37.9 198.9 47 231 69.6c9 6.4 17.4 13.8 25 22.3c4.2-4.8 8.7-9.2 13.5-13.3c3.7-3.2 7.5-6.2 11.5-9c0 0 0 0 0 0C313.1 47 353.4 37.9 392.8 45.4C462 58.6 512 119.1 512 189.5l0 3.3c0 41.9-17.4 81.9-48.1 110.4L288.7 465.9l-2.5 2.3c-8.2 7.6-19 11.9-30.2 11.9s-22-4.2-30.2-11.9zM239.1 145c-.4-.3-.7-.7-1-1.1l-17.8-20-.1-.1s0 0 0 0c-23.1-25.9-58-37.7-92-31.2C81.6 101.5 48 142.1 48 189.5l0 3.3c0 28.5 11.9 55.8 32.8 75.2L256 430.7 431.2 268c20.9-19.4 32.8-46.7 32.8-75.2l0-3.3c0-47.3-33.6-88-80.1-96.9c-34-6.5-69 5.4-92 31.2c0 0 0 0-.1 .1s0 0-.1 .1l-17.8 20c-.3 .4-.7 .7-1 1.1c-4.5 4.5-10.6 7-16.9 7s-12.4-2.5-16.9-7z"
+              />
+            </svg>
+            <svg
+              *ngIf="job.isFavorite"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 512 512"
+              class="w-6 h-6"
+            >
+              <path
+                fill="#4fa17d"
+                d="M47.6 300.4L228.3 469.1c7.5 7 17.4 10.9 27.7 10.9s20.2-3.9 27.7-10.9L464.4 300.4c30.4-28.3 47.6-68 47.6-109.5v-5.8c0-69.9-50.5-129.5-119.4-141C347 36.5 300.6 51.4 268 84L256 96 244 84c-32.6-32.6-79-47.5-124.6-39.9C50.5 55.6 0 115.2 0 185.1v5.8c0 41.5 17.2 81.2 47.6 109.5z"
               />
             </svg>
           </button>
-
-          <!-- Job Skills Container -->
-          <div
-            class="flex-1 overflow-x-hidden whitespace-nowrap skills-container"
-            #skillsContainer
+          <!-- Job Title -->
+          <h3
+            class="job-title text-lg transition-all duration-300 ease-in-out text-gray-700"
           >
-            <span
-              *ngFor="let skill of job.skills"
-              class="inline-block bg-gray-200 text-gray-800 px-3 py-1 rounded-full text-sm mr-2"
-            >
-              {{ skill.name }}
-            </span>
+            {{ job.title }}
+          </h3>
+          <!-- Job Meta -->
+          <div class="text-gray-600">
+            Fixed-price - {{ job.experience }} - Est. Budget: ${{
+              job.priceFrom
+            }}
+            to ${{ job.priceTo }}
           </div>
+          <!-- Job Description -->
+          <p class="mt-2 text-gray-700">
+            {{
+              showMore[i]
+                ? job.description
+                : (job.description | slice : 0 : 150) + "..."
+            }}
+          </p>
+          <!-- Show More / Show Less Button -->
+          <button
+            (click)="handleShowMoreClick($event, i)"
+            class="text-teal-600 underline"
+          >
+            {{ showMore[i] ? "Show Less" : "Show More" }}
+          </button>
+          <!-- Job Skills -->
+          <div class="flex items-center mt-4 mb-4">
+            <!-- Left Scroll Button -->
+            <button
+              class="p-2 mr-2 rounded-full text-teal-600 hover:bg-gray-200"
+              (click)="scrollLeft($event, skillsContainer)"
+            >
+              <!-- Left Arrow SVG -->
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="2"
+                stroke="currentColor"
+                class="w-4 h-4"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M15 19l-7-7 7-7"
+                />
+              </svg>
+            </button>
 
-          <!-- Right Scroll Button -->
-          <button
-            class="p-2 ml-2 rounded-full text-teal-600 hover:bg-gray-200"
-            (click)="scrollRight($event, skillsContainer)"
-          >
-            <!-- Right Arrow SVG -->
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke-width="2"
-              stroke="currentColor"
-              class="w-4 h-4"
+            <!-- Job Skills Container -->
+            <div
+              class="flex-1 overflow-x-hidden whitespace-nowrap skills-container"
+              #skillsContainer
             >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                d="M9 5l7 7-7 7"
-              />
-            </svg>
-          </button>
-        </div>
-        <!-- Job Location -->
-        <div class="mt-4 flex items-center text-gray-600">
-          <span class="mr-2">
-            <svg
-              class="w-5"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              aria-hidden="true"
-              viewBox="0 0 24 24"
-              role="img"
+              <span
+                *ngFor="let skill of job.skills"
+                class="inline-block bg-gray-200 text-gray-800 px-3 py-1 rounded-full text-sm mr-2"
+              >
+                {{ skill.name }}
+              </span>
+            </div>
+
+            <!-- Right Scroll Button -->
+            <button
+              class="p-2 ml-2 rounded-full text-teal-600 hover:bg-gray-200"
+              (click)="scrollRight($event, skillsContainer)"
             >
-              <path
-                fill="currentColor"
-                d="M12 2C8.5 2 5.5 4.5 5.5 7.5C5.5 11 12 21 12 21S18.5 11 18.5 7.5C18.5 4.5 15.5 2 12 2ZM12 10.5C10.1 10.5 8.5 8.9 8.5 7C8.5 5.1 10.1 3.5 12 3.5C13.9 3.5 15.5 5.1 15.5 7C15.5 8.9 13.9 10.5 12 10.5Z"
-              />
-            </svg>
-          </span>
-          {{ job.location || "Location not specified" }}
-        </div>
-        <!-- Accept/Decline Buttons -->
-        <div>
-          <button
-            *ngIf="job.invitedFreelancers && job.invitedFreelancers.length > 0"
-            class="text-teal-500 hover:text-teal-700 font-bold py-2 px-4 underline"
-            (click)="viewRequest($event, job.invitedFreelancers[0])"
-          >
-            View Request
-          </button>
+              <!-- Right Arrow SVG -->
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="2"
+                stroke="currentColor"
+                class="w-4 h-4"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M9 5l7 7-7 7"
+                />
+              </svg>
+            </button>
+          </div>
+          <!-- Job Location -->
+          <div class="mt-4 flex items-center text-gray-600">
+            <span class="mr-2">
+              <svg
+                class="w-5"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                aria-hidden="true"
+                viewBox="0 0 24 24"
+                role="img"
+              >
+                <path
+                  fill="currentColor"
+                  d="M12 2C8.5 2 5.5 4.5 5.5 7.5C5.5 11 12 21 12 21S18.5 11 18.5 7.5C18.5 4.5 15.5 2 12 2ZM12 10.5C10.1 10.5 8.5 8.9 8.5 7C8.5 5.1 10.1 3.5 12 3.5C13.9 3.5 15.5 5.1 15.5 7C15.5 8.9 13.9 10.5 12 10.5Z"
+                />
+              </svg>
+            </span>
+            {{ job.location || "Location not specified" }}
+          </div>
+          <!-- Accept/Decline Buttons -->
+          <div>
+            <button
+              *ngIf="
+                job.invitedFreelancers && job.invitedFreelancers.length > 0
+              "
+              class="text-teal-500 hover:text-teal-700 font-bold py-2 px-4 underline"
+              (click)="viewRequest($event, job.invitedFreelancers[0])"
+            >
+              View Request
+            </button>
+          </div>
         </div>
       </div>
     </div>
   </div>
-</div>
 
-<!-- Modal for Job Detail (conditionally displayed) -->
-<div
-  *ngIf="selectedJob || isClosing"
-  class="fixed inset-0 flex justify-end bg-black bg-opacity-50 transition-opacity duration-300 modal-container"
-  [ngClass]="{
-    'opacity-100 pointer-events-auto': selectedJob && !isClosing,
-    'opacity-0 pointer-events-none': !selectedJob || isClosing,
-    closing: isClosing
-  }"
-  (click)="hideJobDetails()"
->
+  <div *ngIf="activeTab === 'offers'">
+    <app-view-offers></app-view-offers>
+  </div>
+
+  <!-- Modal for Job Detail (conditionally displayed) -->
   <div
-    class="bg-white w-full md:w-2/3 lg:w-3/4 xl:w-2/3 p-6 rounded-l-lg shadow-lg transform transition-all duration-300 ease-in-out h-full overflow-y-auto modal-content"
+    *ngIf="selectedJob || isClosing"
+    class="fixed inset-0 flex justify-end bg-black bg-opacity-50 transition-opacity duration-300 modal-container"
     [ngClass]="{
-      'translate-x-0 scale-100 opacity-100': selectedJob && !isClosing,
-      'translate-x-full scale-95 opacity-0': !selectedJob || isClosing,
+      'opacity-100 pointer-events-auto': selectedJob && !isClosing,
+      'opacity-0 pointer-events-none': !selectedJob || isClosing,
       closing: isClosing
     }"
-    (click)="$event.stopPropagation()"
+    (click)="hideJobDetails()"
   >
-    <button
-      class="absolute top-2 right-2 text-gray-500 hover:text-gray-700 focus:outline-none"
-      (click)="hideJobDetails()"
+    <div
+      class="bg-white w-full md:w-2/3 lg:w-3/4 xl:w-2/3 p-6 rounded-l-lg shadow-lg transform transition-all duration-300 ease-in-out h-full overflow-y-auto modal-content"
+      [ngClass]="{
+        'translate-x-0 scale-100 opacity-100': selectedJob && !isClosing,
+        'translate-x-full scale-95 opacity-0': !selectedJob || isClosing,
+        closing: isClosing
+      }"
+      (click)="$event.stopPropagation()"
     >
-      <svg
-        class="w-6 h-6"
-        fill="none"
-        stroke="currentColor"
-        viewBox="0 0 24 24"
-        xmlns="http://www.w3.org/2000/svg"
+      <button
+        class="absolute top-2 right-2 text-gray-500 hover:text-gray-700 focus:outline-none"
+        (click)="hideJobDetails()"
       >
-        <path
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          stroke-width="2"
-          d="M6 18L18 6M6 6l12 12"
-        ></path>
-      </svg>
-    </button>
-    <app-job-detail-page
-      [job]="selectedJob"
-      (jobApplied)="onJobApplied()"
-      [hasApplied]="hasAppliedToSelectedJob"
-      (jobApplied)="onJobApplied()"
-    ></app-job-detail-page>
+        <svg
+          class="w-6 h-6"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M6 18L18 6M6 6l12 12"
+          ></path>
+        </svg>
+      </button>
+      <app-job-detail-page
+        [job]="selectedJob"
+        (jobApplied)="onJobApplied()"
+        [hasApplied]="hasAppliedToSelectedJob"
+        (jobApplied)="onJobApplied()"
+      ></app-job-detail-page>
+    </div>
   </div>
+  <!-- in InvitesComponent template -->
+  <app-view-request-modal
+    *ngIf="IsInviteSelected"
+    [clientName]="clientName"
+    [message]="message"
+    [jobId]="selectedInvite?.jobId"
+    (close)="closeInviteModal()"
+    (accept)="acceptInvite($event)"
+    (decline)="declineInvite($event)"
+  ></app-view-request-modal>
 </div>
-<!-- in InvitesComponent template -->
-<app-view-request-modal
-  *ngIf="IsInviteSelected"
-  [clientName]="clientName"
-  [message]="message"
-  [jobId]="selectedInvite?.jobId"
-  (close)="closeInviteModal()"
-   (accept)="acceptInvite($event)"
-  (decline)="declineInvite($event)"
-></app-view-request-modal>

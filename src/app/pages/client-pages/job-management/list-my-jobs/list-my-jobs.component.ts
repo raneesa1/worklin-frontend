@@ -1,11 +1,12 @@
 import { CommonModule } from '@angular/common';
-import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { JoblistViewMoreModalComponent } from '../joblist-view-more-modal/joblist-view-more-modal.component';
 import { IJobPost } from '../interfaces/jobPost';
 import { jobManagementService } from '../service/job-management.service';
 import { NavbarAfterLoginComponent } from '../../../../shared/components/navbar-after-login/navbar-after-login.component';
 import { roleService } from '../../../../shared/service/role.service';
 import { Subject, takeUntil } from 'rxjs';
+import { IJobOffer } from '../../../../shared/types/IJobOffer';
 
 @Component({
   selector: 'app-list-my-jobs',
@@ -20,6 +21,8 @@ import { Subject, takeUntil } from 'rxjs';
 })
 export class ListMyJobsComponent implements OnInit, OnDestroy {
   jobPosts: IJobPost[] = [];
+  jobOffers: IJobOffer[] = [];
+  displayMode: 'posts' | 'offers' = 'posts';
   private destroy$ = new Subject<void>();
 
   constructor(
@@ -29,17 +32,26 @@ export class ListMyJobsComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.fetchJobPosts();
-    console.log(this.jobPosts, 'consoling the job post');
+  }
+
+  viewJobPosts(): void {
+    this.displayMode = 'posts';
+    this.fetchJobPosts();
+  }
+
+  viewJobOffers(): void {
+    this.displayMode = 'offers';
+    this.fetchJobOffers();
   }
 
   fetchJobPosts(): void {
-    const clientId = this.roleService.getUserId(); // Fetch the user ID
+    const clientId = this.roleService.getUserId();
     this.jobService
       .getJobPostsByUserId(clientId)
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (response: any) => {
-          this.jobPosts = response.jobPosts; // Extract jobPosts from the response
+          this.jobPosts = response.jobPosts;
           console.log(this.jobPosts, 'Fetched job posts');
         },
         error: (err) => {
@@ -47,9 +59,25 @@ export class ListMyJobsComponent implements OnInit, OnDestroy {
         },
       });
   }
-  timeAgo(date?: Date): string {
-    if (!date) return 'Date not available'; // Handle undefined date
 
+  fetchJobOffers(): void {
+    const clientId = this.roleService.getUserId();
+    this.jobService
+      .fetchClientOffers(clientId)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (response: any) => {
+          this.jobOffers = response.jobOffer;
+          console.log(this.jobOffers, 'Fetched job offers');
+        },
+        error: (err) => {
+          console.error('Error fetching job offers', err);
+        },
+      });
+  }
+
+  timeAgo(date?: Date): string {
+    if (!date) return 'Date not available';
     const seconds = Math.floor((+new Date() - +new Date(date)) / 1000);
     let interval = Math.floor(seconds / 31536000);
     if (interval >= 1) return `${interval} year${interval > 1 ? 's' : ''} ago`;
@@ -64,8 +92,8 @@ export class ListMyJobsComponent implements OnInit, OnDestroy {
       return `${interval} minute${interval > 1 ? 's' : ''} ago`;
     return 'Just now';
   }
+
   ngOnDestroy(): void {
-    // Emit a value to signal that the component is being destroyed
     this.destroy$.next();
     this.destroy$.complete();
   }

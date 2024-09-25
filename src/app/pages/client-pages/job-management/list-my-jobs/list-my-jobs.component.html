@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Job Postings</title>
+    <title>Job Postings and Offers</title>
     <link
       href="https://fonts.googleapis.com/icon?family=Material+Icons"
       rel="stylesheet"
@@ -16,12 +16,26 @@
       <div class="flex items-center justify-between pb-4">
         <div class="flex space-x-4">
           <button
-            class="text-teal-700 font-medium text-lg border-b-2 border-teal-700"
+            (click)="viewJobPosts()"
+            [ngClass]="{
+              'text-teal-700 border-b-2 border-teal-700':
+                displayMode === 'posts',
+              'text-gray-600': displayMode === 'offers'
+            }"
+            class="font-medium text-lg"
           >
             All job posts
           </button>
-          <button class="text-gray-600 font-medium text-lg">
-            All contracts
+          <button
+            (click)="viewJobOffers()"
+            [ngClass]="{
+              'text-teal-700 border-b-2 border-teal-700':
+                displayMode === 'offers',
+              'text-gray-600': displayMode === 'posts'
+            }"
+            class="font-medium text-lg"
+          >
+            All job Offers
           </button>
         </div>
 
@@ -31,13 +45,19 @@
           Post a new job
         </button>
       </div>
-      <h1 class="text-5xl">All job posts</h1>
+      <h1 class="text-5xl">
+        {{ displayMode === "posts" ? "All job posts" : "All job offers" }}
+      </h1>
 
       <!-- Search and Filter -->
       <div class="mt-4 flex items-center justify-between border-b pb-8">
         <input
           type="text"
-          placeholder="Search job postings"
+          [placeholder]="
+            displayMode === 'posts'
+              ? 'Search job postings'
+              : 'Search job offers'
+          "
           class="border px-4 py-2 w-full max-w-lg rounded-full"
         />
         <button class="text-teal-600 ml-4 flex items-center">
@@ -47,7 +67,7 @@
       </div>
 
       <!-- Job Post List -->
-      <div class="space-y-1">
+      <div class="space-y-1" *ngIf="displayMode === 'posts'">
         <!-- Job Post Card -->
         <div
           class="bg-white p-6 border-b"
@@ -55,8 +75,7 @@
         >
           <div class="flex justify-between items-center">
             <div class="max-w-xs min-w-[300px]">
-              <!-- Adjust the width as needed -->
-              <h2 class="text-3xl truncate" title="{{ jobPost.title }}">
+              <h2 class="text-3xl truncate" [title]="jobPost.title">
                 {{ jobPost.title }}
               </h2>
               <p class="text-gray-500 text-base pb-2">
@@ -67,15 +86,21 @@
             <!-- Centered section for Proposals, Messaged, Hired -->
             <div class="flex flex-1 justify-center space-x-8">
               <div class="text-center">
-                <p class="text-2xl font-semibold"> {{ jobPost.applications?.length }}</p>
+                <p class="text-2xl font-semibold">
+                  {{ jobPost.applications?.length }}
+                </p>
                 <p class="text-gray-600">Proposals</p>
               </div>
               <div class="text-center">
-                <p class="text-2xl font-semibold">{{jobPost.invitedFreelancers?.length}}</p>
+                <p class="text-2xl font-semibold">
+                  {{ jobPost.invitedFreelancers?.length }}
+                </p>
                 <p class="text-gray-600">invited</p>
               </div>
               <div class="text-center">
-                <p class="text-2xl font-semibold">{{ jobPost.hires?.length }}</p>
+                <p class="text-2xl font-semibold">
+                  {{ jobPost.hires?.length }}
+                </p>
                 <p class="text-gray-600">Hired</p>
               </div>
             </div>
@@ -85,7 +110,64 @@
             ></app-joblist-view-more-modal>
           </div>
         </div>
-        <!-- Repeat similar blocks for other job posts -->
+      </div>
+
+      <!-- Job Offer List -->
+      <div class="space-y-1" *ngIf="displayMode === 'offers'">
+        <!-- Job Offer Card -->
+        <div
+          class="bg-white p-6 border-b"
+          *ngFor="let jobOffer of jobOffers; let i = index"
+        >
+          <div class="flex justify-between items-center">
+            <div class="max-w-xs min-w-[300px]">
+              <h2 class="text-3xl truncate" [title]="jobOffer.title">
+                {{ jobOffer.title }}
+              </h2>
+              <p class="text-gray-500 text-base pb-2">
+                Offered {{ timeAgo(jobOffer.createdAt) }}
+              </p>
+              <p
+                class="text-sm pb-2 px-2 py-1 rounded-full inline-block"
+                [ngClass]="{
+                  'bg-green-100 text-green-800 border border-green-800':
+                    jobOffer.offerStatus === 'accepted',
+                  'bg-red-100 text-red-800 border border-red-800':
+                    jobOffer.offerStatus === 'rejected',
+                  'bg-gray-100 text-gray-800 border border-gray-800':
+                    jobOffer.offerStatus !== 'accepted' &&
+                    jobOffer.offerStatus !== 'rejected'
+                }"
+              >
+                {{ jobOffer.offerStatus | titlecase }}
+              </p>
+            </div>
+            <!-- Centered section for Offer Details -->
+            <div class="flex flex-1 justify-center space-x-8">
+              <div class="text-center">
+                <p class="text-2xl font-semibold">
+                  {{ jobOffer.paymentType }}
+                </p>
+                <p class="text-gray-600">Payment Type</p>
+              </div>
+              <div class="text-center">
+                <p class="text-2xl font-semibold">
+                  ${{ jobOffer.totalAmount }}
+                </p>
+                <p class="text-gray-600">Total Amount</p>
+              </div>
+              <div class="text-center">
+                <p class="text-2xl font-semibold">
+                  {{ jobOffer.dueDate | date : "shortDate" }}
+                </p>
+                <p class="text-gray-600">Due Date</p>
+              </div>
+            </div>
+
+            <!-- You might want to create a new modal component for job offers -->
+            <button class="text-teal-600">View Details</button>
+          </div>
+        </div>
       </div>
     </div>
   </body>

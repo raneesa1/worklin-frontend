@@ -1,0 +1,552 @@
+<app-navbar-after-login></app-navbar-after-login>
+<div class="min-h-screen mt-8">
+  <!-- Page Heading -->
+  <div class="mb-8 px-20 mt-12">
+    <h3 class="text-3xl font-semibold text-gray-900">Send an offer</h3>
+    <p class="text-sm text-gray-600 bg-gray-200 mt-2 mr-5 p-5 rounded-lg">
+      Did you know? You can send up to 10 offers a day.
+    </p>
+  </div>
+
+  <!-- Main Content -->
+  <div class="grid grid-cols-12 gap-8 border-r">
+    <!-- Left Section (Job Details & Contract Terms) -->
+    <div class="col-span-8 border-r">
+      <div class="bg-white px-12 rounded-lg">
+        <!-- Job Details -->
+        <div class="mb-8 px-8">
+          <h1 class="text-2xl font-semibold text-gray-800 mb-5">Job details</h1>
+          <div class="grid grid-cols-2 gap-9">
+            <!-- Hiring Team Dropdown -->
+            <div>
+              <label
+                for="hiringTeam"
+                class="block text-sm font-medium text-gray-700 mb-1"
+              >
+                Hiring team
+              </label>
+              <input
+                type="text"
+                id="hiringTeam"
+                [(ngModel)]="hiringTeam"
+                name="hiringTeam"
+                class="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-teal-500"
+                placeholder="Enter hiring team"
+              />
+            </div>
+
+            <!-- Related Job Posting Dropdown -->
+            <div>
+              <label
+                for="jobPosting"
+                class="block text-sm font-medium text-gray-700 mb-1"
+                >Related job posting (optional)</label
+              >
+              <select
+                id="jobPosting"
+                class="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-teal-500"
+                [(ngModel)]="selectedJobPostId"
+                (change)="onJobPostSelected($event)"
+                name="jobPosting"
+              >
+                <option>Select an open job post...</option>
+                <option *ngFor="let job of jobPosts" [value]="job._id">
+                  {{ job.title }}
+                </option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Contract Title -->
+          <div class="mt-6 pb-12 border-b border-gray-200">
+            <label
+              for="contractTitle"
+              class="block text-sm font-medium text-gray-700 mb-1"
+              >Contract title</label
+            >
+            <input
+              id="contractTitle"
+              type="text"
+              [(ngModel)]="contractTitle"
+              placeholder="Enter the contract title"
+              class="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-teal-500"
+            />
+          </div>
+        </div>
+
+        <!-- Contract Terms -->
+        <div class="bg-white rounded-lg w-full max-w-4xl px-8 pb-6">
+          <!-- Header -->
+          <h2 class="text-2xl font-semibold text-gray-800 mb-6">
+            Contract terms
+          </h2>
+
+          <!-- Subtext -->
+          <p class="text-sm text-teal-600 mb-8">
+            Worklin Payment Protection. Only pay for the work you authorize.
+          </p>
+
+          <!-- Payment Option Header -->
+          <div class="flex justify-between items-center mb-4">
+            <h3 class="text-lg font-semibold text-gray-700">Payment option</h3>
+            <svg
+              class="w-5 h-5 text-gray-400"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+              ></path>
+            </svg>
+          </div>
+
+          <!-- Payment Options (Grid Layout) -->
+          <!-- Pay a fixed price option -->
+
+          <div class="grid grid-cols-2 gap-6">
+            <div
+              class="border-2 rounded-lg p-6 cursor-pointer transition-all duration-200"
+              [ngClass]="{
+                'border-teal-500 bg-teal-50': paymentType === 'fixed',
+                'hover:shadow-lg hover:border-gray-300': paymentType !== 'fixed'
+              }"
+              (click)="setPaymentType('fixed')"
+            >
+              <div class="flex items-center mb-4">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  height="24px"
+                  viewBox="0 -960 960 960"
+                  width="24px"
+                  fill="#327756"
+                  class="mr-3"
+                >
+                  <path
+                    d="M856-390 570-104q-12 12-27 18t-30 6q-15 0-30-6t-27-18L103-457q-11-11-17-25.5T80-513v-287q0-33 23.5-56.5T160-880h287q16 0 31 6.5t26 17.5l352 353q12 12 17.5 27t5.5 30q0 15-5.5 29.5T856-390ZM513-160l286-286-353-354H160v286l353 354ZM260-640q25 0 42.5-17.5T320-700q0-25-17.5-42.5T260-760q-25 0-42.5 17.5T200-700q0 25 17.5 42.5T260-640Zm220 160Z"
+                  />
+                </svg>
+                <span class="text-lg font-semibold">Pay a fixed price</span>
+              </div>
+              <p class="text-sm text-gray-600">
+                Pay as project milestones are completed
+              </p>
+            </div>
+            <!-- Pay by the hour option -->
+            <div
+              class="border-2 rounded-lg p-6 cursor-pointer transition-all duration-200"
+              [ngClass]="{
+                'border-teal-500 bg-teal-50': paymentType === 'hourly',
+                'hover:shadow-lg hover:border-gray-300':
+                  paymentType !== 'hourly'
+              }"
+              (click)="setPaymentType('hourly')"
+            >
+              <div class="flex items-center mb-4">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  height="24px"
+                  viewBox="0 -960 960 960"
+                  width="24px"
+                  fill="#327756"
+                  class="mr-3"
+                >
+                  <path
+                    d="M320-160h320v-120q0-66-47-113t-113-47q-66 0-113 47t-47 113v120Zm160-360q66 0 113-47t47-113v-120H320v120q0 66 47 113t113 47ZM160-80v-80h80v-120q0-61 28.5-114.5T348-480q-51-32-79.5-85.5T240-680v-120h-80v-80h640v80h-80v120q0 61-28.5 114.5T612-480q51 32 79.5 85.5T720-280v120h80v80H160Z"
+                  />
+                </svg>
+                <span class="text-lg font-semibold">Pay by the hour</span>
+              </div>
+              <p class="text-sm text-gray-600">
+                Pay for the number of hours worked on a project
+              </p>
+            </div>
+
+            <!-- Pay a fixed price option -->
+          </div>
+
+          <!-- Fixed Price Section -->
+          <div *ngIf="paymentType === 'fixed'" class="mb-8 mt-12">
+            <h3 class="text-lg font-semibold text-gray-700 mb-4">
+              Pay a fixed price for your project
+            </h3>
+            <div class="items-center">
+              <input
+                type="number"
+                [(ngModel)]="fixedPrice"
+                class="border rounded-md p-2 w-32 text-lg font-semibold"
+              />
+              <p class="pt-1 text-sm text-gray-500">
+                This is the price you and Raneesa K. have agreed upon
+              </p>
+            </div>
+          </div>
+          <!-- Due Date for One-Time Payment -->
+          <div *ngIf="paymentOption === 'oneTime'" class="mt-4">
+            <h3 class="text-lg font-semibold text-gray-700 mb-2">Due Date</h3>
+            <div class="relative">
+              <app-date-picker [(ngModel)]="dueDate"></app-date-picker>
+            </div>
+          </div>
+          <!-- Hourly Rate Section -->
+          <div *ngIf="paymentType === 'hourly'" class="mb-8 mt-12">
+            <h3 class="text-lg font-semibold text-gray-700 mb-4">
+              Pay by the hour
+            </h3>
+            <div class="space-y-4">
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1"
+                  >Hourly Rate</label
+                >
+                <input
+                  type="number"
+                  [(ngModel)]="hourlyRate"
+                  class="w-full p-2 border border-gray-300 rounded-md"
+                />
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1"
+                  >Total Hours</label
+                >
+                <input
+                  type="number"
+                  [(ngModel)]="totalHours"
+                  class="w-full p-2 border border-gray-300 rounded-md"
+                />
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1"
+                  >Total Amount</label
+                >
+                <input
+                  type="text"
+                  [value]="'$' + totalAmount"
+                  readonly
+                  class="w-full p-2 border border-gray-300 rounded-md bg-gray-100"
+                />
+              </div>
+            </div>
+          </div>
+
+          <div class="space-y-4 mt-8">
+            <div class="deposit-options">
+              <!-- Full Deposit Option -->
+              <div class="option">
+                <input
+                  type="radio"
+                  id="fullDeposit"
+                  name="depositOption"
+                  value="oneTime"
+                  [(ngModel)]="paymentOption"
+                  (change)="setPaymentOption('oneTime')"
+                />
+                <label for="fullDeposit">
+                  Deposit
+                  {{
+                    paymentType === "fixed"
+                      ? "$" + fixedPrice
+                      : "$" + totalAmount
+                  }}
+                  for the whole project
+                </label>
+              </div>
+
+              <!-- Milestone Deposit Option -->
+              <div class="option">
+                <input
+                  type="radio"
+                  id="milestoneDeposit"
+                  name="depositOption"
+                  value="milestone"
+                  [(ngModel)]="paymentOption"
+                  (change)="setPaymentOption('mileStone')"
+                />
+                <label for="milestoneDeposit">
+                  Deposit a lesser amount to cover the first milestone
+                </label>
+              </div>
+            </div>
+            <div
+              *ngIf="paymentOption === 'mileStone'"
+              class="mt-4 p-8 px rounded-md"
+            >
+              <h3 class="text-lg font-semibold mb-2">Project milestones</h3>
+              <p class="text-sm mb-4">
+                Add project milestones and pay in installments as each milestone
+                is completed to your satisfaction. Due dates will be set in
+                Coordinated Universal Time (UTC).
+              </p>
+
+              <div class="space-y-4">
+                <div
+                  *ngFor="let milestone of mileStone; let i = index"
+                  class="grid grid-cols-12 gap-4 items-center"
+                >
+                  <!-- Milestone Number -->
+                  <div class="col-span-1 text-gray-700 font-medium">
+                    {{ i + 1 }}.
+                  </div>
+
+                  <!-- Milestone Description -->
+                  <div class="col-span-4">
+                    <input
+                      type="text"
+                      [(ngModel)]="milestone.description"
+                      class="w-full px-3 py-2 border border-gray-300 rounded-md text-gray-700"
+                      placeholder="What is the task?"
+                    />
+                  </div>
+
+                  <!-- Due Date -->
+                  <div class="col-span-3 relative">
+                    <!-- <input
+                      type="text"
+                      [(ngModel)]="milestone.dueDate"
+                      class="w-full px-3 py-2 pl-8 border border-gray-300 rounded-md text-gray-700"
+                      placeholder="mmm, dd yyyy"
+                    /> -->
+                    <span
+                      class="absolute left-2 top-1/2 transform -translate-y-1/2 text-gray-500"
+                    >
+                      <app-date-picker></app-date-picker>
+                    </span>
+                  </div>
+
+                  <!-- Deposit Amount -->
+                  <div class="col-span-3">
+                    <input
+                      type="number"
+                      [(ngModel)]="milestone.amount"
+                      class="w-full px-3 py-2 border border-gray-300 rounded-md text-gray-700"
+                      placeholder="$0.00"
+                    />
+                  </div>
+
+                  <!-- Delete Button -->
+                  <div class="col-span-1">
+                    <button
+                      *ngIf="i > 0"
+                      (click)="deleteMilestone(milestone.id)"
+                      class="text-gray-500 hover:text-red-500"
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        height="24px"
+                        viewBox="0 -960 960 960"
+                        width="24px"
+                        fill="#327756"
+                      >
+                        <path
+                          d="M280-120q-33 0-56.5-23.5T200-200v-520h-40v-80h200v-40h240v40h200v80h-40v520q0 33-23.5 56.5T680-120H280Zm400-600H280v520h400v-520ZM360-280h80v-360h-80v360Zm160 0h80v-360h-80v360ZM280-720v520-520Z"
+                        />
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+
+                <!-- Add Milestone Button -->
+                <div class="mt-4">
+                  <button
+                    (click)="addMilestone()"
+                    class="px-4 py-2 border border-gray-300 text-teal-800 font-medium rounded-md hover:bg-teal-100"
+                  >
+                    Add milestone
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Due Date Section -->
+
+          <!-- FAQ Section -->
+
+          <!-- FAQ Section -->
+          <div class="mb-8 space-y-4 mt-12 border-b pb-12">
+            <details
+              class="border rounded-lg p-4 hover: transition-shadow duration-200"
+            >
+              <summary class="font-semibold cursor-pointer text-gray-700">
+                How do fixed-price contracts work?
+              </summary>
+              <div class="mt-3 text-sm text-gray-600 space-y-2">
+                <p>
+                  Before work begins, agree on milestones with your talent.
+                  Milestones help to break up larger projects into manageable
+                  chunks. Pre-fund milestones by depositing money into escrow.
+                  Once the work has been delivered, you can release your payment
+                  to the talent.
+                </p>
+                <p>
+                  Over the course of the contract, your talent will submit
+                  milestones for review and the funds in escrow will be released
+                  upon your approval. Failing to respond to a milestone
+                  submission within 14 days is deemed approval and the escrowed
+                  funds will be automatically released to your talent.
+                </p>
+              </div>
+            </details>
+            <details
+              class="border rounded-lg p-4 hover: transition-shadow duration-200"
+            >
+              <summary class="font-semibold cursor-pointer text-gray-700">
+                What is a Contract Initiation Fee?
+              </summary>
+              <div class="mt-3 text-sm text-gray-600">
+                <p>
+                  This is a one-time Contract Initiation Fee of $4.99 USD for
+                  each new Marketplace and Project Catalog contract. We charge
+                  this fee when you make the first payment to a freelancer for
+                  hourly contracts. For fixed-price contracts, you pay this fee
+                  when you fund the contract or first milestone.
+                </p>
+              </div>
+            </details>
+          </div>
+
+          <!-- Work Description Section -->
+          <div class="mb-8">
+            <h3 class="text-lg font-semibold text-gray-700 mb-2">
+              Work description
+            </h3>
+            <p class="text-sm text-gray-600 mb-2">
+              Add a description of the work
+            </p>
+            <textarea
+              class="w-full p-3 mb-5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500"
+              rows="5"
+              [(ngModel)]="description"
+              placeholder="Get started on the right foot by setting clear expectations"
+            ></textarea>
+            <div class="flex justify-between items-center mb-4">
+              <input
+                type="file"
+                (change)="onFileSelected($event)"
+                class="hidden"
+                id="file-upload"
+              />
+              <label
+                for="file-upload"
+                class="flex items-center text-teal-600 border border-teal-600 rounded-md px-4 py-2 hover:bg-teal-50 transition-colors duration-200 cursor-pointer"
+              >
+                <svg
+                  class="w-5 h-5 mr-2"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13"
+                  ></path>
+                </svg>
+                Attach file
+              </label>
+              <span class="text-sm text-gray-500">0/20000</span>
+            </div>
+
+            <!-- Display uploaded file(s) -->
+            <div
+              *ngFor="let file of uploadedFiles"
+              class="flex items-center justify-between bg-gray-200 rounded-lg p-4"
+            >
+              <p class="text-sm">
+                {{ file.name }}
+              </p>
+              <button class="text-red-600" (click)="removeFile(file)">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  height="24px"
+                  viewBox="0 -960 960 960"
+                  width="24px"
+                  fill="#327756"
+                >
+                  <path
+                    d="M280-120q-33 0-56.5-23.5T200-200v-520h-40v-80h200v-40h240v40h200v80h-40v520q0 33-23.5 56.5T680-120H280Zm400-600H280v520h400v-520ZM360-280h80v-360h-80v360Zm160 0h80v-360h-80v360ZM280-720v520-520Z"
+                  />
+                </svg>
+              </button>
+            </div>
+
+            <p class="text-sm text-gray-500 mt-2">Max file size: 25 MB</p>
+          </div>
+
+          <div class="mt-8 ml-5 flex flex-col space-y-4">
+            <div class="flex items-center">
+              <input
+                id="terms"
+                type="checkbox"
+                class="w-4 h-4 text-teal-600 border-gray-300 rounded focus:ring-teal-500"
+              />
+              <label for="terms" class="ml-2 text-sm text-gray-600">
+                Yes, I understand and agree to the
+                <a href="#" class="text-teal-600 underline"
+                  >Worklin Terms of Service</a
+                >, including the
+                <a href="#" class="text-teal-600 underline">User Agreement</a>
+                and
+                <a href="#" class="text-teal-600 underline">Privacy Policy</a>.
+              </label>
+            </div>
+
+            <!-- Cancel and Continue Buttons -->
+            <div class="flex space-x-4">
+              <button
+                class="px-6 py-2 text-sm font-semibold text-gray-700 bg-white border border-gray-300 rounded-md"
+              >
+                Cancel
+              </button>
+              <button
+                (click)="onSubmit()"
+                class="px-6 py-2 text-sm font-semibold text-white bg-teal-600 rounded-md hover:bg-teal-700"
+              >
+                Continue
+              </button>
+            </div>
+          </div>
+
+          <!-- Terms and Submission Section -->
+        </div>
+      </div>
+    </div>
+
+    <!-- Right Section (Profile Info) -->
+    <div class="col-span-4">
+      <div class="bg-white p-6 rounded-lg">
+        <div class="flex items-start space-x-4">
+          <img
+            [src]="freelancer?.picture || 'https://via.placeholder.com/80'"
+            alt="Profile Picture"
+            class="w-20 h-20 rounded-full"
+          />
+          <div>
+            <h3 class="text-xl font-bold text-teal-600">
+              {{ freelancer?.firstName }}
+            </h3>
+            <p class="text-gray-600">{{ freelancer?.role }}</p>
+            <p class="text-sm text-gray-500">{{ freelancer?.country }}</p>
+            <p class="text-sm text-gray-500">10:24 AM local time</p>
+          </div>
+        </div>
+        <div class="mt-6">
+          <h4 class="font-semibold text-gray-700 mb-2">Skills</h4>
+          <div class="flex flex-wrap gap-2">
+            <ng-container *ngFor="let skill of freelancer?.skill">
+              <span
+                class="px-3 py-1 bg-gray-200 text-gray-700 rounded-full text-sm"
+                >{{ skill.name }}</span
+              >
+            </ng-container>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

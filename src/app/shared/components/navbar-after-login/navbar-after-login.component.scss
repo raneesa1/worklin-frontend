@@ -1,19 +1,19 @@
-.hidden {
-    display: none;
-}header {
-    .flex {
-        @media (min-width: 768px) {
-            display: flex !important; // Ensure it's displayed on medium screens and above
-        }
-    }
+// .hidden {
+//     display: none;
+// }header {
+//     .flex {
+//         @media (min-width: 768px) {
+//             display: flex !important; // Ensure it's displayed on medium screens and above
+//         }
+//     }
 
-    .hidden {
-        @media (min-width: 768px) {
-            display: none !important; // Ensure it's hidden only on smaller screens
-        }
-    }
+//     .hidden {
+//         @media (min-width: 768px) {
+//             display: none !important; // Ensure it's hidden only on smaller screens
+//         }
+//     }
 
-    .space-x-6>* {
-        margin-right: 1.5rem
-        }
-}
+//     .space-x-6>* {
+//         margin-right: 1.5rem
+//         }
+// }

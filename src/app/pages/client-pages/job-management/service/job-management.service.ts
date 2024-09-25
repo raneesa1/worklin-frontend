@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { Skill } from '../interfaces/skill';
 import { IInviteFreelancer, IJobPost } from '../interfaces/jobPost';
 import { FreelancerEntity } from '../../../../shared/types/FreelancerEntity';
+import { IJobOffer } from '../../../../shared/types/IJobOffer';
 
 @Injectable({
   providedIn: 'root',
@@ -64,6 +65,15 @@ export class jobManagementService {
   getInvitedFreelancers(jobId: string): Observable<FreelancerEntity[]> {
     return this.http.get<FreelancerEntity[]>(
       `${this.UserApiUrl}/getInvitedFreelancer/${jobId}`
+    );
+  }
+  createJobOffer(jobOfferData: any): Observable<any> {
+    return this.http.post(`${this.apiUrl}createJobOffer`, jobOfferData);
+  }
+  fetchClientOffers(clientId: string): Observable<{ jobOffer: IJobOffer[] }> {
+    console.log(clientId, '------->>>>');
+    return this.http.get<{ jobOffer: IJobOffer[] }>(
+      `${this.apiUrl}getClientOffers/${clientId}`
     );
   }
 }

@@ -32,7 +32,7 @@ export class ChatService {
       success: boolean;
       user: IMessage[];
       message: string;
-    }>(`${this.baseUrl}/getMessage?roomId=${roomId}`); // Updated endpoint
+    }>(`${this.baseUrl}/getMessage?roomId=${roomId}`);  
   }
   sendMessage(messageData: {
     sender: string;

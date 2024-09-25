@@ -9,7 +9,7 @@ import {
 } from '@angular/forms';
 
 import '@uploadcare/blocks/web/lr-file-uploader-regular.min.css';
-import { DatePickerComponent } from '../date-picker/date-picker.component';
+import { DatePickerComponent } from '../../../../components/date-picker/date-picker.component';
 import { PhotoUploadModalComponent } from '../photo-upload-modal/photo-upload-modal.component';
 import { Router, RouterModule } from '@angular/router';
 import { isClassInstance } from '@ngrx/effects/src/utils';

@@ -2,6 +2,10 @@ import { Routes } from '@angular/router';
 
 import { RoleGuard } from '../role.guard';
 import { GoogleSigninComponent } from './pages/auth/google-signin/google-signin.component';
+import { VideoCallComponentComponent } from './components/video-call-component/video-call-component.component';
+import { PaymentFailComponent } from './components/payment-fail/payment-fail.component';
+import { PaymentSuccessComponent } from './components/payment-success/payment-success.component';
+import { PaymentCheckoutComponent } from './pages/client-pages/payment-checkout/payment-checkout.component';
 
 export const routes: Routes = [
   {
@@ -13,7 +17,8 @@ export const routes: Routes = [
   },
   {
     path: 'nx',
-    loadChildren: () => import('./pages/auth/auth.module').then((m) => m.AuthModule),
+    loadChildren: () =>
+      import('./pages/auth/auth.module').then((m) => m.AuthModule),
   },
   {
     path: 'freelancer',
@@ -56,10 +61,11 @@ export const routes: Routes = [
     canActivate: [RoleGuard],
     data: { expectedRole: 'admin' }, // Only admins can access
   },
-  
+  { path: 'payment-success', component: PaymentSuccessComponent },
+  { path: 'payment-failed', component: PaymentFailComponent },
+  { path: 'checkout', component: PaymentCheckoutComponent },
   {
     path: '**',
     redirectTo: '',
   },
- 
 ];

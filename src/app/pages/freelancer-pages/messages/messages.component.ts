@@ -1,4 +1,5 @@
 import {
+  AfterViewChecked,
   ChangeDetectorRef,
   Component,
   ElementRef,
@@ -16,6 +17,9 @@ import { SocketService } from '../../../shared/service/SocketService';
 import { IMessage, IRoom } from '../../../shared/types/IChat';
 import { FreelancerEntity } from '../../../shared/types/FreelancerEntity';
 import { ChatHeaderComponent } from '../../../components/chat-header/chat-header.component';
+import { environment } from '../../../../environment/environment';
+import { PickerComponent } from '@ctrl/ngx-emoji-mart';
+import { Router } from '@angular/router';
 
 interface RoomWithParticipant extends IRoom {
   participant?: FreelancerEntity;
@@ -29,11 +33,12 @@ interface RoomWithParticipant extends IRoom {
     CommonModule,
     FormsModule,
     ChatHeaderComponent,
+    PickerComponent,
   ],
   templateUrl: './messages.component.html',
   styleUrls: ['./messages.component.scss'],
 })
-export class MessagesComponent implements OnInit, OnDestroy {
+export class MessagesComponent implements OnInit, OnDestroy, AfterViewChecked {
   @ViewChild('messageContainer') private messageContainer!: ElementRef;
   @ViewChild('fileInput') private fileInput!: ElementRef;
   rooms: RoomWithParticipant[] = [];
@@ -41,7 +46,7 @@ export class MessagesComponent implements OnInit, OnDestroy {
   sendingAudioMessage: boolean = false;
   currentRoom: RoomWithParticipant | null = null;
   newMessage: string = '';
-
+  currentReceiverId: string = '';
   userId: string = '';
   sendingFileMessage: boolean = false;
   selectedFile: File | null = null;
@@ -49,15 +54,23 @@ export class MessagesComponent implements OnInit, OnDestroy {
   currentReceiver: FreelancerEntity | null = null;
   isRecording: boolean = false;
   private messageSubscription: Subscription | undefined;
+  private clickReadSubscription: Subscription | undefined;
 
   audioRecorder: MediaRecorder | null = null;
   audioChunks: Blob[] = [];
+  showEmojiPicker = false;
+  private messageUpdateSubscription: Subscription | undefined;
+  private incomingCallSubscription: Subscription | undefined;
+  incomingCall: boolean = false;
+  incomingCallerId: string = '';
+  incomingCallerName: string = '';
 
   constructor(
     private chatService: ChatService,
     private roleService: roleService,
     private socketService: SocketService,
-    private changeDetectorRef: ChangeDetectorRef
+    private changeDetectorRef: ChangeDetectorRef,
+    private router: Router
   ) {}
 
   ngOnInit() {
@@ -72,7 +85,6 @@ export class MessagesComponent implements OnInit, OnDestroy {
         console.log('Received message in component:', message);
         if (this.currentRoom && message.chatId === this.currentRoom._id) {
           console.log('Adding message to current room');
-          // Check if the message is already in the array
           const existingMessageIndex = this.messages.findIndex(
             (m) => m._id === message._id
           );
@@ -91,8 +103,23 @@ export class MessagesComponent implements OnInit, OnDestroy {
             this.sendReadReceipt(message);
           }
         } else {
-          // ... (code for handling messages not in the current room remains the same)
+          // Handle messages for other rooms if needed
         }
+        this.messageUpdateSubscription = this.socketService
+          .onMessageUpdate()
+          .subscribe(({ id, receiver, sender }) => {
+            const messageIndex = this.messages.findIndex((m) => m._id === id);
+            if (messageIndex !== -1) {
+              this.messages[messageIndex].status = 'read';
+              this.changeDetectorRef.detectChanges();
+            }
+          });
+        this.clickReadSubscription = this.socketService
+          .onClickRead()
+          .subscribe(({ chatIds, click, view }) => {
+            // Update the unread count or status for the affected chats
+            this.updateChatReadStatus(chatIds);
+          });
       });
 
     this.setViewportHeight();
@@ -108,10 +135,60 @@ export class MessagesComponent implements OnInit, OnDestroy {
     return content;
   }
 
+  toggleEmojiPicker() {
+    this.showEmojiPicker = !this.showEmojiPicker;
+  }
+
+  addEmoji(event: any) {
+    this.newMessage += event.emoji.native;
+    this.showEmojiPicker = false;
+  }
   sendReadReceipt(message: IMessage) {
-    if (message._id) {
-      this.socketService.sendReadReceipt(message._id, this.currentRoom!._id);
+    if (message._id && this.currentRoom) {
+      this.socketService.sendReadReceipt({
+        sender: message.sender,
+        receiver: this.userId,
+        status: 'read',
+        chatId: this.currentRoom._id,
+        id: message._id,
+      });
     }
+  }
+  updateChatReadStatus(chatIds: string[]) {
+    // Update the read status or unread count for the specified chats
+    // This will depend on how you're storing and displaying chat list items
+  }
+
+  onChatItemClick(chat: any) {
+    // When a chat item is clicked, send the clickView event
+    if (!this.currentUser?._id) {
+      return;
+    }
+    this.socketService.sendClickView({
+      view: this.currentUser?._id,
+      click: chat.participantId,
+      chatIds: [chat.id],
+    });
+  }
+
+  onChatClick(chatIds: string[], clickedUserId: string) {
+    this.socketService.sendClickView({
+      view: this.userId,
+      click: clickedUserId,
+      chatIds: chatIds,
+    });
+  }
+  getFileName(url: string): string {
+    const parts = url.split('/');
+    return parts[parts.length - 1];
+  }
+
+  isImageMessage(message: IMessage): boolean {
+    return message.type === 'image';
+  }
+
+  isFileMessage(message: IMessage): boolean {
+    return message.type === 'file';
   }
 
   async startRecording() {
@@ -282,6 +359,9 @@ export class MessagesComponent implements OnInit, OnDestroy {
       console.error('Room not found:', roomId);
     }
   }
+  ngAfterViewChecked() {
+    this.scrollToBottom();
+  }
 
   selectRoom(room: RoomWithParticipant) {
     console.log('Selecting room:', room);
@@ -291,8 +371,15 @@ export class MessagesComponent implements OnInit, OnDestroy {
     this.currentRoom = room;
     this.messages = room.message || [];
     this.socketService.joinRoom(room._id);
+    this.currentReceiverId = this.getOtherParticipant(room.participants);
     this.currentReceiver = room.participant || null;
     this.changeDetectorRef.detectChanges();
+    setTimeout(() => this.scrollToBottom(), 0);
+    this.messages.forEach((message) => {
+      if (message.sender !== this.userId && message.status !== 'read') {
+        this.sendReadReceipt(message);
+      }
+    });
   }
 
   loadReceiverData(receiverId: string) {
@@ -322,7 +409,7 @@ export class MessagesComponent implements OnInit, OnDestroy {
       console.log('Sending message:', messageData);
 
       // Optimistically add the message to the current room
-      this.messages.push(messageData);
+      // this.messages.push(messageData);
       this.changeDetectorRef.detectChanges();
       this.scrollToBottom();
 
@@ -371,14 +458,13 @@ export class MessagesComponent implements OnInit, OnDestroy {
 
   scrollToBottom(): void {
     try {
-      setTimeout(() => {
-        this.messageContainer.nativeElement.scrollTop =
-          this.messageContainer.nativeElement.scrollHeight;
-      }, 0);
+      const element = this.messageContainer.nativeElement;
+      element.scrollTop = element.scrollHeight - element.clientHeight;
     } catch (err) {
       console.error('Error scrolling to bottom:', err);
     }
   }
+
   handleFileInput(event: Event) {
     const input = event.target as HTMLInputElement;
     if (input.files && input.files.length > 0) {
@@ -393,7 +479,7 @@ export class MessagesComponent implements OnInit, OnDestroy {
       this.sendingFileMessage = true;
       const formData = new FormData();
       formData.append('file', file);
-      formData.append('upload_preset', 'worklin'); // Replace with your Cloudinary upload preset
+      formData.append('upload_preset', environment.cloudinaryUploadPreset); // Replace with your Cloudinary upload preset
 
       this.chatService.uploadToCloudinary(formData).subscribe(
         (response) => {
@@ -461,7 +547,14 @@ export class MessagesComponent implements OnInit, OnDestroy {
     if (this.currentRoom) {
       this.socketService.leaveRoom(this.currentRoom._id);
     }
-    this.socketService.disconnect();
+    if (this.messageUpdateSubscription) {
+      this.messageUpdateSubscription.unsubscribe();
+    }
+    if (this.incomingCallSubscription) {
+      this.incomingCallSubscription.unsubscribe();
+    }
+
+    // this.socketService.disconnect();
     window.removeEventListener('resize', this.setViewportHeight);
   }
 }

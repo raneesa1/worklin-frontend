@@ -82,7 +82,7 @@ export class GoogleSigninComponent {
         console.log('Backend response:', response);
         // Redirect based on user account type
         if (response.user.accountType === 'client') {
-          this.router.navigate(['client/discover-freelancers']);
+          this.router.navigate(['client/discover']);
         } else if (response.user.accountType === 'freelancer') {
           this.router.navigate(['freelancer/discover']);
         } else if (response.user.accountType === 'admin') {

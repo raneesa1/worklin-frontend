@@ -7,12 +7,17 @@ import { ProfileManagementService } from '../../../shared/service/profile-manage
 import { FreelancerEntity } from '../../../shared/types/FreelancerEntity';
 import { ChatService } from '../../../shared/service/chat.service';
 import { EditEducationModalComponent } from '../create-account-freelancer/edit-education-modal/edit-education-modal.component';
-import { EditExperienceModalComponent } from '../create-account-freelancer/edit-experience-modal/edit-experience-modal.component';
 import { EditLanguageFromPreviewModalComponent } from '../create-account-freelancer/edit-language-from-preview-modal/edit-language-from-preview-modal.component';
 import { EditExperienceFromPreviewModalComponent } from '../create-account-freelancer/edit-experience-from-preview-modal/edit-experience-from-preview-modal.component';
 import { Experience } from '../../../shared/types/interfaces/experience';
 import { EditSkillFromPreviewModalComponent } from '../create-account-freelancer/edit-skill-from-preview-modal/edit-skill-from-preview-modal.component';
 import { Skill } from '../../admin-management/types/category.model';
+import { ILanguage } from '../../../shared/types/ILanguage';
+import { EditBioFromPreviewModalComponent } from '../create-account-freelancer/edit-bio-from-preview-modal/edit-bio-from-preview-modal.component';
+import { EditEducationFromPreviewModalComponent } from '../create-account-freelancer/edit-education-from-preview-modal/edit-education-from-preview-modal.component';
+import { Education } from '../../../shared/types/interfaces/education';
+import { EditRateFromPreviewModalComponent } from '../create-account-freelancer/edit-rate-from-preview-modal/edit-rate-from-preview-modal.component';
+import { AddVideoIntroductionModalComponent } from '../add-video-introduction-modal/add-video-introduction-modal.component';
 
 @Component({
   selector: 'app-freelancer-profile',
@@ -23,6 +28,12 @@ import { Skill } from '../../admin-management/types/category.model';
     EditEducationModalComponent,
     EditExperienceFromPreviewModalComponent,
     EditLanguageFromPreviewModalComponent,
+    EditSkillFromPreviewModalComponent,
+    EditLanguageFromPreviewModalComponent,
+    EditBioFromPreviewModalComponent,
+    EditEducationFromPreviewModalComponent,
+    EditRateFromPreviewModalComponent,
+    AddVideoIntroductionModalComponent,
   ],
   templateUrl: './freelancer-profile.component.html',
   styleUrl: './freelancer-profile.component.scss',
@@ -58,12 +69,29 @@ export class FreelancerProfileComponent implements OnInit {
   currentTime: string = '';
   showExperienceModal: boolean = false;
   isSkillModalOpen: boolean = false;
+  isLanguageModalOpen: boolean = false;
+  isBioModalOpen: boolean = false;
+  isEducationModalOpen: boolean = false;
+  isRateModalOpen: boolean = false;
+  isVideoIntroductionModalOpen: boolean = false;
 
   @ViewChild(EditExperienceFromPreviewModalComponent)
   experienceModal!: EditExperienceFromPreviewModalComponent;
 
   @ViewChild(EditSkillFromPreviewModalComponent)
   skillsModal!: EditSkillFromPreviewModalComponent;
+
+  @ViewChild(EditLanguageFromPreviewModalComponent)
+  languageModal!: EditLanguageFromPreviewModalComponent;
+
+  @ViewChild(EditBioFromPreviewModalComponent)
+  bioModal!: EditBioFromPreviewModalComponent;
+
+  @ViewChild(EditEducationFromPreviewModalComponent)
+  educationModal!: EditEducationFromPreviewModalComponent;
+
+  @ViewChild(EditRateFromPreviewModalComponent)
+  rateModal!: EditRateFromPreviewModalComponent;
 
   constructor(
     private profileService: ProfileManagementService,
@@ -101,6 +129,7 @@ export class FreelancerProfileComponent implements OnInit {
       next: (data) => {
         this.freelancer = { ...this.freelancer, ...data };
         this.loading = false;
+        console.log(this.freelancer, 'consoling the freeelancer info');
       },
       error: (err) => {
         this.error = 'Failed to load freelancer profile';
@@ -167,22 +196,31 @@ export class FreelancerProfileComponent implements OnInit {
     if (this.skillsModal) {
       this.isSkillModalOpen = true;
 
-      // Extract skills from category array
       const skills: Skill[] = [];
       this.freelancer.category.forEach((category) => {
         if (category.skills) {
           skills.push(...category.skills);
         }
       });
-
+      console.log(this.freelancer.category, 'consoling the category');
+      console.log(
+        skills,
+        'consoling the skills in opening the edit skills modal'
+      );
       this.skillsModal.selectedSkills = this.freelancer.skill;
       this.skillsModal.skills = skills;
       this.skillsModal.openEditSkillsModal();
     }
   }
-  saveSkillsChanges(updatedSkill: Skill[]) {
+  updateFreelancerSkill(updatedSkill: Skill[]) {
     this.freelancer.skill = updatedSkill;
     this.closeEditSkillsModal();
+  }
+  hireFreelancer(freelancer: FreelancerEntity) {
+    // Navigate to the set-offer page with freelancer data
+    this.router.navigate(['client/set-offer'], {
+      state: { freelancer: freelancer },
+    });
   }
 
   cancelSkillsChanges() {
@@ -190,5 +228,60 @@ export class FreelancerProfileComponent implements OnInit {
   }
   closeEditSkillsModal() {
     this.isSkillModalOpen = false;
+  }
+  openLanguageModal() {
+    if (this.languageModal) {
+      this.isLanguageModalOpen = true;
+      this.languageModal.languages = this.freelancer.languages;
+      this.languageModal.openModal();
+    }
+  }
+  updateFreelancerLanguage(language: ILanguage[]) {
+    this.freelancer.languages = language;
+    this.closeLanguageModal();
+  }
+  closeLanguageModal() {
+    this.isLanguageModalOpen = false;
+  }
+
+  openBioModal() {
+    if (this.bioModal) {
+      console.log('clickeddddddd');
+      this.isBioModalOpen = true;
+      this.bioModal.freelancer = this.freelancer;
+      this.bioModal.openModal();
+    }
+  }
+  updateFreelancerBio(freelancer: FreelancerEntity) {
+    this.freelancer = freelancer;
+    this.isBioModalOpen = false;
+  }
+  openEducationModal() {
+    if (this.educationModal) {
+      console.log('clicked');
+      this.isEducationModalOpen = true;
+      this.educationModal.educations = this.freelancer.education;
+      this.educationModal.openModal();
+    }
+  }
+
+  updateFreelancerEducation(updatedEducation: Education[]) {
+    console.log('Updating education with:', updatedEducation);
+    this.freelancer.education = updatedEducation;
+    this.isEducationModalOpen = false;
+  }
+  openRateModal() {
+    if (this.rateModal) {
+      this.isRateModalOpen = true;
+      this.rateModal.freelancer = this.freelancer;
+      this.rateModal.openEditRateModal();
+    }
+  }
+  updateFreelancerRate(freelancer: FreelancerEntity) {
+    this.freelancer = freelancer;
+    this.isRateModalOpen = false;
+  }
+  openVideoIntroductionModalOpen() {
+    this.isVideoIntroductionModalOpen = true;
   }
 }

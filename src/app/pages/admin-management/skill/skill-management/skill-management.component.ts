@@ -16,7 +16,6 @@ import { AdminNavbarComponent } from '../../../../components/admin-navbar/admin-
     AddSkillsModalComponent,
     CommonModule,
     EditSkillsModalComponent,
-    BrowseModule,
     FormsModule,
     AdminNavbarComponent
   ],

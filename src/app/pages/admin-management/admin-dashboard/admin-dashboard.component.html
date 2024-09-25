@@ -2,7 +2,7 @@
 <div class="px-9 py-2">
   <!-- Greeting Section -->
   <div class="mb-6">
-    <h1 class="text-3xl ">Howdy, Tom!</h1>
+    <h1 class="text-3xl">Howdy, Tom!</h1>
     <p class="text-gray-600">We are glad to see you again!</p>
   </div>
 
@@ -60,7 +60,7 @@
     <div class="p-4 bg-white shadow-lg rounded-lg">
       <div class="flex items-center">
         <div class="flex-1">
-          <p class="text-gray-500">clients</p>
+          <p class="text-gray-500">Users</p>
           <h2 class="text-2xl font-bold">3400</h2>
         </div>
         <div class="bg-yellow-100 p-3 rounded-xl">
@@ -92,31 +92,23 @@
   <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
     <!-- Profile Views Chart -->
     <div class="p-4 bg-white shadow-lg rounded-lg">
-      <div class="flex justify-between items-center mb-4">
-        <h2 class="text-xl font-bold">Your Profile Views</h2>
-        <select class="text-gray-500">
-          <option>Last 6 Months</option>
+      <div class="flex justify-between items-center mb-24">
+        <h2 class="text-xl font-bold">Your application Users</h2>
+        <select
+          [(ngModel)]="selectedTimeRange"
+          (ngModelChange)="onTimeRangeChange()"
+          class="text-gray-500"
+        >
+          <option *ngFor="let range of timeRanges" [value]="range.value">
+            {{ range.label }}
+          </option>
         </select>
       </div>
       <!-- Example Chart Image or Chart Library -->
-      <canvas id="profileViewsChart" class="chart-placeholder"></canvas>
+      <canvas id="hiringChart" class="chart-placeholder"></canvas>
     </div>
 
     <!-- Notes Section -->
-    <div class="p-4 bg-white shadow-lg rounded-lg">
-      <h2 class="text-xl font-bold mb-4">Notes</h2>
-      <div class="space-y-4">
-        <div class="p-4 bg-gray-100 rounded-lg">
-          <p>
-            Meeting with candidate at 3pm who applied for Bilingual Event
-            Support Specialist
-          </p>
-          <span class="text-red-500 font-bold">High Priority</span>
-        </div>
-        <div class="p-4 bg-gray-100 rounded-lg">
-          <p>Extend premium plan for next month</p>
-        </div>
-      </div>
-    </div>
+    <app-view-more-list></app-view-more-list>
   </div>
 </div>

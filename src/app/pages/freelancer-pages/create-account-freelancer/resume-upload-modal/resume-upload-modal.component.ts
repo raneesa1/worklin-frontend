@@ -12,6 +12,13 @@ import { roleService } from '../../../../shared/service/role.service';
 import { FormsModule } from '@angular/forms';
 import { environment } from '../../../../../environment/environment';
 
+
+interface ResumeInfo {
+  fileName: string;
+  fileFormat: string;
+  uploadDate: Date;
+}
+
 @Component({
   selector: 'app-resume-upload-modal',
   standalone: true,
@@ -22,6 +29,7 @@ import { environment } from '../../../../../environment/environment';
 export class ResumeUploadModalComponent implements OnInit {
   @ViewChild('fileInput') fileInput!: ElementRef<HTMLInputElement>;
   @Output() close = new EventEmitter<void>();
+  @Output() resumeUpload = new EventEmitter<ResumeInfo>();
 
   selectedFile: File | null = null;
   isLoading = false;
@@ -147,6 +155,13 @@ export class ResumeUploadModalComponent implements OnInit {
           this.uploadedFileName = fileName;
           this.isLoading = false;
           this.disableFileInput();
+           
+          const resumeInfo: ResumeInfo = {
+            fileName: this.uploadedFileName,
+            fileFormat: this.uploadedFileFormat,
+            uploadDate: new Date(),
+          };
+          this.resumeUpload.emit(resumeInfo);
         },
         error: (error) => {
           console.error('Error saving resume URL', error);

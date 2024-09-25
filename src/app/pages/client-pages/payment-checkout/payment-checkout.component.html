@@ -1,0 +1,103 @@
+<app-navbar-after-login></app-navbar-after-login>
+
+<div class="container mx-auto p-8 max-w-7xl">
+  <h1 class="text-4xl font-bold mb-4">Checkout</h1>
+  <a href="client/paymentList" class="text-teal-600 hover:underline mb-8 inline-block text-lg"
+    >Back to Payment Details</a
+  >
+
+  <div class="bg-white rounded-lg border p-8 flex">
+    <div class="w-2/3 pr-8 border-r">
+      <h2 class="text-2xl font-semibold mb-6">Add a billing method</h2>
+
+      <div class="space-y-6">
+        <div
+          class="flex items-center p-4 border rounded-lg hover:bg-gray-50 transition-colors"
+        >
+          <input
+            type="radio"
+            id="paypal"
+            name="paymentMethod"
+            class="mr-4 w-5 h-5"
+            (change)="selectPaymentMethod('paypal')"
+            [checked]="selectedPaymentMethod === 'paypal'"
+          />
+          <label for="paypal" class="flex items-center cursor-pointer">
+            <img src="path-to-paypal-logo.png" alt="Stripe" class="h-8 mr-2" />
+          </label>
+        </div>
+      </div>
+    </div>
+
+    <div class="w-1/3 pl-8">
+      <div class="mb-6">
+        <h3 class="font-semibold text-xl mb-4">Payment Details</h3>
+        <div *ngIf="paymentData">
+          <p>
+            <strong>Contract Title:</strong> {{ paymentData.contractTitle }}
+          </p>
+          <p>
+            <strong>Amount:</strong>
+            {{
+              paymentData.totalAmount | currency : "USD" : "symbol" : "1.2-2"
+            }}
+          </p>
+          <p>
+            <strong>Due Date:</strong>
+            {{ paymentData.dueDate | date : "mediumDate" }}
+          </p>
+          <p><strong>Status:</strong> {{ paymentData.status }}</p>
+        </div>
+        <div *ngIf="!paymentData" class="text-red-600">
+          No payment data available. Please go back and select a payment.
+        </div>
+      </div>
+
+      <h3 class="font-semibold text-xl mb-4">Payment Summary</h3>
+      <div class="space-y-3 mb-6">
+        <div class="flex justify-between text-lg">
+          <span>Subtotal</span>
+          <span class="font-semibold">{{
+            paymentData?.totalAmount | currency : "USD" : "symbol" : "1.2-2"
+          }}</span>
+        </div>
+        <div class="flex justify-between text-lg">
+          <span>Tax</span>
+          <span>$0.00</span>
+        </div>
+        <div class="flex justify-between text-lg font-semibold">
+          <span>Total</span>
+          <span>{{
+            paymentData?.totalAmount | currency : "USD" : "symbol" : "1.2-2"
+          }}</span>
+        </div>
+      </div>
+
+      <button
+      (click)="proceedPayment()"
+         class="w-full bg-teal-500 text-white py-3 rounded-md mb-6 text-lg font-semibold hover:bg-teal-600 transition-colors"
+        [disabled]="!selectedPaymentMethod || loading"
+      >
+        {{ loading ? "Processing..." : "Complete Payment" }}
+      </button>
+
+      <div class="flex items-center justify-center text-sm text-gray-600 mb-6">
+        <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+          <path
+            fill-rule="evenodd"
+            d="M10 18a8 8 0 100-16 8 8 0 000 16zm0-2a6 6 0 100-12 6 6 0 000 12z"
+            clip-rule="evenodd"
+          />
+        </svg>
+        Secure Payment Process
+      </div>
+
+      <p class="text-sm text-gray-600 leading-relaxed">
+        By completing this payment, you agree to our
+        <a href="#" class="text-teal-600 hover:underline">Terms of Service</a>
+        and
+        <a href="#" class="text-teal-600 hover:underline">Privacy Policy</a>.
+      </p>
+    </div>
+  </div>
+</div>

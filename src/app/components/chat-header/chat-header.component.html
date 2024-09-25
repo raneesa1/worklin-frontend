@@ -1,6 +1,8 @@
 <div class="p-4 border-b flex items-center justify-between">
   <div class="flex items-center">
-    <div class="flex-shrink-0 w-12 h-12 bg-gray-300 rounded-full overflow-hidden">
+    <div
+      class="flex-shrink-0 w-12 h-12 bg-gray-300 rounded-full overflow-hidden"
+    >
       <img
         *ngIf="currentReceiver"
         [src]="currentReceiver.picture"
@@ -18,25 +20,21 @@
     </div>
   </div>
   <div class="flex items-center space-x-4">
-    <button 
-      class="p-2 rounded-full hover:bg-teal-100" 
-       
-     >
+    <button class="p-2 rounded-full hover:bg-teal-100">
       <svg
         xmlns="http://www.w3.org/2000/svg"
         height="24px"
         viewBox="0 -960 960 960"
         width="24px"
-       >
+      >
         <path
           d="M360-320h80v-120h120v-80H440v-120h-80v120H240v80h120v120ZM160-160q-33 0-56.5-23.5T80-240v-480q0-33 23.5-56.5T160-800h480q33 0 56.5 23.5T720-720v180l160-160v440L720-420v180q0 33-23.5 56.5T640-160H160Zm0-80h480v-480H160v480Zm0 0v-480 480Z"
         />
       </svg>
     </button>
-    <button 
-      class="p-2 rounded-full hover:bg-teal-100" 
-     >
+    <button class="p-2 rounded-full hover:bg-teal-100">
       <svg
+        (click)="initiateVideoCall()"
         xmlns="http://www.w3.org/2000/svg"
         height="24px"
         viewBox="0 -960 960 960"
@@ -49,30 +47,9 @@
       </svg>
     </button>
   </div>
-  <div [ngSwitch]="callStatus">
-    <span *ngSwitchCase="'calling'" class="text-yellow-500">Calling...</span>
-    <span *ngSwitchCase="'incall'" class="text-green-500">In Call</span>
-    <div *ngSwitchCase="'incoming'" class="flex items-center">
-      <span class="text-blue-500 mr-2">Incoming Call</span>
-      <button 
-        (click)="answerCall()" 
-        class="bg-green-500 text-white px-2 py-1 rounded mr-2"
-      >
-        Answer
-      </button>
-      <button 
-        (click)="endCall()" 
-        class="bg-red-500 text-white px-2 py-1 rounded"
-      >
-        Decline
-      </button>
-    </div>
-    <button 
-      *ngSwitchCase="'incall'" 
-      (click)="endCall()" 
-      class="ml-2 bg-red-500 text-white px-2 py-1 rounded"
-    >
-      End Call
-    </button>
-  </div>
 </div>
+<app-incoming-call
+  [callerName]="incomingCallerName"
+  (accept)="handleAcceptCall()"
+  (reject)="handleRejectCall()"
+></app-incoming-call>
