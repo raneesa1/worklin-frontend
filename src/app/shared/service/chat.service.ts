@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { IMessage, IRoom } from '../types/IChat';
- 
+
 @Injectable({
   providedIn: 'root',
 })
@@ -24,6 +24,9 @@ export class ChatService {
   getFreelancerById(freelancerId: string): Observable<any> {
     return this.http.get(`${this.userUrl}/freelancer/${freelancerId}`);
   }
+  getClientById(clientId: string): Observable<any> {
+    return this.http.get(`${this.userUrl}/client/${clientId}`);
+  }
 
   getMessages(
     roomId: string
@@ -32,7 +35,7 @@ export class ChatService {
       success: boolean;
       user: IMessage[];
       message: string;
-    }>(`${this.baseUrl}/getMessage?roomId=${roomId}`);  
+    }>(`${this.baseUrl}/getMessage?roomId=${roomId}`);
   }
   sendMessage(messageData: {
     sender: string;

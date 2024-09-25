@@ -99,7 +99,7 @@ export class ChatHeaderComponent implements OnInit, OnDestroy {
         this.videoCallService.setCallStatus('calling');
 
         // Navigate to video call component
-        this.router.navigate(['/freelancer/video-call'], {
+        this.router.navigate(['/video-call'], {
           queryParams: {
             roomID: roomID,
             id: userID,
@@ -128,7 +128,7 @@ export class ChatHeaderComponent implements OnInit, OnDestroy {
     ) {
       this.videoCallService.setCallStatus('incall');
       // Navigate to video call component
-      this.router.navigate(['/freelancer/video-call'], {
+      this.router.navigate(['/video-call'], {
         queryParams: {
           roomID: roomID,
           id: this.roleService.getUserId(),
@@ -164,7 +164,7 @@ export class ChatHeaderComponent implements OnInit, OnDestroy {
     });
     this.videoCallService.setCallStatus('incall');
     // Navigate to video call component
-    this.router.navigate(['/freelancer/video-call'], {
+    this.router.navigate(['/video-call'], {
       queryParams: {
         roomID: roomID,
         id: this.roleService.getUserId(),

@@ -296,15 +296,28 @@ export class MessagesComponent implements OnInit, OnDestroy, AfterViewChecked {
     this.isPlusClicked = !this.isPlusClicked;
   }
   loadCurrentUser() {
-    this.chatService.getFreelancerById(this.userId).subscribe(
-      (user) => {
-        this.currentUser = user;
-        console.log('Loaded current user:', this.currentUser);
-      },
-      (error) => {
-        console.error('Error loading current user:', error);
-      }
-    );
+    const role = this.roleService.getUserRole();
+    if (role === 'freelancer') {
+      this.chatService.getFreelancerById(this.userId).subscribe(
+        (user) => {
+          this.currentUser = user;
+          console.log('Loaded current user:', this.currentUser);
+        },
+        (error) => {
+          console.error('Error loading current user:', error);
+        }
+      );
+    } else if (role === 'client') {
+      this.chatService.getClientById(this.userId).subscribe(
+        (user) => {
+          this.currentUser = user;
+          console.log('Loaded current user:', this.currentUser);
+        },
+        (error) => {
+          console.error('Error loading current user:', error);
+        }
+      );
+    }
   }
 
   loadRooms() {

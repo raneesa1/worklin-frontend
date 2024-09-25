@@ -48,7 +48,6 @@ const routes: Routes = [
   { path: 'search', component: FreelancerSearchComponent },
   { path: 'profileCreated', component: ProfileCreatedComponent },
   { path: 'paymentList', component: PaymentsComponent },
-  { path: 'video-call', component: VideoCallComponentComponent },
   { path: 'my-proposals', component: MyProposalsComponent },
   // { path: 'vdo', component: VideoCallComponent },
 ];
