@@ -76,4 +76,7 @@ export class jobManagementService {
       `${this.apiUrl}getClientOffers/${clientId}`
     );
   }
+  deleteJobPost(jobId: string): Observable<any> {
+    return this.http.patch(`${this.apiUrl}/deleteJobPost`, { jobId });
+  }
 }

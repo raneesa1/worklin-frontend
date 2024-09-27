@@ -13,7 +13,7 @@ export class JobPostedNotificationComponent implements OnInit {
 
   ngOnInit(): void {
     setTimeout(() => {
-      this.router.navigate(['/client/discover-freelancers']);
+      this.router.navigate(['/client/discover']);
     }, 2000); // 10 seconds = 10000 milliseconds
   }
 }

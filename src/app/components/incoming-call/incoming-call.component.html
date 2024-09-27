@@ -1,5 +1,21 @@
-  <div class="incoming-call-container">
-      <h2>Incoming Call from {{ callerName }}</h2>
-      <button (click)="acceptCall()">Accept</button>
-      <button (click)="rejectCall()">Reject</button>
-    </div>
+<div class="incoming-call-container">
+  <h2>
+    📞 Incoming Call from <span>{{ callerName }}</span>
+  </h2>
+  <div class="button-container">
+    <button
+      class="accept-btn"
+      (click)="acceptCall()"
+      class="p-1 bg-green-500 rounded-2xl mr-2"
+    >
+      Accept
+    </button>
+    <button
+      class="reject-btn"
+      (click)="rejectCall()"
+      class="p-1 bg-red-500 rounded-2xl ml-2"
+    >
+      Reject
+    </button>
+  </div>
+</div>

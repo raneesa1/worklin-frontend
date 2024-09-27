@@ -11,6 +11,7 @@ import { ZegoUIKitPrebuilt } from '@zegocloud/zego-uikit-prebuilt';
 import { SocketService } from '../../shared/service/SocketService';
 import { VideoCallService } from '../../shared/service/video-call.service';
 import { Subscription } from 'rxjs';
+import { roleService } from '../../shared/service/role.service';
 
 @Component({
   selector: 'app-video-call',
@@ -18,7 +19,8 @@ import { Subscription } from 'rxjs';
   styles: [':host { width: 100%; height: 100%; display: block; }'],
 })
 export class VideoCallComponentComponent
-  implements OnInit, AfterViewInit, OnDestroy {
+  implements OnInit, AfterViewInit, OnDestroy
+{
   @ViewChild('meetingContainer') meetingContainer!: ElementRef;
 
   private roomID: string = '';
@@ -27,12 +29,14 @@ export class VideoCallComponentComponent
   private receiverId: string = '';
   private zp: ZegoUIKitPrebuilt | null = null;
   private subscriptions: Subscription[] = [];
+  private userRole: string = '';
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private socketService: SocketService,
-    private videoCallService: VideoCallService
+    private videoCallService: VideoCallService,
+    private authService: roleService
   ) {}
 
   ngOnInit() {
@@ -49,6 +53,7 @@ export class VideoCallComponentComponent
         receiverId: this.receiverId,
       });
     });
+    this.userRole = this.authService.getUserRole();
 
     // Subscribe to user joined events
     this.subscriptions.push(
@@ -78,9 +83,9 @@ export class VideoCallComponentComponent
       userId: this.userID,
     });
     this.videoCallService.setCallStatus('idle');
-    
+
     // Unsubscribe from all subscriptions
-    this.subscriptions.forEach(sub => sub.unsubscribe());
+    this.subscriptions.forEach((sub) => sub.unsubscribe());
   }
 
   private async initializeVideoCall() {
@@ -117,7 +122,7 @@ export class VideoCallComponentComponent
             roomID: this.roomID,
             userId: this.userID,
           });
-          this.router.navigate(['/freelancer/message']);
+          this.redirectToMessagePage();
         },
       });
 
@@ -125,7 +130,10 @@ export class VideoCallComponentComponent
     } catch (error) {
       console.error('Error joining video call:', error);
       alert('Failed to join the video call. Please try again.');
-      this.router.navigate(['/freelancer/message']);
+      this.redirectToMessagePage();
     }
+  }
+  private redirectToMessagePage() {
+    this.router.navigate([`/${this.userRole}/messages`]);
   }
 }

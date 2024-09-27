@@ -39,6 +39,7 @@ const routes: Routes = [
   { path: 'discover', component: DiscoverFreelancersComponent },
   { path: 'search', component: ClientSearchComponent },
   { path: 'set-offer', component: SetOfferComponent },
+  { path: 'set-offer', component: SetOfferComponent },
   // { path: 'checkout', component: PaymentCheckoutComponent },
   { path: 'paymentList', component: PaymentsComponent },
   // { path: 'payment-success', component: PaymentSuccessComponent },

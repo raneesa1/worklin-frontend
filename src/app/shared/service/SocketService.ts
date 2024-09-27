@@ -248,6 +248,7 @@ export class SocketService {
   endCall(data: { callerId: string; receiverId: string }) {
     this.socket.emit('end_call', data);
   }
+  
 
   // joinVideoRoom(data: { roomID: string; userId: string }) {
   //   this.socket.emit('join_video_room', data);

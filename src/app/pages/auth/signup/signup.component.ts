@@ -161,7 +161,7 @@ export class SignupComponent {
           console.log('Ottppppppppppppppppp!', response);
           // Redirect based on user account type if needed
           if (response.user.accountType === 'client') {
-            this.router.navigate(['job/clientIntro']);
+            this.router.navigate(['client/clientIntro']);
           } else if (response.user.accountType === 'freelancer') {
             this.router.navigate(['freelancer/page-one']);
           } else if (response.user.accountType === 'admin') {

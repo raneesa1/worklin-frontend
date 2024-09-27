@@ -5,12 +5,20 @@ import { Chart, registerables } from 'chart.js';
 import { HttpClient } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { ViewMoreListComponent } from '../../../components/view-more-list/view-more-list.component';
+import { BrowseService } from '../../../shared/service/browse.service';
+import { adminManagementService } from '../service/admin-management.service';
+import { Observable } from 'rxjs';
 
+// Define the interface for the hiring data response
 interface HiringData {
   month: string;
   hires: number;
 }
- 
+
+interface AdminDashboardData {
+  hiringData: HiringData[];
+}
+
 @Component({
   selector: 'app-admin-dashboard',
   standalone: true,
@@ -32,28 +40,66 @@ export class AdminDashboardComponent implements OnInit {
     { value: 'pastYear', label: 'Past 1 Year' },
     { value: 'allTime', label: 'All Time' },
   ];
+  numberOfUsers: number = 0;
+  numberOfJobPost: number = 0;
+  totalHires: number = 0;
 
-  constructor(private http: HttpClient) {
+  constructor(
+    private http: HttpClient,
+    private userService: BrowseService,
+    private adminService: adminManagementService
+  ) {
     Chart.register(...registerables);
   }
 
   ngOnInit(): void {
     this.loadHiringData();
+    this.loadTotalUsers();
+    this.loadTotalJobPosts();
   }
 
   loadHiringData(): void {
-    this.http
-      .get<HiringData[]>(`/api/hiring-data?range=${this.selectedTimeRange}`)
-      .subscribe(
-        (data) => {
-          this.updateHiringChart(data);
-        },
-        (error) => {
-          console.error('Error fetching hiring data:', error);
-          // Fallback to dummy data if the API call fails
-          this.updateHiringChart(this.getDummyData(this.selectedTimeRange));
-        }
-      );
+    // Use the adminService to get hiring data dynamically
+    this.adminService.getAdminDashboardData(this.selectedTimeRange).subscribe(
+      (response: AdminDashboardData) => {
+        this.updateHiringChart(response.hiringData);
+        this.calculateTotalHires(response.hiringData);
+      },
+      (error) => {
+        console.error('Error fetching hiring data:', error);
+        // Fallback to dummy data if the API call fails
+        this.updateHiringChart(this.getDummyData(this.selectedTimeRange));
+      }
+    );
+  }
+
+  calculateTotalHires(hiringData: { month: string; hires: number }[]): void {
+    this.totalHires = hiringData.reduce((total, item) => total + item.hires, 0); // Calculate the total hires
+  }
+  loadTotalJobPosts(): void {
+    this.adminService.getTotalJobPost().subscribe(
+      (response) => {
+        console.log(response, 'consoling the total job post');
+        this.numberOfJobPost = response.NumberOfJobPosts;
+      },
+      (error) => {
+        console.error('Error fetching total job posts:', error);
+      }
+    );
+  }
+
+  loadTotalUsers(): void {
+    this.adminService.getAllClients().subscribe(
+      (clients) => {
+        console.log(clients.length, 'ejnfgoengoegnoer');
+        this.userService.getFreelancers().subscribe((freelancers) => {
+          this.numberOfUsers = clients.length + freelancers.length;
+        });
+      },
+      (error) => {
+        console.error('Error fetching clients:', error);
+      }
+    );
   }
 
   updateHiringChart(data: HiringData[]): void {

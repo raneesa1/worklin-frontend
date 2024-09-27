@@ -33,6 +33,16 @@
                 class="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-teal-500"
                 placeholder="Enter hiring team"
               />
+              <p
+                *ngIf="
+                  validationErrors.includes(
+                    'Hiring team information is required.'
+                  )
+                "
+                class="text-red-500 text-xs mt-1"
+              >
+                Hiring team is required.
+              </p>
             </div>
 
             <!-- Related Job Posting Dropdown -->
@@ -54,6 +64,12 @@
                   {{ job.title }}
                 </option>
               </select>
+              <p
+                *ngIf="validationErrors.includes('Please select a job post.')"
+                class="text-red-500 text-xs mt-1"
+              >
+                Please select a job post.
+              </p>
             </div>
           </div>
 
@@ -68,9 +84,16 @@
               id="contractTitle"
               type="text"
               [(ngModel)]="contractTitle"
+              name="contractTitle"
               placeholder="Enter the contract title"
               class="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-teal-500"
             />
+            <p
+              *ngIf="validationErrors.includes('Contract title is required.')"
+              class="text-red-500 text-xs mt-1"
+            >
+              Contract title is required.
+            </p>
           </div>
         </div>
 
@@ -178,10 +201,21 @@
               <input
                 type="number"
                 [(ngModel)]="fixedPrice"
+                name="fixedPrice"
                 class="border rounded-md p-2 w-32 text-lg font-semibold"
               />
               <p class="pt-1 text-sm text-gray-500">
                 This is the price you and Raneesa K. have agreed upon
+              </p>
+              <p
+                *ngIf="
+                  validationErrors.includes(
+                    'Fixed price must be greater than 0.'
+                  )
+                "
+                class="text-red-500 text-xs mt-1"
+              >
+                Fixed price must be greater than 0.
               </p>
             </div>
           </div>
@@ -191,6 +225,12 @@
             <div class="relative">
               <app-date-picker [(ngModel)]="dueDate"></app-date-picker>
             </div>
+            <p
+              *ngIf="validationErrors.includes('Due date must be after today.')"
+              class="text-red-500 text-xs mt-1"
+            >
+              Due date must be after today.
+            </p>
           </div>
           <!-- Hourly Rate Section -->
           <div *ngIf="paymentType === 'hourly'" class="mb-8 mt-12">
@@ -205,8 +245,19 @@
                 <input
                   type="number"
                   [(ngModel)]="hourlyRate"
+                  name="hourlyRate"
                   class="w-full p-2 border border-gray-300 rounded-md"
                 />
+                <p
+                  *ngIf="
+                    validationErrors.includes(
+                      'Hourly rate must be greater than 0.'
+                    )
+                  "
+                  class="text-red-500 text-xs mt-1"
+                >
+                  Hourly rate must be greater than 0.
+                </p>
               </div>
               <div>
                 <label class="block text-sm font-medium text-gray-700 mb-1"
@@ -215,8 +266,19 @@
                 <input
                   type="number"
                   [(ngModel)]="totalHours"
+                  name="totalHours"
                   class="w-full p-2 border border-gray-300 rounded-md"
                 />
+                <p
+                  *ngIf="
+                    validationErrors.includes(
+                      'Total hours must be greater than 0.'
+                    )
+                  "
+                  class="text-red-500 text-xs mt-1"
+                >
+                  Total hours must be greater than 0.
+                </p>
               </div>
               <div>
                 <label class="block text-sm font-medium text-gray-700 mb-1"
@@ -239,9 +301,9 @@
                 <input
                   type="radio"
                   id="fullDeposit"
-                  name="depositOption"
                   value="oneTime"
                   [(ngModel)]="paymentOption"
+                  name="depositOption"
                   (change)="setPaymentOption('oneTime')"
                 />
                 <label for="fullDeposit">
@@ -260,9 +322,9 @@
                 <input
                   type="radio"
                   id="milestoneDeposit"
-                  name="depositOption"
                   value="milestone"
                   [(ngModel)]="paymentOption"
+                  name="paymentOption"
                   (change)="setPaymentOption('mileStone')"
                 />
                 <label for="milestoneDeposit">
@@ -296,6 +358,7 @@
                     <input
                       type="text"
                       [(ngModel)]="milestone.description"
+                      name="milestoneDescription{{ i }}"
                       class="w-full px-3 py-2 border border-gray-300 rounded-md text-gray-700"
                       placeholder="What is the task?"
                     />
@@ -303,12 +366,6 @@
 
                   <!-- Due Date -->
                   <div class="col-span-3 relative">
-                    <!-- <input
-                      type="text"
-                      [(ngModel)]="milestone.dueDate"
-                      class="w-full px-3 py-2 pl-8 border border-gray-300 rounded-md text-gray-700"
-                      placeholder="mmm, dd yyyy"
-                    /> -->
                     <span
                       class="absolute left-2 top-1/2 transform -translate-y-1/2 text-gray-500"
                     >
@@ -321,6 +378,7 @@
                     <input
                       type="number"
                       [(ngModel)]="milestone.amount"
+                      name="milestoneAmount{{ i }}"
                       class="w-full px-3 py-2 border border-gray-300 rounded-md text-gray-700"
                       placeholder="$0.00"
                     />
@@ -420,8 +478,15 @@
               class="w-full p-3 mb-5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500"
               rows="5"
               [(ngModel)]="description"
+              name="description"
               placeholder="Get started on the right foot by setting clear expectations"
             ></textarea>
+            <p
+              *ngIf="validationErrors.includes('Description is required.')"
+              class="text-red-500 text-xs mt-1"
+            >
+              Description is required.
+            </p>
             <div class="flex justify-between items-center mb-4">
               <input
                 type="file"
@@ -495,6 +560,18 @@
                 <a href="#" class="text-teal-600 underline">Privacy Policy</a>.
               </label>
             </div>
+            <div
+              *ngIf="validationErrors.length > 0"
+              class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative"
+              role="alert"
+            >
+              <strong class="font-bold"
+                >Please correct the following errors:</strong
+              >
+              <ul class="mt-2 list-disc list-inside">
+                <li *ngFor="let error of validationErrors">{{ error }}</li>
+              </ul>
+            </div>
 
             <!-- Cancel and Continue Buttons -->
             <div class="flex space-x-4">
@@ -550,3 +627,10 @@
     </div>
   </div>
 </div>
+
+<app-display-result-modal
+  *ngIf="displayResultModal"
+  [status]="modalStatus"
+  [message]="modalMessage"
+    (closed)="closeModal()"
+></app-display-result-modal>

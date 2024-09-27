@@ -12,3 +12,65 @@ input:-webkit-autofill:active {
     --uc-primary-oklch-dark: 69% 0.1768 174;
     --uc-primary-oklch-light: 59% 0.1523 174;
 }
+
+
+.incoming-call-container {
+    background: linear-gradient(135deg, #4caf50, #2e7d32);
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    max-width: 300px;
+    margin: 20px auto;
+    color: #fff;
+    font-family: 'Arial', sans-serif;
+}
+
+.incoming-call-container h2 {
+    font-size: 20px;
+    margin-bottom: 20px;
+}
+
+.incoming-call-container h2 span {
+    font-weight: bold;
+}
+
+.button-container {
+    display: flex;
+    justify-content: space-around;
+}
+
+.accept-btn,
+.reject-btn {
+    padding: 12px 20px;
+    font-size: 16px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-weight: bold;
+}
+
+.accept-btn {
+    background-color: #28a745;
+    color: white;
+}
+
+.reject-btn {
+    background-color: #dc3545;
+    color: white;
+}
+
+.accept-btn:hover {
+    background-color: #218838;
+}
+
+.reject-btn:hover {
+    background-color: #c82333;
+}
+
+.accept-btn:focus,
+.reject-btn:focus {
+    outline: none;
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
+}

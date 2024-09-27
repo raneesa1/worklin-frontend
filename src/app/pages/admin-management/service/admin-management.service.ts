@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { Category, Skill } from '../types/category.model';
 import { clientEntity } from '../../../shared/types/ClientEntity';
+import { AdminDashboardData } from '../types/AdminDashboardData';
 
 @Injectable({
   providedIn: 'root',
@@ -91,5 +92,15 @@ export class adminManagementService {
 
   getAllClients(): Observable<clientEntity[]> {
     return this.http.get<clientEntity[]>(`${this.userUrl}getAllClient`);
+  }
+  getTotalJobPost(): Observable<{ NumberOfJobPosts: number }> {
+    return this.http.get<{ NumberOfJobPosts: number }>(
+      `${this.apiUrl}getTotalNumberOfJobPost`
+    );
+  }
+  getAdminDashboardData(timeRange: string): Observable<AdminDashboardData> {
+    return this.http.get<AdminDashboardData>(
+      `${this.userUrl}getAdminDashboardData/${timeRange}`
+    );
   }
 }

@@ -1,4 +1,10 @@
-import { Component, Input, OnInit, OnDestroy } from '@angular/core';
+import {
+  Component,
+  Input,
+  OnInit,
+  OnDestroy,
+  ChangeDetectorRef,
+} from '@angular/core';
 import { IRoom } from '../../shared/types/IChat';
 import { FreelancerEntity } from '../../shared/types/FreelancerEntity';
 import { CommonModule } from '@angular/common';
@@ -9,6 +15,7 @@ import { SocketService } from '../../shared/service/SocketService';
 import { VideoCallService } from '../../shared/service/video-call.service';
 import { Router } from '@angular/router';
 import { IncomingCallComponent } from '../incoming-call/incoming-call.component';
+import { GlobalIncomingCallService } from '../../shared/service/GlobalIncomingCall.service';
 
 @Component({
   selector: 'app-chat-header',
@@ -22,6 +29,7 @@ export class ChatHeaderComponent implements OnInit, OnDestroy {
   @Input() currentReceiver: FreelancerEntity | null = null;
   @Input() currentReceiverId: string = '';
 
+  display: boolean = false;
   showIncomingCall: boolean = false;
   incomingCallerId: string = '';
   incomingCallerName: string = '';
@@ -34,7 +42,9 @@ export class ChatHeaderComponent implements OnInit, OnDestroy {
     private roleService: roleService,
     private socketService: SocketService,
     private videoCallService: VideoCallService,
-    private router: Router
+    private globalIncomingCallService: GlobalIncomingCallService,
+    private router: Router,
+    private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit() {
@@ -45,7 +55,12 @@ export class ChatHeaderComponent implements OnInit, OnDestroy {
       this.socketService
         .onIncomingCall()
         .subscribe(({ callerId, callerName }) => {
+          this.showIncomingCall = true;
+          this.incomingCallerId = callerId;
+          this.incomingCallerName = callerName;
+          console.log('call is coming----->>>>>');
           this.handleIncomingCall(callerId, callerName);
+          this.cdr.markForCheck();
         }),
       this.socketService
         .onCallAccepted()
@@ -59,17 +74,8 @@ export class ChatHeaderComponent implements OnInit, OnDestroy {
         this.handleCallEnded(callerId);
       })
     );
-    this.subscriptions.push(
-      this.socketService
-        .onIncomingCall()
-        .subscribe(({ callerId, callerName }) => {
-          this.showIncomingCall = true;
-          this.incomingCallerId = callerId;
-          this.incomingCallerName = callerName;
-        })
-    );
   }
-   handleAcceptCall() {
+  handleAcceptCall() {
     this.acceptIncomingCall();
     this.showIncomingCall = false;
   }
@@ -81,11 +87,12 @@ export class ChatHeaderComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.subscriptions.forEach((sub) => sub.unsubscribe());
-  }
+  } 
 
   async initiateVideoCall() {
     if (this.currentReceiverId) {
       try {
+        this.showIncomingCall = true
         const roomID = `room_${this.currentReceiverId}`;
         const userID = this.roleService.getUserId();
         const userName = 'User_' + userID;
@@ -114,11 +121,6 @@ export class ChatHeaderComponent implements OnInit, OnDestroy {
       console.error('No current receiver or receiver ID');
       alert('Cannot initiate call: No receiver selected.');
     }
-  }
-
-  private handleIncomingCall(callerId: string, callerName: string) {
-    this.videoCallService.setCallStatus('receiving');
-    // Show UI for incoming call (implement this in your template)
   }
 
   private handleCallAccepted(accepterId: string, roomID: string) {
@@ -193,5 +195,13 @@ export class ChatHeaderComponent implements OnInit, OnDestroy {
 
   get isCallActive(): boolean {
     return this.callStatus === 'calling' || this.callStatus === 'incall';
+  }
+
+  private handleIncomingCall(callerId: string, callerName: string) {
+    this.showIncomingCall = true;
+    this.incomingCallerId = callerId;
+    this.incomingCallerName = callerName;
+    this.videoCallService.setCallStatus('receiving');
+    this.cdr.markForCheck();
   }
 }
