@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { io, Socket } from 'socket.io-client';
-import { Observable, Subject } from 'rxjs';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { IMessage } from '../types/IChat';
 
 @Injectable({
@@ -31,11 +31,17 @@ export class SocketService {
   private callEndedSubject: Subject<{ callerId: string }> = new Subject();
   private userJoinedSubject: Subject<{ userId: string }> = new Subject();
   private userLeftSubject: Subject<{ userId: string }> = new Subject();
+  private onlineUsers: BehaviorSubject<string[]> = new BehaviorSubject<
+    string[]
+  >([]);
 
   constructor() {
     this.socket = io('http://localhost:8004', {
       withCredentials: true,
       transports: ['websocket'],
+      query: {
+        userId: this.getUserIdFromStorage(), // Implement this method to get userId from storage
+      },
     });
 
     // this.setupSocketListeners();
@@ -88,54 +94,22 @@ export class SocketService {
       }
       this.messageSubject.next(message);
     });
+    this.socket.on('getOnlineUsers', (users: string[]) => {
+      console.log('Received online users from server:', users);
+      this.onlineUsers.next(users);
+    });
+  }
+  getOnlineUsers(): Observable<string[]> {
+    return this.onlineUsers.asObservable();
   }
 
-  private setupSocketListeners() {
-    this.socket.on('connect', () =>
-      console.log('Socket connected successfully')
-    );
-    this.socket.on('connect_error', (error) =>
-      console.error('Socket connection error:', error)
-    );
-    this.socket.on(
-      'updated message',
-      (id: string, receiver: string, sender: string) => {
-        this.messageUpdateSubject.next({ id, receiver, sender });
-      }
-    );
-    this.socket.on(
-      'click read',
-      (chatIds: string[], click: string, view: string) => {
-        this.clickReadSubject.next({ chatIds, click, view });
-      }
-    );
-    this.socket.on('incoming_call', ({ callerId, callerName }) => {
-      this.incomingCallSubject.next({ callerId, callerName });
-    });
-    this.socket.on('call_accepted', ({ accepterId, roomID }) => {
-      this.callAcceptedSubject.next({ accepterId, roomID });
-    });
-    this.socket.on('call_rejected', ({ rejecterId }) => {
-      this.callRejectedSubject.next({ rejecterId });
-    });
-    this.socket.on('call_ended', ({ callerId }) => {
-      this.callEndedSubject.next({ callerId });
-    });
-    this.socket.on('user_joined', ({ userId }) => {
-      this.userJoinedSubject.next({ userId });
-    });
-    this.socket.on('user_left', ({ userId }) => {
-      this.userLeftSubject.next({ userId });
-    });
-    this.socket.on('message received', (message: IMessage) => {
-      console.log('Received message in SocketService:', message);
-      if (!message.chatId) {
-        console.error('Received message without chatId:', message);
-        return;
-      }
-      this.messageSubject.next(message);
-    });
+  private getUserIdFromStorage(): string {
+    // Implement based on how you store the user ID
+    const userId = localStorage.getItem('userId') || '';
+    console.log(userId,'consoling the user id from storageeee-e-e-e-e-e-e-e-e-e-e-e-e-e-e-e--e-e-ee-')
+    return userId
   }
+
   onIncomingCall(): Observable<{ callerId: string; callerName: string }> {
     return this.incomingCallSubject.asObservable();
   }
@@ -248,7 +222,6 @@ export class SocketService {
   endCall(data: { callerId: string; receiverId: string }) {
     this.socket.emit('end_call', data);
   }
-  
 
   // joinVideoRoom(data: { roomID: string; userId: string }) {
   //   this.socket.emit('join_video_room', data);
@@ -257,7 +230,6 @@ export class SocketService {
   // leaveVideoRoom(data: { roomID: string; userId: string }) {
   //   this.socket.emit('leave_video_room', data);
   // }
-  
 
   // onIncomingCall(): Observable<{ callerId: string; callerName: string }> {
   //   return this.incomingCallSubject.asObservable();

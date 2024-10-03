@@ -55,6 +55,7 @@ export class MessagesComponent implements OnInit, OnDestroy, AfterViewChecked {
   isRecording: boolean = false;
   private messageSubscription: Subscription | undefined;
   private clickReadSubscription: Subscription | undefined;
+  onlineUsers: string[] = [];
 
   audioRecorder: MediaRecorder | null = null;
   audioChunks: Blob[] = [];
@@ -64,6 +65,8 @@ export class MessagesComponent implements OnInit, OnDestroy, AfterViewChecked {
   incomingCall: boolean = false;
   incomingCallerId: string = '';
   incomingCallerName: string = '';
+
+  private onlineUsersSubscription: Subscription | undefined;
 
   constructor(
     private chatService: ChatService,
@@ -77,7 +80,7 @@ export class MessagesComponent implements OnInit, OnDestroy, AfterViewChecked {
     this.scrollToBottom();
     this.userId = this.roleService.getUserId();
     this.loadRooms();
-
+    this.subscribeToOnlineUsers();
     this.loadCurrentUser();
     this.messageSubscription = this.socketService
       .onNewMessage()
@@ -121,6 +124,10 @@ export class MessagesComponent implements OnInit, OnDestroy, AfterViewChecked {
             this.updateChatReadStatus(chatIds);
           });
       });
+    this.socketService.getOnlineUsers().subscribe((users: string[]) => {
+      this.onlineUsers = users;
+      this.changeDetectorRef.detectChanges();
+    });
 
     this.setViewportHeight();
     window.addEventListener('resize', this.setViewportHeight);
@@ -169,6 +176,21 @@ export class MessagesComponent implements OnInit, OnDestroy, AfterViewChecked {
       click: chat.participantId,
       chatIds: [chat.id],
     });
+  }
+  private subscribeToOnlineUsers() {
+    this.onlineUsersSubscription = this.socketService
+      .getOnlineUsers()
+      .subscribe((users: string[]) => {
+        console.log('Received online users:', users);
+        this.onlineUsers = users;
+        console.log('Updated onlineUsers array:', this.onlineUsers);
+        this.changeDetectorRef.detectChanges();
+      });
+  }
+  isUserOnline(userId: string | undefined): boolean {
+    const isOnline = userId ? this.onlineUsers.includes(userId) : false;
+    console.log(`Checking online status for user ${userId}: ${isOnline}`);
+    return isOnline;
   }
 
   onChatClick(chatIds: string[], clickedUserId: string) {
