@@ -7,8 +7,8 @@ import { IMessage, IRoom } from '../types/IChat';
   providedIn: 'root',
 })
 export class ChatService {
-  private baseUrl = 'http://localhost:8000/chat'; // Adjust to your API base URL
-  private userUrl = 'http://localhost:8000/user'; // Adjust to your API base URL
+  private baseUrl = 'http://localhost:3000/chat'; // Adjust to your API base URL
+  private userUrl = 'http://localhost:3000/user'; // Adjust to your API base URL
   private cloudinaryUrl =
     'https://api.cloudinary.com/v1_1/dgyd6acjg/raw/upload'; // Adjust to your API base URL
 

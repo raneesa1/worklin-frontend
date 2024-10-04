@@ -12,7 +12,7 @@ import { FreelancerEntity } from '../types/FreelancerEntity';
   providedIn: 'root',
 })
 export class ProfileManagementService {
-  private baseUrl = 'http://localhost:8000/user';
+  private baseUrl = 'http://localhost:3000/user';
 
   constructor(private http: HttpClient, private roleService: roleService) {}
 

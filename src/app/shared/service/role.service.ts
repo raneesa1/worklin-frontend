@@ -8,7 +8,7 @@ import { catchError, tap } from 'rxjs/operators';
   providedIn: 'root',
 })
 export class roleService {
-  private apiUrl = 'http://localhost:8000/auth';
+  private apiUrl = 'http://localhost:3000/auth';
 
   constructor(private jwtHelper: JwtHelperService, private http: HttpClient) {}
 

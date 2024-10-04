@@ -12,7 +12,6 @@ import { roleService } from '../../../../shared/service/role.service';
 import { FormsModule } from '@angular/forms';
 import { environment } from '../../../../../environment/environment';
 
-
 interface ResumeInfo {
   fileName: string;
   fileFormat: string;
@@ -143,7 +142,7 @@ export class ResumeUploadModalComponent implements OnInit {
     }
 
     this.http
-      .post('http://localhost:8000/user/uploadResume', {
+      .post('http://localhost:3000/user/uploadResume', {
         url,
         freelancerId,
         publicId,
@@ -155,7 +154,7 @@ export class ResumeUploadModalComponent implements OnInit {
           this.uploadedFileName = fileName;
           this.isLoading = false;
           this.disableFileInput();
-           
+
           const resumeInfo: ResumeInfo = {
             fileName: this.uploadedFileName,
             fileFormat: this.uploadedFileFormat,

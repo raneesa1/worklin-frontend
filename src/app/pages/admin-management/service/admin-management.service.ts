@@ -9,13 +9,12 @@ import { AdminDashboardData } from '../types/AdminDashboardData';
   providedIn: 'root',
 })
 export class adminManagementService {
-  private apiUrl = 'http://localhost:8000/job/'; // Replace with your API URL
-  private userUrl = 'http://localhost:8000/user/'; // Replace with your API URL
+  private apiUrl = 'http://localhost:3000/job/'; // Replace with your API URL
+  private userUrl = 'http://localhost:3000/user/'; // Replace with your API URL
 
   constructor(private http: HttpClient) {}
   private skillsSubject = new BehaviorSubject<Skill[]>([]);
   skills$ = this.skillsSubject.asObservable();
-  // Method to add a new skill
   addSkill(skill: Skill): Observable<Skill> {
     return this.http.post<Skill>(`${this.apiUrl}addskill`, skill);
   }

@@ -10,7 +10,7 @@ import { IJobOffer } from '../types/IJobOffer';
   providedIn: 'root',
 })
 export class BrowseService {
-  private apiUrl = 'http://localhost:8000/';
+  private apiUrl = 'http://localhost:3000/';
 
   constructor(private http: HttpClient, roleService: roleService) {}
 
@@ -74,5 +74,4 @@ export class BrowseService {
       { jobOfferId, status } // Sending the jobOfferId and status in the request body
     );
   }
-
 }

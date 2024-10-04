@@ -12,7 +12,7 @@ import { catchError, map } from 'rxjs/operators';
   providedIn: 'root',
 })
 export class emailValidatorService {
-  private apiUrl = 'http://localhost:8000/auth';
+  private apiUrl = 'http://localhost:3000/auth';
 
   constructor(private http: HttpClient) {}
 
@@ -22,7 +22,7 @@ export class emailValidatorService {
       console.log(email, 'consoling the email from email validation');
 
       if (!email) {
-        alert('no email')
+        alert('no email');
         console.log('no email returning null value');
         return of(null);
       }

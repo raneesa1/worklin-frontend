@@ -52,10 +52,10 @@ export const appConfig: ApplicationConfig = {
       JwtModule.forRoot({
         config: {
           tokenGetter: () => tokenGetter(inject(CookieService)),
-          allowedDomains: ['localhost:8000'],
+          allowedDomains: ['localhost:3000'],
           disallowedRoutes: [
-            'http://localhost:8000/auth/login',
-            'http://localhost:8000/auth/signup',
+            'http://localhost:3000/auth/login',
+            'http://localhost:3000/auth/signup',
           ],
         },
       })

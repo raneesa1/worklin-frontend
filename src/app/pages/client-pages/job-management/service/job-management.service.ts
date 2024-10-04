@@ -10,8 +10,8 @@ import { IJobOffer } from '../../../../shared/types/IJobOffer';
   providedIn: 'root',
 })
 export class jobManagementService {
-  private apiUrl = 'http://localhost:8000/job/'; // Replace with your API URL
-  private UserApiUrl = 'http://localhost:8000/user/'; // Replace with your API URL
+  private apiUrl = 'http://localhost:3000/job/'; // Replace with your API URL
+  private UserApiUrl = 'http://localhost:3000/user/'; // Replace with your API URL
 
   constructor(private http: HttpClient) {}
 
@@ -48,7 +48,7 @@ export class jobManagementService {
   }
   getFreelancersBySkills(skills: string[]): Observable<FreelancerEntity[]> {
     return this.http.post<FreelancerEntity[]>(
-      `http://localhost:8000/user/freelancersBySkills`,
+      `http://localhost:3000/user/freelancersBySkills`,
       {
         skills,
       }
