@@ -7,12 +7,13 @@ import { BioData } from '../types/interfaces/bioData';
 import { Address } from '../types/interfaces/address';
 import { Education } from '../types/interfaces/education';
 import { FreelancerEntity } from '../types/FreelancerEntity';
+import { environment } from '../../../environment/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ProfileManagementService {
-  private baseUrl = 'http://localhost:3000/user';
+  private baseUrl = `${environment.backendUrl}/user`;
 
   constructor(private http: HttpClient, private roleService: roleService) {}
 

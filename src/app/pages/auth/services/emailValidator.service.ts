@@ -7,12 +7,13 @@ import {
 } from '@angular/forms';
 import { Observable, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
+import { environment } from '../../../../environment/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class emailValidatorService {
-  private apiUrl = 'http://localhost:3000/auth';
+  private apiUrl = `${environment.backendUrl}/auth`;
 
   constructor(private http: HttpClient) {}
 

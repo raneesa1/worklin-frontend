@@ -1,6 +1,6 @@
 {
   "/auth": {
-    "target": "http://localhost:3000",
+    "target": "https://worklin.shop",
     "secure": false,
     "changeOrigin": true,
     "logLevel": "debug"

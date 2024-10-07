@@ -2,13 +2,14 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { IMessage, IRoom } from '../types/IChat';
+import { environment } from '../../../environment/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ChatService {
-  private baseUrl = 'http://localhost:3000/chat'; // Adjust to your API base URL
-  private userUrl = 'http://localhost:3000/user'; // Adjust to your API base URL
+  private baseUrl = `${environment.backendUrl}/chat`; // Adjust to your API base URL
+  private userUrl = `${environment.backendUrl}/use`; // Adjust to your API base URL
   private cloudinaryUrl =
     'https://api.cloudinary.com/v1_1/dgyd6acjg/raw/upload'; // Adjust to your API base URL
 

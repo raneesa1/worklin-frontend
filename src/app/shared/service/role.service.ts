@@ -3,12 +3,13 @@ import { Injectable } from '@angular/core';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { Observable, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
+import { environment } from '../../../environment/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class roleService {
-  private apiUrl = 'http://localhost:3000/auth';
+  private apiUrl = `${environment.backendUrl}/auth`;
 
   constructor(private jwtHelper: JwtHelperService, private http: HttpClient) {}
 

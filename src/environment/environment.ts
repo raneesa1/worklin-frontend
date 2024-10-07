@@ -17,4 +17,5 @@ export const environment = {
     appId: '1:228244392798:web:3617645a7b63431a55ddcf',
     measurementId: 'G-D0MTB6SC9H',
   },
+  backendUrl: 'https://worklin.shop',
 };

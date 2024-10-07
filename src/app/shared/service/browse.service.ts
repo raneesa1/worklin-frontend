@@ -5,12 +5,13 @@ import { roleService } from '../../shared/service/role.service';
 import { IJobPost } from '../../pages/client-pages/job-management/interfaces/jobPost';
 import { ISavedJobs } from '../types/interfaces/saveJob';
 import { IJobOffer } from '../types/IJobOffer';
+import { environment } from '../../../environment/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class BrowseService {
-  private apiUrl = 'http://localhost:3000/';
+  private apiUrl = `${environment.backendUrl}/`;
 
   constructor(private http: HttpClient, roleService: roleService) {}
 

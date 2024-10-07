@@ -4,13 +4,14 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { Category, Skill } from '../types/category.model';
 import { clientEntity } from '../../../shared/types/ClientEntity';
 import { AdminDashboardData } from '../types/AdminDashboardData';
+import { environment } from '../../../../environment/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class adminManagementService {
-  private apiUrl = 'http://localhost:3000/job/'; // Replace with your API URL
-  private userUrl = 'http://localhost:3000/user/'; // Replace with your API URL
+  private apiUrl = `${environment.backendUrl}/job/`; // Replace with your API URL
+  private userUrl = `${environment.backendUrl}/user/`; // Replace with your API URL
 
   constructor(private http: HttpClient) {}
   private skillsSubject = new BehaviorSubject<Skill[]>([]);

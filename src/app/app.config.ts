@@ -54,8 +54,8 @@ export const appConfig: ApplicationConfig = {
           tokenGetter: () => tokenGetter(inject(CookieService)),
           allowedDomains: ['localhost:3000'],
           disallowedRoutes: [
-            'http://localhost:3000/auth/login',
-            'http://localhost:3000/auth/signup',
+            `${environment.backendUrl}/auth/login`,
+            `${environment.backendUrl}/auth/signup`,
           ],
         },
       })

@@ -5,13 +5,14 @@ import { Skill } from '../interfaces/skill';
 import { IInviteFreelancer, IJobPost } from '../interfaces/jobPost';
 import { FreelancerEntity } from '../../../../shared/types/FreelancerEntity';
 import { IJobOffer } from '../../../../shared/types/IJobOffer';
+import { environment } from '../../../../../environment/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class jobManagementService {
-  private apiUrl = 'http://localhost:3000/job/'; // Replace with your API URL
-  private UserApiUrl = 'http://localhost:3000/user/'; // Replace with your API URL
+  private apiUrl = `${environment.backendUrl}/job/`; // Replace with your API URL
+  private UserApiUrl = `${environment.backendUrl}/user/`; // Replace with your API URL
 
   constructor(private http: HttpClient) {}
 
@@ -48,7 +49,7 @@ export class jobManagementService {
   }
   getFreelancersBySkills(skills: string[]): Observable<FreelancerEntity[]> {
     return this.http.post<FreelancerEntity[]>(
-      `http://localhost:3000/user/freelancersBySkills`,
+      `${environment.backendUrl}/user/freelancersBySkills`,
       {
         skills,
       }

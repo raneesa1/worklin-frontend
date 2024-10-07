@@ -142,7 +142,7 @@ export class ResumeUploadModalComponent implements OnInit {
     }
 
     this.http
-      .post('http://localhost:3000/user/uploadResume', {
+      .post(`${environment.backendUrl}/user/uploadResume`, {
         url,
         freelancerId,
         publicId,
