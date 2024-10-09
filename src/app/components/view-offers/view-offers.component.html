@@ -30,6 +30,41 @@
       >
         {{ showMore[i] ? "Show Less" : "Show More" }}
       </button>
+
+      <!-- Display files if there are any -->
+      <div *ngIf="offer.files && offer.files.length > 0" class="mt-4">
+        <h4 class="font-semibold text-gray-600">Files:</h4>
+        <div class="flex flex-wrap space-x-3">
+          <div
+            *ngFor="let file of offer.files"
+            class="file-item flex items-center space-x-2 mt-2"
+          >
+            <svg
+              class="w-5 h-5 text-gray-600"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M12 4v16m8-8H4"
+              />
+            </svg>
+            <a
+              [href]="file"
+              class="text-teal-600 underline hover:text-teal-800"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              {{ getFileName(file) }}
+            </a>
+          </div>
+        </div>
+      </div>
+
       <div class="mt-4 flex items-center text-gray-600">
         <span class="mr-2">
           <svg
@@ -103,11 +138,47 @@
       <p><strong>Description:</strong> {{ selectedOffer.description }}</p>
       <p><strong>Status:</strong> {{ selectedOffer.offerStatus }}</p>
       <p><strong>Due Date:</strong> {{ selectedOffer.dueDate }}</p>
+
+      <!-- Display files in modal -->
+      <div *ngIf="selectedOffer.files && selectedOffer.files.length > 0">
+        <h4 class="font-semibold mt-4">Files:</h4>
+        <div class="flex flex-wrap space-x-3">
+          <div
+            *ngFor="let file of selectedOffer.files"
+            class="file-item flex items-center space-x-2 mt-2"
+          >
+            <svg
+              class="w-5 h-5 text-gray-600"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M12 4v16m8-8H4"
+              />
+            </svg>
+            <a
+              [href]="file"
+              class="text-teal-600 underline hover:text-teal-800"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              {{ getFileName(file) }}
+            </a>
+          </div>
+        </div>
+      </div>
+
       <div class="mt-4">
         <button
           (click)="acceptOffer($event, selectedOffer)"
           class="bg-teal-500 hover:bg-teal-700 text-white font-bold py-2 px-4 rounded mr-2"
           [disabled]="!selectedOffer"
+          [disabled]="selectedOffer.isAccepted"
         >
           Accept Offer
         </button>
@@ -115,6 +186,7 @@
           (click)="declineOffer($event, selectedOffer)"
           class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
           [disabled]="!selectedOffer"
+          [disabled]="selectedOffer.isAccepted"
         >
           Decline Offer
         </button>
@@ -122,3 +194,10 @@
     </div>
   </div>
 </div>
+
+<app-display-result-modal
+  *ngIf="showResultModal"
+  [status]="resultStatus"
+  [message]="resultMessage"
+  (closed)="closeResultModal()"
+></app-display-result-modal>

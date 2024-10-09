@@ -8,11 +8,16 @@ import { CommonModule } from '@angular/common';
 import { NavbarAfterLoginComponent } from '../../shared/components/navbar-after-login/navbar-after-login.component';
 import { roleService } from '../../shared/service/role.service';
 import { BrowseService } from '../../shared/service/browse.service';
+import { DisplayResultModalComponent } from '../display-result-modal/display-result-modal.component';
 
 @Component({
   selector: 'app-view-offers',
   standalone: true,
-  imports: [CommonModule, NavbarAfterLoginComponent],
+  imports: [
+    CommonModule,
+    NavbarAfterLoginComponent,
+    DisplayResultModalComponent,
+  ],
   templateUrl: './view-offers.component.html',
   styleUrl: './view-offers.component.scss',
 })
@@ -21,6 +26,10 @@ export class ViewOffersComponent implements OnInit {
   showMore: boolean[] = [];
   selectedOffer: IJobOffer | null = null;
   isClosing: boolean = false;
+
+  showResultModal: boolean = false;
+  resultStatus: 'success' | 'fail' | 'info' = 'info';
+  resultMessage: string = '';
 
   constructor(
     private roleService: roleService,
@@ -50,6 +59,9 @@ export class ViewOffersComponent implements OnInit {
     event.stopPropagation();
     this.showMore[index] = !this.showMore[index];
   }
+  getFileName(fileUrl: string): string {
+    return fileUrl.split('/').pop() || 'Unknown File';
+  }
 
   showOfferDetails(offer: IJobOffer): void {
     this.selectedOffer = offer;
@@ -69,10 +81,15 @@ export class ViewOffersComponent implements OnInit {
         .updateJobOfferStatus(offer._id, 'accepted')
         .subscribe(
           (response) => {
-            console.log('Offer accepted:', response.jobOffer);
+            this.resultStatus = 'success';
+            this.resultMessage = 'Offer accepted successfully!';
+            this.showResultModal = true;
             this.fetchJobOffers(); // Refresh offers after acceptance
           },
           (error) => {
+            this.resultStatus = 'fail';
+            this.resultMessage = 'Failed to accept the offer.';
+            this.showResultModal = true;
             console.error('Error accepting offer:', error);
           }
         );
@@ -86,13 +103,21 @@ export class ViewOffersComponent implements OnInit {
         .updateJobOfferStatus(offer._id, 'rejected')
         .subscribe(
           (response) => {
-            console.log('Offer declined:', response.jobOffer);
+            this.resultStatus = 'success';
+            this.resultMessage = 'Offer declined successfully!';
+            this.showResultModal = true;
             this.fetchJobOffers(); // Refresh offers after decline
           },
           (error) => {
+            this.resultStatus = 'fail';
+            this.resultMessage = 'Failed to decline the offer.';
+            this.showResultModal = true;
             console.error('Error declining offer:', error);
           }
         );
     }
+  }
+  closeResultModal() {
+    this.showResultModal = false;
   }
 }
