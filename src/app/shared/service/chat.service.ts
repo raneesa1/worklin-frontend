@@ -9,7 +9,7 @@ import { environment } from '../../../environment/environment';
 })
 export class ChatService {
   private baseUrl = `${environment.backendUrl}/chat`; // Adjust to your API base URL
-  private userUrl = `${environment.backendUrl}/use`; // Adjust to your API base URL
+  private userUrl = `${environment.backendUrl}/user`; // Adjust to your API base URL
   private cloudinaryUrl =
     'https://api.cloudinary.com/v1_1/dgyd6acjg/raw/upload'; // Adjust to your API base URL
 
