@@ -1,5 +1,6 @@
 // category.model.ts
 export interface Skill {
+  skill(skill: any): unknown;
   _id?: string;
   name: string;
   description?: string;

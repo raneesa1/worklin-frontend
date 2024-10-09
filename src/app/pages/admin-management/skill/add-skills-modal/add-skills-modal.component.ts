@@ -20,7 +20,7 @@ import { Subject, takeUntil } from 'rxjs';
   styleUrl: './add-skills-modal.component.scss',
 })
 export class AddSkillsModalComponent {
-  @Input() skill: Skill = { name: '', description: '' };
+  @Input() skill: Skill = {} as Skill;
   @Input() isModalOpen: boolean = false;
   @Output() close = new EventEmitter<void>();
   @Output() save = new EventEmitter<Skill>();
@@ -53,8 +53,9 @@ export class AddSkillsModalComponent {
         .addSkill(this.skill)
         .pipe(takeUntil(this.destroy$))
         .subscribe({
-          next: (savedSkill: Skill) => {
-            this.save.emit(savedSkill);
+          next: (response) => {
+            // Emit only the skill part from the response
+            this.save.emit(response.skill); // Emit the skill directly
             this.closeModal();
           },
           error: (err: any) => {

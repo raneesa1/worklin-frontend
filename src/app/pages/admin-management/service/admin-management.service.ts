@@ -16,8 +16,11 @@ export class adminManagementService {
   constructor(private http: HttpClient) {}
   private skillsSubject = new BehaviorSubject<Skill[]>([]);
   skills$ = this.skillsSubject.asObservable();
-  addSkill(skill: Skill): Observable<Skill> {
-    return this.http.post<Skill>(`${this.apiUrl}addskill`, skill);
+  addSkill(skill: Skill): Observable<{ message: string; skill: Skill }> {
+    return this.http.post<{ message: string; skill: Skill }>(
+      `${this.apiUrl}addskill`,
+      skill
+    );
   }
   getSkills(
     page: number,
