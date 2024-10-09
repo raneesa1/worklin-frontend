@@ -17,7 +17,7 @@ import { AdminNavbarComponent } from '../../../../components/admin-navbar/admin-
     CommonModule,
     EditSkillsModalComponent,
     FormsModule,
-    AdminNavbarComponent
+    AdminNavbarComponent,
   ],
   templateUrl: './skill-management.component.html',
   styleUrl: './skill-management.component.scss',
@@ -76,6 +76,7 @@ export class SkillManagementComponent implements OnInit {
   addSkill(skill: Skill): void {
     this.skills.push(skill);
     this.filterSkills();
+    this.cdr.detectChanges(); // Manually trigger change detection
     this.closeModal();
   }
   handleSkillUpdate(updatedSkill: Skill): void {
