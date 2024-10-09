@@ -23,7 +23,7 @@ export class AddSkillsModalComponent {
   @Input() skill: Skill = { name: '', description: '' };
   @Input() isModalOpen: boolean = false;
   @Output() close = new EventEmitter<void>();
-  @Output() save = new EventEmitter<any>();
+  @Output() save = new EventEmitter<Skill>();
 
   skillForm: FormGroup;
   private destroy$ = new Subject<void>();

@@ -74,10 +74,10 @@ export class SkillManagementComponent implements OnInit {
   // }
 
   addSkill(skill: Skill): void {
-    this.skills.push(skill);
-    this.filterSkills();
-    this.cdr.detectChanges(); // Manually trigger change detection
-    this.closeModal();
+    this.skills.push(skill); // Add the new skill to the list
+    this.filteredSkills = [...this.skills]; // Re-assign filtered skills
+    this.cdr.detectChanges(); // Trigger change detection manually
+    this.closeModal();     
   }
   handleSkillUpdate(updatedSkill: Skill): void {
     this.fetchSkills();
