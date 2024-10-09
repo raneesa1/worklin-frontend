@@ -54,8 +54,7 @@ export class AddSkillsModalComponent {
         .pipe(takeUntil(this.destroy$))
         .subscribe({
           next: (response) => {
-            // Emit only the skill part from the response
-            this.save.emit(response.skill); // Emit the skill directly
+            this.save.emit(response.skill);
             this.closeModal();
           },
           error: (err: any) => {
