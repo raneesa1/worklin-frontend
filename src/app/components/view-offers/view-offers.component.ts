@@ -76,11 +76,12 @@ export class ViewOffersComponent implements OnInit {
   }
   acceptOffer(event: Event, offer: IJobOffer | null): void {
     event.stopPropagation();
-    if (offer) {
+    if (offer && !this.isOfferAccepted(offer)) {
       this.jobOfferService
         .updateJobOfferStatus(offer._id, 'accepted')
         .subscribe(
           (response) => {
+            console.log(response, 'consoling the resp of job offer');
             this.resultStatus = 'success';
             this.resultMessage = 'Offer accepted successfully!';
             this.showResultModal = true;
@@ -98,7 +99,7 @@ export class ViewOffersComponent implements OnInit {
 
   declineOffer(event: Event, offer: IJobOffer | null): void {
     event.stopPropagation();
-    if (offer) {
+    if (offer && !this.isOfferAccepted(offer)) {
       this.jobOfferService
         .updateJobOfferStatus(offer._id, 'rejected')
         .subscribe(
@@ -117,6 +118,10 @@ export class ViewOffersComponent implements OnInit {
         );
     }
   }
+  isOfferAccepted(offer: IJobOffer): boolean {
+    return offer.offerStatus === 'accepted';
+  }
+
   closeResultModal() {
     this.showResultModal = false;
   }
