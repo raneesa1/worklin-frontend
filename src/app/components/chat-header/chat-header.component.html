@@ -49,6 +49,7 @@
   </div>
 </div>
 <app-incoming-call
+  [show]="showIncomingCall"
   [callerName]="incomingCallerName"
   (accept)="handleAcceptCall()"
   (reject)="handleRejectCall()"

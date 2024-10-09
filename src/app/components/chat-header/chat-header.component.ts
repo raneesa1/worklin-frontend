@@ -33,7 +33,7 @@ export class ChatHeaderComponent implements OnInit, OnDestroy {
   showIncomingCall: boolean = false;
   incomingCallerId: string = '';
   incomingCallerName: string = '';
-
+ 
   callStatus: 'idle' | 'calling' | 'incall' | 'receiving' = 'idle';
   private subscriptions: Subscription[] = [];
 
@@ -87,12 +87,12 @@ export class ChatHeaderComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.subscriptions.forEach((sub) => sub.unsubscribe());
-  } 
+  }
 
   async initiateVideoCall() {
     if (this.currentReceiverId) {
       try {
-        this.showIncomingCall = true
+        this.showIncomingCall = true;
         const roomID = `room_${this.currentReceiverId}`;
         const userID = this.roleService.getUserId();
         const userName = 'User_' + userID;
