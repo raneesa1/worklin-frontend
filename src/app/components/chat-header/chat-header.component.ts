@@ -33,7 +33,7 @@ export class ChatHeaderComponent implements OnInit, OnDestroy {
   showIncomingCall: boolean = false;
   incomingCallerId: string = '';
   incomingCallerName: string = '';
- 
+
   callStatus: 'idle' | 'calling' | 'incall' | 'receiving' = 'idle';
   private subscriptions: Subscription[] = [];
 
@@ -42,7 +42,7 @@ export class ChatHeaderComponent implements OnInit, OnDestroy {
     private roleService: roleService,
     private socketService: SocketService,
     private videoCallService: VideoCallService,
-    private globalIncomingCallService: GlobalIncomingCallService,
+    private incomingCallService: GlobalIncomingCallService,
     private router: Router,
     private cdr: ChangeDetectorRef
   ) {}
@@ -83,6 +83,11 @@ export class ChatHeaderComponent implements OnInit, OnDestroy {
   handleRejectCall() {
     this.rejectIncomingCall();
     this.showIncomingCall = false;
+  }
+  private handleIncomingCall(callerId: string, callerName: string) {
+    this.incomingCallService.showIncomingCall(callerId, callerName);
+    this.videoCallService.setCallStatus('receiving');
+    this.cdr.markForCheck();
   }
 
   ngOnDestroy() {
@@ -197,11 +202,5 @@ export class ChatHeaderComponent implements OnInit, OnDestroy {
     return this.callStatus === 'calling' || this.callStatus === 'incall';
   }
 
-  private handleIncomingCall(callerId: string, callerName: string) {
-    this.showIncomingCall = true;
-    this.incomingCallerId = callerId;
-    this.incomingCallerName = callerName;
-    this.videoCallService.setCallStatus('receiving');
-    this.cdr.markForCheck();
-  }
+  
 }

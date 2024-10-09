@@ -1,5 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { BehaviorSubject, Observable, Subscription } from 'rxjs';
+import { GlobalIncomingCallService, IncomingCallState } from '../../shared/service/GlobalIncomingCall.service';
 
 @Component({
   selector: 'app-incoming-call',
@@ -13,11 +15,33 @@ export class IncomingCallComponent {
   @Output() accept = new EventEmitter<void>();
   @Output() reject = new EventEmitter<void>();
   @Input() show: boolean = false;
-  acceptCall() {
-    this.accept.emit();
+
+  private incomingCallState = new BehaviorSubject<IncomingCallState>({
+    show: false,
+    callerId: '',
+    callerName: '',
+  });
+  getIncomingCallState(): Observable<IncomingCallState> {
+    return this.incomingCallState.asObservable();
   }
 
-  rejectCall() {
-    this.reject.emit();
+  setIncomingCallState(state: IncomingCallState): void {
+    this.incomingCallState.next(state);
+  }
+
+  showIncomingCall(callerId: string, callerName: string): void {
+    this.setIncomingCallState({
+      show: true,
+      callerId,
+      callerName,
+    });
+  }
+
+  hideIncomingCall(): void {
+    this.setIncomingCallState({
+      show: false,
+      callerId: '',
+      callerName: '',
+    });
   }
 }

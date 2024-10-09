@@ -1,24 +1,43 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, filter, Observable } from 'rxjs';
 
+export interface IncomingCallState {
+  show: boolean;
+  callerId: string;
+  callerName: string;
+}
+
 @Injectable({
   providedIn: 'root',
 })
 export class GlobalIncomingCallService {
-  private incomingCallSubject = new BehaviorSubject<{
-    callerName: string;
-    callerId: string;
-  } | null>(null);
-  incomingCall$: Observable<{ callerName: string; callerId: string } | null> =
-    this.incomingCallSubject.asObservable();
+  private incomingCallState = new BehaviorSubject<IncomingCallState>({
+    show: false,
+    callerId: '',
+    callerName: '',
+  });
 
-  showIncomingCall(callerName: string, callerId: string) {
-    console.log('Showing incoming call:', { callerName, callerId });
-    this.incomingCallSubject.next({ callerName, callerId });
+  getIncomingCallState(): Observable<IncomingCallState> {
+    return this.incomingCallState.asObservable();
   }
 
-  clearIncomingCall() {
-    console.log('Clearing incoming call');
-    this.incomingCallSubject.next(null);
+  setIncomingCallState(state: IncomingCallState): void {
+    this.incomingCallState.next(state);
+  }
+
+  showIncomingCall(callerId: string, callerName: string): void {
+    this.setIncomingCallState({
+      show: true,
+      callerId,
+      callerName,
+    });
+  }
+
+  hideIncomingCall(): void {
+    this.setIncomingCallState({
+      show: false,
+      callerId: '',
+      callerName: '',
+    });
   }
 }
