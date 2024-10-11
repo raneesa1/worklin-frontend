@@ -65,7 +65,6 @@ export const routes: Routes = [
   { path: 'payment-failed', component: PaymentFailComponent },
   { path: 'checkout', component: PaymentCheckoutComponent },
   { path: 'video-call', component: VideoCallComponentComponent },
-
   {
     path: '**',
     redirectTo: '',

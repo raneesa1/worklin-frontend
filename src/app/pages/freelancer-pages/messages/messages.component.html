@@ -454,3 +454,10 @@
   title="Pick your emoji"
   emoji="point_up"
 ></emoji-mart>
+
+<app-incoming-call
+  *ngIf="showIncomingCall"
+  [callerName]="incomingCallerName"
+  (accept)="handleAcceptCall()"
+  (reject)="handleRejectCall()">
+</app-incoming-call>
