@@ -2,10 +2,12 @@ import {
   AfterViewChecked,
   ChangeDetectorRef,
   Component,
+  ComponentRef,
   ElementRef,
   OnDestroy,
   OnInit,
   ViewChild,
+  ViewContainerRef,
 } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -20,6 +22,8 @@ import { ChatHeaderComponent } from '../../../components/chat-header/chat-header
 import { environment } from '../../../../environment/environment';
 import { PickerComponent } from '@ctrl/ngx-emoji-mart';
 import { Router } from '@angular/router';
+import { IncomingCallComponent } from '../../../components/incoming-call/incoming-call.component';
+import { VideoCallService } from '../../../shared/service/video-call.service';
 
 interface RoomWithParticipant extends IRoom {
   participant?: FreelancerEntity;
@@ -41,6 +45,11 @@ interface RoomWithParticipant extends IRoom {
 export class MessagesComponent implements OnInit, OnDestroy, AfterViewChecked {
   @ViewChild('messageContainer') private messageContainer!: ElementRef;
   @ViewChild('fileInput') private fileInput!: ElementRef;
+  @ViewChild('incomingCallContainer', { read: ViewContainerRef })
+  incomingCallContainer!: ViewContainerRef;
+  private incomingCallComponentRef: ComponentRef<IncomingCallComponent> | null =
+    null;
+
   rooms: RoomWithParticipant[] = [];
   messages: IMessage[] = [];
   sendingAudioMessage: boolean = false;
@@ -72,6 +81,7 @@ export class MessagesComponent implements OnInit, OnDestroy, AfterViewChecked {
     private chatService: ChatService,
     private roleService: roleService,
     private socketService: SocketService,
+    private videoCallService: VideoCallService,
     private changeDetectorRef: ChangeDetectorRef,
     private router: Router
   ) {}
@@ -82,6 +92,7 @@ export class MessagesComponent implements OnInit, OnDestroy, AfterViewChecked {
     this.loadRooms();
     this.subscribeToOnlineUsers();
     this.loadCurrentUser();
+    this.subscribeToIncomingCalls();
     this.messageSubscription = this.socketService
       .onNewMessage()
       .subscribe((message: IMessage) => {
@@ -144,6 +155,75 @@ export class MessagesComponent implements OnInit, OnDestroy, AfterViewChecked {
 
   toggleEmojiPicker() {
     this.showEmojiPicker = !this.showEmojiPicker;
+  }
+  private subscribeToIncomingCalls() {
+    this.socketService
+      .onIncomingCall()
+      .subscribe(({ callerId, callerName }) => {
+        console.log('Incoming call received:', { callerId, callerName });
+        this.showIncomingCallNotification(callerId, callerName);
+      });
+  }
+
+  private showIncomingCallNotification(callerId: string, callerName: string) {
+    if (this.incomingCallComponentRef) {
+      this.incomingCallComponentRef.destroy();
+    }
+
+    this.incomingCallComponentRef = this.incomingCallContainer.createComponent(
+      IncomingCallComponent
+    );
+    this.incomingCallComponentRef.instance.callerName = callerName;
+    this.incomingCallComponentRef.instance.accept.subscribe(() =>
+      this.handleAcceptCall(callerId)
+    );
+    this.incomingCallComponentRef.instance.reject.subscribe(() =>
+      this.handleRejectCall(callerId)
+    );
+
+    this.changeDetectorRef.detectChanges();
+  }
+
+  private handleAcceptCall(callerId: string) {
+    const roomID = `room_${this.roleService.getUserId()}`;
+    const userId = this.roleService.getUserId();
+
+    this.socketService.acceptCall({
+      callerId: callerId,
+      accepterId: userId,
+      roomID: roomID,
+    });
+
+    this.router.navigate(['/video-call'], {
+      queryParams: {
+        roomID: roomID,
+        id: userId,
+        receiverId: callerId,
+      },
+    });
+
+    this.removeIncomingCallNotification();
+    this.videoCallService.setCallStatus('incall');
+  }
+
+  private handleRejectCall(callerId: string) {
+    const userId = this.roleService.getUserId();
+
+    this.socketService.rejectCall({
+      callerId: callerId,
+      rejecterId: userId,
+    });
+
+    this.removeIncomingCallNotification();
+    this.videoCallService.setCallStatus('idle');
+  }
+
+  private removeIncomingCallNotification() {
+    if (this.incomingCallComponentRef) {
+      this.incomingCallComponentRef.destroy();
+      this.incomingCallComponentRef = null;
+    }
+    this.changeDetectorRef.detectChanges();
   }
 
   addEmoji(event: any) {
@@ -589,6 +669,7 @@ export class MessagesComponent implements OnInit, OnDestroy, AfterViewChecked {
       this.incomingCallSubscription.unsubscribe();
     }
 
+    this.removeIncomingCallNotification();
     // this.socketService.disconnect();
     window.removeEventListener('resize', this.setViewportHeight);
   }
