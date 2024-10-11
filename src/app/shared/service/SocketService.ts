@@ -70,7 +70,9 @@ export class SocketService {
       }
     );
 
+    // In SocketService constructor
     this.socket.on('incoming_call', ({ callerId, callerName }) => {
+      console.log('Socket received incoming call:', { callerId, callerName });
       this.incomingCallSubject.next({ callerId, callerName });
     });
     this.socket.on('call_accepted', ({ accepterId, roomID }) => {

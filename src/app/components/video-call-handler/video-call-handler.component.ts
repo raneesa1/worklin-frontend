@@ -5,11 +5,12 @@ import { VideoCallService } from '../../shared/service/video-call.service';
 import { roleService } from '../../shared/service/role.service';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { IncomingCallComponent } from '../incoming-call/incoming-call.component';
 
 @Component({
   selector: 'app-video-call-handler',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, IncomingCallComponent],
   templateUrl: './video-call-handler.component.html',
   styleUrl: './video-call-handler.component.scss',
 })
@@ -38,6 +39,7 @@ export class VideoCallHandlerComponent implements OnInit, OnDestroy {
       this.socketService
         .onIncomingCall()
         .subscribe(({ callerId, callerName }) => {
+          console.log('Incoming call received:', { callerId, callerName });
           this.showIncomingCall = true;
           this.incomingCallerId = callerId;
           this.incomingCallerName = callerName;

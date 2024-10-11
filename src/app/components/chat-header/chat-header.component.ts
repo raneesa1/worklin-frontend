@@ -1,3 +1,4 @@
+// chat-header.component.ts
 import {
   Component,
   Input,
@@ -14,25 +15,17 @@ import { roleService } from '../../shared/service/role.service';
 import { SocketService } from '../../shared/service/SocketService';
 import { VideoCallService } from '../../shared/service/video-call.service';
 import { Router } from '@angular/router';
-import { IncomingCallComponent } from '../incoming-call/incoming-call.component';
-import { GlobalIncomingCallService } from '../../shared/service/GlobalIncomingCall.service';
 
 @Component({
   selector: 'app-chat-header',
   standalone: true,
-  imports: [CommonModule, IncomingCallComponent],
+  imports: [CommonModule],
   templateUrl: './chat-header.component.html',
-  styleUrl: './chat-header.component.scss',
 })
 export class ChatHeaderComponent implements OnInit, OnDestroy {
   @Input() currentRoom!: IRoom;
   @Input() currentReceiver: FreelancerEntity | null = null;
   @Input() currentReceiverId: string = '';
-
-  display: boolean = false;
-  showIncomingCall: boolean = false;
-  incomingCallerId: string = '';
-  incomingCallerName: string = '';
 
   callStatus: 'idle' | 'calling' | 'incall' | 'receiving' = 'idle';
   private subscriptions: Subscription[] = [];
@@ -42,52 +35,17 @@ export class ChatHeaderComponent implements OnInit, OnDestroy {
     private roleService: roleService,
     private socketService: SocketService,
     private videoCallService: VideoCallService,
-    private incomingCallService: GlobalIncomingCallService,
     private router: Router,
     private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit() {
     this.subscriptions.push(
-      this.videoCallService.callStatus$.subscribe(
-        (status) => (this.callStatus = status)
-      ),
-      this.socketService
-        .onIncomingCall()
-        .subscribe(({ callerId, callerName }) => {
-          this.showIncomingCall = true;
-          this.incomingCallerId = callerId;
-          this.incomingCallerName = callerName;
-          console.log('call is coming----->>>>>');
-          this.handleIncomingCall(callerId, callerName);
-          this.cdr.markForCheck();
-        }),
-      this.socketService
-        .onCallAccepted()
-        .subscribe(({ accepterId, roomID }) => {
-          this.handleCallAccepted(accepterId, roomID);
-        }),
-      this.socketService.onCallRejected().subscribe(({ rejecterId }) => {
-        this.handleCallRejected(rejecterId);
-      }),
-      this.socketService.onCallEnded().subscribe(({ callerId }) => {
-        this.handleCallEnded(callerId);
+      this.videoCallService.callStatus$.subscribe((status) => {
+        this.callStatus = status;
+        this.cdr.markForCheck();
       })
     );
-  }
-  handleAcceptCall() {
-    this.acceptIncomingCall();
-    this.showIncomingCall = false;
-  }
-
-  handleRejectCall() {
-    this.rejectIncomingCall();
-    this.showIncomingCall = false;
-  }
-  private handleIncomingCall(callerId: string, callerName: string) {
-    this.incomingCallService.showIncomingCall(callerId, callerName);
-    this.videoCallService.setCallStatus('receiving');
-    this.cdr.markForCheck();
   }
 
   ngOnDestroy() {
@@ -95,9 +53,8 @@ export class ChatHeaderComponent implements OnInit, OnDestroy {
   }
 
   async initiateVideoCall() {
-    if (this.currentReceiverId) {
+    if (this.currentReceiverId && this.callStatus === 'idle') {
       try {
-        this.showIncomingCall = true;
         const roomID = `room_${this.currentReceiverId}`;
         const userID = this.roleService.getUserId();
         const userName = 'User_' + this.roleService.getFirstName();
@@ -110,7 +67,6 @@ export class ChatHeaderComponent implements OnInit, OnDestroy {
 
         this.videoCallService.setCallStatus('calling');
 
-        // Navigate to video call component
         this.router.navigate(['/video-call'], {
           queryParams: {
             roomID: roomID,
@@ -121,72 +77,10 @@ export class ChatHeaderComponent implements OnInit, OnDestroy {
         });
       } catch (err) {
         console.error('Error initiating video call:', err);
+        this.videoCallService.setCallStatus('idle');
         alert('Failed to initiate video call. Please try again.');
       }
-    } else {
-      console.error('No current receiver or receiver ID');
-      alert('Cannot initiate call: No receiver selected.');
     }
-  }
-
-  private handleCallAccepted(accepterId: string, roomID: string) {
-    if (
-      this.callStatus === 'calling' &&
-      accepterId === this.currentReceiverId
-    ) {
-      this.videoCallService.setCallStatus('incall');
-      // Navigate to video call component
-      this.router.navigate(['/video-call'], {
-        queryParams: {
-          roomID: roomID,
-          id: this.roleService.getUserId(),
-          receiverId: accepterId,
-        },
-      });
-    }
-  }
-
-  private handleCallRejected(rejecterId: string) {
-    if (
-      this.callStatus === 'calling' &&
-      rejecterId === this.currentReceiverId
-    ) {
-      this.videoCallService.setCallStatus('idle');
-      alert('Call was rejected');
-    }
-  }
-
-  private handleCallEnded(callerId: string) {
-    if (this.callStatus === 'incall') {
-      this.videoCallService.setCallStatus('idle');
-      // Handle call end UI updates
-    }
-  }
-
-  acceptIncomingCall() {
-    const roomID = `room_${this.roleService.getUserId()}`;
-    this.socketService.acceptCall({
-      callerId: this.currentReceiverId,
-      accepterId: this.roleService.getUserId(),
-      roomID: roomID,
-    });
-    this.videoCallService.setCallStatus('incall');
-    // Navigate to video call component
-    this.router.navigate(['/video-call'], {
-      queryParams: {
-        roomID: roomID,
-        id: this.roleService.getUserId(),
-        receiverId: this.currentReceiverId,
-      },
-    });
-  }
-
-  rejectIncomingCall() {
-    this.socketService.rejectCall({
-      callerId: this.currentReceiverId,
-      rejecterId: this.roleService.getUserId(),
-    });
-    this.videoCallService.setCallStatus('idle');
   }
 
   endCall() {
@@ -195,13 +89,11 @@ export class ChatHeaderComponent implements OnInit, OnDestroy {
         callerId: this.roleService.getUserId(),
         receiverId: this.currentReceiverId,
       });
-      this.videoCallService.endCall();
+      this.videoCallService.setCallStatus('idle');
     }
   }
 
   get isCallActive(): boolean {
     return this.callStatus === 'calling' || this.callStatus === 'incall';
   }
-
-  
 }
