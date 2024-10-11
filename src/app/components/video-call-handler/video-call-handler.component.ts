@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { SocketService } from '../../shared/service/SocketService';
 import { VideoCallService } from '../../shared/service/video-call.service';
@@ -27,13 +27,15 @@ export class VideoCallHandlerComponent implements OnInit, OnDestroy {
     private socketService: SocketService,
     private videoCallService: VideoCallService,
     private roleService: roleService,
-    private router: Router
+    private router: Router,
+    private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit() {
     this.subscriptions.push(
       this.videoCallService.callStatus$.subscribe((status) => {
         this.callStatus = status;
+        this.cdr.detectChanges();
       }),
 
       this.socketService
@@ -68,6 +70,7 @@ export class VideoCallHandlerComponent implements OnInit, OnDestroy {
 
     this.showIncomingCall = false;
     this.videoCallService.setCallStatus('incall');
+    this.cdr.detectChanges();
   }
 
   handleRejectCall() {
@@ -80,6 +83,7 @@ export class VideoCallHandlerComponent implements OnInit, OnDestroy {
 
     this.showIncomingCall = false;
     this.videoCallService.setCallStatus('idle');
+    this.cdr.detectChanges();
   }
 
   endCall() {
@@ -90,6 +94,7 @@ export class VideoCallHandlerComponent implements OnInit, OnDestroy {
       });
     }
     this.videoCallService.setCallStatus('idle');
+    this.cdr.detectChanges();
   }
 
   ngOnDestroy() {

@@ -16,7 +16,7 @@ import { roleService } from '../../shared/service/role.service';
 @Component({
   selector: 'app-video-call',
   template: '<div #meetingContainer></div>',
-  styles: [':host { width: 100%; height: 100%; display: block; }'],
+  styles: [':host { width: 100%; height: 100%; }'],
 })
 export class VideoCallComponentComponent
   implements OnInit, AfterViewInit, OnDestroy
@@ -54,7 +54,6 @@ export class VideoCallComponentComponent
         userName: this.userName,
         receiverId: this.receiverId,
       });
-
     });
     this.userRole = this.authService.getUserRole();
 
@@ -65,7 +64,7 @@ export class VideoCallComponentComponent
         // No need to manually add participants, ZegoUIKitPrebuilt handles this automatically
       })
     );
-     this.videoCallService.setCallStatus('incall');
+    this.videoCallService.setCallStatus('incall');
   }
 
   ngAfterViewInit() {
