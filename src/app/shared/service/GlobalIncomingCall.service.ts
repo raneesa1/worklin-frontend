@@ -11,33 +11,22 @@ export interface IncomingCallState {
   providedIn: 'root',
 })
 export class GlobalIncomingCallService {
-  private incomingCallState = new BehaviorSubject<IncomingCallState>({
-    show: false,
-    callerId: '',
-    callerName: '',
-  });
-
-  getIncomingCallState(): Observable<IncomingCallState> {
-    return this.incomingCallState.asObservable();
-  }
-
-  setIncomingCallState(state: IncomingCallState): void {
-    this.incomingCallState.next(state);
-  }
+  private incomingCallSubject = new BehaviorSubject<IncomingCallState | null>(null);
+  incomingCall$ = this.incomingCallSubject.asObservable();
 
   showIncomingCall(callerId: string, callerName: string): void {
-    this.setIncomingCallState({
-      show: true,
+    this.incomingCallSubject.next({
       callerId,
       callerName,
+      show: true,
     });
   }
 
-  hideIncomingCall(): void {
-    this.setIncomingCallState({
-      show: false,
-      callerId: '',
-      callerName: '',
-    });
+  clearIncomingCall(): void {
+    this.incomingCallSubject.next(null);
+  }
+
+  getCurrentCall(): IncomingCallState | null {
+    return this.incomingCallSubject.getValue();
   }
 }

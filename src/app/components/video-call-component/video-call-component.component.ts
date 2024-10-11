@@ -27,6 +27,7 @@ export class VideoCallComponentComponent
   private userID: string = '';
   private userName: string = '';
   private receiverId: string = '';
+  private receiverName: string = '';
   private zp: ZegoUIKitPrebuilt | null = null;
   private subscriptions: Subscription[] = [];
   private userRole: string = '';
@@ -43,8 +44,9 @@ export class VideoCallComponentComponent
     this.route.queryParams.subscribe((params) => {
       this.roomID = params['roomID'] || '';
       this.userID = params['id'] || '';
+      this.receiverName = params['receiverName'] || '';
       this.receiverId = params['receiverId'] || '';
-      this.userName = `User_${this.userID}`;
+      this.userName = `User_${this.receiverName}`;
 
       console.log('Received query params:', {
         roomID: this.roomID,
@@ -52,6 +54,7 @@ export class VideoCallComponentComponent
         userName: this.userName,
         receiverId: this.receiverId,
       });
+
     });
     this.userRole = this.authService.getUserRole();
 
@@ -62,6 +65,7 @@ export class VideoCallComponentComponent
         // No need to manually add participants, ZegoUIKitPrebuilt handles this automatically
       })
     );
+     this.videoCallService.setCallStatus('incall');
   }
 
   ngAfterViewInit() {

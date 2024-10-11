@@ -15,33 +15,13 @@ export class IncomingCallComponent {
   @Output() accept = new EventEmitter<void>();
   @Output() reject = new EventEmitter<void>();
   @Input() show: boolean = false;
+  @Input() call: IncomingCallState | null = null;
 
-  private incomingCallState = new BehaviorSubject<IncomingCallState>({
-    show: false,
-    callerId: '',
-    callerName: '',
-  });
-  getIncomingCallState(): Observable<IncomingCallState> {
-    return this.incomingCallState.asObservable();
+  acceptCall() {
+    this.accept.emit();
   }
 
-  setIncomingCallState(state: IncomingCallState): void {
-    this.incomingCallState.next(state);
-  }
-
-  showIncomingCall(callerId: string, callerName: string): void {
-    this.setIncomingCallState({
-      show: true,
-      callerId,
-      callerName,
-    });
-  }
-
-  hideIncomingCall(): void {
-    this.setIncomingCallState({
-      show: false,
-      callerId: '',
-      callerName: '',
-    });
+  rejectCall() {
+    this.reject.emit();
   }
 }

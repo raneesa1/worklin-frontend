@@ -1,11 +1,12 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { FirebaseNotificationComponent } from './components/firebase-notification/firebase-notification.component';
 import { IncomingCallComponent } from './components/incoming-call/incoming-call.component';
 import { GlobalIncomingCallComponent } from './components/global-incoming-call/global-incoming-call.component';
-import { Observable } from 'rxjs';
-import { GlobalIncomingCallService } from './shared/service/GlobalIncomingCall.service';
+import { Observable, Subscription } from 'rxjs';
+import { GlobalIncomingCallService, IncomingCallState } from './shared/service/GlobalIncomingCall.service';
 import { CommonModule } from '@angular/common';
+import { VideoCallHandlerComponent } from './components/video-call-handler/video-call-handler.component';
 
 @Component({
   selector: 'app-root',
@@ -16,39 +17,11 @@ import { CommonModule } from '@angular/common';
     GlobalIncomingCallComponent,
     IncomingCallComponent,
     CommonModule,
+    VideoCallHandlerComponent,
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
 })
 export class AppComponent {
   title = 'worklin-frontend';
-  showIncomingCall = false;
-  callerName = '';
-  callerId = '';
-
-  @ViewChild(IncomingCallComponent)
-  incomingCall!: IncomingCallComponent;
-
-  constructor(private globalIncomingCallService: GlobalIncomingCallService) {}
-  ngOnInit() {
-    this.globalIncomingCallService.incomingCall$.subscribe((call) => {
-      console.log('AppComponent received incoming call:', call);
-      if (call) {
-        this.showIncomingCall = true;
-        this.callerName = call.callerName;
-        this.callerId = call.callerId;
-      } else {
-        this.showIncomingCall = false;
-      }
-    });
-  }
-  handleAcceptCall() {
-    this.incomingCall.acceptCall();
-    this.globalIncomingCallService.clearIncomingCall();
-  }
-
-  handleRejectCall() {
-    this.incomingCall.rejectCall();
-    this.globalIncomingCallService.clearIncomingCall();
-  }
-}
+ }

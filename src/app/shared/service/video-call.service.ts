@@ -15,6 +15,6 @@ export class VideoCallService {
   }
 
   endCall() {
-    this.callStatusSubject.next('idle');
+    this.setCallStatus('idle');
   }
 }

@@ -36,13 +36,14 @@ export class SocketService {
   >([]);
 
   constructor() {
-    this.socket = io('http://localhost:8004', {
-      withCredentials: true,
-      transports: ['websocket'],
-      query: {
-        userId: this.getUserIdFromStorage(), // Implement this method to get userId from storage
-      },
-    });
+   this.socket = io('https://worklin.shop', {
+     path: '/socket.io',
+     withCredentials: true,
+     transports: ['websocket'],
+     query: {
+       userId: this.getUserIdFromStorage(), // Implement this method to get userId from storage
+     },
+   });
 
     // this.setupSocketListeners();
 

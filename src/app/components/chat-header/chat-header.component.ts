@@ -100,7 +100,7 @@ export class ChatHeaderComponent implements OnInit, OnDestroy {
         this.showIncomingCall = true;
         const roomID = `room_${this.currentReceiverId}`;
         const userID = this.roleService.getUserId();
-        const userName = 'User_' + userID;
+        const userName = 'User_' + this.roleService.getFirstName();
 
         this.socketService.initiateCall({
           callerId: userID,
@@ -116,6 +116,7 @@ export class ChatHeaderComponent implements OnInit, OnDestroy {
             roomID: roomID,
             id: userID,
             receiverId: this.currentReceiverId,
+            receiverName: this.currentReceiver?.firstName,
           },
         });
       } catch (err) {

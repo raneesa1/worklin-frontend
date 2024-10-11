@@ -1,9 +1,2 @@
-<app-incoming-call
-  *ngIf="showIncomingCall"
-  [callerName]="callerName"
-  (accept)="handleAcceptCall()"
-  (reject)="handleRejectCall()"
->
-</app-incoming-call>
-
+    <app-video-call-handler></app-video-call-handler>
 <router-outlet></router-outlet>
