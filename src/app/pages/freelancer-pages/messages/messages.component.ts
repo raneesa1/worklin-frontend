@@ -21,6 +21,7 @@ import { environment } from '../../../../environment/environment';
 import { PickerComponent } from '@ctrl/ngx-emoji-mart';
 import { Router } from '@angular/router';
 import { VideoCallService } from '../../../shared/service/video-call.service';
+import { IncomingCallComponent } from '../../../components/incoming-call/incoming-call.component';
 
 interface RoomWithParticipant extends IRoom {
   participant?: FreelancerEntity;
@@ -35,6 +36,7 @@ interface RoomWithParticipant extends IRoom {
     FormsModule,
     ChatHeaderComponent,
     PickerComponent,
+    IncomingCallComponent
   ],
   templateUrl: './messages.component.html',
   styleUrls: ['./messages.component.scss'],
@@ -174,7 +176,7 @@ export class MessagesComponent implements OnInit, OnDestroy, AfterViewChecked {
     this.videoCallService.setCallStatus('idle');
     this.showIncomingCall = false;
   }
-  
+
   isAudioMessage(message: IMessage): boolean {
     return message.type === 'audio';
   }
