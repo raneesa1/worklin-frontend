@@ -4,11 +4,12 @@ import { SocketService } from '../../shared/service/SocketService';
 import { VideoCallService } from '../../shared/service/video-call.service';
 import { roleService } from '../../shared/service/role.service';
 import { Router } from '@angular/router';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-video-call-handler',
   standalone: true,
-  imports: [],
+  imports: [CommonModule],
   templateUrl: './video-call-handler.component.html',
   styleUrl: './video-call-handler.component.scss',
 })
