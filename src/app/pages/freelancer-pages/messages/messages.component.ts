@@ -174,10 +174,10 @@ export class MessagesComponent implements OnInit, OnDestroy, AfterViewChecked {
       IncomingCallComponent
     );
     this.incomingCallComponentRef.instance.callerName = callerName;
-    this.incomingCallComponentRef.instance.accept.subscribe(() =>
+    this.incomingCallComponentRef.instance.onAccept.subscribe(() =>
       this.handleAcceptCall(callerId)
     );
-    this.incomingCallComponentRef.instance.reject.subscribe(() =>
+    this.incomingCallComponentRef.instance.onReject.subscribe(() =>
       this.handleRejectCall(callerId)
     );
 
