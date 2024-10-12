@@ -12,7 +12,24 @@ import { IncomingCallComponent } from '../incoming-call/incoming-call.component'
   standalone: true,
   imports: [CommonModule, IncomingCallComponent],
   templateUrl: './video-call-handler.component.html',
-  styleUrl: './video-call-handler.component.scss',
+  styles: [
+    `
+      @keyframes slideUp {
+        from {
+          transform: translateY(100%);
+          opacity: 0;
+        }
+        to {
+          transform: translateY(0);
+          opacity: 1;
+        }
+      }
+
+      .animate-slide-up {
+        animation: slideUp 0.3s ease-out forwards;
+      }
+    `,
+  ],
 })
 export class VideoCallHandlerComponent implements OnInit, OnDestroy {
   private subscriptions: Subscription[] = [];
