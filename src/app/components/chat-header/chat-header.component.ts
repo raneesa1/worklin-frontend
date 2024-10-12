@@ -58,16 +58,16 @@ export class ChatHeaderComponent implements OnInit, OnDestroy {
       this.videoCallService.callStatus$.subscribe(
         (status) => (this.callStatus = status)
       ),
-      // this.socketService
-      //   .onIncomingCall()
-      //   .subscribe(({ callerId, callerName }) => {
-      //     this.showIncomingCall = true;
-      //     this.incomingCallerId = callerId;
-      //     this.incomingCallerName = callerName;
-      //     console.log('call is coming----->>>>>');
-      //     this.handleIncomingCall(callerId, callerName);
-      //     this.cdr.markForCheck();
-      //   }),
+      this.socketService
+        .onIncomingCall()
+        .subscribe(({ callerId, callerName }) => {
+          this.showIncomingCall = true;
+          this.incomingCallerId = callerId;
+          this.incomingCallerName = callerName;
+          console.log('call is coming----->>>>>');
+          this.handleIncomingCall(callerId, callerName);
+          this.cdr.markForCheck();
+        }),
       this.socketService
         .onCallAccepted()
         .subscribe(({ accepterId, roomID }) => {
@@ -98,17 +98,17 @@ export class ChatHeaderComponent implements OnInit, OnDestroy {
   async initiateVideoCall() {
     if (this.currentReceiverId) {
       try {
+        this.showIncomingCall = true;
         const roomID = `room_${this.currentReceiverId}`;
         const userID = this.roleService.getUserId();
         const userName = 'User_' + userID;
 
-        await this.socketService.initiateCall({
+        this.socketService.initiateCall({
           callerId: userID,
           receiverId: this.currentReceiverId,
           callerName: userName,
         });
 
-        console.log('Call initiated successfully');
         this.videoCallService.setCallStatus('calling');
 
         // Navigate to video call component
@@ -203,7 +203,7 @@ export class ChatHeaderComponent implements OnInit, OnDestroy {
     return this.callStatus === 'calling' || this.callStatus === 'incall';
   }
 
-  private handleIncomingCall(callerId: string, callerName: string) {
+ private handleIncomingCall(callerId: string, callerName: string) {
     this.videoCallService.setCallStatus('receiving');
     this.incomingCall.emit({ callerId, callerName });
     this.cdr.markForCheck();
