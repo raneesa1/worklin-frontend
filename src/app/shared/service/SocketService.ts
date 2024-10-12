@@ -70,6 +70,11 @@ export class SocketService {
     );
 
     this.socket.on('incoming_call', ({ callerId, callerName }) => {
+      console.log(
+        callerId,
+        callerName,
+        'consoing the incoming cal incoming_callincoming_callincoming_callincoming_callincoming_callincoming_callincoming_callincoming_callincoming_callincoming_callincoming_callincoming_callincoming_calll '
+      );
       this.incomingCallSubject.next({ callerId, callerName });
     });
     this.socket.on('call_accepted', ({ accepterId, roomID }) => {
@@ -211,9 +216,24 @@ export class SocketService {
     callerId: string;
     receiverId: string;
     callerName: string;
-  }) {
-    console.log('call initiateCall from socket---=-=-=-=[-=-=-=-=-=-=-=-=-=-==-=-=-=-=-=-=-=-=-=-=-=-=-?>>>>>>>?>>>>>>???>??>?>?>>?>??>?>?>??>?>?>?>?>?>??>????????????????????????/');
-    this.socket.emit('initiate_call', data);
+  }): Promise<void> {
+    return new Promise((resolve, reject) => {
+      if (!this.socket.connected) {
+        reject(new Error('Socket is not connected'));
+        return;
+      }
+
+      console.log(data,'consoling the data of initate call form the frontend socket service ------<<><><><><<><><><<><><><><><>><<><><><><>><><><><><><><><><><><><><>')
+      this.socket.emit('initiate_call', data, (error: any) => {
+        if (error) {
+          console.error('Error initiating call:', error);
+          reject(error);
+        } else {
+          console.log('Call initiated successfully');
+          resolve();
+        }
+      });
+    });
   }
 
   acceptCall(data: { callerId: string; accepterId: string; roomID: string }) {

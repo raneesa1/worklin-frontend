@@ -98,18 +98,17 @@ export class ChatHeaderComponent implements OnInit, OnDestroy {
   async initiateVideoCall() {
     if (this.currentReceiverId) {
       try {
-        this.showIncomingCall = true;
         const roomID = `room_${this.currentReceiverId}`;
         const userID = this.roleService.getUserId();
         const userName = 'User_' + userID;
 
-        const socketInitaiteCallFromChat = this.socketService.initiateCall({
+        await this.socketService.initiateCall({
           callerId: userID,
           receiverId: this.currentReceiverId,
           callerName: userName,
         });
-        console.log(socketInitaiteCallFromChat, 'socketInitaiteCallFromChat');
 
+        console.log('Call initiated successfully');
         this.videoCallService.setCallStatus('calling');
 
         // Navigate to video call component
