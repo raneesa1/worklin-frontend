@@ -29,10 +29,10 @@ export class ChatHeaderComponent implements OnInit, OnDestroy {
   @Input() currentReceiver: FreelancerEntity | null = null;
   @Input() currentReceiverId: string = '';
 
-  // display: boolean = false;
-  // showIncomingCall: boolean = false;
-  // incomingCallerId: string = '';
-  // incomingCallerName: string = '';
+  display: boolean = false;
+  showIncomingCall: boolean = false;
+  incomingCallerId: string = '';
+  incomingCallerName: string = '';
 
   callStatus: 'idle' | 'calling' | 'incall' | 'receiving' = 'idle';
   private subscriptions: Subscription[] = [];
@@ -52,19 +52,38 @@ export class ChatHeaderComponent implements OnInit, OnDestroy {
       this.videoCallService.callStatus$.subscribe(
         (status) => (this.callStatus = status)
       ),
-      
-     
+      this.socketService
+        .onIncomingCall()
+        .subscribe(({ callerId, callerName }) => {
+          this.showIncomingCall = true;
+          this.incomingCallerId = callerId;
+          this.incomingCallerName = callerName;
+          console.log('call is coming----->>>>>');
+          this.handleIncomingCall(callerId, callerName);
+          this.cdr.markForCheck();
+        }),
+      this.socketService
+        .onCallAccepted()
+        .subscribe(({ accepterId, roomID }) => {
+          this.handleCallAccepted(accepterId, roomID);
+        }),
+      this.socketService.onCallRejected().subscribe(({ rejecterId }) => {
+        this.handleCallRejected(rejecterId);
+      }),
+      this.socketService.onCallEnded().subscribe(({ callerId }) => {
+        this.handleCallEnded(callerId);
+      })
     );
   }
-  // handleAcceptCall() {
-  //   this.acceptIncomingCall();
-  //   this.showIncomingCall = false;
-  // }
+  handleAcceptCall() {
+    this.acceptIncomingCall();
+    this.showIncomingCall = false;
+  }
 
-  // handleRejectCall() {
-  //   this.rejectIncomingCall();
-  //   this.showIncomingCall = false;
-  // }
+  handleRejectCall() {
+    this.rejectIncomingCall();
+    this.showIncomingCall = false;
+  }
 
   ngOnDestroy() {
     this.subscriptions.forEach((sub) => sub.unsubscribe());
@@ -73,7 +92,7 @@ export class ChatHeaderComponent implements OnInit, OnDestroy {
   async initiateVideoCall() {
     if (this.currentReceiverId) {
       try {
-        // this.showIncomingCall = true
+        this.showIncomingCall = true
         const roomID = `room_${this.currentReceiverId}`;
         const userID = this.roleService.getUserId();
         const userName = 'User_' + userID;
@@ -104,39 +123,39 @@ export class ChatHeaderComponent implements OnInit, OnDestroy {
     }
   }
 
-  // private handleCallAccepted(accepterId: string, roomID: string) {
-  //   if (
-  //     this.callStatus === 'calling' &&
-  //     accepterId === this.currentReceiverId
-  //   ) {
-  //     this.videoCallService.setCallStatus('incall');
-  //     // Navigate to video call component
-  //     this.router.navigate(['/video-call'], {
-  //       queryParams: {
-  //         roomID: roomID,
-  //         id: this.roleService.getUserId(),
-  //         receiverId: accepterId,
-  //       },
-  //     });
-  //   }
-  // }
+  private handleCallAccepted(accepterId: string, roomID: string) {
+    if (
+      this.callStatus === 'calling' &&
+      accepterId === this.currentReceiverId
+    ) {
+      this.videoCallService.setCallStatus('incall');
+      // Navigate to video call component
+      this.router.navigate(['/video-call'], {
+        queryParams: {
+          roomID: roomID,
+          id: this.roleService.getUserId(),
+          receiverId: accepterId,
+        },
+      });
+    }
+  }
 
-  // private handleCallRejected(rejecterId: string) {
-  //   if (
-  //     this.callStatus === 'calling' &&
-  //     rejecterId === this.currentReceiverId
-  //   ) {
-  //     this.videoCallService.setCallStatus('idle');
-  //     alert('Call was rejected');
-  //   }
-  // }
+  private handleCallRejected(rejecterId: string) {
+    if (
+      this.callStatus === 'calling' &&
+      rejecterId === this.currentReceiverId
+    ) {
+      this.videoCallService.setCallStatus('idle');
+      alert('Call was rejected');
+    }
+  }
 
-  // private handleCallEnded(callerId: string) {
-  //   if (this.callStatus === 'incall') {
-  //     this.videoCallService.setCallStatus('idle');
-  //     // Handle call end UI updates
-  //   }
-  // }
+  private handleCallEnded(callerId: string) {
+    if (this.callStatus === 'incall') {
+      this.videoCallService.setCallStatus('idle');
+      // Handle call end UI updates
+    }
+  }
 
   acceptIncomingCall() {
     const roomID = `room_${this.roleService.getUserId()}`;
@@ -178,11 +197,11 @@ export class ChatHeaderComponent implements OnInit, OnDestroy {
     return this.callStatus === 'calling' || this.callStatus === 'incall';
   }
 
-  // private handleIncomingCall(callerId: string, callerName: string) {
-  //   this.showIncomingCall = true;
-  //   this.incomingCallerId = callerId;
-  //   this.incomingCallerName = callerName;
-  //   this.videoCallService.setCallStatus('receiving');
-  //   this.cdr.markForCheck();
-  // }
+  private handleIncomingCall(callerId: string, callerName: string) {
+    this.showIncomingCall = true;
+    this.incomingCallerId = callerId;
+    this.incomingCallerName = callerName;
+    this.videoCallService.setCallStatus('receiving');
+    this.cdr.markForCheck();
+  }
 }

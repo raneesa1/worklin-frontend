@@ -20,8 +20,7 @@ import { ChatHeaderComponent } from '../../../components/chat-header/chat-header
 import { environment } from '../../../../environment/environment';
 import { PickerComponent } from '@ctrl/ngx-emoji-mart';
 import { Router } from '@angular/router';
-import { VideoCallService } from '../../../shared/service/video-call.service';
-import { IncomingCallComponent } from '../../../components/incoming-call/incoming-call.component';
+import { ChatListComponent } from '../../../components/chat-list/chat-list.component';
 
 interface RoomWithParticipant extends IRoom {
   participant?: FreelancerEntity;
@@ -36,7 +35,7 @@ interface RoomWithParticipant extends IRoom {
     FormsModule,
     ChatHeaderComponent,
     PickerComponent,
-    IncomingCallComponent
+    ChatListComponent
   ],
   templateUrl: './messages.component.html',
   styleUrls: ['./messages.component.scss'],
@@ -69,7 +68,6 @@ export class MessagesComponent implements OnInit, OnDestroy, AfterViewChecked {
   incomingCallerId: string = '';
   incomingCallerName: string = '';
 
-  showIncomingCall: boolean = false;
   private onlineUsersSubscription: Subscription | undefined;
 
   constructor(
@@ -77,8 +75,7 @@ export class MessagesComponent implements OnInit, OnDestroy, AfterViewChecked {
     private roleService: roleService,
     private socketService: SocketService,
     private changeDetectorRef: ChangeDetectorRef,
-    private router: Router,
-    private videoCallService: VideoCallService
+    private router: Router
   ) {}
 
   ngOnInit() {
@@ -133,49 +130,11 @@ export class MessagesComponent implements OnInit, OnDestroy, AfterViewChecked {
       this.onlineUsers = users;
       this.changeDetectorRef.detectChanges();
     });
-    this.subscribeToIncomingCalls();
 
     this.setViewportHeight();
     window.addEventListener('resize', this.setViewportHeight);
   }
   isModalOpen = false;
-
-   private subscribeToIncomingCalls() {
-    this.socketService.onIncomingCall().subscribe(({ callerId, callerName }) => {
-      this.showIncomingCall = true;
-      this.incomingCallerId = callerId;
-      this.incomingCallerName = callerName;
-      this.videoCallService.setCallStatus('receiving');
-      this.changeDetectorRef.detectChanges();
-    });
-  }
-
-  handleAcceptCall() {
-    const roomID = `room_${this.userId}`;
-    this.socketService.acceptCall({
-      callerId: this.incomingCallerId,
-      accepterId: this.userId,
-      roomID: roomID,
-    });
-    this.videoCallService.setCallStatus('incall');
-    this.router.navigate(['/video-call'], {
-      queryParams: {
-        roomID: roomID,
-        id: this.userId,
-        receiverId: this.incomingCallerId,
-      },
-    });
-    this.showIncomingCall = false;
-  }
-
-  handleRejectCall() {
-    this.socketService.rejectCall({
-      callerId: this.incomingCallerId,
-      rejecterId: this.userId,
-    });
-    this.videoCallService.setCallStatus('idle');
-    this.showIncomingCall = false;
-  }
 
   isAudioMessage(message: IMessage): boolean {
     return message.type === 'audio';
