@@ -4,6 +4,8 @@ import {
   OnInit,
   OnDestroy,
   ChangeDetectorRef,
+  Output,
+  EventEmitter,
 } from '@angular/core';
 import { IRoom } from '../../shared/types/IChat';
 import { FreelancerEntity } from '../../shared/types/FreelancerEntity';
@@ -28,6 +30,10 @@ export class ChatHeaderComponent implements OnInit, OnDestroy {
   @Input() currentRoom!: IRoom;
   @Input() currentReceiver: FreelancerEntity | null = null;
   @Input() currentReceiverId: string = '';
+  @Output() incomingCall = new EventEmitter<{
+    callerId: string;
+    callerName: string;
+  }>();
 
   display: boolean = false;
   showIncomingCall: boolean = false;
@@ -87,12 +93,12 @@ export class ChatHeaderComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.subscriptions.forEach((sub) => sub.unsubscribe());
-  } 
+  }
 
   async initiateVideoCall() {
     if (this.currentReceiverId) {
       try {
-        this.showIncomingCall = true
+        this.showIncomingCall = true;
         const roomID = `room_${this.currentReceiverId}`;
         const userID = this.roleService.getUserId();
         const userName = 'User_' + userID;
@@ -198,10 +204,8 @@ export class ChatHeaderComponent implements OnInit, OnDestroy {
   }
 
   private handleIncomingCall(callerId: string, callerName: string) {
-    this.showIncomingCall = true;
-    this.incomingCallerId = callerId;
-    this.incomingCallerName = callerName;
     this.videoCallService.setCallStatus('receiving');
+    this.incomingCall.emit({ callerId, callerName });
     this.cdr.markForCheck();
   }
 }

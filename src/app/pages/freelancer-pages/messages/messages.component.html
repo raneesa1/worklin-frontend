@@ -21,9 +21,7 @@
 
     <!-- Chat Messages -->
     <!-- Chat Messages -->
-    <div *ngIf="messages.length === 0" class="text-center text-gray-500">
-      No messages yet. Start chatting!
-    </div>
+
     <div
       #messageContainer
       class="overflow-y-auto flex-grow p-4 bg-gray-100"
@@ -386,3 +384,10 @@
   title="Pick your emoji"
   emoji="point_up"
 ></emoji-mart>
+
+<app-incoming-call
+  *ngIf="showIncomingCall"
+  [callerName]="incomingCallerName"
+  (accept)="handleAcceptCall()"
+  (reject)="handleRejectCall()"
+></app-incoming-call>

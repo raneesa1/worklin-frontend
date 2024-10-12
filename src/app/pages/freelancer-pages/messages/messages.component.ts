@@ -21,6 +21,8 @@ import { environment } from '../../../../environment/environment';
 import { PickerComponent } from '@ctrl/ngx-emoji-mart';
 import { Router } from '@angular/router';
 import { ChatListComponent } from '../../../components/chat-list/chat-list.component';
+import { VideoCallService } from '../../../shared/service/video-call.service';
+import { IncomingCallComponent } from '../../../components/incoming-call/incoming-call.component';
 
 interface RoomWithParticipant extends IRoom {
   participant?: FreelancerEntity;
@@ -35,7 +37,8 @@ interface RoomWithParticipant extends IRoom {
     FormsModule,
     ChatHeaderComponent,
     PickerComponent,
-    ChatListComponent
+    IncomingCallComponent,
+    ChatListComponent,
   ],
   templateUrl: './messages.component.html',
   styleUrls: ['./messages.component.scss'],
@@ -58,6 +61,7 @@ export class MessagesComponent implements OnInit, OnDestroy, AfterViewChecked {
   private messageSubscription: Subscription | undefined;
   private clickReadSubscription: Subscription | undefined;
   onlineUsers: string[] = [];
+  showIncomingCall: boolean = false;
 
   audioRecorder: MediaRecorder | null = null;
   audioChunks: Blob[] = [];
@@ -75,7 +79,8 @@ export class MessagesComponent implements OnInit, OnDestroy, AfterViewChecked {
     private roleService: roleService,
     private socketService: SocketService,
     private changeDetectorRef: ChangeDetectorRef,
-    private router: Router
+    private router: Router,
+    private videoCallService: VideoCallService
   ) {}
 
   ngOnInit() {
@@ -179,6 +184,39 @@ export class MessagesComponent implements OnInit, OnDestroy, AfterViewChecked {
       chatIds: [chat.id],
     });
   }
+  handleIncomingCall(event: { callerId: string; callerName: string }) {
+    this.showIncomingCall = true;
+    this.incomingCallerId = event.callerId;
+    this.incomingCallerName = event.callerName;
+  }
+
+  handleAcceptCall() {
+    const roomID = `room_${this.roleService.getUserId()}`;
+    this.socketService.acceptCall({
+      callerId: this.incomingCallerId,
+      accepterId: this.roleService.getUserId(),
+      roomID: roomID,
+    });
+    this.videoCallService.setCallStatus('incall');
+    this.router.navigate(['/video-call'], {
+      queryParams: {
+        roomID: roomID,
+        id: this.roleService.getUserId(),
+        receiverId: this.incomingCallerId,
+      },
+    });
+    this.showIncomingCall = false;
+  }
+
+  handleRejectCall() {
+    this.socketService.rejectCall({
+      callerId: this.incomingCallerId,
+      rejecterId: this.roleService.getUserId(),
+    });
+    this.videoCallService.setCallStatus('idle');
+    this.showIncomingCall = false;
+  }
+
   private subscribeToOnlineUsers() {
     this.onlineUsersSubscription = this.socketService
       .getOnlineUsers()
