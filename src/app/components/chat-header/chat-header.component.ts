@@ -16,13 +16,12 @@ import { roleService } from '../../shared/service/role.service';
 import { SocketService } from '../../shared/service/SocketService';
 import { VideoCallService } from '../../shared/service/video-call.service';
 import { Router } from '@angular/router';
-import { IncomingCallComponent } from '../incoming-call/incoming-call.component';
-import { GlobalIncomingCallService } from '../../shared/service/GlobalIncomingCall.service';
+ import { GlobalIncomingCallService } from '../../shared/service/GlobalIncomingCall.service';
 
 @Component({
   selector: 'app-chat-header',
   standalone: true,
-  imports: [CommonModule, IncomingCallComponent],
+  imports: [CommonModule],
   templateUrl: './chat-header.component.html',
   styleUrl: './chat-header.component.scss',
 })
@@ -101,7 +100,7 @@ export class ChatHeaderComponent implements OnInit, OnDestroy {
         this.showIncomingCall = true;
         const roomID = `room_${this.currentReceiverId}`;
         const userID = this.roleService.getUserId();
-        const userName = 'User_' + userID;
+        const userName = 'User_' + this.roleService.getFirstName();
 
         this.socketService.initiateCall({
           callerId: userID,
