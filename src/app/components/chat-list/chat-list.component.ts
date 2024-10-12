@@ -1,4 +1,11 @@
-import { ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+} from '@angular/core';
 import { FreelancerEntity } from '../../shared/types/FreelancerEntity';
 import { IRoom } from '../../shared/types/IChat';
 import { CommonModule } from '@angular/common';
@@ -20,6 +27,7 @@ export class ChatListComponent implements OnInit {
   @Input() rooms: RoomWithParticipant[] = [];
   @Input() selectedRoomId: string | null | undefined = null;
   @Output() roomSelected = new EventEmitter<RoomWithParticipant>();
+  currentRoom: RoomWithParticipant | null = null;
 
   userId: string = '';
   onlineUsers: string[] = [];
@@ -89,6 +97,7 @@ export class ChatListComponent implements OnInit {
   }
 
   onRoomSelect(room: RoomWithParticipant) {
+    this.currentRoom = room;
     this.roomSelected.emit(room);
   }
 }

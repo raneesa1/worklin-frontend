@@ -42,7 +42,7 @@
       <div
         *ngFor="let room of rooms"
         class="p-4 cursor-pointer hover:bg-gray-200"
-        (click)="selectRoom(room)"
+        (click)="onRoomSelect(room)"
         [class.bg-gray-300]="currentRoom?._id === room._id"
       >
         <div class="flex items-center">
