@@ -58,16 +58,16 @@ export class ChatHeaderComponent implements OnInit, OnDestroy {
       this.videoCallService.callStatus$.subscribe(
         (status) => (this.callStatus = status)
       ),
-      this.socketService
-        .onIncomingCall()
-        .subscribe(({ callerId, callerName }) => {
-          this.showIncomingCall = true;
-          this.incomingCallerId = callerId;
-          this.incomingCallerName = callerName;
-          console.log('call is coming----->>>>>');
-          this.handleIncomingCall(callerId, callerName);
-          this.cdr.markForCheck();
-        }),
+      // this.socketService
+      //   .onIncomingCall()
+      //   .subscribe(({ callerId, callerName }) => {
+      //     this.showIncomingCall = true;
+      //     this.incomingCallerId = callerId;
+      //     this.incomingCallerName = callerName;
+      //     console.log('call is coming----->>>>>');
+      //     this.handleIncomingCall(callerId, callerName);
+      //     this.cdr.markForCheck();
+      //   }),
       this.socketService
         .onCallAccepted()
         .subscribe(({ accepterId, roomID }) => {
@@ -103,11 +103,12 @@ export class ChatHeaderComponent implements OnInit, OnDestroy {
         const userID = this.roleService.getUserId();
         const userName = 'User_' + userID;
 
-        this.socketService.initiateCall({
+        const socketInitaiteCallFromChat = this.socketService.initiateCall({
           callerId: userID,
           receiverId: this.currentReceiverId,
           callerName: userName,
         });
+        console.log(socketInitaiteCallFromChat, 'socketInitaiteCallFromChat');
 
         this.videoCallService.setCallStatus('calling');
 

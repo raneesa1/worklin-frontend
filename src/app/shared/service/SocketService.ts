@@ -36,14 +36,14 @@ export class SocketService {
   >([]);
 
   constructor() {
-   this.socket = io('https://worklin.shop', {
-     path: '/socket.io',
-     withCredentials: true,
-     transports: ['websocket'],
-     query: {
-       userId: this.getUserIdFromStorage(), // Implement this method to get userId from storage
-     },
-   });
+    this.socket = io('https://worklin.shop', {
+      path: '/socket.io',
+      withCredentials: true,
+      transports: ['websocket'],
+      query: {
+        userId: this.getUserIdFromStorage(), // Implement this method to get userId from storage
+      },
+    });
 
     // this.setupSocketListeners();
 
@@ -107,8 +107,11 @@ export class SocketService {
   private getUserIdFromStorage(): string {
     // Implement based on how you store the user ID
     const userId = localStorage.getItem('userId') || '';
-    console.log(userId,'consoling the user id from storageeee-e-e-e-e-e-e-e-e-e-e-e-e-e-e-e--e-e-ee-')
-    return userId
+    console.log(
+      userId,
+      'consoling the user id from storageeee-e-e-e-e-e-e-e-e-e-e-e-e-e-e-e--e-e-ee-'
+    );
+    return userId;
   }
 
   onIncomingCall(): Observable<{ callerId: string; callerName: string }> {
@@ -209,6 +212,7 @@ export class SocketService {
     receiverId: string;
     callerName: string;
   }) {
+    console.log('call initiateCall from socket---=-=-=-=[-=-=-=-=-=-=-=-=-=-==-=-=-=-=-=-=-=-=-=-=-=-=-?>>>>>>>?>>>>>>???>??>?>?>>?>??>?>?>??>?>?>?>?>?>??>????????????????????????/');
     this.socket.emit('initiate_call', data);
   }
 
