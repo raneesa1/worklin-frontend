@@ -1,11 +1,14 @@
 <app-navbar-after-login></app-navbar-after-login>
 <div class="flex h-screen">
   <!-- People List -->
-  <app-chat-list
-    [rooms]="rooms"
-    [selectedRoomId]="currentRoom?._id"
-    (roomSelected)="selectRoom($event)"
-  ></app-chat-list>
+  <div class="w-1/3 bg-white border-r border-gray-200">
+    <app-chat-list
+      [rooms]="rooms"
+      [selectedRoomId]="currentRoom?._id"
+      (roomSelected)="selectRoom($event)"
+    ></app-chat-list>
+  </div>
+
   <!-- Chat Area -->
   <div class="w-2/3 flex flex-col bg-white">
     <!-- Chat Header -->
