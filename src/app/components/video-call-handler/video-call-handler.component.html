@@ -1,9 +1,14 @@
-<div class="fixed bottom-4 right-4 z-50 animate-slide-up">
+<div
+  *ngIf="showIncomingCall"
+  class="fixed bottom-4 right-4 z-50 animate-slide-up"
+>
   <div class="bg-white border-l-4 border-teal-500 shadow-lg p-4 rounded w-80">
     <div class="flex items-center justify-between">
       <div class="flex-1">
         <h3 class="text-lg font-semibold text-gray-900">Incoming Call</h3>
-        <p class="text-sm text-gray-600">📞{{ incomingCallerName }} is calling...</p>
+        <p class="text-sm text-gray-600">
+          📞{{ incomingCallerName }} is calling...
+        </p>
       </div>
 
       <div class="flex space-x-2">
