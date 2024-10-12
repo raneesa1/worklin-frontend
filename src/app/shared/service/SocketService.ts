@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { io, Socket } from 'socket.io-client';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { IMessage } from '../types/IChat';
+import { roleService } from './role.service';
 
 @Injectable({
   providedIn: 'root',
@@ -35,7 +36,7 @@ export class SocketService {
     string[]
   >([]);
 
-  constructor() {
+  constructor(private roleService: roleService) {
     this.socket = io('https://worklin.shop', {
       path: '/socket.io',
       withCredentials: true,
@@ -111,7 +112,7 @@ export class SocketService {
 
   private getUserIdFromStorage(): string {
     // Implement based on how you store the user ID
-    const userId = localStorage.getItem('userId') || '';
+    const userId = this.roleService.getUserId();
     console.log(
       userId,
       'consoling the user id from storageeee-e-e-e-e-e-e-e-e-e-e-e-e-e-e-e--e-e-ee-'
@@ -223,7 +224,10 @@ export class SocketService {
         return;
       }
 
-      console.log(data,'consoling the data of initate call form the frontend socket service ------<<><><><><<><><><<><><><><><>><<><><><><>><><><><><><><><><><><><><>')
+      console.log(
+        data,
+        'consoling the data of initate call form the frontend socket service ------<<><><><><<><><><<><><><><><>><<><><><><>><><><><><><><><><><><><><>'
+      );
       this.socket.emit('initiate_call', data, (error: any) => {
         if (error) {
           console.error('Error initiating call:', error);

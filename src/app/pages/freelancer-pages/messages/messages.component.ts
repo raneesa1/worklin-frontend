@@ -131,15 +131,13 @@ export class MessagesComponent implements OnInit, OnDestroy, AfterViewChecked {
             this.updateChatReadStatus(chatIds);
           });
       });
-       this.incomingCallSubscription = this.socketService
-         .onIncomingCall()
-         .subscribe((callData: { callerId: string; callerName: string }) => {
-           console.log('Incoming call received:', callData);
-           this.handleIncomingCall(callData);
-         });
+    this.incomingCallSubscription = this.socketService
+      .onIncomingCall()
+      .subscribe((callData: { callerId: string; callerName: string }) => {
+        console.log('Incoming call received:', callData);
+        this.handleIncomingCall(callData);
+      });
 
-         
-      
     this.socketService.getOnlineUsers().subscribe((users: string[]) => {
       this.onlineUsers = users;
       this.changeDetectorRef.detectChanges();
