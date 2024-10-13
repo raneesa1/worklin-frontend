@@ -1,17 +1,12 @@
-<lr-config
-  [attr.ctx-name]="ctxName"
-  pubkey="5c65cbe91a1652ab23d9"
+<uc-config
+  ctx-name="my-uploader"
+  pubkey="2872c2dfae955ee2fff8"
   max-local-file-size-bytes="10000000"
-  [attr.multiple]="multiple"
   img-only="true"
-  source-list="local, url, gdrive"
-></lr-config>
-
-<lr-file-uploader-regular
-  [attr.ctx-name]="ctxName"
-  class="my-config"
-></lr-file-uploader-regular>
-
+  source-list="local, camera, gdrive, gphotos"
+></uc-config>
+<uc-file-uploader-regular ctx-name="my-uploader" class="my-config">
+</uc-file-uploader-regular>
 <lr-upload-ctx-provider
   [attr.ctx-name]="ctxName"
   #ctxProvider
