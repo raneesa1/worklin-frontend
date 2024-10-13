@@ -1,10 +1,8 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input } from '@angular/core';
-import { IJobPost } from '../interfaces/jobPost';
-import { ProfileManagementService } from '../../../../shared/service/profile-management.service';
-import { HttpClient } from '@angular/common/http';
-import { Router } from '@angular/router';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Subject, takeUntil } from 'rxjs';
+import { ProfileManagementService } from '../../../../shared/service/profile-management.service';
 import { FreelancerEntity } from '../../../../shared/types/FreelancerEntity';
 
 @Component({
@@ -14,20 +12,33 @@ import { FreelancerEntity } from '../../../../shared/types/FreelancerEntity';
   templateUrl: './job-post-hires.component.html',
   styleUrl: './job-post-hires.component.scss',
 })
-export class JobPostHiresComponent {
-  @Input() jobData!: IJobPost | null;
+export class JobPostHiresComponent implements OnInit, OnDestroy {
   jobPostId: string = '';
   hires: FreelancerEntity[] = [];
   private destroy$ = new Subject<void>();
 
   constructor(
     private router: Router,
+    private route: ActivatedRoute,
     private profileService: ProfileManagementService
   ) {}
 
   ngOnInit(): void {
-    this.jobPostId = this.jobData?._id || '';
-    this.fetchHires();
+    this.route.queryParams
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((params) => {
+        this.jobPostId = params['id'];
+        if (this.jobPostId) {
+          this.fetchHires();
+        } else {
+          console.error('No job post ID found in URL');
+        }
+      });
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
   fetchHires(): void {
@@ -35,16 +46,12 @@ export class JobPostHiresComponent {
       .getHiredFreelancers(this.jobPostId)
       .pipe(takeUntil(this.destroy$))
       .subscribe(
-        (response: any) => {
-          if (response && response.jobPosts) {
-            this.hires = response.hires; // Changed from hire to hires
-            console.log(response, 'consoling response data of hire');
-          } else {
-            console.error('No job hire data found in the response.');
-          }
+        (hires: FreelancerEntity[]) => {
+          this.hires = hires;
+          console.log('Hired freelancers:', this.hires);
         },
         (error) => {
-          console.error('Error fetching job hire:', error);
+          console.error('Error fetching hired freelancers:', error);
         }
       );
   }
