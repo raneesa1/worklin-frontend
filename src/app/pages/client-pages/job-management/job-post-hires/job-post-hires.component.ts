@@ -47,6 +47,7 @@ export class JobPostHiresComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroy$))
       .subscribe(
         (hires: FreelancerEntity[]) => {
+          console.log(hires,'consoling the hires')
           this.hires = hires;
           console.log('Hired freelancers:', this.hires);
         },

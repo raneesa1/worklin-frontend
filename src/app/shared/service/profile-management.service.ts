@@ -83,18 +83,8 @@ export class ProfileManagementService {
     );
   }
   getHiredFreelancers(jobId: string): Observable<FreelancerEntity[]> {
-    return this.http
-      .get<Array<{ freelancer: FreelancerEntity }>>(
-        `${this.baseUrl}/getHires/${jobId}`
-      )
-      .pipe(
-        map((response) => {
-          if (response && response.length > 0) {
-            return response.map((item) => item.freelancer);
-          } else {
-            return [];
-          }
-        })
-      );
+    return this.http.get<FreelancerEntity[]>(
+      `${this.baseUrl}/getHires/${jobId}`
+    );
   }
 }
