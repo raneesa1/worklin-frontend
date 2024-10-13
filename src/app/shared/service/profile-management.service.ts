@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { roleService } from './role.service';
 import { Experience } from '../types/interfaces/experience';
 import { BioData } from '../types/interfaces/bioData';
@@ -81,5 +81,12 @@ export class ProfileManagementService {
     return this.http.get<FreelancerEntity>(
       `${this.baseUrl}/freelancer/${freelancerId}`
     );
+  }
+  getHiredFreelancers(jobId: string): Observable<FreelancerEntity[]> {
+    return this.http
+      .get<Array<{ freelancer: FreelancerEntity }>>(
+        `${this.baseUrl}/getHires/${jobId}`
+      )
+      .pipe(map((response) => response.map((item) => item.freelancer)));
   }
 }

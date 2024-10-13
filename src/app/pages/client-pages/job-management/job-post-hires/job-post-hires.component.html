@@ -1,38 +1,38 @@
 <div class="px-8 py-4 mt-10">
-  <!-- <div class="bg-white border border-gray-200 p-4 rounded-lg mb-4">
-    <div class="flex space-x-4 items-center">
+  <div
+    *ngIf="hires.length > 0; else noHires"
+    class="bg-white border border-gray-200 p-4 rounded-lg mb-4"
+  >
+    <div
+      *ngFor="let freelancer of hires"
+      class="flex space-x-4 items-center mb-4"
+    >
       <img
-        src="freelancer1.png"
-        alt="Freelancer"
+        [src]="freelancer.picture || 'assets/default-avatar.png'"
+        [alt]="freelancer.firstName"
         class="h-16 w-16 rounded-full"
       />
       <div class="flex-grow">
-        <h2 class="text-lg font-semibold">Mahfuz M.</h2>
+        <h2 class="text-lg font-semibold">{{ freelancer.firstName }}</h2>
         <p class="text-gray-600">
-          WordPress Developer | Elementor | Website Designer
+          {{ freelancer.role }}
         </p>
-        <p class="text-sm text-gray-500">Bangladesh</p>
-        <div class="text-gray-500 text-sm mt-1">Web Development</div>
-        <div class="text-sm text-green-600">
-          100% Job Success | $300K+ earned
-        </div>
+        <p class="text-sm text-gray-500">{{ freelancer.country }}</p>
       </div>
       <div class="flex space-x-2">
         <button
-          class="bg-white border border-green-600 text-green-600 px-4 py-2 rounded-lg"
+          (click)="viewProfile(freelancer._id!)"
+          class="bg-green-600 text-white px-4 py-2 rounded-lg"
         >
-          Add to project
-        </button>
-        <button class="bg-green-600 text-white px-4 py-2 rounded-lg">
           view profile
         </button>
       </div>
     </div>
-  </div> -->
+  </div>
 
   <!-- Repeat similar card structure for more freelancers -->
 </div>
-<div class="flex items-center justify-center">
+<ng-template #noHires class="flex items-center justify-center">
   <div class="text-center">
     <div class="w-44 mx-auto mb-4">
       <svg
@@ -500,4 +500,4 @@
       Interview promising talent and make them an offer.
     </p>
   </div>
-</div>
+</ng-template>
