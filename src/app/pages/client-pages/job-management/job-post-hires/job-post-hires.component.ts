@@ -40,15 +40,18 @@ export class JobPostHiresComponent implements OnInit, OnDestroy {
     this.destroy$.next();
     this.destroy$.complete();
   }
-
   fetchHires(): void {
     this.profileService
       .getHiredFreelancers(this.jobPostId)
       .pipe(takeUntil(this.destroy$))
       .subscribe(
-        (hires: FreelancerEntity[]) => {
-          console.log(hires,'consoling the hires')
-          this.hires = hires;
+        (hires: any[]) => {
+          // Use `any[]` because the structure is nested
+          console.log(hires, 'Raw response');
+
+          // Extracting freelancer objects from the response
+          this.hires = hires.map((hire) => hire.freelancer);
+
           console.log('Hired freelancers:', this.hires);
         },
         (error) => {
