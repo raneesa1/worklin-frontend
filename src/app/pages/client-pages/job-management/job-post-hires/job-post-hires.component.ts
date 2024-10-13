@@ -26,8 +26,8 @@ export class JobPostHiresComponent {
   ) {}
 
   ngOnInit(): void {
-    this.fetchHires();
     this.jobPostId = this.jobData?._id || '';
+    this.fetchHires();
   }
 
   fetchHires(): void {
