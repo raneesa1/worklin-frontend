@@ -87,6 +87,14 @@ export class ProfileManagementService {
       .get<Array<{ freelancer: FreelancerEntity }>>(
         `${this.baseUrl}/getHires/${jobId}`
       )
-      .pipe(map((response) => response.map((item) => item.freelancer)));
+      .pipe(
+        map((response) => {
+          if (response && response.length > 0) {
+            return response.map((item) => item.freelancer);
+          } else {
+            return [];
+          }
+        })
+      );
   }
 }
