@@ -38,7 +38,7 @@
           }"
           (click)="setActiveStep('review-proposals')"
         >
-          REVIEW PROPOSALS ({{ getApplicationsCount()}})
+          REVIEW PROPOSALS ({{ getApplicationsCount() }})
         </div>
         <!-- Step 4 -->
         <div
@@ -63,7 +63,7 @@
       <app-review-applications [jobData]="jobData"></app-review-applications>
     </ng-container>
     <ng-container *ngIf="activeStep === 'hire'">
-      <app-job-post-hires [jobData]="jobData"></app-job-post-hires>
+      <app-job-post-hires></app-job-post-hires>
     </ng-container>
   </div>
 </div>
