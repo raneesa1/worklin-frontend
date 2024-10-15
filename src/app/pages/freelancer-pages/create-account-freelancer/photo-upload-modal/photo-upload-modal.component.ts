@@ -27,7 +27,6 @@ UC.defineComponents(UC);
   standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './photo-upload-modal.component.html',
-  styleUrls: ['./photo-upload-modal.component.scss'],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class PhotoUploadModalComponent implements OnInit, OnDestroy {
