@@ -20,7 +20,7 @@ import { OutputFileEntry } from '@uploadcare/file-uploader';
 import '@uploadcare/blocks/web/lr-file-uploader-regular.min.css';
 import '@uploadcare/file-uploader/web/uc-file-uploader-regular.min.css';
 
-UC.defineComponents(UC);
+// UC.defineComponents(UC);
 
 @Component({
   selector: 'app-photo-upload-modal',
@@ -28,7 +28,8 @@ UC.defineComponents(UC);
   imports: [CommonModule, FormsModule],
   templateUrl: './photo-upload-modal.component.html',
   styleUrls: ['./photo-upload-modal.component.scss'],
- })
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
+})
 export class PhotoUploadModalComponent implements OnInit, OnDestroy {
   @Output() cdnUrl: EventEmitter<string> = new EventEmitter<string>();
   @Input() multiple: boolean = false;
