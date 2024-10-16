@@ -85,12 +85,12 @@
                 </span>
               </div>
 
-              <button class="bg-black p-2 rounded mt-3">
+              <!-- <button class="bg-black p-2 rounded mt-3"> -->
                 <app-photo-upload-modal
                   (cdnUrl)="onImageUploaded($event)"
                   class=""
                 ></app-photo-upload-modal>
-              </button>
+              <!-- </button> -->
               <div *ngIf="imageError" class="text-red-500 text-sm mt-1">
                 Image is required.
               </div>
