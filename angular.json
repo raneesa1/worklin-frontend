@@ -31,9 +31,11 @@
                 "input": "public"
               }
             ],
-            "styles": [
-              "src/styles.scss"
-            ],
+           "styles": [
+  "src/styles.scss",
+  "node_modules/@uploadcare/blocks/web/lr-file-uploader-regular.min.css",
+  "node_modules/@uploadcare/file-uploader/web/uc-file-uploader-regular.min.css"
+],
             "scripts": [],
             "stylePreprocessorOptions": {
               "includePaths": [

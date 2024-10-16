@@ -26,33 +26,81 @@ UC.defineComponents(UC);
   selector: 'app-photo-upload-modal',
   standalone: true,
   imports: [CommonModule, FormsModule],
-  templateUrl: './photo-upload-modal.component.html',
-  styles: [`
-    .upload-container {
-      display: inline-block;
-    }
+  template: `
+    <div class="upload-container">
+      <lr-config
+        [attr.ctx-name]="ctxName"
+        pubkey="2872c2dfae955ee2fff8"
+        max-local-file-size-bytes="10000000"
+        [attr.multiple]="multiple"
+        img-only="false"
+        source-list="local, url, gdrive"
+      ></lr-config>
 
-    .upload-container ::ng-deep {
-      .lr-button {
-        background: transparent;
-        border: none;
-        color: inherit;
-        font: inherit;
-        padding: 0;
-        margin: 0;
-        cursor: pointer;
+      <lr-file-uploader-regular
+        [attr.ctx-name]="ctxName"
+        class="my-config"
+      ></lr-file-uploader-regular>
+
+      <lr-upload-ctx-provider
+        [attr.ctx-name]="ctxName"
+        #ctxProvider
+      ></lr-upload-ctx-provider>
+    </div>
+  `,
+  styles: [
+    `
+      :host {
+        display: block;
+        font-size: 14px; /* Base font size */
       }
 
-      .lr-file-uploader-regular {
-        max-width: none;
+      .upload-container {
+        display: inline-block;
+        max-width: 100%;
       }
 
-      .lr-file-item {
-        padding: 4px;
-        font-size: 12px;
+      :host ::ng-deep {
+        .my-config {
+          --darkmode: 0;
+          --h-accent: 144;
+          --s-accent: 67%;
+          --l-accent: 57%;
+        }
+
+        .lr-button {
+          background: transparent;
+          border: none;
+          color: inherit;
+          font: inherit;
+          padding: 8px 16px;
+          margin: 0;
+          cursor: pointer;
+          font-size: 14px;
+        }
+
+        .lr-file-uploader-regular {
+          max-width: 400px;
+          width: 100%;
+        }
+
+        .lr-file-item {
+          padding: 4px;
+          font-size: 12px;
+        }
+
+        /* Additional specific styles */
+        .lr-simple-btn {
+          font-size: 14px;
+          padding: 8px 16px;
+        }
+
+        .lr-upload-widget {
+          max-width: 100%;
+        }
       }
-    }
-  `],
+    `,
+  ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class PhotoUploadModalComponent implements OnInit, OnDestroy {
