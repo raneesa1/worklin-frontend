@@ -10,7 +10,7 @@ import {
   AfterViewInit,
 } from '@angular/core';
 import * as LR from '@uploadcare/blocks';
-import '@uploadcare/blocks/web/lr-file-uploader-regular.min.css';
+//import "@uploadcare/blocks/web/lr-file-uploader-regular.min.css";
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import * as UC from '@uploadcare/file-uploader';
@@ -20,65 +20,39 @@ import { OutputFileEntry } from '@uploadcare/file-uploader';
 import '@uploadcare/blocks/web/lr-file-uploader-regular.min.css';
 import '@uploadcare/file-uploader/web/uc-file-uploader-regular.min.css';
 
-// UC.defineComponents(UC);
+UC.defineComponents(UC);
 
 @Component({
   selector: 'app-photo-upload-modal',
   standalone: true,
   imports: [CommonModule, FormsModule],
-  template: `
-    <div class="uploadcare-container">
-      <lr-config
-        [attr.ctx-name]="ctxName"
-        pubkey="2872c2dfae955ee2fff8"
-        max-local-file-size-bytes="10000000"
-        [attr.multiple]="multiple"
-        img-only="false"
-        source-list="local, url, gdrive"
-      ></lr-config>
+  templateUrl: './photo-upload-modal.component.html',
+  styles: [`
+    .upload-container {
+      display: inline-block;
+    }
 
-      <lr-file-uploader-regular
-        [attr.ctx-name]="ctxName"
-      ></lr-file-uploader-regular>
-
-      <lr-upload-ctx-provider
-        [attr.ctx-name]="ctxName"
-        #ctxProvider
-      ></lr-upload-ctx-provider>
-    </div>
-  `,
-  styles: [
-    `
-      .uploadcare-container {
-        --darkmode: 0;
-        --h-accent: 144;
-        --s-accent: 67%;
-        --l-accent: 57%;
-
-        /* Custom styles to reduce size */
-        font-size: 14px;
+    .upload-container ::ng-deep {
+      .lr-button {
+        background: transparent;
+        border: none;
+        color: inherit;
+        font: inherit;
+        padding: 0;
+        margin: 0;
+        cursor: pointer;
       }
 
-      .uploadcare-container ::ng-deep {
-        /* Target Uploadcare components */
-        .lr-button {
-          padding: 8px 16px;
-          font-size: 14px;
-        }
-
-        .lr-file-uploader-regular {
-          max-width: 400px;
-        }
-
-        .lr-file-item {
-          padding: 8px;
-          font-size: 12px;
-        }
-
-        /* Add more custom styles as needed */
+      .lr-file-uploader-regular {
+        max-width: none;
       }
-    `,
-  ],
+
+      .lr-file-item {
+        padding: 4px;
+        font-size: 12px;
+      }
+    }
+  `],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class PhotoUploadModalComponent implements OnInit, OnDestroy {

@@ -85,11 +85,12 @@
                 </span>
               </div>
 
-              <!-- <button class="bg-black p-2 rounded mt-3"> -->
+              <button class="bg-black p-2 rounded mt-3">
                 <app-photo-upload-modal
                   (cdnUrl)="onImageUploaded($event)"
+                  class="inline-block"
                 ></app-photo-upload-modal>
-              <!-- </button> -->
+              </button>
               <div *ngIf="imageError" class="text-red-500 text-sm mt-1">
                 Image is required.
               </div>
@@ -251,10 +252,7 @@
         <button class="bg-gray-200 text-gray-700 px-4 py-2 rounded">
           Back
         </button>
-        <button
-          class="bg-green-600 text-white px-6 py-2 rounded"
-
-        >
+        <button class="bg-green-600 text-white px-6 py-2 rounded">
           Post Profile
         </button>
       </div>
