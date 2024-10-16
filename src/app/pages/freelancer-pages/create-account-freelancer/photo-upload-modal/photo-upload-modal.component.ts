@@ -26,8 +26,59 @@ import '@uploadcare/file-uploader/web/uc-file-uploader-regular.min.css';
   selector: 'app-photo-upload-modal',
   standalone: true,
   imports: [CommonModule, FormsModule],
-  templateUrl: './photo-upload-modal.component.html',
-  styleUrls: ['./photo-upload-modal.component.scss'],
+  template: `
+    <div class="uploadcare-container">
+      <lr-config
+        [attr.ctx-name]="ctxName"
+        pubkey="2872c2dfae955ee2fff8"
+        max-local-file-size-bytes="10000000"
+        [attr.multiple]="multiple"
+        img-only="false"
+        source-list="local, url, gdrive"
+      ></lr-config>
+
+      <lr-file-uploader-regular
+        [attr.ctx-name]="ctxName"
+      ></lr-file-uploader-regular>
+
+      <lr-upload-ctx-provider
+        [attr.ctx-name]="ctxName"
+        #ctxProvider
+      ></lr-upload-ctx-provider>
+    </div>
+  `,
+  styles: [
+    `
+      .uploadcare-container {
+        --darkmode: 0;
+        --h-accent: 144;
+        --s-accent: 67%;
+        --l-accent: 57%;
+
+        /* Custom styles to reduce size */
+        font-size: 14px;
+      }
+
+      .uploadcare-container ::ng-deep {
+        /* Target Uploadcare components */
+        .lr-button {
+          padding: 8px 16px;
+          font-size: 14px;
+        }
+
+        .lr-file-uploader-regular {
+          max-width: 400px;
+        }
+
+        .lr-file-item {
+          padding: 8px;
+          font-size: 12px;
+        }
+
+        /* Add more custom styles as needed */
+      }
+    `,
+  ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class PhotoUploadModalComponent implements OnInit, OnDestroy {
