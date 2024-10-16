@@ -7,8 +7,7 @@ import {
 import { provideRouter } from '@angular/router';
 
 import { routes } from './app.routes';
-import { DxFileUploaderModule } from 'devextreme-angular';
-
+ 
 import {
   BrowserAnimationsModule,
   provideAnimations,
@@ -60,7 +59,6 @@ export const appConfig: ApplicationConfig = {
         },
       })
     ),
-    DxFileUploaderModule,
     {
       provide: 'SocialAuthServiceConfig',
       useValue: {
