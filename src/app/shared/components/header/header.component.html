@@ -1,32 +1,35 @@
+<!-- header.component.html -->
 <header class="bg-white border-b border-gray-200 p-4">
-  <nav class="flex items-center">
-    <div
-      style="color: #089b8c; font-size: x-large"
-      class="text-xl font-bold mr-14 ml-6"
-    >
-      Worklin
+  <nav class="container mx-auto flex items-center justify-between">
+    <div class="flex items-center">
+      <div
+        class="text-xl font-bold mr-4 sm:mr-14"
+        style="color: #089b8c; font-size: x-large"
+      >
+        Worklin
+      </div>
+      <ul class="hidden md:flex space-x-6">
+        <li>
+          <a routerLink="/" class="text-gray-600 hover:text-gray-800"
+            >Find Freelancers</a
+          >
+        </li>
+        <li>
+          <a routerLink="/" class="text-gray-600 hover:text-gray-800"
+            >Find Jobs</a
+          >
+        </li>
+        <li>
+          <a routerLink="/" class="text-gray-600 hover:text-gray-800">About</a>
+        </li>
+        <li>
+          <a routerLink="/" class="text-gray-600 hover:text-gray-800"
+            >Solutions</a
+          >
+        </li>
+      </ul>
     </div>
-    <ul class="flex space-x-6">
-      <li>
-        <a routerLink="/" class="text-gray-600 hover:text-gray-800"
-          >Find Freelancers</a
-        >
-      </li>
-      <li>
-        <a routerLink="/" class="text-gray-600 hover:text-gray-800"
-          >Find Jobs</a
-        >
-      </li>
-      <li>
-        <a routerLink="/" class="text-gray-600 hover:text-gray-800">About</a>
-      </li>
-      <li>
-        <a routerLink="/" class="text-gray-600 hover:text-gray-800"
-          >Solutions</a
-        >
-      </li>
-    </ul>
-    <div class="ml-auto space-x-4 flex items-center mr-7">
+    <div class="hidden md:flex items-center space-x-4">
       <button
         routerLink="/nx/signup"
         class="p-1 rounded px-3 text-white"
@@ -34,12 +37,59 @@
       >
         Sign Up
       </button>
-      <a routerLink="/nx/login" class="text-gray-600 hover:text-gray-800">Log In</a>
-      <!-- <button id="theme-toggle" class="p-2 rounded">
-        <svg id="theme-icon" class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
-          <path d="M10 3a1 1 0 100-2 1 1 0 000 2zM4.22 5.47a1 1 0 011.42 0l.71.71a1 1 0 11-1.42 1.42l-.71-.71a1 1 0 010-1.42zM3 10a1 1 0 100 2 1 1 0 000-2zm11.36 4.95a1 1 0 011.42 0l.71.71a1 1 0 11-1.42 1.42l-.71-.71a1 1 0 010-1.42zM10 15a1 1 0 100 2 1 1 0 000-2zm7-5a1 1 0 100 2 1 1 0 000-2zm-4.22 4.78a1 1 0 010 1.42l-.71.71a1 1 0 11-1.42-1.42l.71-.71a1 1 0 011.42 0zM12.9 4.22a1 1 0 010-1.42l.71-.71a1 1 0 111.42 1.42l-.71.71a1 1 0 01-1.42 0zM10 8a2 2 0 110 4 2 2 0 010-4z"></path>
-        </svg>
-      </button> -->
+      <a routerLink="/nx/login" class="text-gray-600 hover:text-gray-800"
+        >Log In</a
+      >
     </div>
+    <button (click)="toggleMenu()" class="md:hidden">
+      <svg
+        class="w-6 h-6"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth="2"
+          d="M4 6h16M4 12h16M4 18h16"
+        ></path>
+      </svg>
+    </button>
   </nav>
 </header>
+
+<!-- Mobile menu -->
+<div *ngIf="isMenuOpen" class="md:hidden bg-white border-b border-gray-200">
+  <ul class="py-2 px-4">
+    <li class="py-2">
+      <a routerLink="/" class="text-gray-600 hover:text-gray-800"
+        >Find Freelancers</a
+      >
+    </li>
+    <li class="py-2">
+      <a routerLink="/" class="text-gray-600 hover:text-gray-800">Find Jobs</a>
+    </li>
+    <li class="py-2">
+      <a routerLink="/" class="text-gray-600 hover:text-gray-800">About</a>
+    </li>
+    <li class="py-2">
+      <a routerLink="/" class="text-gray-600 hover:text-gray-800">Solutions</a>
+    </li>
+    <li class="py-2">
+      <button
+        routerLink="/nx/signup"
+        class="w-full text-left p-1 rounded px-3 text-white"
+        style="background-color: #089b8c"
+      >
+        Sign Up
+      </button>
+    </li>
+    <li class="py-2">
+      <a routerLink="/nx/login" class="text-gray-600 hover:text-gray-800"
+        >Log In</a
+      >
+    </li>
+  </ul>
+</div>

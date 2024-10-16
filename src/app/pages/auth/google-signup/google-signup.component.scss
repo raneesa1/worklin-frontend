@@ -1,0 +1,13 @@
+ #google-btn {
+     margin-bottom: 1.5rem;
+     /* mb-6 in Tailwind */
+ }
+
+ @media (min-width: 1024px) {
+
+     /* This is equivalent to Tailwind's 'lg' breakpoint */
+     #google-btn {
+         margin-left: 6rem;
+         /* ml-24 in Tailwind */
+     }
+ }
