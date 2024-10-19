@@ -1,95 +1,39 @@
 <!-- header.component.html -->
-<header class="bg-white border-b border-gray-200 p-4">
-  <nav class="container mx-auto flex items-center justify-between">
-    <div class="flex items-center">
-      <div
-        class="text-xl font-bold mr-4 sm:mr-14"
-        style="color: #089b8c; font-size: x-large"
-      >
-        Worklin
+<header class="bg-white border-b border-gray-200">
+  <nav class="container mx-auto px-4 py-3 md:py-4">
+    <div class="flex items-center justify-between">
+      <div class="flex items-center">
+        <a routerLink="/" class="text-2xl font-bold text-[#089b8c] mr-4 md:mr-8">Worklin</a>
+        <ul class="hidden lg:flex space-x-6">
+          <li><a routerLink="/" class="text-gray-600 hover:text-gray-800">Find Freelancers</a></li>
+          <li><a routerLink="/" class="text-gray-600 hover:text-gray-800">Find Jobs</a></li>
+          <li><a routerLink="/" class="text-gray-600 hover:text-gray-800">About</a></li>
+          <li><a routerLink="/" class="text-gray-600 hover:text-gray-800">Solutions</a></li>
+        </ul>
       </div>
-      <ul class="hidden md:flex space-x-6">
-        <li>
-          <a routerLink="/" class="text-gray-600 hover:text-gray-800"
-            >Find Freelancers</a
-          >
-        </li>
-        <li>
-          <a routerLink="/" class="text-gray-600 hover:text-gray-800"
-            >Find Jobs</a
-          >
-        </li>
-        <li>
-          <a routerLink="/" class="text-gray-600 hover:text-gray-800">About</a>
-        </li>
-        <li>
-          <a routerLink="/" class="text-gray-600 hover:text-gray-800"
-            >Solutions</a
-          >
-        </li>
-      </ul>
-    </div>
-    <div class="hidden md:flex items-center space-x-4">
-      <button
-        routerLink="/nx/signup"
-        class="p-1 rounded px-3 text-white"
-        style="background-color: #089b8c"
-      >
-        Sign Up
+      <div class="hidden lg:flex items-center space-x-4">
+        <a routerLink="/nx/signup" class="bg-[#089b8c] text-white px-4 py-2 rounded hover:bg-[#078275] transition duration-300">Sign Up</a>
+        <a routerLink="/nx/login" class="text-gray-600 hover:text-gray-800">Log In</a>
+      </div>
+      <button (click)="toggleMenu()" class="lg:hidden focus:outline-none" aria-label="Toggle menu">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16"></path>
+        </svg>
       </button>
-      <a routerLink="/nx/login" class="text-gray-600 hover:text-gray-800"
-        >Log In</a
-      >
     </div>
-    <button (click)="toggleMenu()" class="md:hidden">
-      <svg
-        class="w-6 h-6"
-        fill="none"
-        stroke="currentColor"
-        viewBox="0 0 24 24"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <path
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          strokeWidth="2"
-          d="M4 6h16M4 12h16M4 18h16"
-        ></path>
-      </svg>
-    </button>
   </nav>
 </header>
 
 <!-- Mobile menu -->
-<div *ngIf="isMenuOpen" class="md:hidden bg-white border-b border-gray-200">
-  <ul class="py-2 px-4">
-    <li class="py-2">
-      <a routerLink="/" class="text-gray-600 hover:text-gray-800"
-        >Find Freelancers</a
-      >
-    </li>
-    <li class="py-2">
-      <a routerLink="/" class="text-gray-600 hover:text-gray-800">Find Jobs</a>
-    </li>
-    <li class="py-2">
-      <a routerLink="/" class="text-gray-600 hover:text-gray-800">About</a>
-    </li>
-    <li class="py-2">
-      <a routerLink="/" class="text-gray-600 hover:text-gray-800">Solutions</a>
-    </li>
-    <li class="py-2">
-      <button
-        routerLink="/nx/signup"
-        class="w-full text-left p-1 rounded px-3 text-white"
-        style="background-color: #089b8c"
-      >
-        Sign Up
-      </button>
-    </li>
-    <li class="py-2">
-      <a routerLink="/nx/login" class="text-gray-600 hover:text-gray-800"
-        >Log In</a
-      >
-    </li>
-  </ul>
+<div *ngIf="isMenuOpen" class="lg:hidden bg-white border-b border-gray-200">
+  <nav class="container mx-auto px-4 py-2">
+    <ul class="space-y-2">
+      <li><a routerLink="/" class="block py-2 text-gray-600 hover:text-gray-800">Find Freelancers</a></li>
+      <li><a routerLink="/" class="block py-2 text-gray-600 hover:text-gray-800">Find Jobs</a></li>
+      <li><a routerLink="/" class="block py-2 text-gray-600 hover:text-gray-800">About</a></li>
+      <li><a routerLink="/" class="block py-2 text-gray-600 hover:text-gray-800">Solutions</a></li>
+      <li><a routerLink="/nx/signup" class="block py-2 bg-[#089b8c] text-white px-4 rounded hover:bg-[#078275] transition duration-300">Sign Up</a></li>
+      <li><a routerLink="/nx/login" class="block py-2 text-gray-600 hover:text-gray-800">Log In</a></li>
+    </ul>
+  </nav>
 </div>
