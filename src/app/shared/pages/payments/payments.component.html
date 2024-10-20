@@ -1,171 +1,148 @@
-<div *ngIf="userRole === 'admin'; else regularNavbar">
-  <app-admin-navbar></app-admin-navbar>
-</div>
-
-<ng-template #regularNavbar>
-  <app-navbar-after-login></app-navbar-after-login>
-</ng-template>
-<div class="font-sans antialiased">
-  <div class="min-h-screen flex">
-    <!-- Main Content -->
-    <div class="flex-1 p-6">
-      <!-- Top Navigation -->
-      <div class="flex justify-between items-center pb-6">
-        <h1 class="text-3xl font-semibold">Payment details</h1>
-        <div class="">
-          <ng-container *ngIf="isAdmin()">
-            <div class="text-red-600">
-              <span class="font-semibold">Total payable: </span>
-              <span class="text-2xl">{{
-                totalPayable | currency : "USD" : "symbol" : "1.2-2"
-              }}</span>
-            </div>
-            <div class="text-teal-600">
-              <span class="font-semibold">Total received: </span>
-              <span class="text-2xl">{{
-                totalReceived | currency : "USD" : "symbol" : "1.2-2"
-              }}</span>
-            </div>
-          </ng-container>
-          <ng-container *ngIf="isFreelancer()">
-            <span class="font-semibold">Total received: </span>
-            <span class="text-2xl">{{
-              totalReceived | currency : "USD" : "symbol" : "1.2-2"
-            }}</span>
-          </ng-container>
-          <ng-container *ngIf="isClient()">
-            <span class="font-semibold">Total payable: </span>
-            <span class="text-2xl">{{
-              totalPayable | currency : "USD" : "symbol" : "1.2-2"
-            }}</span>
-          </ng-container>
-        </div>
-      </div>
-      <!-- Payment Status Warning -->
-      <div
-        *ngIf="isClient()"
-        class="bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-4 mb-6"
-        role="alert"
-      >
-        <p class="font-bold">Payments pending</p>
-        <p>
-          We will suspend your account if the payment exceeds more than $500
-          USD.
-        </p>
-      </div>
-      <!-- Tabs -->
-      <div class="mb-4">
-        <ul class="flex border-b">
-          <li class="mr-1">
-            <a
-              class="inline-block py-2 px-4"
-              [ngClass]="{
-                'text-teal-600 font-semibold': currentFilter === 'all',
-                'text-gray-500 hover:text-teal-600': currentFilter !== 'all'
-              }"
-              (click)="applyFilter('all')"
-              >All</a
-            >
-          </li>
-          <li class="mr-1">
-            <a
-              class="inline-block py-2 px-4"
-              [ngClass]="{
-                'text-teal-600 font-semibold': currentFilter === 'paid',
-                'text-gray-500 hover:text-teal-600': currentFilter !== 'paid'
-              }"
-              (click)="applyFilter('paid')"
-              >Paid</a
-            >
-          </li>
-          <li class="mr-1">
-            <a
-              class="inline-block py-2 px-4"
-              [ngClass]="{
-                'text-teal-600 font-semibold': currentFilter === 'unpaid',
-                'text-gray-500 hover:text-teal-600': currentFilter !== 'unpaid'
-              }"
-              (click)="applyFilter('unpaid')"
-              >Unpaid</a
-            >
-          </li>
-          <li class="mr-1">
-            <a
-              class="inline-block py-2 px-4"
-              [ngClass]="{
-                'text-teal-600 font-semibold': currentFilter === 'overdue',
-                'text-gray-500 hover:text-teal-600': currentFilter !== 'overdue'
-              }"
-              (click)="applyFilter('overdue')"
-              >Overdue</a
-            >
-          </li>
-        </ul>
-      </div>
-
-      <div class="overflow-x-auto">
-        <table class="min-w-full bg-white border-collapse">
-          <thead>
-            <tr>
-              <th class="py-2 px-4 bg-gray-100 border-b text-left">NAME</th>
-              <th class="py-2 px-4 bg-gray-100 border-b text-left">
-                CONTRACT TITLE
-              </th>
-              <th class="py-2 px-4 bg-gray-100 border-b text-left">AMOUNT</th>
-              <th class="py-2 px-4 bg-gray-100 border-b text-left">STATUS</th>
-              <th class="py-2 px-4 bg-gray-100 border-b text-left">DUE DATE</th>
-              <th class="py-2 px-4 bg-gray-100 border-b text-left">ACTION</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let transaction of filteredTransactions">
-              <td class="py-2 px-4 border-b">
-                <div class="text-gray-900 font-semibold">
-                  {{ transaction.receiver.accountType }}
-                </div>
-                <div class="text-gray-500">
-                  {{ getReceiverDisplay(transaction) }}
-                </div>
-              </td>
-              <td class="py-2 px-4 border-b">
-                {{ transaction.contractTitle }}
-              </td>
-              <td class="py-2 px-4 border-b">
-                {{
-                  transaction.totalAmount
-                    | currency : "USD" : "symbol" : "1.2-2"
-                }}
-              </td>
-              <td class="py-2 px-4 border-b">
-                <span
-                  class="inline-block px-2 py-1 text-xs font-semibold rounded-full"
-                  [ngClass]="getStatusClass(transaction.status)"
-                >
-                  {{ transaction.status | titlecase }}
-                </span>
-              </td>
-              <td class="py-2 px-4 border-b">
-                {{ transaction.dueDate | date : "dd/MMM/yyyy" }}
-              </td>
-              <td class="py-2 px-4 border-b">
-                <button
-                  (click)="handlePayNow(transaction)"
-                  [disabled]="!isPaymentButtonEnabled(transaction)"
-                  [ngClass]="{
-                    'bg-teal-600 text-white':
-                      isPaymentButtonEnabled(transaction),
-                    'bg-gray-300 text-gray-500':
-                      !isPaymentButtonEnabled(transaction)
-                  }"
-                  class="py-1 px-3 rounded"
-                >
-                  {{ getPaymentButtonText(transaction) }}
-                </button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Details</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        @media (max-width: 640px) {
+            .responsive-table {
+                display: block;
+            }
+            .responsive-table thead {
+                display: none;
+            }
+            .responsive-table tbody {
+                display: block;
+            }
+            .responsive-table tr {
+                display: block;
+                margin-bottom: 1rem;
+                border: 1px solid #e2e8f0;
+                border-radius: 0.5rem;
+                padding: 1rem;
+            }
+            .responsive-table td {
+                display: block;
+                text-align: right;
+                padding: 0.5rem 0;
+                border: none;
+            }
+            .responsive-table td::before {
+                content: attr(data-label);
+                float: left;
+                font-weight: bold;
+            }
+        }
+    </style>
+</head>
+<body class="font-sans antialiased bg-gray-100">
+    <div *ngIf="userRole === 'admin'; else regularNavbar">
+        <app-admin-navbar></app-admin-navbar>
     </div>
-  </div>
-</div>
+
+    <ng-template #regularNavbar>
+        <app-navbar-after-login></app-navbar-after-login>
+    </ng-template>
+
+    <div class="min-h-screen">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <!-- Top Navigation -->
+            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center pb-6">
+                <h1 class="text-3xl font-semibold mb-4 sm:mb-0">Payment details</h1>
+                <div class="text-right">
+                    <ng-container *ngIf="isAdmin()">
+                        <div class="text-red-600">
+                            <span class="font-semibold">Total payable: </span>
+                            <span class="text-2xl">{{ totalPayable | currency : "USD" : "symbol" : "1.2-2" }}</span>
+                        </div>
+                        <div class="text-teal-600">
+                            <span class="font-semibold">Total received: </span>
+                            <span class="text-2xl">{{ totalReceived | currency : "USD" : "symbol" : "1.2-2" }}</span>
+                        </div>
+                    </ng-container>
+                    <ng-container *ngIf="isFreelancer()">
+                        <span class="font-semibold">Total received: </span>
+                        <span class="text-2xl">{{ totalReceived | currency : "USD" : "symbol" : "1.2-2" }}</span>
+                    </ng-container>
+                    <ng-container *ngIf="isClient()">
+                        <span class="font-semibold">Total payable: </span>
+                        <span class="text-2xl">{{ totalPayable | currency : "USD" : "symbol" : "1.2-2" }}</span>
+                    </ng-container>
+                </div>
+            </div>
+
+            <!-- Payment Status Warning -->
+            <div *ngIf="isClient()" class="bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-4 mb-6" role="alert">
+                <p class="font-bold">Payments pending</p>
+                <p>We will suspend your account if the payment exceeds more than $500 USD.</p>
+            </div>
+
+            <!-- Tabs -->
+            <div class="mb-4 overflow-x-auto">
+                <ul class="flex border-b whitespace-nowrap">
+                    <li class="mr-1">
+                        <a class="inline-block py-2 px-4" [ngClass]="{'text-teal-600 font-semibold': currentFilter === 'all', 'text-gray-500 hover:text-teal-600': currentFilter !== 'all'}" (click)="applyFilter('all')">All</a>
+                    </li>
+                    <li class="mr-1">
+                        <a class="inline-block py-2 px-4" [ngClass]="{'text-teal-600 font-semibold': currentFilter === 'paid', 'text-gray-500 hover:text-teal-600': currentFilter !== 'paid'}" (click)="applyFilter('paid')">Paid</a>
+                    </li>
+                    <li class="mr-1">
+                        <a class="inline-block py-2 px-4" [ngClass]="{'text-teal-600 font-semibold': currentFilter === 'unpaid', 'text-gray-500 hover:text-teal-600': currentFilter !== 'unpaid'}" (click)="applyFilter('unpaid')">Unpaid</a>
+                    </li>
+                    <li class="mr-1">
+                        <a class="inline-block py-2 px-4" [ngClass]="{'text-teal-600 font-semibold': currentFilter === 'overdue', 'text-gray-500 hover:text-teal-600': currentFilter !== 'overdue'}" (click)="applyFilter('overdue')">Overdue</a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="overflow-x-auto">
+                <table class="responsive-table min-w-full bg-white border-collapse">
+                    <thead>
+                        <tr>
+                            <th class="py-2 px-4 bg-gray-100 border-b text-left">NAME</th>
+                            <th class="py-2 px-4 bg-gray-100 border-b text-left">CONTRACT TITLE</th>
+                            <th class="py-2 px-4 bg-gray-100 border-b text-left">AMOUNT</th>
+                            <th class="py-2 px-4 bg-gray-100 border-b text-left">STATUS</th>
+                            <th class="py-2 px-4 bg-gray-100 border-b text-left">DUE DATE</th>
+                            <th class="py-2 px-4 bg-gray-100 border-b text-left">ACTION</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let transaction of filteredTransactions">
+                            <td class="py-2 px-4 border-b" data-label="NAME">
+                                <div class="text-gray-900 font-semibold">
+                                    {{ transaction.receiver.accountType }}
+                                </div>
+                                <div class="text-gray-500">
+                                    {{ getReceiverDisplay(transaction) }}
+                                </div>
+                            </td>
+                            <td class="py-2 px-4 border-b" data-label="CONTRACT TITLE">
+                                {{ transaction.contractTitle }}
+                            </td>
+                            <td class="py-2 px-4 border-b" data-label="AMOUNT">
+                                {{ transaction.totalAmount | currency : "USD" : "symbol" : "1.2-2" }}
+                            </td>
+                            <td class="py-2 px-4 border-b" data-label="STATUS">
+                                <span class="inline-block px-2 py-1 text-xs font-semibold rounded-full" [ngClass]="getStatusClass(transaction.status)">
+                                    {{ transaction.status | titlecase }}
+                                </span>
+                            </td>
+                            <td class="py-2 px-4 border-b" data-label="DUE DATE">
+                                {{ transaction.dueDate | date : "dd/MMM/yyyy" }}
+                            </td>
+                            <td class="py-2 px-4 border-b" data-label="ACTION">
+                                <button (click)="handlePayNow(transaction)" [disabled]="!isPaymentButtonEnabled(transaction)" [ngClass]="{'bg-teal-600 text-white': isPaymentButtonEnabled(transaction), 'bg-gray-300 text-gray-500': !isPaymentButtonEnabled(transaction)}" class="py-1 px-3 rounded">
+                                    {{ getPaymentButtonText(transaction) }}
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
