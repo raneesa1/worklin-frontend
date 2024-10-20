@@ -1,48 +1,57 @@
-<div class="py-4 px-8">
-  <div class="flex items-center space-x-4 mb-4">
+<div class="py-4 px-4 sm:px-8">
+  <div
+    class="flex flex-col sm:flex-row items-center space-y-4 sm:space-y-0 sm:space-x-4 mb-4"
+  >
     <input
       type="text"
       placeholder="Search"
-      class="border border-gray-300 rounded-lg px-4 py-2 flex-grow"
+      class="border border-gray-300 rounded-lg px-4 py-2 w-full sm:flex-grow"
     />
-    <label class="flex items-center space-x-2">
+    <label class="flex items-center space-x-2 whitespace-nowrap">
       <input type="checkbox" class="form-checkbox" />
       <span>Available now</span>
     </label>
-    <button class="text-green-600">Filters</button>
+    <button class="text-green-600 whitespace-nowrap">Filters</button>
   </div>
 
-  <div class="flex space-x-4">
-    <!-- Display all freelancers button -->
-    <button class="text-gray-700" (click)="displayAllFreelancers()">All</button>
-
-    <!-- Display invited freelancers button -->
-    <button class="text-gray-700" (click)="displayInvitedFreelancer()">
+  <div class="segment-container mx-auto my-4">
+    <button
+      class="segment"
+      [ngClass]="{ 'active-segment': showAllFreelancers }"
+      (click)="displayAllFreelancers()"
+    >
+      All
+    </button>
+    <button
+      class="segment"
+      [ngClass]="{ 'active-segment': !showAllFreelancers }"
+      (click)="displayInvitedFreelancer()"
+    >
       Invited Freelancers
     </button>
   </div>
 </div>
 
-<div class="px-8 py-4 mt-5">
-  <!-- Show all freelancers when showAllFreelancers is true -->
+<div class="px-4 sm:px-8 py-4 mt-5">
   <div *ngIf="showAllFreelancers">
-    <!-- Check if the freelancers array is empty -->
     <div *ngIf="freelancers.length === 0" class="text-center text-gray-600">
       No user with your required skill found
     </div>
 
-    <div class="px-8 py-4">
+    <div class="space-y-4">
       <div
         *ngFor="let freelancer of freelancers"
-        class="bg-white border border-gray-200 p-4 rounded-lg mb-4"
+        class="bg-white border border-gray-200 p-4 rounded-lg"
       >
-        <div class="flex space-x-4 items-center">
+        <div
+          class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4"
+        >
           <img
             [src]="freelancer.picture"
             alt="{{ freelancer.firstName }}"
-            class="h-16 w-16 rounded-full"
+            class="h-16 w-16 rounded-full mx-auto sm:mx-0"
           />
-          <div class="flex-grow">
+          <div class="flex-grow text-center sm:text-left">
             <h2 class="text-lg font-semibold">{{ freelancer.firstName }}</h2>
             <p class="text-gray-600">
               {{ truncateBio(freelancer.bio, 100) }}
@@ -54,8 +63,15 @@
               {{ freelancer.serviceRate | currency }}
             </div>
           </div>
-          <div class="flex space-x-2">
-            <button (click)="hireFreelancer(freelancer)" class="fixed-width-button white">Hire</button>
+          <div
+            class="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-2 items-center sm:items-start"
+          >
+            <button
+              (click)="hireFreelancer(freelancer)"
+              class="fixed-width-button white"
+            >
+              Hire
+            </button>
             <button
               (click)="openInviteModal(freelancer)"
               class="fixed-width-button green"
