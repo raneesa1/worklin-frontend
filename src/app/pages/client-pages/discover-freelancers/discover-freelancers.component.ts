@@ -52,7 +52,7 @@ export class DiscoverFreelancersComponent implements OnInit, OnDestroy {
   viewFreelancerProfile(freelancerId: string | undefined): void {
     if (freelancerId) {
       console.log(freelancerId, 'consoling the freelancer id');
-      this.router.navigate(['browse/freelancer', freelancerId]);
+      this.router.navigate(['client/applicant', freelancerId]);
     } else {
       console.error('Freelancer ID is undefined');
     }
