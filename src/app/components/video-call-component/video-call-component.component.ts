@@ -93,8 +93,8 @@ export class VideoCallComponentComponent
 
   private async initializeVideoCall() {
     try {
-      const appID = 863734687;
-      const serverSecret = '6510b1295c2524a233bfb8e09c6f6f2c';
+      const appID = 1359386547;
+      const serverSecret = '70dbc1bf77483a695935493b225fb8d8';
 
       const kitToken = ZegoUIKitPrebuilt.generateKitTokenForTest(
         appID,
