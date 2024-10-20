@@ -1,16 +1,19 @@
-<div class="px-8 py-4 mt-10" *ngIf="(jobData?.applications ?? []).length > 0">
+<div
+  class="px-4 sm:px-8 py-4 mt-10"
+  *ngIf="(jobData?.applications ?? []).length > 0"
+>
   <div
     *ngFor="let application of jobData?.applications"
     class="bg-white border border-gray-200 p-4 rounded-lg mb-4"
   >
-    <div class="flex space-x-4 items-center">
+    <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
       <img
         src="{{ application?.freelancerProfile }}"
         alt="Freelancer"
-        class="h-16 w-16 rounded-full"
+        class="h-16 w-16 rounded-full mx-auto sm:mx-0"
       />
-      <div class="flex-grow">
-        <h2 class="text-lg font-semibold">{{ application.freelancerName }}.</h2>
+      <div class="flex-grow text-center sm:text-left">
+        <h2 class="text-lg font-semibold">{{ application.freelancerName }}</h2>
         <p class="text-gray-600">
           {{ application.freelancerTitle }}
         </p>
@@ -24,23 +27,24 @@
           100% Job Success | $300K+ earned
         </div>
       </div>
-      <div class="flex space-x-2">
+      <div
+        class="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-2"
+      >
         <button
           (click)="viewProfile(application.freelancerId)"
-          class="bg-white border border-green-600 text-green-600 px-4 py-2 rounded-lg"
+          class="bg-white border border-green-600 text-green-600 px-4 py-2 rounded-lg w-full sm:w-auto"
         >
-          view profile
+          View Profile
         </button>
         <button
           (click)="triggerDownload(application.publicId)"
-          class="bg-green-600 text-white px-4 py-2 rounded-lg"
+          class="bg-green-600 text-white px-4 py-2 rounded-lg w-full sm:w-auto"
         >
-          download resume
+          Download Resume
         </button>
       </div>
     </div>
   </div>
-  <!-- Repeat similar card structure for more freelancers -->
 </div>
 <!-- if no application display this svg -->
 <div
